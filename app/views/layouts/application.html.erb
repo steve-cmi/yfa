@@ -22,41 +22,46 @@
 
 <body <%= yield :body_tag_content %>>
 
-	<header>
-    <nav id="nav-main" class="navbar navbar-static-top">
-      <div class="navbar-inner">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+  <div class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-        </a>
-        <%= link_to root_path, :class=> "brand", :title => "Yale Film Alliance" do %>
-          Home
-        <% end %>
-        <div class="nav-collapse collapse">
-          <ul class="nav">
-          	<li><%= link_to Rails.env.staging? ? "Staging" : "Home", root_path, :class => @active_nav == :home ? "active" : "" %></li>
-          	<li><%= link_to "Films", films_path, :class => @active_nav == :calendar ? "active" : "" %></li>
-          	<li><%= link_to "Auditions", auditions_path, :class => @active_nav == :auditions ? "active" : "" %></li>
-          	<li><%= link_to "Opportunities", opportunities_path, :class => @active_nav == :opportunities ? "active" : "" %></li>
-            <li><%= link_to "Learn", resources_path, :class => @active_nav == :learn ? "active" : "" %></li>
-            <li><%= link_to "Donate", donate_path, :class => @active_nav == :donate ? "active" : "" %></li>
-          </ul>
-          <form class="navbar-search pull-left" method="GET" action="/search">
-              <div class="input-append">
-              	<input type="text" class="search-query input-block-level" name="name">
-              	<button type="submit" class="btn"><i class="icon-search icon-white"></i></button>
-              </div>
-          	<input type="hidden" name="header_search" value="1">
-          </form>
-          <ul id="nav-user" class="nav pull-right">
-              <li><%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %></li>
-          </ul>
-        </div>
-       </div>
-	   </nav>
-	</header>																																					
+        </button>
+        <a class="navbar-brand" href="/">YFA</a>
+      </div>
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+          <li><%= link_to "Projects", films_path, :class => @active_nav == :calendar ? "active" : "" %></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Opportunities <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Student productions", auditions_path, :class => @active_nav == :auditions ? "active" : "" %></li>
+              <li><%= link_to "Jobs and Internships", opportunities_path, :class => @active_nav == :opportunities ? "active" : "" %></li>
+            </ul>
+          </li>
+          <li><%= link_to "Calendar", "" %></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Resources <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Resources", resources_path, :class => @active_nav == :learn ? "active" : "" %></li>
+            </ul>
+          </li>
+          <li><%= link_to "Film Fest", "" %></li>
+          <li><%= link_to "The Board", "" %></li>
+          <li><%= link_to "Donate", donate_path, :class => @active_nav == :donate ? "active" : "" %></li>
+        </ul>
+        <form class="navbar-form navbar-left" method="GET" action="/search">
+          <input type="text" class="form-control col-lg-8" placeholder="projects, people, events">
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
 	<div id="main" class="<%= params[:controller] %> <%= params[:action] %>">
   	<div class="container">
