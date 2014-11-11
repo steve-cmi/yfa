@@ -86,7 +86,6 @@ GEM
     jquery-ui-rails (5.0.0)
       railties (>= 3.2.16)
     json (1.8.1)
-    libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -108,8 +107,6 @@ GEM
     paperclip-meta (1.1.0)
       paperclip (>= 3.0.2, < 5.0)
     polyglot (0.3.5)
-    quiet_assets (1.0.3)
-      railties (>= 3.1, < 5.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -125,8 +122,6 @@ GEM
       activesupport (= 3.2.19)
       bundler (~> 1.0)
       railties (= 3.2.19)
-    rails-settings-cached (0.2.4)
-      rails (>= 3.0.0)
     railties (3.2.19)
       actionpack (= 3.2.19)
       activesupport (= 3.2.19)
@@ -137,9 +132,6 @@ GEM
     rake (10.3.2)
     rdoc (3.12.2)
       json (~> 1.4)
-    ref (1.0.5)
-    remotipart (1.2.1)
-    ri_cal (0.8.8)
     rubycas-client (2.3.9)
       activesupport
     sass (3.4.2)
@@ -156,9 +148,6 @@ GEM
       colorize
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    therubyracer (0.12.1)
-      libv8 (~> 3.16.14.0)
-      ref
     thor (0.19.1)
     tilt (1.4.1)
     treetop (1.4.15)
@@ -190,12 +179,7 @@ DEPENDENCIES
   net-ldap
   paperclip
   paperclip-meta
-  quiet_assets
   rails (~> 3.2.0)
-  rails-settings-cached
-  remotipart
-  ri_cal
   rubycas-client
   sass-rails (~> 3.2.3)
-  therubyracer
   uglifier (>= 1.0.3)

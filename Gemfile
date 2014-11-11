@@ -17,10 +17,10 @@ gem 'jquery-timepicker-rails'
 gem 'net-ldap'
 gem 'paperclip'
 gem 'paperclip-meta'
-gem 'quiet_assets', :group => :development
-gem 'rails-settings-cached'
-gem 'remotipart'
-gem 'ri_cal'
+# gem 'quiet_assets', :group => :development
+# gem 'rails-settings-cached'
+# gem 'remotipart'
+# gem 'ri_cal'
 gem 'rubycas-client'
 
 # Gems used only for assets and not required
@@ -28,7 +28,7 @@ gem 'rubycas-client'
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'sass-rails',   '~> 3.2.3'
-  gem 'therubyracer'
+  # gem 'therubyracer'
   gem 'uglifier', '>= 1.0.3'
 end
 
