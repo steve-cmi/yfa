@@ -12,16 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.remotipart
-//= require jquery.ui.datepicker
-//= require jquery.ui.autocomplete
-//= require jquery.ui.sortable
-//= require jquery.timepicker.js
-//= require jquery.lazyload.min.js
+//= require jquery-ui/datepicker
+//= require jquery-ui/autocomplete
+//= require jquery-ui/sortable
+//= require jquery.timepicker
+//= require jquery.lazyload.min
 //= require bootstrap
 //= require rails.validations
 //= require rails.validations.custom
-//= require datepair
+//= require jquery.datepair
 //= require best_in_place
 
 $(document).ready(function() {
@@ -35,7 +34,7 @@ $(document).ready(function() {
   });
 
   // Smooth scrolling handler for calendar page, maybe other stuff too?
-  $("#nav-shows li a[href*=#]").click(function () {
+  $("#nav-films li a[href*=#]").click(function () {
     this.blur();
     smoothScrollTo(this.hash);
     return false;
@@ -71,7 +70,7 @@ function manageAuditionEllipsis(e) {
 
 function smoothScrollTo(hash) {
     $("html:not(:animated),body:not(:animated)").animate({
-        scrollTop: $(hash).offset().top - ($("#nav-shows").is(".fixed") ? 0 : $("#nav-shows").outerHeight() + 20) - 60
+        scrollTop: $(hash).offset().top - ($("#nav-films").is(".fixed") ? 0 : $("#nav-films").outerHeight() + 20) - 60
     }, 650);
 }
 

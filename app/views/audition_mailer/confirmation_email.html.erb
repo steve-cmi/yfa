@@ -1,13 +1,13 @@
-You are signed up to audition for a show! Details are below:<br />
+You are signed up to audition for a film! Details are below:<br />
 <br />
-<%= link_to @audition.show.title, best_link(@audition.show, true), :class => 'title' %><br />
-By: <%= @audition.show.writer %><br />
+<%= link_to @audition.film.title, best_link(@audition.film, true), :class => 'title' %><br />
+By: <%= @audition.film.writer %><br />
 <br />
 <b>Your audition:</b><br />
 Time: <%= full_timestamp(@audition.timestamp) %><br />
 Location <%= @audition.location %><br />
 <br />
-You can change your audition by going to the YDC website and going to <%= link_to "My Dashboard", dashboard_path %><br />
+You can change your audition by going to the YFA website and going to <%= link_to "My Dashboard", dashboard_path %><br />
 <br />
 Good Luck!<br />
-YDC
+YFA

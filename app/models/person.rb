@@ -1,7 +1,7 @@
 class Person < ActiveRecord::Base	
 	require 'net/ldap'
 
-	has_many :show_positions, :dependent => :destroy
+	has_many :film_positions, :dependent => :destroy
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :nullify
 	has_many :takeover_requests, :dependent => :destroy #Outgoing requests, incoming are invisible
@@ -26,14 +26,14 @@ class Person < ActiveRecord::Base
 		self.fname + " " + self.lname
 	end
 	
-	# Check if the user has permission to admin the given show
-	# @param show [Integer] the show id to check (can also be a show object)
+	# Check if the user has permission to admin the given film
+	# @param film [Integer] the film id to check (can also be a film object)
 	# @param type [Symbol] One of :full, or a different type which is also in the DB
 	# @returns Boolean true if current user has permission
-	def has_permission?(show, type, any = false)
+	def has_permission?(film, type, any = false)
 		return true if self.site_admin?
-		show_id = show.instance_of?(Show) ? show.id : show.to_i
-		if(self.permissions.detect{|perm| perm.show_id == show_id && (any || perm.level == :full || perm.level == type)})
+		film_id = film.instance_of?(Film) ? film.id : film.to_i
+		if(self.permissions.detect{|perm| perm.film_id == film_id && (any || perm.level == :full || perm.level == type)})
 			true
 		else
 			false #TODO: Maybe auto redirect to login?
@@ -97,7 +97,7 @@ class Person < ActiveRecord::Base
     self.year = ( p['class'] ? p['class'][0].to_i : 0 )
     self.college = ( p['college'] ? p['college'][0] : '' )
     
-    # Don't save the model, because they are going to be shown a form to edit info
+    # Don't save the model, because they are going to be filmn a form to edit info
     # self.save!
   end
 
@@ -115,31 +115,31 @@ class Person < ActiveRecord::Base
   #### New code added by steve@commonmedia.com March 2013.
 
   # Generate a list of people for the admin email_all form.
-  def self.staff_for(show_option, position_option)
+  def self.staff_for(film_option, position_option)
 
-    # select shows
-    case show_option.to_sym
+    # select films
+    case film_option.to_sym
     when :upcoming
-      shows = Show.upcoming
+      films = Film.upcoming
     when :semester
-      shows = Show.this_semester
+      films = Film.this_semester
     when :year
-      shows = Show.this_year
+      films = Film.this_year
     end
 
     # select positions
     case position_option.to_sym
     when :producers
-      positions = ShowPosition.primary.producers
+      positions = FilmPosition.primary.producers
     when :contacts
-      positions = ShowPosition.primary.contacts
+      positions = FilmPosition.primary.contacts
     end
 
-    # merge shows and positions
-    show_positions = positions.where(:show_id => shows.select(:id))
+    # merge films and positions
+    film_positions = positions.where(:film_id => films.select(:id))
 
     # select people
-    Person.where(:id => show_positions.select(:person_id))
+    Person.where(:id => film_positions.select(:person_id))
 
   end
 

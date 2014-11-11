@@ -46,7 +46,7 @@ Yfa::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( admin.js auditions.js search.js shows.js flickrshow-7.2.js html5shiv-p.js )
+  config.assets.precompile += %w( admin.js auditions.js search.js films.js flickrshow-7.2.js html5shiv-p.js )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
@@ -72,9 +72,9 @@ Yfa::Application.configure do
   #Use notifier plugin gem
   config.middleware.use ExceptionNotification::Rack,
   	:email => { 
-      :email_prefix => "[YDC Site] ",
-  	  :sender_address => %{"YDC Bug Notifier" <ydc123@gmail.com>},
-  	  :exception_recipients => %w{charlie.croom@gmail.com, stuart.teal@yale.edu, eli.block@yale.edu}
+      :email_prefix => "[YFA Site] ",
+  	  :sender_address => %{"YFA Bug Notifier" <ydc123@gmail.com>},
+  	  :exception_recipients => %w{steve.friedman@commonmediainc.com}
     }
 end
 

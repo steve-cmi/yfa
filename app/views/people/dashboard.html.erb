@@ -1,6 +1,6 @@
 <%= link_to "Site Admin Dashboard<br/><br />".html_safe, admin_dashboard_path if @current_user.site_admin? %>
 <h3>Welcome <%= @current_user.fname %>!</h3> 
-<p>This dashboard is your hub for everything on the site. Here you can manage all your activity in the theater community at Yale!<br />
+<p>This dashboard is your hub for everything on the site. Here you can manage all your activity in the film community at Yale!<br />
 <%= link_to "(Logout)", logout_path %></p>
 
 
@@ -12,7 +12,7 @@
 	    <%= sanitize(@current_user.bio, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe %>
 		<br /><br />
 		<b>Names Similar to Yours</b> &nbsp;
-		<a href="#" rel="tooltip" title="People might sometimes list you under nicknames or aliases, or you might have had an account on the old YDC site. By requesting to merge these names, all your show credits will be unified under the same profile, this one!">What's this?</a>
+		<a href="#" rel="tooltip" title="People might sometimes list you under nicknames or aliases. By requesting to merge these names, all your film credits will be unified under the same profile, this one!">What's this?</a>
 		<br />
 		<% if @similar_people.empty? %>
 			No people found right now
@@ -33,32 +33,32 @@
 			You don't have any upcoming auditions!
 		<% else %>
 			<table>
-				<tr><th>Show</th><th>Audition Time</th><th>Location</th><th></th></tr>
+				<tr><th>Film</th><th>Audition Time</th><th>Location</th><th></th></tr>
 				<% @auditions.each do |a| %>
 					<tr>
-						<td><%= link_to a.show.title, a.show %></td>
+						<td><%= link_to a.film.title, a.film %></td>
 						<td><%= small_timestamp a.timestamp %></td>
 						<td><%= a.location %></td>
-						<td><%= link_to "View/Edit", show_auditions_path(a.show) %></td>
+						<td><%= link_to "View/Edit", film_auditions_path(a.film) %></td>
 				<% end %>
 			</table>
 		<% end %> 
 	</div>
 	<div class="span6">
-		<h5>My Shows  &nbsp; <%= link_to "(New)", new_show_path %></h5>
-		Note that ticketing and audition links won't be available until shows are approved.<br /><br />
-		<% if @shows.empty? %>
-			You don't currently have access to any shows!
+		<h5>My Films  &nbsp; <%= link_to "(New)", new_film_path %></h5>
+		Note that ticketing and audition links won't be available until films are approved.<br /><br />
+		<% if @films.empty? %>
+			You don't currently have access to any films!
 		<% else %>
 			<table>
-				<tr><th>Show</th><th>Open Date</th><th>Permissions</th><th></th></tr>
-				<% @shows.each do |s| %>
+				<tr><th>Film</th><th>Open Date</th><th>Permissions</th><th></th></tr>
+				<% @films.each do |s| %>
 				<tr>
 					<td><%= link_to s.title, s %><%= " (Pending)" unless s.approved %></td>
 					<td><%= s.showtimes.first.timestamp.strftime("%b %d %Y") %></td>
 					<td><%= @permission_map[s.id].map{|p| p.level.to_s.capitalize}.join(",") %></td>
 					<td>
-						<%= link_to "Show Dashboard", show_dashboard_path(s) %>
+						<%= link_to "Film Dashboard", film_dashboard_path(s) %>
 					</td>
 				</tr>
 				<% end %>

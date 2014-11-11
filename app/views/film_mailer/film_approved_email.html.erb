@@ -1,0 +1,11 @@
+A new film has been approved and will now be displayed on the YFA Website. Information is below:<br />
+<br />
+<%= link_to @film.title, best_link(@film, true), :class => 'title' %><br />
+<strong>By:</strong> <%= @film.writer %><br />
+<%= @film.tagline if !@film.tagline.blank? %><%= raw "<br />" if !@film.tagline.blank? %>
+<strong>Directed By:</strong> <%= @film.director %><br />
+<strong>Place:</strong> <%= @film.location %><br />
+<%= format_showtimes(@film.showtimes) %><br />
+<br />
+Thanks!<br />
+YFA

@@ -29,10 +29,13 @@ Yfa::Application.configure do
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
+  # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Do not compress assets
   config.assets.compress = false
+
+  # Fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = true
 
   # Expands the lines which load the assets
   config.assets.debug = true
@@ -42,13 +45,6 @@ Yfa::Application.configure do
 
 end
 
-# Config for imagemagick for Charlie
-Paperclip.options[:swallow_stderr] = false
-Paperclip.options[:command_path] = 'C:\\Program Files (x86)\\ImageMagick-6.7.9-Q16'
-Paperclip.options[:whiny_thumbnails] = true
-
 # Also in development, don't really send emails...just put them in a file
 ActionMailer::Base.delivery_method = :file
 ActionMailer::Base.file_settings = { :location => Rails.root.join('tmp/mail') }
-
-

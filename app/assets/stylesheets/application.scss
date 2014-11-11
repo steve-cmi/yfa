@@ -13,15 +13,9 @@
  *= require bootstrap.min
  *= require bootstrap-responsive.min
  *= require_self
- *= require frontpage
- *= require auditions
- *= require shows
- *= require showtimes
- *= require people
- *= require resources
- *= require jquery.ui.datepicker
- *= require jquery.ui.autocomplete
- *= require jquery.timepicker.css
+ *= require jquery-ui/datepicker
+ *= require jquery-ui/autocomplete
+ *= require jquery.timepicker
 */
 
 @import "bits";
@@ -332,3 +326,10 @@ footer {
 
 .aligncenter { text-align: center; }
 .alignright { text-align: right; }
+
+@import "frontpage";
+@import "auditions";
+@import "films";
+@import "showtimes";
+@import "people";
+@import "resources";

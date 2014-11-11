@@ -1,13 +1,13 @@
 <h2>Upcoming Auditions</h2>
-<% @shows.each do |show,auditions| %>
-	<div class="show">
-		<%= render :partial => "shared/show_listing", :locals => {:show => show} %><br />
-		<strong>Auditions:</strong> <%= format_showtimes(show.auditions) %><br />
+<% @films.each do |film,auditions| %>
+	<div class="film">
+		<%= render :partial => "shared/film_listing", :locals => {:film => film} %><br />
+		<strong>Auditions:</strong> <%= format_showtimes(film.auditions) %><br />
 		Slots available: <%= "#{auditions.select{|a| a.person_id == nil}.count} / #{auditions.count}" %><br />
-		<%= link_to "Signup Here", show_auditions_path(show) %>
+		<%= link_to "Signup Here", film_auditions_path(film) %>
 	</div>
 	<br />
 <% end %>
-<% if @shows.blank? %>
+<% if @films.blank? %>
 	Sorry, there are no upcoming auditions at this time. Please check back soon!
 <% end %>

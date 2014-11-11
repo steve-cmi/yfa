@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <head>
-    <title>Yale Drama Coalition<%= @page_name %></title>
+    <title>Yale Film Alliance<%= @page_name %></title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     
-    <meta name="description" content="The Yale Drama Coalition is an organization for the furthering of theater at Yale University.">
-    <meta name="keywords" content="Yale, theater, information, theatre, dramat, drama, coalition, University, repertory, mailing">
+    <meta name="description" content="The Yale Film Alliance is an organization for the furthering of film at Yale University.">
+    <meta name="keywords" content="Yale, film, information, theatre, dramat, drama, coalition, University, repertory, mailing">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!--Favicon-->
@@ -18,80 +18,79 @@
     <![endif]-->
     
     <!--Fonts-->    
-    <link href='http://fonts.googleapis.com/css?family=Bitter:400,400italic,700' rel='stylesheet' type='text/css'>
+<!--     <link href='http://fonts.googleapis.com/css?family=Bitter:400,400italic,700' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="//use.typekit.net/ekt1irl.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
+ -->
     <%= yield :head %>
 </head>
 
 <body <%= yield :body_tag_content %>>
 
 	<header>
-	   <nav id="nav-main" class="navbar navbar-static-top">
-	       <div class="navbar-inner">
-                <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-                <a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-                <%= link_to root_path, :class=> "brand", :title => "Yale Drama Coalition" do %>
-                    <%= image_tag('umbrella.png') %>
-                <% end %>
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                    	<li><%= link_to Rails.env.staging? ? "Staging" : "Home", root_path, :class => @active_nav == :home ? "active" : "" %></li>
-                    	<li><%= link_to "Shows", shows_path, :class => @active_nav == :calendar ? "active" : "" %></li>
-                    	<li><%= link_to "Auditions", auditions_path, :class => @active_nav == :auditions ? "active" : "" %></li>
-                    	<li><%= link_to "Opportunities", opportunities_path, :class => @active_nav == :opportunities ? "active" : "" %></li>
-                        <li><%= link_to "Learn", resources_path, :class => @active_nav == :learn ? "active" : "" %></li>
-                        <li><%= link_to "Donate", donate_path, :class => @active_nav == :donate ? "active" : "" %></li>
-                    </ul>
-                    <form class="navbar-search pull-left" method="GET" action="/search">
-                        <div class="input-append">
-                        	<input type="text" class="search-query input-block-level" name="name">
-                        	<button type="submit" class="btn"><i class="icon-search icon-white"></i></button>
-                        </div>
-                    	<input type="hidden" name="header_search" value="1">
-                    </form>
-                    <ul id="nav-user" class="nav pull-right">
-                        <li><%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %></li>
-                    </ul>
-                </div>
-	       </div>
+    <nav id="nav-main" class="navbar navbar-static-top">
+      <div class="navbar-inner">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <%= link_to root_path, :class=> "brand", :title => "Yale Film Alliance" do %>
+          <%= image_tag('umbrella.png') %>
+        <% end %>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+          	<li><%= link_to Rails.env.staging? ? "Staging" : "Home", root_path, :class => @active_nav == :home ? "active" : "" %></li>
+          	<li><%= link_to "Films", films_path, :class => @active_nav == :calendar ? "active" : "" %></li>
+          	<li><%= link_to "Auditions", auditions_path, :class => @active_nav == :auditions ? "active" : "" %></li>
+          	<li><%= link_to "Opportunities", opportunities_path, :class => @active_nav == :opportunities ? "active" : "" %></li>
+            <li><%= link_to "Learn", resources_path, :class => @active_nav == :learn ? "active" : "" %></li>
+            <li><%= link_to "Donate", donate_path, :class => @active_nav == :donate ? "active" : "" %></li>
+          </ul>
+          <form class="navbar-search pull-left" method="GET" action="/search">
+              <div class="input-append">
+              	<input type="text" class="search-query input-block-level" name="name">
+              	<button type="submit" class="btn"><i class="icon-search icon-white"></i></button>
+              </div>
+          	<input type="hidden" name="header_search" value="1">
+          </form>
+          <ul id="nav-user" class="nav pull-right">
+              <li><%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %></li>
+          </ul>
+        </div>
+       </div>
 	   </nav>
 	</header>																																					
 
 	<div id="main" class="<%= params[:controller] %> <%= params[:action] %>">
-    	<div class="container">
+  	<div class="container">
     	<% if flash[:notice] %>
 	       <div class="alert alert-info"><%= flash[:notice] %></div>
 	    <% end %>
 	    <% if flash[:error] %>
 	       <div class="alert alert-error"><%= flash[:error] %></div>
 	    <% end %>
-	    
-		<%= yield %>
-    	</div>
+  		<%= yield %>
+  	</div>
 	</div>
 
 	<footer>
-        <div id="footer-umbrella">
-    		<%= image_tag "umbrella-foot.png", :width => "40px", :height => "30px" %>
+    <div id="footer-umbrella">
+  		<%= image_tag "umbrella-foot.png", :width => "40px", :height => "30px" %>
 		</div>	
 		<div class="container">
-		<div class="row">
+  		<div class="row">
     		<div class="span6">
-    			Code by <a href="http://charliecroom.com" title="Charlie Croom" target="_blank">CC</a> with Design by <a href="http://jaredshenson.com" title="Jared Shenson" target="_blank">JS</a>
+    			Code by [TODO: CREDITS]
     		</div>
     		<div class="span6 right">
-    		    &copy; 2013 Yale Drama Coalition -- <a href="mailto:<%= YDC_EMAIL %>">contact us</a>
+  		    &copy; 2014 Yale Film Alliance -- <a href="mailto:<%= YFA_EMAIL %>">contact us</a>
     		</div>
-		</div>
+  		</div>
 		</div>
 	</footer>
 
-    <%= render "shared/google_analytics" if defined?(GA_ACCOUNT) %>
+  <%= render "shared/google_analytics" if defined?(GA_ACCOUNT) %>
 </body>
 </html>

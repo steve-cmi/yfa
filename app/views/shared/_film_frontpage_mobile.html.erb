@@ -1,0 +1,22 @@
+<% if film.poster.exists? %>
+	<div class="row <%= css_classes %>">
+		<div class="left poster"><%= image_tag film.poster.url(:medium) %></div>
+		<div class="right info">
+<% else # No Poster %>
+	<div class="row info full <%= css_classes %>">
+
+<% end %>
+		<p data-field="film_title" class="title"><%= link_to film.title, best_link(film) unless film.id.blank? %></p>
+		<p data-field="film_writer"><%= film.writer %></p>
+
+		<p><span data-field="film_showtimes"><%= format_long_rundates(film) %></span><br />
+		@ <span data-field="film_location"><%= film.location %></span></p>
+		<a class="btn btn-primary" href="<%= best_link(film) %>">
+			<i class="icon-arrow-right icon-white"></i>
+			Details
+		</a>
+	</div>
+
+<% if film.poster.exists? %>
+	</div>
+<% end %>

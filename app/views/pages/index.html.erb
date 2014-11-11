@@ -1,73 +1,11 @@
 <% content_for :head do %>
 	<script>
-		var show_showtimes = <%= raw @showtime_data.to_json %>;
+		var film_showtimes = <%= raw @showtime_data.to_json %>;
 	</script>
 <% end %>
-<!--<div class="emergency-update">
-			<hr />
-			<Font Color="FF0000">
-				<strong>EMERGENCY WEATHER UPDATE:</strong> Please scroll down to see show cancellation information for Saturday February 9th, 2013.
-			</Font>
-			<hr />
-		</div>
--->
-
-<!-- ADDED FOR SUMMER 2014 -->
-<!--	<center>
-		<font size="1000"><strong>WELCOME CLASS OF 2018</strong></font> <br />
-		<img class="board_pic" src="/static/images/summer/Y2018.png">
-	</center>
-	<table border="0" cellpadding="3">
-		<tr>
-			<td width="80%">
-				<p><strong>The Yale Drama Coalition (YDC)</strong> was founded in 1999 and seeks to foster communication and collaboration within the undergraduate theater community and provides guidance and resources for theatrical productions. We’re here to help you get connected in the theater world at school.</p>
-				<p>Most important: <strong><%= link_to "CLICK HERE", guides_path('newsletter') %> to sign up for our newsletter</strong> -this is the best way to stay up to date on auditions and technical opportunities, upcoming shows, theater-related events, workshops, internships, etc. It's the easiest way for us to communicate with theater-minded folk, so we recommend you register if you want to be informed!</p>
-				<p><strong>The YDC Season Preview will be held on Sunday August 24th.</strong> This is the time when all fall shows and theater groups make a brief pitch to introduce their shows and give information about auditions and tech opportunities. This is the perfect opportunity to meet theater people, mingle and ask questions, and sign up to audition/work on fall shows. No experience necessary! The season preview will be held in the <%= link_to "Off Broadway Theater behind Toad's Place", "https://plus.google.com/117515129239179828320/about?gl=us&hl=en", :confirm => "This link will take you away from the Yale Drama Coalition website" %> at 7:30 PM. Bring your friends!</p>
-				<p>Scroll around our website - we think it's pretty nifty! Be sure to check out the <a href="http://yaledramacoalition.org/shows"><strong>SHOWS</strong></a> page for details on past shows (and, as the summer progresses, shows that will go up in the coming semester)!
-				<p>Below is some general info to get you started. But don't hesitate to be in touch – you can click <a href="http://yaledramacoalition.org/resources#board">here</a> to see our full board and click our names to shoot us an email.</p>
-			</td>
-		</tr>
-	</table>
-	<table border="0" cellpadding="10">
-	  	<th><font size="4">FOR ACTORS:</font></th>
-	  	<th><font size="4">FOR TECHIES:</font></th>
-	  	<th><font size="4">FOR DIRECTORS, STAGE MANAGERS, and PRODUCERS:</font></th>
-	  	<tr>
-		    <td width="33%">
-				<p>Read about <%= link_to "the audition process at Yale", guides_path('auditioning') %> here.</p>
-				<p>Short version? It’s good to have a monologue prepared over the summer, and songs for musicals. Be 15 minutes early. Dress comfortably. Bring water. Have fun.</p>
-				<p>Be sure to also check out <%= link_to "the newly implemented casting cycle policy", guides_path('castingpolicy') %> here. Don't worry about the details, just know that the YDC board is there to support you and make sure everything goes smoothly!</p>
-				<p>The YDC would like to help even more with an <strong>auditions workshop</strong> on Monday 8/25 at 11 AM, also in the <%= link_to "Off Broadway Theater", "https://plus.google.com/117515129239179828320/about?gl=us&hl=en", :confirm => "This link will take you away from the Yale Drama Coalition website" %>!</p>.
-			</td>
-		    <td width="33%">
-				<p>The Season Preview will be your best time to meet all of the producers and see what tech positions they’re looking to fill. You’ll also find the <a href="http://yaledramacoalition.org/opportunities"><strong>OPPORTUNITIES</strong></a> page useful – don’t be afraid to email producers and offer your skills. It’s great to assist a more experienced upperclassman your freshman fall (i.e. be an assistant master electrician, or assistant set designer -- don't know what those are? No worries!) so you can learn the ropes.</p>
-			</td>
-		    <td width="34%">
-				<p>Our best advice is to assistant direct/produce/stage manage a show or two in the fall to learn the ropes from upperclassmen. Go to the season preview and see which shows spark your interest, then chat with those directors or producers to figure out where you fit best. You can use the YDC site to see what shows they’ve worked on in the past – simply search their name using the search bar at the top of the page. Directors may conduct interviews to select assistant directors.</p>
-			</td>
-	 	</tr>
-	</table>
-	<p>Regardless of what you're interested in, take a look at our How-To guides on the right-hand side of the <a href="http://yaledramacoalition.org/resources">resources</a> page. And if you have any questions... feel free to email any of the YDC <a href="http://yaledramacoalition.org/resources#board">board members</a>, a few of whom are listed on the site!</p>
-	<hr />
-
-	<center> 
-		<font size="1000"><strong>Not an incoming freshman?</strong></font> <br />
-		<strong>The YDC has new stuff for you too!</strong><br />
-		Here's a brief preview!
-	</center>
-	<ul>
-		<li>YDC is the go-to advertising and ticketing site for all undergraduate theater, dance, and <i>improv</i> shows!</li>
-		<li>New and improved How-To section (see the sidebar on the <a href="http://yaledramacoalition.org/resources">resources</a> page).</li>
-		<li>A new constitution was ratified in 2014!</li>
-		<li>We look forward to working on various issues regarding the set community (including shop space and travel notification) in the fall!</li>
-		<li>Remember that all YDC board meetings are open to the Yale Community, check the newsletter for times and locations!</li>
-	</ul>
-	<hr />
--->
-	<!-- END ADDED FOR SUMMER 2014 -->
 
 <div class="section-intro">
-	Coming soon in <strong>Yale Theater</strong>
+	Coming soon in <strong>Yale Film Alliance</strong>
 	<hr />
 </div>
 
@@ -80,17 +18,17 @@
 			<div class="row">
 			<% items.each do |item| %>
 				<div class="<%= this_class %> item">
-					<% if item.is_a? Show %>
+					<% if item.is_a? Film %>
 						<% 
-								# OK, you caught me. This is a sudo-hack. We need to render the front page item twice, once for normal clients, and once for phones
+								# OK, you caught me. This is a pseudo-hack. We need to render the front page item twice, once for normal clients, and once for phones
 								# The top one is phone-hidden, while the bottom is the one we show on phones, hacked to display more prettily
 								# dammit charlie...
 							 color_class = item.accent_color ? [item.accent_color] : [cycle("red", "blue","yellow","black","dark_blue","green", "light_blue")] 
 							 css_classes = color_class + ['hidden-phone']
 						%>
-						<%= render :partial => 'shared/show_frontpage', :locals => { :show => item, :row_count => items.length, :css_classes => css_classes.join(' ') } %>
+						<%= render :partial => 'shared/film_frontpage', :locals => { :film => item, :row_count => items.length, :css_classes => css_classes.join(' ') } %>
 						<% css_classes = color_class + ['visible-phone'] %>
-						<%= render :partial => 'shared/show_frontpage_mobile', :locals => { :show => item, :css_classes => css_classes.join(' ') } %>
+						<%= render :partial => 'shared/film_frontpage_mobile', :locals => { :film => item, :css_classes => css_classes.join(' ') } %>
 					<% else %>
 						<%= item %>
 					<% end %>
@@ -99,32 +37,23 @@
 			</div>
 		<% end %>
 	<% else %>
-       <h5 id="no-upcoming" class="aligncenter">There are no shows this week.</h5>
+  	<h5 id="no-upcoming" class="aligncenter">There are no films this week.</h5>
 	<% end %>
 	<div class="row aligncenter">
-	   <div class="span12">
-    	   <%= link_to "See the Full Calendar", shows_path, :id => "full-calendar", :class => "btn btn-light" %>
-	   </div>
+	  <div class="span12">
+  	  <%= link_to "See the Full Calendar", films_path, :id => "full-calendar", :class => "btn btn-light" %>
+	  </div>
 	</div>
 </div>
 
 </div><!-- End of #main -->
 <div id="news">
-	<div class="container">
-		<div class="section-intro">
-			Yale Drama Coalition's <strong>Workshop Series</strong>
-			<hr />
-		</div>
-		<iframe src="https://www.google.com/calendar/embed?showNav=0&amp;showDate=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=400&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=yale.edu_jq7h63fa87gb9f0s1s8dqn98ig%40group.calendar.google.com&amp;color=%2342104A&amp;ctz=America%2FNew_York" style=" border-width:0 " width="400" height="400" frameborder="0" scrolling="no"></iframe>
-		<!-- INSERT -->
+
+<div class="container">
+  <div class="section-intro">
+		Yale Film Alliance's <strong>Latest News</strong>
+		<hr />
 	</div>
+  
+	<%= render :partial => "news", :collection => @news %>
 </div>
-<div id="news">
-    <div class="container">
-        <div class="section-intro">
-    		Yale Drama Coalition's <strong>Latest News</strong>
-    		<hr />
-    	</div>
-    
-    	<%= render :partial => "news", :collection => @news %>
-    </div>

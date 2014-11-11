@@ -3,7 +3,7 @@ file_name = Rails.root.join('config/email.yml')
 if File.exists?(file_name)
   email_settings = YAML.load_file(file_name)
 
-  YDC_EMAIL = email_settings["address"]
+  YFA_EMAIL = email_settings["address"]
   EMAIL_USERNAME = email_settings["username"]
   EMAIL_PASSWORD = email_settings["password"]
   EMAIL_DOMAIN = email_settings["domain"]
@@ -18,4 +18,6 @@ if File.exists?(file_name)
     :enable_starttls_auto => true
   }
   
+else
+  YFA_EMAIL = 'steve.friedman@commonmediainc.com'
 end

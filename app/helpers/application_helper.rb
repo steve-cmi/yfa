@@ -32,9 +32,9 @@ module ApplicationHelper
 	    "<span class=\"#{cl}\">#{fs}</span>"
 	end
 	
-	def format_long_rundates(show)
-		return "" unless show.showtimes.length > 0
-		showtimes = show.showtimes.sort_by{|st| st.timestamp}
+	def format_long_rundates(film)
+		return "" unless film.showtimes.length > 0
+		showtimes = film.showtimes.sort_by{|st| st.timestamp}
 		start = showtimes.first.timestamp
 		stop = showtimes.last.timestamp
 		if start.month == stop.month && start.day == stop.day
@@ -69,15 +69,15 @@ module ApplicationHelper
 		[arr.slice!(0,3).join,arr.slice!(0,3).join,arr.slice!(0,4).join].join("-")
 	end
 	
-	def best_link(show, full_path = false)
+	def best_link(film, full_path = false)
 		if full_path
-			url_for show.url_key.blank? ? show_url(show) : vanity_url(show.url_key)
+			url_for film.url_key.blank? ? film_url(film) : vanity_url(film.url_key)
 		else
-			url_for show.url_key.blank? ? show : vanity_path(show.url_key)
+			url_for film.url_key.blank? ? film : vanity_path(film.url_key)
 		end
 	end
 	
-	def square_show_thumb(poster, lazy = false)
+	def square_film_thumb(poster, lazy = false)
 	    c = (poster.height(:thumb) > poster.width(:thumb)) ? "poster-vertical" : "poster-horizontal"
 	    if lazy
 	      "<img src=\"/assets/placeholder.gif\" data-original=\"#{poster.url(:thumb)}\" class=\"#{c} lazy\">"
@@ -86,15 +86,15 @@ module ApplicationHelper
 	    end
 	end
 	
-	def link_to_show_title(show)
+	def link_to_film_title(film)
        # truncate long titles
-       title = (show.archive && show.title.length > 45) ? show.title[0,45] + "..." : show.title
-       tag_title = (show.archive && show.title.length > 45) ? show.title : ""
+       title = (film.archive && film.title.length > 45) ? film.title[0,45] + "..." : film.title
+       tag_title = (film.archive && film.title.length > 45) ? film.title : ""
        
-       if show.id.blank?
-           return "<span title=\"#{show.title}\">#{title}</span>"
+       if film.id.blank?
+           return "<span title=\"#{film.title}\">#{title}</span>"
        else
-           return link_to title, best_link(show), :title => tag_title
+           return link_to title, best_link(film), :title => tag_title
        end
 	end
 	

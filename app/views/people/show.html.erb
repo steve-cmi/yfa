@@ -23,12 +23,11 @@
     <div class="poster"><%= image_tag @person.picture.url(:medium) %></div>
   <% end %>
   <hr />
-  <h3>Show History</h3>
+  <h3>Film History</h3>
   <table>
-    <tr><th>Show Name</th><th>Role</th><th>Dates</th></tr>
-    <% @show_positions.each do |sp| %>
-    <tr><td><%= link_to sp.show.title, best_link(sp.show) %></td><td><%= sp.display_name %></td><td><%= format_long_rundates(sp.show) %></td></tr>
+    <tr><th>Film Name</th><th>Role</th><th>Dates</th></tr>
+    <% @film_positions.each do |sp| %>
+    <tr><td><%= link_to sp.film.title, best_link(sp.film) %></td><td><%= sp.display_name %></td><td><%= format_long_rundates(sp.film) %></td></tr>
     <% end %>
   </table>
 </div>
-

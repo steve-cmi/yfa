@@ -6,9 +6,9 @@ Please choose something to search for:<br />
 
 	<%= radio_button_tag :mode, "crew", params[:mode] == "crew" || params[:mode].blank? %> Crew Member<br />
 	<%= radio_button_tag :mode, "actor", params[:mode] == "actor" %> Actor/Character<br />
-	<%= radio_button_tag :mode, "show", params[:mode] == "show" %> Show/Performence<br /><br /> 
+	<%= radio_button_tag :mode, "film", params[:mode] == "film" %> Film/Production<br /><br /> 
 	
-	<div class="crew actor show">
+	<div class="crew actor film">
 		Name: <%= text_field_tag :name, params[:name] %><br />
 	</div>
 	
@@ -20,7 +20,7 @@ Please choose something to search for:<br />
 		Character's Name: <%= text_field_tag :character, params[:character] %><br />
 	</div>
 
-	<div class="crew actor show datepair">
+	<div class="crew actor film datepair">
 		Date Range: 
 		<%= text_field_tag :start, params[:start], :class => "date start" %> - 
 		<%= text_field_tag :end, params[:end], :class => "date end" %>
@@ -32,11 +32,11 @@ Please choose something to search for:<br />
 <hr />
 <br />
 
-<% if !@shows.blank? %>
-	<h4>Show Results:</h4><br />
+<% if !@films.blank? %>
+	<h4>Film Results:</h4><br />
 	<table>
-		<tr><th>Show Name</th><th>Dates</th></tr>
-		<% @shows.sort_by{|s| s.showtimes.first.timestamp}.each do |s| %>
+		<tr><th>Film Name</th><th>Dates</th></tr>
+		<% @films.sort_by{|s| s.showtimes.first.timestamp}.each do |s| %>
 			<tr><td><%= link_to s.title, best_link(s) %></td><td><%= format_long_rundates(s) %></td></tr>
 		<% end %>
 	</table>
@@ -44,11 +44,11 @@ Please choose something to search for:<br />
 <% if !@people.blank? %>
 	<h4>Person Results:</h4><br />
 	<table>
-		<tr><th width="25%">Person</th><th width="40%">Show Name</th><th width="35%">Dates</th></tr>
+		<tr><th width="25%">Person</th><th width="40%">Film Name</th><th width="35%">Dates</th></tr>
 		<% @people.group_by(&:person_id).each do |person_id,arr| %>
-			<% arr.select{|sp| sp.show}.sort_by{|sp| sp.show.showtimes.first.timestamp}.reverse.each_with_index do |sp,i| %>
-				<% next unless sp.show %>
-				<tr><td><%= link_to sp.person.display_name, sp.person if i == 0 %></td><td><%= link_to sp.show.title, best_link(sp.show) %></td><td><%= format_long_rundates(sp.show) %></td></tr>
+			<% arr.select{|sp| sp.film}.sort_by{|sp| sp.film.showtimes.first.timestamp}.reverse.each_with_index do |sp,i| %>
+				<% next unless sp.film %>
+				<tr><td><%= link_to sp.person.display_name, sp.person if i == 0 %></td><td><%= link_to sp.film.title, best_link(sp.film) %></td><td><%= format_long_rundates(sp.film) %></td></tr>
 			<% end %>
 		<% end %>
 </table>

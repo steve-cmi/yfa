@@ -58,22 +58,22 @@ Yfa::Application.routes.draw do
   match 'admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   match 'admin/approve_takeover/:id' => 'admin#approve_takeover', :as => :approve_takeover
   match 'admin/reject_takeover/:id' => 'admin#reject_takeover', :as => :reject_takeover
-  match 'admin/approve_show/:id' => 'admin#approve_show', :as => :approve_show
+  match 'admin/approve_film/:id' => 'admin#approve_film', :as => :approve_film
   match 'admin/email_all' => 'admin#email_all', :as => :email_all
   
   
   match 'login' => 'people#dashboard', :as => :login
   match 'logout' => 'people#logout', :as => :logout
   
-  match 'archives(/:term)' => 'shows#archives', :as => :archives
+  match 'archives(/:term)' => 'films#archives', :as => :archives
   
   
-  resources :shows do
-    get 'edit_people', :controller => :shows, :action => :edit_people, :as => :edit_people
-    match 'edit_files', :controller => :shows, :action => :edit_files, :as => :edit_files, :via => [:get, :post]
-    match 'remind/:showtime_id', :controller => :shows, :action => :remind, :as => :remind, :via => [:get, :post]
-    get 'dashboard', :controller => :shows, :action => :dashboard, :as => :dashboard
-		resources :showtimes, :only => [:show, :index]
+  resources :films do
+    get 'edit_people', :controller => :films, :action => :edit_people, :as => :edit_people
+    match 'edit_files', :controller => :films, :action => :edit_files, :as => :edit_files, :via => [:get, :post]
+    match 'remind/:showtime_id', :controller => :films, :action => :remind, :as => :remind, :via => [:get, :post]
+    get 'dashboard', :controller => :films, :action => :dashboard, :as => :dashboard
+		resources :showtimes, :only => [:film, :index]
 		resources :auditions do
       get 'past', :on => :collection
     end
@@ -102,9 +102,9 @@ Yfa::Application.routes.draw do
   # TODO: These can be removed probably a month or so after launch, remove supporting code too
   match 'audition_signup.php', :controller => :auditions, :action => :index
 
-  # Detect show slugs last, some legacy support for now
+  # Detect film slugs last, some legacy support for now
   # TODO: build out /tickets, /reserve, etc.
-  match ':url_key' => 'shows#show', :as => "vanity", :url_key => /[a-z0-9_]+/i
+  match ':url_key' => 'films#film', :as => "vanity", :url_key => /[a-z0-9_]+/i
 
   # See how all your routes lay out with "rake routes"
 

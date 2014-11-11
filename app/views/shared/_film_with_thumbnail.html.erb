@@ -1,0 +1,20 @@
+<div class="film-listing span4 clearfix">
+	<div class="poster">
+		<% if film.poster.exists? %>
+			<%= link_to raw(square_film_thumb(film.poster, lazy)), best_link(film) %>
+		<% else %>
+			<%= link_to "", best_link(film), :class => "swatch #{color_palette}" %>
+		<% end %>
+	</div>
+	<div class="info">
+		<h4>
+			<%= link_to_film_title film %>
+		</h4>
+		<p class="film-writer">by <%= film.writer %></p>
+		<p><%= format_long_rundates(film) %>
+    		<% if !film.location.blank? %>
+    		  <br />@ <%= film.location %>
+    		<% end %>
+		</p>
+	</div>
+</div>

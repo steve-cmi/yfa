@@ -1,7 +1,7 @@
 <% javascript 'auditions.js' %>
 
 <div class="span10 offset1">
-	<h2><%= @show.title %> <span class="faded">auditions</span></h2>
+	<h2><%= @film.title %> <span class="faded">auditions</span></h2>
 
 	<% if @aud_admin %>
 	<!-- 
@@ -30,12 +30,12 @@
 	<% end %>
 
 	<b>Audition Information:</b><br />
-	<%= best_in_place_if @aud_admin, @show, :aud_info, :type => :textarea %>
+	<%= best_in_place_if @aud_admin, @film, :aud_info, :type => :textarea %>
 
 	<hr />
 
 	<% if !@auditions.blank? %>
-		<%= form_tag show_auditions_path(@show), :method => :put do %>
+		<%= form_tag film_auditions_path(@film), :method => :put do %>
 			<h4>Your Information:</h4><br />
 			Name: <%= @current_user.display_name %> &nbsp; &nbsp; Not you? <%= link_to "Logout", logout_path %><br />
 			Phone: <input type="text" name="phone" value="<%= @user_audition[:phone].to_s if @user_audition %>" /><br />
@@ -67,7 +67,7 @@
 		  <% end %>
 		  <% if @aud_admin %>
 		  <tr>
-		  	<td colspan="6" style="text-align:left"><%= link_to "Past auditions", :action => :past, :show_id => @show.id if @recent_auditions.any? %></td>
+		  	<td colspan="6" style="text-align:left"><%= link_to "Past auditions", :action => :past, :film_id => @film.id if @recent_auditions.any? %></td>
 		  	<td><%= submit_tag "Delete Selected", :class => "btn", :data => { :confirm => "This will delete the selected auditions. There is no undo. Are you sure?" } %><td>
 	  	  </tr>
 		  <% end %>

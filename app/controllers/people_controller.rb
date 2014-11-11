@@ -1,22 +1,22 @@
 class PeopleController < ApplicationController  
 
-	skip_before_filter :force_auth, :only => [:show, :logout]
-	before_filter :verify_user, :except => [:show, :dashboard, :logout, :new, :create]
+	skip_before_filter :force_auth, :only => [:film, :logout]
+	before_filter :verify_user, :except => [:film, :dashboard, :logout, :new, :create]
 	before_filter :fetch_user, :except => [:dashboard, :logout, :new, :create]
 	
-	def show
+	def film
 		# Show public view
 		#TODO: SHould we cache people's public profiles?
 		#TODO: Should admins be able to edit?
 		@page_name = " - #{@person.display_name}"
-		@show_positions = @person.show_positions.includes({:show => :showtimes},:position).where(:show_id => Show.unscoped.on_people_page)
-		@show_positions = @show_positions.select{|sp| sp.show}.sort_by{|sp| sp.show.showtimes.first.timestamp}.reverse
+		@film_positions = @person.film_positions.includes({:film => :showtimes},:position).where(:film_id => Film.unscoped.on_people_page)
+		@film_positions = @film_positions.select{|sp| sp.film}.sort_by{|sp| sp.film.showtimes.first.timestamp}.reverse
 	end
 	
 	def dashboard
-		#Determine type of user dashboard to show
-		@shows = Show.unscoped.includes(:showtimes).find(@current_user.permissions.map(&:show_id))
-		@permission_map = @current_user.permissions.group_by(&:show_id)
+		#Determine type of user dashboard to film
+		@films = Film.unscoped.includes(:showtimes).find(@current_user.permissions.map(&:film_id))
+		@permission_map = @current_user.permissions.group_by(&:film_id)
 		
 		#TODO: Could probably optimize this
 		@auditions = @current_user.auditions.where(["`timestamp` > ?",Time.now])

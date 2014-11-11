@@ -10,13 +10,13 @@ div#email_content {margin:10px 0px;}
 </style>
 <h4>Email all</h4>
 <%= form_tag(:action => :email_all) do %>
-	<strong>Shows</strong>:
-	<%= radio_button_tag :shows, :upcoming %>
-	<%= label_tag :shows_upcoming, "Upcoming" %>
-	<%= radio_button_tag :shows, :semester %>
-	<%= label_tag :shows_semester, "This semester" %>
-	<%= radio_button_tag :shows, :year %>
-	<%= label_tag :shows_year, "This year" %>
+	<strong>Films</strong>:
+	<%= radio_button_tag :films, :upcoming %>
+	<%= label_tag :films_upcoming, "Upcoming" %>
+	<%= radio_button_tag :films, :semester %>
+	<%= label_tag :films_semester, "This semester" %>
+	<%= radio_button_tag :films, :year %>
+	<%= label_tag :films_year, "This year" %>
 	<br />
 	<strong>Positions</strong>:
 	<%= radio_button_tag :positions, :producers %>
@@ -32,21 +32,21 @@ div#email_content {margin:10px 0px;}
 	<%= submit_tag "Send" %>
 <% end %>
 
-<h4>Pending Show Queue</h4>
-<% if @pending_shows.blank? %>
+<h4>Pending Film Queue</h4>
+<% if @pending_films.blank? %>
 	No requests at this time!
 <% else %>
 	<table>
-		<tr><th>Show</th><th>- - -</th><th>Approve</th><th>- - -</th><th>Approve, but don't archive</th><th>- - -</th><th>Delete</th></tr>
-		<% @pending_shows.each do |s| %>
-			<tr><td><%= link_to s.title, edit_show_path(s) %></td>
+		<tr><th>Film</th><th>- - -</th><th>Approve</th><th>- - -</th><th>Approve, but don't archive</th><th>- - -</th><th>Delete</th></tr>
+		<% @pending_films.each do |s| %>
+			<tr><td><%= link_to s.title, edit_film_path(s) %></td>
 				<td> </td>
-				<td><%= link_to "Approve", approve_show_path(s.id) + "?archive=1" %></td>
+				<td><%= link_to "Approve", approve_film_path(s.id) + "?archive=1" %></td>
 				<td> </td>
-				<td><%= link_to "Approve (no archive)", approve_show_path(s.id) %></td>
+				<td><%= link_to "Approve (no archive)", approve_film_path(s.id) %></td>
 				<td> </td>
-				<td><%= form_for(:show, :url => show_path(s.id), :html => {:method => :delete}) do  %>
-			  <%= submit_tag "Delete", :confirm => "Are you sure you want to delete the selected show?" %>
+				<td><%= form_for(:film, :url => film_path(s.id), :html => {:method => :delete}) do  %>
+			  <%= submit_tag "Delete", :confirm => "Are you sure you want to delete the selected film?" %>
 			<% end %></td>
 			</tr>
 		<% end %>
@@ -68,17 +68,17 @@ div#email_content {margin:10px 0px;}
 
 
 <br /><br />
-<b>Select a show to edit:</b>
-<form method="get" action="/shows/id/dashboard">
-  <%= select_tag :show_edit_id, options_from_collection_for_select(@shows, :id, :title) %>
+<b>Select a film to edit:</b>
+<form method="get" action="/films/id/dashboard">
+  <%= select_tag :film_edit_id, options_from_collection_for_select(@films, :id, :title) %>
   <%= submit_tag "Edit"%>
 </form>
 
 <br />
-<b>Delete a show:</b>
-<%= form_for(:show, :url => show_path("id"), :html => {:method => :delete}) do  %>
-  <%= select_tag :show_delete_id, options_from_collection_for_select(@shows, :id, :title) %>
-  <%= submit_tag "Delete", :confirm => "Are you sure you want to delete the selected show?" %>
+<b>Delete a film:</b>
+<%= form_for(:film, :url => film_path("id"), :html => {:method => :delete}) do  %>
+  <%= select_tag :film_delete_id, options_from_collection_for_select(@films, :id, :title) %>
+  <%= submit_tag "Delete", :confirm => "Are you sure you want to delete the selected film?" %>
 <% end %>
 
 <br /><br />

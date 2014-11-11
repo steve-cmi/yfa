@@ -1,0 +1,106 @@
+<% javascript 'films.js' %>
+
+<% if @film.errors.any? %>
+	<ul>
+	<% @film.errors.full_messages.each do |msg| %>
+	  <li><%= msg %></li>
+	<% end %>
+	</ul>
+<% end %>
+
+<%= form_for @film, :validate => true, :html => { :multipart => true } do |f| %>
+	<div class="row film-form">
+	  <div class="span6">
+			<h4>Film Details</h4>
+			<p>Tell us a bit about your awesome film!</p>
+
+			<%= f.enum_select :category %><br />
+			<%= f.text_field :title, :class => "required", :placeholder => "Title", :validate => true %><br />
+			<div id="title_length_warning" class="alert" style="display:none; width: 85%; line-height: 18px;">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  			<strong>Warning!</strong> Consider using a tagline below to keep your title short. Longer titles may not appear as nicely throughout the site.
+			</div>
+			<%= f.text_field :writer, :class => "required", :placeholder => "Writer", :validate => true %><br />
+			<%= f.text_field :tagline, :placeholder => "Tagline" %><br />
+			<%= f.text_area :description, :class => "required", :placeholder => "Summary/History/Other Info", :validate => true %><br />
+			<%= f.text_field :contact, :class => "required", :placeholder => "Contact Email Address", :validate => true %><br />
+			<%= f.text_field :url_key, :placeholder => "Unique URL" %><br />
+			<p class="field_explanation">
+				Your film will be accessible at
+				<span id="url-key-preview">http://<%= request.host_with_port %>/<span data-field="film_url_key">your-url</span></span>
+			</p>
+			
+			<hr />
+			
+			<h4>Design Details</h4>
+			<p>Help sell your film by making it stand out in the crowd</p>
+
+			<% if @current_user.site_admin? %>
+			<%= f.text_field :flickr_id, :placeholder => "Flickr Gallery ID" %>
+			<p class="field_explanation">
+				If this film has a Flickr gallery, please enter the ID here
+			</p>
+			<% end %>
+
+			<span id="btn-upload" class="btn">
+				<%= f.file_field :poster %>
+				<span class="btn-text" data-default-text="Upload a poster" data-selected-text="Choose a different file">Upload a poster</span>
+            </span>
+            <span id="upload-file" class="field_explanation"></span>
+            <br />
+
+			<b>Choose an accent color...</b>
+			<div class="row" style="padding-left: 20px;">
+			<% @film.column_for_attribute(:accent_color).limit.each do |color| %>
+				<div class="color-item">
+					<%= label_tag("film_accent_color_#{color.to_s}", "<div class='swatch #{color.to_s}'></div>".html_safe) %>
+					<%= f.radio_button(:accent_color, color.to_s) %>
+				</div>
+			<% end %>
+			</div>
+
+			<hr />
+
+			<h4>Scheduling</h4>
+			<p>Fill in what you know, but we'll need at least one date and time to get started</p>
+
+			<%= f.text_field :location, :class => "required", :placeholder => "Location", :validate => true %><br />
+	  	    <ol class="showtimes">
+				<%= f.fields_for :showtimes do |builder| %>
+					<%= render 'showtime_fields', :f => builder %>
+				<% end %>
+				<li><%= link_to_add_fields "Add Filmtime", f, :showtimes %></li>
+			</ol>
+
+			<hr />
+			<h4>Permissions</h4>
+			<a href="#" rel="tooltip" title="These are the people (besides you) who will be able to access your film to edit it (or portions of it)">What's This?</a>
+			<div class="permissions">
+				<ul>
+					<%= f.fields_for :permissions do |builder| %>
+						<%= render 'permission_fields', :f => builder %>
+					<% end %>
+					<li><%= link_to_add_fields "Add Permission", f, :permissions %></li>
+				</ul>
+			</div>			
+	
+			<p><%= f.submit @film.id ? "Submit" : "Next Step", :class => "btn" %></p>
+		</div>
+
+		<div class="span6 hidden-phone">
+			<h4>Design Preview</h4>
+			<p>See what your films will look like on the YFA Homepage</p>
+			<div class="frontpage-preview">
+				<div class="row">
+					<div class="span6 item">
+						<%= render :partial => 'shared/film_frontpage', :locals => { :film => @film, :row_count => 2, :css_classes => @film.accent_color ? @film.accent_color.to_s : "black" } %>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span4 item">
+						<%= render :partial => 'shared/film_frontpage', :locals => { :film => @film, :row_count => 3, :css_classes => @film.accent_color ? @film.accent_color.to_s : "black" } %>
+					</div>
+				</div>
+			</div>
+		</div>
+<% end %>

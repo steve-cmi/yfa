@@ -1,11 +1,11 @@
 <% @opportunities.each do |position,sp_arr| %>
 	<div class="position_group">
 		<h3><%= position %></h3>
-		<% sp_arr.sort_by{|sp| sp.show.showtimes.map{|st| st.timestamp}.min}.each do |sp| %>
-			<div class="show">
-				<b><%= link_to sp.show.title, best_link(sp.show) %></b><br />
-				<%= format_long_rundates(sp.show) %><br />
-				Contact: <%= link_to sp.show.contact, "mailto:#{sp.show.contact}" %>
+		<% sp_arr.sort_by{|sp| sp.film.showtimes.map{|st| st.timestamp}.min}.each do |sp| %>
+			<div class="film">
+				<b><%= link_to sp.film.title, best_link(sp.film) %></b><br />
+				<%= format_long_rundates(sp.film) %><br />
+				Contact: <%= link_to sp.film.contact, "mailto:#{sp.film.contact}" %>
 			</div>
 		<% end %>
 	</div>

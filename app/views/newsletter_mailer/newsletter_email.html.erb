@@ -68,9 +68,9 @@
 			<tr style="<%= topbar %>">
 				<td colspan="2">
 					<ul style="<%= nav %>">
-						<li style="<%= navItem %>"><%= link_to image_tag(@request.protocol + @request.host_with_port + asset_path("umbrella.png")), root_path, :title => "Yale Drama Coalition", :style => "position: relative; top: -6px;" %></li>
+						<li style="<%= navItem %>"><%= link_to image_tag(@request.protocol + @request.host_with_port + asset_path("umbrella.png")), root_path, :title => "Yale Film Alliance", :style => "position: relative; top: -6px;" %></li>
 						<li style="<%= navItem %>"><%= link_to "Home", root_url, :style => link %></li>
-						<li style="<%= navItem %>"><%= link_to "Shows", shows_url, :style => link %></li>
+						<li style="<%= navItem %>"><%= link_to "Films", films_url, :style => link %></li>
 						<li style="<%= navItem %>"><%= link_to "Auditions", auditions_url, :style => link %></li>
 						<li style="<%= navItem %>"><%= link_to "Opportunities", opportunities_url, :style => link %></li>
 					</ul>
@@ -80,42 +80,42 @@
 				<td colspan="2" align="center">
 					<% if Time.now.sunday? %>
 					<% time_next_week = Time.now + 7.days %>
-						<h2>YDC Newsletter Week of <%= Time.now.strftime("%B %e") %> - <%= time_next_week.strftime("%B %e") %></h2>
+						<h2>YFA Newsletter Week of <%= Time.now.strftime("%B %e") %> - <%= time_next_week.strftime("%B %e") %></h2>
 					<% else %>
-						<h2>YDC Newsletter Week of <%= Time.now.strftime("%B %e") %> - <%= Time.now.sunday.strftime("%B %e") %></h2>
+						<h2>YFA Newsletter Week of <%= Time.now.strftime("%B %e") %> - <%= Time.now.sunday.strftime("%B %e") %></h2>
 					<% end %>
 				</td>
 			</tr>
 			<tr>
 				<!--THIS WEEK-->
-				<h2>This Week's Shows</h2>
-					<% if @shows.length == 0 %>
-						No shows this week, check out the <%= link_to "full calendar", shows_url %> for more information!
+				<h2>This Week's Films</h2>
+					<% if @films.length == 0 %>
+						No films this week, check out the <%= link_to "full calendar", films_url %> for more information!
 					<% else %>
 						<table>
-							<% @shows.each do |show| %>
+							<% @films.each do |film| %>
 								<tr>
-									<% if show.poster.exists? %>
+									<% if film.poster.exists? %>
 										<td>
-											<%= link_to image_tag(show.poster.url(:thumb)), best_link(show, true), :style => "float: left; margin-right: 10px;" %>
+											<%= link_to image_tag(film.poster.url(:thumb)), best_link(film, true), :style => "float: left; margin-right: 10px;" %>
 										</td>
 										<td style="padding: 10px 0;">
 									<% else %>
 										<td colspan="2" style="padding: 10px 0;">
 									<% end %>
-											<strong><%= link_to show.title, best_link(show, true), :class => 'title' %></strong><br />
-											<strong>By:</strong> <%= show.writer %><br />
-											<%= show.tagline if !show.tagline.blank? %><%= raw "<br />" if !show.tagline.blank? %>
-											<strong>Directed By:</strong> <%= show.director %><br />
-											<strong>Place:</strong> <%= show.location %><br />
-											<% show.showtimes.each do |showtime| %>
+											<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
+											<strong>By:</strong> <%= film.writer %><br />
+											<%= film.tagline if !film.tagline.blank? %><%= raw "<br />" if !film.tagline.blank? %>
+											<strong>Directed By:</strong> <%= film.director %><br />
+											<strong>Place:</strong> <%= film.location %><br />
+											<% film.showtimes.each do |showtime| %>
 												<%= raw style_full_showtime(showtime.timestamp) %><br />
 											<% end %>
 											</td>
 								</tr>
 							<% end %>
 						</table>
-						<br />Check out the <%= link_to "full calendar", shows_url %> for even more shows!
+						<br />Check out the <%= link_to "full calendar", films_url %> for even more films!
 					<% end %>
 					<!--END THIS WEEK-->
 			</tr>
@@ -138,13 +138,13 @@
 					<hr />
 					<h2>Opportunities</h2>
 					<table>
-						<% @opportunities.each do |show, ops| %>
+						<% @opportunities.each do |film, ops| %>
 							<tr>
 								<td width="40%" style="padding: 5px 0; vertical-align: top;">
-									<strong><%= link_to show.title, best_link(show, true), :class => 'title' %></strong><br />
-									<strong>By:</strong> <%= show.writer %><br />
-									<strong>Show Dates:</strong> <%= format_showtimes(show.showtimes) %><br />
-									<strong>Directed By:</strong> <%= show.director %><br />
+									<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
+									<strong>By:</strong> <%= film.writer %><br />
+									<strong>Show Dates:</strong> <%= format_showtimes(film.showtimes) %><br />
+									<strong>Directed By:</strong> <%= film.director %><br />
 								</td>
 								<% if ops.length > 5 %>
 									<td width="30%" style="padding: 5px 0 5px 30px; vertical-align: top;">
@@ -174,13 +174,13 @@
 				</td>
 				<td width="50%" style="vertical-align: top; padding: 0 25px;">
 					<h2>Auditions</h2>
-					<% @auditions.each do |show, auditions| %>
-						<strong><%= link_to show.title, best_link(show, true), :class => 'title' %></strong><br />
-						<strong>By:</strong> <%= show.writer %><br />
-						<strong>Show Dates:</strong> <%= format_showtimes(show.showtimes) %><br />
-						<strong>Directed By:</strong> <%= show.director %><br />
+					<% @auditions.each do |film, auditions| %>
+						<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
+						<strong>By:</strong> <%= film.writer %><br />
+						<strong>Show Dates:</strong> <%= format_showtimes(film.showtimes) %><br />
+						<strong>Directed By:</strong> <%= film.director %><br />
 						<b>Audition Dates:</b> <%= format_showtimes auditions %><br />
-						<b>Audition Signup:</b> <%= link_to auditions.select{|a| !a.person_id}.count.to_s + " Slots Available", show_auditions_url(show) %><br /><br />
+						<b>Audition Signup:</b> <%= link_to auditions.select{|a| !a.person_id}.count.to_s + " Slots Available", film_auditions_url(film) %><br /><br />
 					<% end %>
 					<!--END AUDITIONS-->
 					<hr />

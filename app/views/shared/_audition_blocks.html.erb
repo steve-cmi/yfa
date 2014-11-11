@@ -66,7 +66,7 @@
 <div class="audition-actions">
 <i class="icon-envelope"></i> <%= link_to "Email all students", "mailto:" + audition_groups.map{|group| group.map{|a| a.email }}.flatten.reject(&:blank?).join(",") %>
  &nbsp;
-<i class="icon-print"></i> <%= link_to "Print Full Audition List", show_auditions_path(@show) %>
+<i class="icon-print"></i> <%= link_to "Print Full Audition List", show_auditions_path(@film) %>
  &nbsp;
-<i class="icon-download-alt"></i> <%= link_to "Download Full Audition List (CSV)", show_auditions_path(@show, "csv") %>
+<i class="icon-download-alt"></i> <%= link_to "Download Full Audition List (CSV)", show_auditions_path(@film, "csv") %>
 </div>

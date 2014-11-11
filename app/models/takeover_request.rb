@@ -10,10 +10,10 @@ class TakeoverRequest < ActiveRecord::Base
 		# Transfer over all the data for the other person
 		# They cannot have any auditions since they have no netid
 		self.person.permissions << self.requested_person.permissions
-		self.person.show_positions << self.requested_person.show_positions
+		self.person.film_positions << self.requested_person.film_positions
 		self.person.picture ||= self.requested_person.picture
 		
-		# We need to reload the requested person or the show positions will be destroyed too
+		# We need to reload the requested person or the film positions will be destroyed too
 		self.requested_person.reload
 		self.requested_person.destroy
 		self.approved = true

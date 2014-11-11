@@ -11,43 +11,43 @@ class PagesController < ApplicationController
 
 		@modules = []
 		@rows = []
-		# Shows!
+		# Films!
 		# TODO: Change this, duh!
 
 		# Group things appropriately. Cannot be more than 2 modules
-		@shows = Show.readonly.coming_soon.this_week
+		@films = Film.readonly.coming_soon.this_week
 
 		@showtime_data = {}
-		@shows.each {|show| @showtime_data[show.id] = show.showtimes.map {|st| {:id => st.id, :text => st.short_display_time, :cap => show.cap}}}
+		@films.each {|film| @showtime_data[film.id] = film.showtimes.map {|st| {:id => st.id, :text => st.short_display_time, :cap => film.cap}}}
 
 		# TODO: Algorithmically re-arrange posters to be in rows of 2
 
-		puts "Condensing #{@shows.length} shows and #{@modules.length} modules"
+		puts "Condensing #{@films.length} films and #{@modules.length} modules"
 
-		if @shows.length + @modules.length <= 3
-			@rows = [@shows + @modules]
-		elsif @shows.length + @modules.length == 4
-			@rows = [@shows.slice!(0,2), @shows + @modules]	# 2 shows / 2 shows/modules
-		elsif @shows.length + @modules.length == 5
-			@rows = [@shows.slice!(0,2), @shows + @modules]	# 2 shows / 3 shows/modules
-		elsif @shows.length + @modules.length == 6
-			@rows = [@shows.slice!(0,3), @shows + @modules] # 3 shows / 3 shows/modules
-		elsif @shows.length + @modules.length == 7
+		if @films.length + @modules.length <= 3
+			@rows = [@films + @modules]
+		elsif @films.length + @modules.length == 4
+			@rows = [@films.slice!(0,2), @films + @modules]	# 2 films / 2 films/modules
+		elsif @films.length + @modules.length == 5
+			@rows = [@films.slice!(0,2), @films + @modules]	# 2 films / 3 films/modules
+		elsif @films.length + @modules.length == 6
+			@rows = [@films.slice!(0,3), @films + @modules] # 3 films / 3 films/modules
+		elsif @films.length + @modules.length == 7
 			if @modules.length >= 1
-				@rows = [ @shows.slice!(0,2), @shows.slice!(0,2) + @modules.slice!(0,1), @shows + @modules] # 2 shows / 3 shows(most one module) / 2 shows/modules
+				@rows = [ @films.slice!(0,2), @films.slice!(0,2) + @modules.slice!(0,1), @films + @modules] # 2 films / 3 films(most one module) / 2 films/modules
 			else
-				@rows = [ @shows.slice!(0,2), @shows.slice!(0,3), @shows.slice!(0,2) ] # 2 shows / 3 shows(most one module) / 2 shows/modules
+				@rows = [ @films.slice!(0,2), @films.slice!(0,3), @films.slice!(0,2) ] # 2 films / 3 films(most one module) / 2 films/modules
 			end
-		elsif @shows.length + @modules.length == 8	# 3 shows/modules / 2 shows / 3 modules/shows
+		elsif @films.length + @modules.length == 8	# 3 films/modules / 2 films / 3 modules/films
 			if @modules.length >= 2
-				@rows = [ @shows.slice!(0,2) + @modules.slice!(0,1), @shows.slice!(0,2), @shows + @modules]
+				@rows = [ @films.slice!(0,2) + @modules.slice!(0,1), @films.slice!(0,2), @films + @modules]
 			else
-				@rows = [ @shows.slice!(0,3), @shows.slice!(0,2), @shows + @modules]
+				@rows = [ @films.slice!(0,3), @films.slice!(0,2), @films + @modules]
 			end
 		else
 			#more than 8? Pshew. Good luck
-			while @shows.length > 0
-				@rows += [@shows.slice!(0,2 + @rows.length % 2)]
+			while @films.length > 0
+				@rows += [@films.slice!(0,2 + @rows.length % 2)]
 			end
 		end
 

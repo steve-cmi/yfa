@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141111144718) do
+ActiveRecord::Schema.define(:version => 20141111152749) do
 
   create_table "auditions", :force => true do |t|
-    t.integer   "show_id",                                                      :null => false
+    t.integer   "film_id",                                                      :null => false
     t.timestamp "timestamp",                 :default => '2003-01-01 08:00:00', :null => false
     t.string    "name",       :limit => 100
     t.string    "phone",      :limit => 50
@@ -36,6 +36,44 @@ ActiveRecord::Schema.define(:version => 20141111144718) do
 
   add_index "board_positions", ["person_id"], :name => "index_board_positions_on_person_id"
   add_index "board_positions", ["year"], :name => "index_board_positions_on_year"
+
+  create_table "film_positions", :force => true do |t|
+    t.integer "film_id",                                           :null => false
+    t.integer "position_id",   :limit => 2,                        :null => false
+    t.string  "character"
+    t.integer "person_id"
+    t.enum    "assistant",     :limit => [:Associate, :Assistant]
+    t.integer "listing_order"
+  end
+
+  create_table "films", :force => true do |t|
+    t.enum     "category",              :limit => [:theater, :dance, :film, :comedy, :casting],                    :default => :theater, :null => false
+    t.string   "title",                                                                                                                  :null => false
+    t.string   "writer",                                                                                                                 :null => false
+    t.string   "tagline"
+    t.string   "location",                                                                                                               :null => false
+    t.string   "contact",                                                                                                                :null => false
+    t.boolean  "auditions_enabled",                                                                                :default => false,    :null => false
+    t.text     "aud_info"
+    t.text     "aud_files"
+    t.boolean  "public_aud_info",                                                                                  :default => false,    :null => false
+    t.text     "description",                                                                                                            :null => false
+    t.boolean  "approved",                                                                                         :default => false,    :null => false
+    t.text     "pw"
+    t.string   "url_key",               :limit => 25
+    t.boolean  "archive",                                                                                          :default => true,     :null => false
+    t.boolean  "archive_reminder_sent",                                                                            :default => false,    :null => false
+    t.text     "picture_meta"
+    t.string   "flickr_id"
+    t.string   "poster_file_name"
+    t.string   "poster_content_type"
+    t.integer  "poster_file_size"
+    t.datetime "poster_updated_at"
+    t.text     "poster_meta"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.enum     "accent_color",          :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
+  end
 
   create_table "news", :force => true do |t|
     t.string    "title",      :null => false
@@ -69,65 +107,27 @@ ActiveRecord::Schema.define(:version => 20141111144718) do
   add_index "people", ["netid"], :name => "index_people_on_netid"
 
   create_table "permissions", :force => true do |t|
-    t.integer  "show_id",                                                  :null => false
+    t.integer  "film_id",                                                  :null => false
     t.integer  "person_id",                                                :null => false
     t.enum     "level",      :limit => [:full, :reservations, :auditions]
     t.datetime "created_at",                                               :null => false
     t.datetime "updated_at",                                               :null => false
   end
 
+  add_index "permissions", ["film_id"], :name => "index_permissions_on_show_id"
   add_index "permissions", ["person_id"], :name => "index_permissions_on_person_id"
-  add_index "permissions", ["show_id"], :name => "index_permissions_on_show_id"
 
   create_table "positions", :force => true do |t|
     t.string "position", :null => false
   end
 
-  create_table "show_positions", :force => true do |t|
-    t.integer "show_id",                                           :null => false
-    t.integer "position_id",   :limit => 2,                        :null => false
-    t.string  "character"
-    t.integer "person_id"
-    t.enum    "assistant",     :limit => [:Associate, :Assistant]
-    t.integer "listing_order"
-  end
-
-  create_table "shows", :force => true do |t|
-    t.enum     "category",              :limit => [:theater, :dance, :film, :comedy, :casting],                    :default => :theater, :null => false
-    t.string   "title",                                                                                                                  :null => false
-    t.string   "writer",                                                                                                                 :null => false
-    t.string   "tagline"
-    t.string   "location",                                                                                                               :null => false
-    t.string   "contact",                                                                                                                :null => false
-    t.boolean  "auditions_enabled",                                                                                :default => false,    :null => false
-    t.text     "aud_info"
-    t.text     "aud_files"
-    t.boolean  "public_aud_info",                                                                                  :default => false,    :null => false
-    t.text     "description",                                                                                                            :null => false
-    t.boolean  "approved",                                                                                         :default => false,    :null => false
-    t.text     "pw"
-    t.string   "url_key",               :limit => 25
-    t.boolean  "archive",                                                                                          :default => true,     :null => false
-    t.boolean  "archive_reminder_sent",                                                                            :default => false,    :null => false
-    t.text     "picture_meta"
-    t.string   "flickr_id"
-    t.string   "poster_file_name"
-    t.string   "poster_content_type"
-    t.integer  "poster_file_size"
-    t.datetime "poster_updated_at"
-    t.text     "poster_meta"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.enum     "accent_color",          :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
-  end
-
   create_table "showtimes", :force => true do |t|
-    t.integer  "show_id",                       :null => false
+    t.integer  "film_id",                       :null => false
     t.boolean  "email_sent", :default => false, :null => false
     t.datetime "timestamp"
   end
 
-  add_index "showtimes", ["show_id"], :name => "show_index"
+  add_index "showtimes", ["film_id"], :name => "show_index"
 
   create_table "takeover_requests", :force => true do |t|
     t.integer  "person_id",                              :null => false

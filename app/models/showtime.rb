@@ -1,12 +1,12 @@
 class Showtime < ActiveRecord::Base	
-	belongs_to :show
+	belongs_to :film
 	
 	after_create :notify_oup
 	after_update :notify_oup
 	before_destroy :prevent_last_showtime_deletion
 	
 	def prevent_last_showtime_deletion
-		return false if self.show && self.show.showtimes.count == 1
+		return false if self.film && self.film.showtimes.count == 1
 	end
 
 	def self.future
@@ -20,8 +20,8 @@ class Showtime < ActiveRecord::Base
 
 	def notify_oup
 		return unless self.timestamp_changed?
-		@show = self.show rescue nil # will error if show can't be found, meaning not approved
-		ShowtimeMailer.notify_oup_email(@show,self).deliver if @show && @show.approved		
+		@film = self.film rescue nil # will error if film can't be found, meaning not approved
+		ShowtimeMailer.notify_oup_email(@film,self).deliver if @film && @film.approved		
 	end
 	
 	#### New code added by steve@commonmedia.com March 2013.

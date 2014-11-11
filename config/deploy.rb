@@ -3,8 +3,8 @@ lock '3.2.1'
 
 set :application, 'campustheater'
 
-# Server (note: YDC keypair needed)
-server 'yaledramacoalition.org', user: 'ubuntu', roles: [:web, :app, :db], ssh_options: {keys: %w(~/.ssh/YDCKeypair.pem)}
+# Server
+server 'yfa.org', user: 'ubuntu', roles: [:web, :app, :db]
 
 # Git
 set :scm, :git

@@ -1,10 +1,10 @@
 class Audition < ActiveRecord::Base	
-	belongs_to :show
+	belongs_to :film
 	belongs_to :person
 	
 	after_update :audition_confirmation
-	after_update :update_show
-	after_destroy :update_auditioner #They can't destroy it, so show did
+	after_update :update_film
+	after_destroy :update_auditioner # They can't destroy it, so film did
 	
 	validates :location, :presence => true
 	
@@ -64,8 +64,8 @@ class Audition < ActiveRecord::Base
 	def update_auditioner
 	end
 	
-	# Notify the show of a signup or whatever
-	def update_show
+	# Notify the film of a signup or whatever
+	def update_film
 	end
 	
 end
