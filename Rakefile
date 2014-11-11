@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Ydc::Application.load_tasks
+Yfa::Application.load_tasks
