@@ -1,11 +1,10 @@
 class FilmsController < ApplicationController  
 	
-	skip_before_filter :force_auth, :only => [:film, :index, :archives]
+	skip_before_filter :force_auth, :only => [:film, :index]
 	before_filter :fetch_film, :except => [:index, :new, :create]
-	before_filter :auth, :except => [:index, :film, :archives, :new, :create, :dashboard]
+	before_filter :auth, :except => [:index, :film, :new, :create, :dashboard]
 
 	cache_sweeper :film_sweeper
-	
 	
 	# upcoming films, grouped by week, semester, others
 	def index
@@ -22,7 +21,7 @@ class FilmsController < ApplicationController
 		@other = @films - @this_week - @this_semester
 	end
 	
-	def film
+	def show
 		# Do something with @film?
 		#redirect_to root_url
 		@active_nav = :calendar
