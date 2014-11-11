@@ -224,17 +224,8 @@ $(document).ready(function() {
 	});
 
 	hookupPersonAutoComplete();
-	$("#show_on_sale").datepicker({ 'dateFormat': 'm/d/yy' })
 	
-	$("#show_tix_enabled").on("change", updateTixFieldVisibility);
-	updateTixFieldVisibility();
-
 });
-
-var updateTixFieldVisibility = function() {
-	$(".tix_on").toggle($("#show_tix_enabled").is(":checked"));
-	$(".tix_off").toggle(!$("#show_tix_enabled").is(":checked"));
-}
 
 var watchForLongTitles = function() {
 	var title = $("#show_title").val();

@@ -17,7 +17,6 @@ class Show < ActiveRecord::Base
 	#TODO: Make some scopes to get basic information only
 	
 	attr_accessible :category, :title, :writer, :tagline, :location, :url_key, :contact, :description, :poster, :accent_color, :flickr_id
-	attr_accessible :tix_enabled, :alt_tix, :seats, :cap, :waitlist, :show_waitlist, :waitlist_seats, :charges_at_door, :freeze_mins_before, :on_sale
 	attr_accessible :auditions_enabled, :aud_info
 	attr_accessible :showtimes_attributes, :show_positions_attributes, :permissions_attributes
 	accepts_nested_attributes_for :showtimes, :allow_destroy => true
@@ -29,9 +28,7 @@ class Show < ActiveRecord::Base
 	validates_format_of :url_key, :with => /\A[a-z0-9_]+\Z/i, :message => "The url key should contain only letters and numbers", :allow_blank => true
 	validates_uniqueness_of :url_key, :allow_blank => true, :case_sensitive => false, :message => "Sorry, the desired url is already taken. Please try another!"
 	validates_columns :category
-	validates_format_of :alt_tix, :message => "must be an email address or full url", :with => /^(((ht|f)tp(s?):\/\/)|(www\.[^ \[\]\(\)\n\r\t]+)|(([012]?[0-9]{1,2}\.){3}[012]?[0-9]{1,2})\/)([^ \[\]\(\),;&quot;'&lt;&gt;\n\r\t]+)([^\. \[\]\(\),;&quot;'&lt;&gt;\n\r\t])|(([012]?[0-9]{1,2}\.){3}[012]?[0-9]{1,2})|([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true, :unless => Proc.new { |s| s.tix_enabled }
 	validates :contact, :email_format => true
-	validates :seats, :cap, :freeze_mins_before, :on_sale, :presence => true, :if => Proc.new { |s| s.tix_enabled }
 	validates :showtimes, :length => { :minimum => 1, :too_short => "needs to have at least 1 showtime given" }
 
 	after_update :check_to_notify_changes
@@ -55,18 +52,6 @@ class Show < ActiveRecord::Base
 
 	def bust_director_cache
 		Rails.cache.delete 'show-directors-' + self.id.to_s
-	end
-
-	def alt_tix_link
-		if self.alt_tix =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i			
-			"mailto:" + self.alt_tix
-		else
-			if alt_tix =~ /^http/i
-				alt_tix
-			else
-				"http://" + alt_tix
-			end
-		end
 	end
 	
 	def poster_ratio
@@ -109,22 +94,6 @@ class Show < ActiveRecord::Base
 	
 	def has_closed?
 		self.showtimes.sort_by{|st| st.timestamp}.last.timestamp.to_time < Time.now
-	end
-	
-	def ok_to_ticket?(token = nil)
-		if token and token == private_registration_token
-			self.tix_enabled
-		else
-			self.tix_enabled && self.on_sale.to_time <= Time.now && !self.has_closed?
-		end
-	end
-
-	def private_registration_token
-		unless self[:private_registration_token]
-			self[:private_registration_token] = SecureRandom.hex
-			save
-		end
-		self[:private_registration_token]
 	end
 	
 	# Get the OCI term of the show's opening night, can help for categorizing
@@ -231,11 +200,6 @@ class Show < ActiveRecord::Base
 
 	def self.this_year
 		where(:id => Showtime.select(:show_id).this_year)
-	end
-
-	# Total seats, including waitlist
-	def total_seats
-		seats + waitlist_seats
 	end
 
 	####

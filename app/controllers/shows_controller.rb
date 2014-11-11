@@ -41,35 +41,6 @@ class ShowsController < ApplicationController
 		raise ActionController::RoutingError.new('Not Found') unless @current_user.has_permission?(@show, nil, true)	
 		@recent_auditions = @show.auditions.recent_past
 	end
-
-	def remind
-		@showtime = @show.showtimes.find_by_id(params[:showtime_id]) if params[:showtime_id]
-		if @showtime.nil?
-			flash[:error] = "No showtime selected!"
-			redirect_to :action => :dashboard
-			return
-		end
-		if @showtime.reminder_sent
-			flash[:error] = "Reminders have already been sent for this showtime"
-			redirect_to :action => :dashboard
-			return
-		end
-		if @showtime.past?
-			flash[:error] = "Reminders cannot be sent for past shows"
-			redirect_to :action => :dashboard
-			return
-		end
-		if request.post?
-			emails_sent = 0
-			@showtime.reservations.each do |reservation|
-				ReservationMailer.reminder_email(@show, @showtime, reservation, params[:message]).deliver
-				emails_sent += 1
-			end
-			@showtime.update_attribute :reminder_sent, true
-			flash[:notice] = "Reminder emails sent to #{view_context.pluralize emails_sent, 'attendee'}."
-			redirect_to :action => :dashboard
-		end
-	end
 	
 	def new
 		@show = Show.new
@@ -185,10 +156,6 @@ class ShowsController < ApplicationController
 			post_create[:permissions_attributes] = params[:show][:permissions_attributes]
 			params[:show].delete(:permissions_attributes)
 		end
-		
-		#Process on_sale time
-		params[:show][:on_sale] = DateTime.strptime(params[:show][:on_sale], '%m/%d/%Y') if params[:show][:on_sale]
-		params[:show][:freeze_mins_before] = (params[:show][:freeze_mins_before].to_f * 60.0).to_i if params[:show][:freeze_mins_before]
 		
 		respond_to do |format|
 	    if @show.update_attributes(params[:show])

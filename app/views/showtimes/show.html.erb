@@ -1,29 +1,5 @@
-<% javascript 'showtimes.js' %>
-
 <div class="title"><%= @show.title %></div>
 <%= full_timestamp(@showtime.timestamp) %>
 <br /><br />
-<h3>Please do <strong>not</strong> click on any of the names below. This feature of the reservation system is not fully functional and may lead to issues.</h3>
-<div class="reservations">
-	<% column_count = @confirmed.length > 25 ? 3 : 2 %>
-	<h3>Confirmed</h3>
-	<div class="confirmed" style="-webkit-column-count: <%= column_count %>; -moz-column-count: <%= column_count %>; column-count:<%= column_count %>;">
-		<% @confirmed.sort_by(&:fname).each do |reservation| %>
-		<div class="reservation_block" data-id="<%= reservation.id %>">
-			<% reservation.num.times do |i| %>
-				<div class="listing <%= 'checked' if i < reservation.used %>"><%= reservation.fname %> <%= reservation.lname %></div>
-			<% end %>
-		</div><br />
-		<% end %>
-	</div>
-	<div class="waitlist">
-		<h3>Waitlist</h3>
-		<% @waitlist.each do |reservation| %>
-		<div class="reservation_block" data-id="<%= reservation.id %>">
-			<% reservation.num.times do |i| %>
-			<div class="listing <%= 'checked' if i < reservation.used %>"><%= reservation.fname %> <%= reservation.lname %></div>
-			<% end %>
-		</div>
-		<% end %>
-	</div>
+SHOWTIMES INFO HERE
 </div>

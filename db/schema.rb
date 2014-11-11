@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140417145931) do
+ActiveRecord::Schema.define(:version => 20141111144718) do
 
   create_table "auditions", :force => true do |t|
     t.integer   "show_id",                                                      :null => false
@@ -83,24 +83,6 @@ ActiveRecord::Schema.define(:version => 20140417145931) do
     t.string "position", :null => false
   end
 
-  create_table "reservation_types", :force => true do |t|
-    t.string "tix_type", :limit => 50, :null => false
-  end
-
-  create_table "reservations", :force => true do |t|
-    t.string    "fname",               :limit => 50,                :null => false
-    t.string    "lname",               :limit => 50,                :null => false
-    t.string    "email",                                            :null => false
-    t.integer   "num",                 :limit => 1,                 :null => false
-    t.timestamp "updated_at",                                       :null => false
-    t.integer   "showtime_id",                                      :null => false
-    t.integer   "reservation_type_id", :limit => 2,                 :null => false
-    t.datetime  "created_at"
-    t.integer   "person_id"
-    t.integer   "used",                              :default => 0, :null => false
-    t.text      "token"
-  end
-
   create_table "show_positions", :force => true do |t|
     t.integer "show_id",                                           :null => false
     t.integer "position_id",   :limit => 2,                        :null => false
@@ -111,30 +93,22 @@ ActiveRecord::Schema.define(:version => 20140417145931) do
   end
 
   create_table "shows", :force => true do |t|
-    t.enum     "category",                   :limit => [:theater, :dance, :film, :comedy, :casting],                    :default => :theater, :null => false
-    t.string   "title",                                                                                                                       :null => false
-    t.string   "writer",                                                                                                                      :null => false
+    t.enum     "category",              :limit => [:theater, :dance, :film, :comedy, :casting],                    :default => :theater, :null => false
+    t.string   "title",                                                                                                                  :null => false
+    t.string   "writer",                                                                                                                 :null => false
     t.string   "tagline"
-    t.string   "location",                                                                                                                    :null => false
-    t.string   "contact",                                                                                                                     :null => false
-    t.boolean  "auditions_enabled",                                                                                     :default => false,    :null => false
+    t.string   "location",                                                                                                               :null => false
+    t.string   "contact",                                                                                                                :null => false
+    t.boolean  "auditions_enabled",                                                                                :default => false,    :null => false
     t.text     "aud_info"
     t.text     "aud_files"
-    t.boolean  "public_aud_info",                                                                                       :default => false,    :null => false
-    t.text     "description",                                                                                                                 :null => false
-    t.boolean  "approved",                                                                                              :default => false,    :null => false
+    t.boolean  "public_aud_info",                                                                                  :default => false,    :null => false
+    t.text     "description",                                                                                                            :null => false
+    t.boolean  "approved",                                                                                         :default => false,    :null => false
     t.text     "pw"
-    t.string   "url_key",                    :limit => 25
-    t.string   "alt_tix"
-    t.integer  "seats",                                                                                                 :default => 0,        :null => false
-    t.integer  "cap",                                                                                                   :default => 0,        :null => false
-    t.boolean  "waitlist",                                                                                              :default => false,    :null => false
-    t.boolean  "show_waitlist",                                                                                         :default => false,    :null => false
-    t.boolean  "tix_enabled",                                                                                           :default => false,    :null => false
-    t.integer  "freeze_mins_before",                                                                                    :default => 120,      :null => false
-    t.date     "on_sale"
-    t.boolean  "archive",                                                                                               :default => true,     :null => false
-    t.boolean  "archive_reminder_sent",                                                                                 :default => false,    :null => false
+    t.string   "url_key",               :limit => 25
+    t.boolean  "archive",                                                                                          :default => true,     :null => false
+    t.boolean  "archive_reminder_sent",                                                                            :default => false,    :null => false
     t.text     "picture_meta"
     t.string   "flickr_id"
     t.string   "poster_file_name"
@@ -144,17 +118,13 @@ ActiveRecord::Schema.define(:version => 20140417145931) do
     t.text     "poster_meta"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.enum     "accent_color",               :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
-    t.boolean  "charges_at_door"
-    t.string   "private_registration_token"
-    t.integer  "waitlist_seats"
+    t.enum     "accent_color",          :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
   end
 
   create_table "showtimes", :force => true do |t|
-    t.integer  "show_id",                          :null => false
-    t.boolean  "email_sent",    :default => false, :null => false
+    t.integer  "show_id",                       :null => false
+    t.boolean  "email_sent", :default => false, :null => false
     t.datetime "timestamp"
-    t.boolean  "reminder_sent"
   end
 
   add_index "showtimes", ["show_id"], :name => "show_index"

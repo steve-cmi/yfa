@@ -98,28 +98,6 @@ module ApplicationHelper
        end
 	end
 	
-	def get_reservation_line(show, block = false)
-		if show.showtimes.length > 0 && Time.now > Time.at(show.showtimes.last.timestamp)
-			"Show no longer running"
-		elsif !show.tix_enabled && show.alt_tix?
-			if show.alt_tix_link =~ /^mailto:/
-				link_to "E-mail Ticket Reserves", show.alt_tix_link, :class => 'btn btn-primary', :target => '_blank'
-			else
-				link_to "Reservations Here", show.alt_tix_link, :class => 'btn btn-primary', :target => '_blank'
-			end
-		elsif !show.approved
-			"Show not yet approved"
-		elsif show.tix_enabled && show.on_sale && Time.now > show.on_sale && !block
-			link_to "Reserve Tickets", show_reservations_url(show)
-		elsif show.tix_enabled && show.on_sale && Time.now > show.on_sale && block
-			render :partial => "shared/show_reservation_form", :locals => {:show => show}
-		elsif show.tix_enabled
-			"Not available til #{show.on_sale}"
-		else
-			"Tickets not yet available, check back soon!"
-		end
-	end
-	
   def link_to_remove_fields(name, f)
     f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)", :class => "remove")
   end
@@ -144,20 +122,6 @@ module ApplicationHelper
   #Helper to load javascript page specific stuff
   def javascript(*files)
     content_for(:head) { javascript_include_tag(*files) }
-  end
-
-  def gcal_link_from_reservation(reservation)
-  	event = {
-  		:action => "TEMPLATE",
-  		:text => reservation.showtime.show.title,
-  		:details => "You have " + reservation.num.to_s + " tickets to this show.\n\nYou may edit/cancel this reservation by visiting:\n" + show_reservation_url(reservation.showtime.show, reservation, :auth_code => reservation.token),
-  		:location => reservation.showtime.show.location,
-  		:dates => reservation.showtime.timestamp.utc.strftime("%Y%m%dT%H%M%SZ") + "/" + (reservation.showtime.timestamp + 2.hours).utc.strftime("%Y%m%dT%H%M%SZ"),
-  		:sprop => "name: Yale Drama Coalition",
-  	}
-
-  	link = "http://www.google.com/calendar/event?" + event.to_query + "&sprop=name:Yale%20Drama%20Coalition"
-  	"<a href=\"" + link + "\" target='_blank'><img src=\"http://www.google.com/calendar/images/ext/gc_button6.gif\" border=0></a>"
   end
 
   def oci_id_to_text(term)

@@ -51,8 +51,6 @@ Yfa::Application.routes.draw do
   resources :news, :path => "/news"
   match 'people/:id/request_names' => 'people#takeover_request', :as => :takeover_request, :method => :post
 
-  #match ':show_name/reserve' => 'reservations#show_reservation', :as => :show_reservation
-  #match ':show_name/reserve/:id' => 'reservations#new', :as => :showtime_reservation
   match 'dashboard' => 'people#dashboard', :as => :dashboard
   
   
@@ -75,13 +73,10 @@ Yfa::Application.routes.draw do
     match 'edit_files', :controller => :shows, :action => :edit_files, :as => :edit_files, :via => [:get, :post]
     match 'remind/:showtime_id', :controller => :shows, :action => :remind, :as => :remind, :via => [:get, :post]
     get 'dashboard', :controller => :shows, :action => :dashboard, :as => :dashboard
-		resources :showtimes, :only => [:show, :index]  do #Used as reservation viewer for admin
-      get 'update_attendance'
-    end
+		resources :showtimes, :only => [:show, :index]
 		resources :auditions do
       get 'past', :on => :collection
     end
-		resources :reservations
 		member do
 	    put 'auditions', :controller => :auditions, :action => :update
 	  end
@@ -106,7 +101,6 @@ Yfa::Application.routes.draw do
   # Add legacy routes here
   # TODO: These can be removed probably a month or so after launch, remove supporting code too
   match 'audition_signup.php', :controller => :auditions, :action => :index
-  match 'view_reservation.php', :controller => :reservations, :action => :show
 
   # Detect show slugs last, some legacy support for now
   # TODO: build out /tickets, /reserve, etc.

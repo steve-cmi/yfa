@@ -4,7 +4,7 @@
 /* MEDIA QUERIES  for things smaller than portrait tablets */
 .shows.show {
 	@media (max-width: 767px) {
-    .performances, .reservations, .cast, .crew, .media { 
+    .performances, .cast, .crew, .media { 
         text-align: center;
     }
 
@@ -134,20 +134,6 @@
 	
 	.performances-location { color: $purple; }
 	
-	.reservations {
-		input {
-			display: inline;
-			border-radius: 0px;
-			border-bottom: 1px $dk-purple solid;
-			&[type=number] { width: 50px; }
-			&[type=text] { 
-				padding-bottom: 0px;
-				width: 135px;
-				&[name*=email] { width: 165px; } 
-			}
-		}
-	}	
-
 	.cast-crew {
 		table {
 			td { 
@@ -298,10 +284,6 @@
 	font-size: 18px;
 	color: #2B3169;
 	span { color: $purple; }
-}
-
-#show_freeze_mins_before {
-	margin: 0 5px;
 }
 
 #url-key-preview {

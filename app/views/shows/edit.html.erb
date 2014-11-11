@@ -72,36 +72,6 @@
 				<li><%= link_to_add_fields "Add Showtime", f, :showtimes %></li>
 			</ol>
 
-			<%= f.check_box :tix_enabled %>
-			<%= f.label :tix_enabled, "Enable YDC Ticketing System" %>
-			<a href="#" rel="tooltip" title="This system allows you to automatically accept and manage reservations through the YDC site. We highly recommend it!">What's this?</a><br />
-
-			<div class="tix_off">
-				<%= f.text_field :alt_tix, :placeholder => "Alternate Ticketing Address" %><br />
-				<p class="field_explanation">
-					An optional URL or email address where users will be sent to request tickets
-				</p>
-			</div>
-
-			<div class="tix_on">
-				<%= f.number_field :seats %><%= f.label :seats, "Seats Available" %>
-				<%= f.number_field :cap %><%= f.label :cap, "Max seats per resevation" %><br />
-				<%= f.label :on_sale, "Allow ticket reservations starting" %><%= f.text_field :on_sale, :class => "date", :value => @show.on_sale ? @show.on_sale.strftime("%m/%d/%Y") : Time.now.strftime("%m/%d/%Y") %><br />
-				<%= f.label :freeze_mins_before do 
-							("Freeze ticket sales " + f.number_field(:freeze_mins_before, :value => @show.freeze_mins_before ? (@show.freeze_mins_before / 60.0).round(1) : 2) + " hours before showtime(s)").html_safe
-						end
-				%><br />
-				<%= f.check_box :waitlist %>
-				<%= f.label :waitlist, "Enable Waitlist of" %>
-				<%= f.number_field :waitlist_seats %>
-				<%= f.label :waitlist_seats, "Seats" %>
-				<a href="#" rel="tooltip" title="A waitlist allows you to take reservations even when the theater is full. If people cancel tickets, waitlisters will automatically be notified. The waitlist itself is capped at the number of seats specified on this line.">What's this?</a><br />
-			</div>
-
-			<%= f.check_box :charges_at_door %>
-			<%= f.label :charges_at_door, "Charges at the Door" %>
-			<a href="#" rel="tooltip" title="If your show will charge an entrance fee, the YDC requires that you notify patrons using this feature.">What's this?</a><br />
-
 			<hr />
 			<h4>Permissions</h4>
 			<a href="#" rel="tooltip" title="These are the people (besides you) who will be able to access your show to edit it (or portions of it)">What's This?</a>

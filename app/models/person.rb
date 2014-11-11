@@ -2,7 +2,6 @@ class Person < ActiveRecord::Base
 	require 'net/ldap'
 
 	has_many :show_positions, :dependent => :destroy
-	has_many :reservations, :dependent => :nullify
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :nullify
 	has_many :takeover_requests, :dependent => :destroy #Outgoing requests, incoming are invisible

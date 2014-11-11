@@ -32,17 +32,6 @@
 			<i class="icon-arrow-right icon-white"></i>
 			Details
 		</a>
-		<% if !show.tix_enabled && !show.alt_tix.blank? %>
-			<a class="btn btn-primary" href="<%= show.alt_tix_link %>" target="_blank">
-				<i class="icon-ok icon-white"></i>
-				Tickets*
-			</a>
-		<% elsif show.ok_to_ticket? %>
-			<a class="btn btn-primary" href="#reservations" role="button" data-toggle="modal" data-show-id="<%= show.id %>">
-				<i class="icon-ok icon-white"></i>
-				Tickets
-			</a><!-- Button to trigger modal -->
-		<% end %>
 	</div>
 
 <% if show.poster.exists? %>
