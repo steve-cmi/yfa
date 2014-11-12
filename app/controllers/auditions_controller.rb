@@ -9,7 +9,7 @@ class AuditionsController < ApplicationController
 
 	# Cast Opportunities
 	def all
-		@active_nav = :auditions
+		@active_nav = :opportunities
 		@films = Audition.future.includes(:film).select(&:film).group_by(&:film)
 	end
 
@@ -26,7 +26,7 @@ class AuditionsController < ApplicationController
 
 	def index
 		@auditions = [] and return if request.format == :csv && !@current_user.has_permission?(params[:film_id], :auditions)
-		@active_nav = :auditions
+		@active_nav = :opportunities
 		@auditions = @film.auditions.immediate_future
 		redirect_to '/auditions' if @auditions.blank? && !@current_user.has_permission?(params[:film_id], :auditions)
 		@user_audition = @auditions.detect{|a| a.person_id == @current_user.id }
@@ -46,7 +46,7 @@ class AuditionsController < ApplicationController
 	end
 
 	def past
-		@active_nav = :auditions
+		@active_nav = :opportunities
 		@auditions = @film.auditions
 		if !@aud_admin || @auditions.recent_past.empty?
 			redirect_to :action => :index, :film_id => @film.id

@@ -13,7 +13,7 @@ function add_fields(trigger_obj, association, content) {
 
   // Bind the new function for the elements we're adding
   var change_function = function() {
-  	$content.find("a.remove").film();
+  	$content.find("a.remove").show();
   	add_fields($content, association, content);
   };
 
@@ -231,7 +231,7 @@ var watchForLongTitles = function() {
 	var title = $("#film_title").val();
 	var tagline = $("#film_tagline").val();
 	if (!tagline && (title.indexOf(":") >= 0 && title.length > 30 || title.length > 40)) {
-		$("#title_length_warning").film();
+		$("#title_length_warning").show();
 	} else {
 		$("#title_length_warning").hide();
 	}

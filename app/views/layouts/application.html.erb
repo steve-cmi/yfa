@@ -30,63 +30,68 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">YFA</a>
+        <a class="navbar-brand active" href="/">YFA</a>
       </div>
       <div class="navbar-collapse collapse navbar-responsive-collapse">
         <ul class="nav navbar-nav">
-          <li><%= link_to "Projects", films_path, :class => @active_nav == :calendar ? "active" : "" %></li>
-          <li class="dropdown">
+          <li class="<%= :active if @active_nav == :calendar %>">
+            <%= link_to "Projects", films_path %>
+          </li>
+          <li class="dropdown <%= :active if @active_nav == :opportunities %>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Opportunities <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Student productions", auditions_path, :class => @active_nav == :auditions ? "active" : "" %></li>
-              <li><%= link_to "Jobs and Internships", opportunities_path, :class => @active_nav == :opportunities ? "active" : "" %></li>
+              <li><%= link_to "Student productions", auditions_path %></li>
+              <li><%= link_to "Jobs and Internships", opportunities_path %></li>
             </ul>
           </li>
           <li><%= link_to "Calendar", "" %></li>
-          <li class="dropdown">
+          <li class="dropdown <%= :active if @active_nav == :resources %>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Resources <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Resources", resources_path, :class => @active_nav == :learn ? "active" : "" %></li>
+              <li><%= link_to "Resources", resources_path %></li>
             </ul>
           </li>
-          <li><%= link_to "Film Fest", "" %></li>
-          <li><%= link_to "The Board", "" %></li>
-          <li><%= link_to "Donate", donate_path, :class => @active_nav == :donate ? "active" : "" %></li>
+          <li class="<%= :active if @active_nav == :fest %>">
+            <%= link_to "Film Fest", "" %>
+          </li>
+          <li class="<%= :active if @active_nav == :board %>">
+            <%= link_to "Meet the Board", "" %>
+          </li>
+          <li class="<%= :active if @active_nav == :donate %>">
+            <%= link_to "Donate", donate_path %>
+          </li>
         </ul>
         <form class="navbar-form navbar-left" method="GET" action="/search">
           <input type="text" class="form-control col-lg-8" placeholder="projects, people, events">
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %></li>
+          <li class="<%= :active if @active_nav == :user %>">
+            <%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %>
+          </li>
         </ul>
       </div>
     </div>
   </div>
 
-	<div id="main" class="<%= params[:controller] %> <%= params[:action] %>">
-  	<div class="container">
-    	<% if flash[:notice] %>
-	       <div class="alert alert-info"><%= flash[:notice] %></div>
-	    <% end %>
-	    <% if flash[:error] %>
-	       <div class="alert alert-error"><%= flash[:error] %></div>
-	    <% end %>
-  		<%= yield %>
-  	</div>
+	<div class="container <%= params[:controller] %> <%= params[:action] %>">
+  	<% if flash[:notice] %>
+       <div class="alert alert-dismissable alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    <% if flash[:error] %>
+       <div class="alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+		<%= yield %>
 	</div>
 
-	<footer>
-		<div class="container">
-  		<div class="row">
-    		<div class="span6">
-    			Code by [TODO: CREDITS]
-    		</div>
-    		<div class="span6 right">
-  		    &copy; 2014 Yale Film Alliance -- <a href="mailto:<%= YFA_EMAIL %>">contact us</a>
-    		</div>
-  		</div>
-		</div>
-	</footer>
+	<div class="container">
+    &copy; <%= Date.today.year %> <a href="mailto:<%= YFA_EMAIL %>">Yale Film Alliance</a>
+	</div>
 
   <%= render "shared/google_analytics" if defined?(GA_ACCOUNT) %>
 </body>
