@@ -4,20 +4,16 @@ class PagesController < ApplicationController
 	# The page users hit when they first visit in browser.
 	def index
 		@active_nav = :home
-
-		# flash.now[:notice] = "NOTICE"
-		# flash.now[:error] = "ERROR"
-
 	end
 
 	# Static Pages
 	def resources
-		@page_name = " - Resources"
+		@page_name = 'Resources'
 		@active_nav = :resources
 	end
 
 	def donate
-		@page_name = " - Donate"
+		@page_name = 'Donate'
 		@active_nav = :donate
 	end
 
@@ -25,7 +21,7 @@ class PagesController < ApplicationController
 	def guides
 		# TODO: SHould probably NOINDEX these, or find a better way to get the data out and into the template
 		#Be careful with this as it could lead to bad things
-		@page_name = " - Resources"
+		@page_name = 'Resources'
 		@active_nav = :resources
 		@file = params[:static_file] + ".html"
 		raise ActiveRecord::RecordNotFound unless params[:static_file] =~ /\A[\w\-]+\Z/ && FileTest.exists?(Rails.root + "public/static_guides/" + @file)

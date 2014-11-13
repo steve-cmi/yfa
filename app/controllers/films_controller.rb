@@ -9,7 +9,7 @@ class FilmsController < ApplicationController
 	# upcoming films, grouped by week, semester, others
 	def index
 		@active_nav = :calendar
-		@page_name = " - Upcoming Films"
+		@page_name = 'Upcoming Films'
 		
 		@films = Film.on_film_page.future
 		@this_week = @films.select{|s| s.this_week?}
@@ -25,14 +25,14 @@ class FilmsController < ApplicationController
 		# Do something with @film?
 		#redirect_to root_url
 		@active_nav = :calendar
-		@page_name = " - #{@film.title}"
+		@page_name = @film.title
 		s3 = AWS::S3.new
 	   	s3_bucket = s3.buckets['yfa-dev']
    		@s3_objects = s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
 	end
 
 	def dashboard
-		@page_name = " - Film Dashboard"
+		@page_name = 'Film Dashboard'
 		# People can see this as long as they have SOME permission
 		s3 = AWS::S3.new
 	   	s3_bucket = s3.buckets['yfa-dev']
@@ -43,7 +43,7 @@ class FilmsController < ApplicationController
 	
 	def new
 		@film = Film.new
-		@page_name = " - New Film"
+		@page_name = 'New Film'
 		render :edit
 	end
 	
@@ -55,15 +55,15 @@ class FilmsController < ApplicationController
 	
 	#TODO: Prompt them on submit if they are altering showtimes or something
 	def edit
-		@page_name = " - Edit Film"
+		@page_name = 'Edit Film'
 	end
 
 	def edit_people
-		@page_name = " - Edit Film"
+		@page_name = 'Edit Film'
 	end
 
 	def edit_files
-		@page_name = " - Edit Film"
+		@page_name = 'Edit Film'
 		
 		s3 = AWS::S3.new
    		s3_bucket = s3.buckets['yfa-dev']
