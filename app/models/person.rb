@@ -1,26 +1,30 @@
 class Person < ActiveRecord::Base	
 	require 'net/ldap'
 
-	has_many :film_positions, :dependent => :destroy
-	has_many :permissions, :dependent => :delete_all
-	has_many :auditions, :dependent => :nullify
-	has_many :takeover_requests, :dependent => :destroy #Outgoing requests, incoming are invisible
-	has_attached_file :picture, 
-				:styles => { :medium => ["400x400>", :jpg], :thumb => ["150x150>", :jpg] },
-				:storage => :s3,
-     		:s3_credentials => "#{Rails.root}/config/aws.yml",
-    		:path => "/people/:id/picture/:style/:filename"
-	
-	# TODO: Write a custom typo/distance algo and something else for nicknames
+  has_many :film_positions, :dependent => :destroy
+  has_many :permissions, :dependent => :delete_all
+  has_many :auditions, :dependent => :nullify
+  has_many :takeover_requests, :dependent => :destroy #Outgoing requests, incoming are invisible
+  has_attached_file :picture, 
+        :styles => { :medium => ["400x400>", :jpg], :thumb => ["150x150>", :jpg] },
+        :storage => :s3,
+        :s3_credentials => "#{Rails.root}/config/aws.yml",
+        :path => "/people/:id/picture/:style/:filename"
+  
+  # TODO: Write a custom typo/distance algo and something else for nicknames
   # TODO: maybe allow a password for when they are gone? But we always have CAS right?
-	
-	attr_accessible :fname, :lname, :email, :year, :college, :bio, :email_allow, :picture
-	
+  
+  attr_accessible :fname, :lname, :email, :year, :college, :bio, :email_allow, :picture
+  attr_accessible :active, :site_admin, :netid if Rails.env.development?
+  
   validates :fname, :lname, :presence => true
-	validates :year, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1970, :less_than_or_equal_to => Time.now.year + 8 }, :allow_nil => true
-	validates :college, :inclusion => { :in => YALE_COLLEGES.flatten }, :allow_nil => true
-	validates_format_of :email, :with => /^$|\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i,
+  validates :year, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1970, :less_than_or_equal_to => Time.now.year + 8 }, :allow_nil => true
+  validates :college, :inclusion => { :in => YALE_COLLEGES.flatten }, :allow_nil => true
+  validates_format_of :email, :with => /^$|\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i,
                               :message => "Must enter a valid email address."
+
+  extend FriendlyId
+  friendly_id :name, use: :slugged
 
 	def display_name
 		self.fname + " " + self.lname
@@ -36,7 +40,7 @@ class Person < ActiveRecord::Base
 		if(self.permissions.detect{|perm| perm.film_id == film_id && (any || perm.level == :full || perm.level == type)})
 			true
 		else
-			false #TODO: Maybe auto redirect to login?
+			false
 		end
 	end
 	
@@ -55,8 +59,8 @@ class Person < ActiveRecord::Base
   end
   
   def site_admin?
-  	["cpc2","sbt3","ebb37","jas24","nat2","iag6","sbr25" ,"dereks"].include? self.netid #netIDs of current site admins
-    #[Charlie Croom, Stuart Teal, Eli Block, Jared Shenson, Nikki Teran, Isabella Giovannini, Skyler Ross]
+    # netIDs of current site admins
+    ["cmi1"].include? self.netid
   end
   
   def needs_registration?

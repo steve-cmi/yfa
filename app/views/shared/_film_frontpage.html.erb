@@ -24,10 +24,7 @@
 
 <% end %>
 		<p data-field="film_title" class="title"><%= link_to film.title, best_link(film) unless film.id.blank? %></p>
-		<p data-field="film_writer"><%= film.writer %></p>
-
 		<p><span data-field="film_showtimes"><%= format_long_rundates(film) %></span><br />
-		@ <span data-field="film_location"><%= film.location %></span></p>
 		<a class="btn btn-primary" href="<%= best_link(film) %>">
 			<i class="icon-arrow-right icon-white"></i>
 			Details

@@ -1,78 +1,61 @@
-class Film < ActiveRecord::Base	
+class Film < ActiveRecord::Base
+
 	has_many :showtimes, :dependent => :destroy, :order => "timestamp ASC"
 	has_many :film_positions, :dependent => :delete_all, :include => :person
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :destroy
+
 	has_attached_file :poster, :styles => { :medium => "480x400>", :thumb => "150x150>" },				
 				:storage => :s3,
      		:s3_credentials => "#{Rails.root}/config/aws.yml",
     		:path => "/films/:id/poster/:style/:filename"
 	
-	has_many :directors, :class_name => :FilmPosition, :conditions => {:position_id => 1, :assistant => nil}, :include => :person
-	
-	default_scope :include => :showtimes
 	default_scope where(:approved => true)
 	
-	#TODO: after_update :expire_caches
-	#TODO: Make some scopes to get basic information only
-	
-	attr_accessible :category, :title, :writer, :tagline, :location, :url_key, :contact, :description, :poster, :accent_color, :flickr_id
-	attr_accessible :auditions_enabled, :aud_info
+	attr_accessible :category, :title, :tagline, :url_key, :contact, :description, :poster, :accent_color, :flickr_id
+	attr_accessible :auditions_enabled, :aud_info, :start_date, :end_date
 	attr_accessible :showtimes_attributes, :film_positions_attributes, :permissions_attributes
+	attr_accessible :directors if Rails.env.development?
 	accepts_nested_attributes_for :showtimes, :allow_destroy => true
 	accepts_nested_attributes_for :film_positions, :allow_destroy => true
 	accepts_nested_attributes_for :permissions, :allow_destroy => true
 	
 	# Ensure unique slug
-	validates :category, :title, :writer, :location, :contact, :presence, :description, :presence => true, :unless => Proc.new { |s| s.id && s.id < 550 }
 	validates_format_of :url_key, :with => /\A[a-z0-9_]+\Z/i, :message => "The url key should contain only letters and numbers", :allow_blank => true
 	validates_uniqueness_of :url_key, :allow_blank => true, :case_sensitive => false, :message => "Sorry, the desired url is already taken. Please try another!"
-	validates_columns :category
+
+	validates :category, :title, :contact, :description, :start_date, :end_date, :presence => true
 	validates :contact, :email_format => true
-	validates :showtimes, :length => { :minimum => 1, :too_short => "needs to have at least 1 showtime given" }
+	validates_columns :category
+
+	extend FriendlyId
+	friendly_id :title, use: :slugged
 
 	after_update :check_to_notify_changes
-	
+
+	delegate :directors, :actors, :writers, :cast, :crew, :to => :film_positions
+
+	def director
+		directors.first.person
+	end
+
+	scope :by_date, order(:start_date, :end_date)
 	
 	def self.films_in_range(range)
-		# TODO: verify hotfix to handle films which aren't approved yet
 		Film.where(:id => Showtime.select(:film_id).where(:timestamp => range))
 	end
-	
-	def director
-		Rails.cache.fetch 'film-directors-' + self.id.to_s do
-			peeps = self.directors.map{|sp| sp.person ? sp.person.display_name : nil}.compact
-			if peeps.length > 1
-				peeps[0..-2].join(", ") + " and " + peeps[-1]
-			else
-				peeps.first.to_s
-			end
-		end
-	end
 
-	def bust_director_cache
-		Rails.cache.delete 'film-directors-' + self.id.to_s
-	end
-	
 	def poster_ratio
-		return nil unless self.poster.exists?
-		self.poster.width(:medium).to_f / self.poster.height(:medium).to_f
-	end
-
-	def cast
-		self.film_positions.select {|sp| sp.position_id == 17 && !sp.character.blank?}
-	end
-	
-	def crew
-		self.film_positions.select {|sp| sp.position_id != 17 && sp.person}
+		return nil unless poster.exists?
+		poster.width(:medium).to_f / poster.height(:medium).to_f
 	end
 
 	def has_opportunities?
-		!!self.film_positions.detect {|sp| sp.position_id != 17 && !sp.person_id}
+		film_positions.cast.vacant.any?
 	end
 	
 	def has_future_auditions?
-	   self.auditions.where(["`timestamp` > ?", Time.now]).count > 0
+	  auditions.where(["`timestamp` > ?", Time.now]).count > 0
 	end
 	
 	# All films till the next Sunday
@@ -143,10 +126,6 @@ class Film < ActiveRecord::Base
 
 	def check_to_notify_changes
 		# NOTE: DOESN'T COVER NESTED ATTRIBUTES. Those are handled on the respective models
-		if self.location_changed? && self.approved
-			# Let OUP know
-			FilmMailer.film_changed_email(self, { "location"=> self.location_change }).deliver
-		end
 		if self.approved_changed? && self.approved
 			# Send OUP a note about the new film. Maybe send the film a note too!
 			FilmMailer.film_approved_email(self).deliver

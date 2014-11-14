@@ -10,11 +10,6 @@
 		<h4>
 			<%= link_to_film_title film %>
 		</h4>
-		<p class="film-writer">by <%= film.writer %></p>
-		<p><%= format_long_rundates(film) %>
-    		<% if !film.location.blank? %>
-    		  <br />@ <%= film.location %>
-    		<% end %>
-		</p>
+		<p><%= format_long_rundates(film) %></p>
 	</div>
 </div>

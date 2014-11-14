@@ -1,64 +1,50 @@
 class FilmPosition < ActiveRecord::Base
+
 	belongs_to :film
 	belongs_to :person
 	belongs_to :position
-	after_create :recache_director
-	after_update :recache_director
+
+	acts_as_list :column => :listing_order, :scope => :film
+
 	after_update :cleanup_person, :if => proc {|sp| sp.person_id_was != sp.person_id }
-	after_destroy :recache_director
 	after_destroy :cleanup_person
+
+	scope :directors, where(:position_id => Position.director_id)
+	scope :actors, where(:position_id => Position.actor_id)
+	scope :writers, where(:position_id => Position.writer_id)
 	
-	validates :person, :character, :presence => true, :if => Proc.new { |sp| sp.position_id == 17 }
+	scope :crew, where(arel_table[:position_id].not_eq(Position.actor_id))
+	scope :cast, actors()
+	scope :not_vacant, where("person_id IS NOT NULL AND person_id != 0")
+	scope :vacant, where("person_id IS NULL OR person_id = 0")
+	scope :with_character, where("`character` IS NOT NULL AND `character` != ''")
+	scope :without_character, where("`character` IS NULL OR `character` = ''")
+
+	default_scope :order => "listing_order ASC, position_id ASC"
 	
-	scope :vacant, where(:person_id => nil)
-	scope :not_vacant, where("person_id IS NOT NULL && person_id != 0")
-	scope :crew, where("position_id != 17")
-	scope :cast, where("position_id = 17")
-	
-	default_scope :order => "listing_order ASC, assistant ASC, position_id ASC"
-	
-	def display_name
-		if self.cast?
-			self.character
-		else
-			self.assistant ? "#{self.assistant.to_s.capitalize} #{self.position.display_name}" : self.position.display_name
-		end
-	end
+	validates :person, :character, :presence => true, :if => :cast?
 	
 	def cast?
-		self.position_id == 17
+		position_id == 1
+	end
+	
+	def crew?
+		position_id != 1
+	end
+	
+	def display_name
+		cast? ? character : position.position
 	end
 	
 	private
 	
-	def recache_director
-		self.film.bust_director_cache if (self.position_id == 1 || self.position_id_was == 1) && self.film
-	end
-	
 	# TODO: verify this does what it's supposed to
 	def cleanup_old_person
-		self.person_was.destroy if self.person_was && self.person_was.film_positions.count == 0 && self.person_was.netid.blank?
+		person_was.destroy if person_was && person_was.film_positions.count == 0 && person_was.netid.blank?
 	end
 	
 	def cleanup_person
-		self.person.destroy if self.person && self.person.film_positions.count == 0 && self.person.netid.blank?
+		person.destroy if person && person.film_positions.count == 0 && person.netid.blank?
 	end
-
-	#### New code added by steve@commonmedia.com March 2013.
-
-	# Select positions for admin email_all
-	def self.primary
-		where('assistant IS NULL')
-	end
-
-	def self.producers
-		where(:position_id => 1)
-	end
-
-	def self.contacts
-		where(:position_id => [1,2,3])
-	end
-	
-	####
 	
 end

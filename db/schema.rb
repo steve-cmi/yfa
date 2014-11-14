@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141111152749) do
+ActiveRecord::Schema.define(:version => 20141114191405) do
+
+  create_table "announcements", :force => true do |t|
+    t.string   "title"
+    t.string   "body"
+    t.string   "link_text"
+    t.string   "link_url"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "auditions", :force => true do |t|
     t.integer   "film_id",                                                      :null => false
@@ -37,21 +46,33 @@ ActiveRecord::Schema.define(:version => 20141111152749) do
   add_index "board_positions", ["person_id"], :name => "index_board_positions_on_person_id"
   add_index "board_positions", ["year"], :name => "index_board_positions_on_year"
 
+  create_table "carousels", :force => true do |t|
+    t.string   "title"
+    t.string   "body"
+    t.string   "link"
+    t.boolean  "active",             :default => true
+    t.integer  "position"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+  end
+
   create_table "film_positions", :force => true do |t|
-    t.integer "film_id",                                           :null => false
-    t.integer "position_id",   :limit => 2,                        :null => false
+    t.integer "film_id",                    :null => false
+    t.integer "position_id",   :limit => 2, :null => false
     t.string  "character"
     t.integer "person_id"
-    t.enum    "assistant",     :limit => [:Associate, :Assistant]
     t.integer "listing_order"
   end
 
   create_table "films", :force => true do |t|
     t.enum     "category",              :limit => [:theater, :dance, :film, :comedy, :casting],                    :default => :theater, :null => false
     t.string   "title",                                                                                                                  :null => false
-    t.string   "writer",                                                                                                                 :null => false
+    t.string   "slug"
     t.string   "tagline"
-    t.string   "location",                                                                                                               :null => false
     t.string   "contact",                                                                                                                :null => false
     t.boolean  "auditions_enabled",                                                                                :default => false,    :null => false
     t.text     "aud_info"
@@ -63,8 +84,6 @@ ActiveRecord::Schema.define(:version => 20141111152749) do
     t.string   "url_key",               :limit => 25
     t.boolean  "archive",                                                                                          :default => true,     :null => false
     t.boolean  "archive_reminder_sent",                                                                            :default => false,    :null => false
-    t.text     "picture_meta"
-    t.string   "flickr_id"
     t.string   "poster_file_name"
     t.string   "poster_content_type"
     t.integer  "poster_file_size"
@@ -73,6 +92,8 @@ ActiveRecord::Schema.define(:version => 20141111152749) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.enum     "accent_color",          :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
+    t.date     "start_date"
+    t.date     "end_date"
   end
 
   create_table "news", :force => true do |t|
@@ -86,6 +107,7 @@ ActiveRecord::Schema.define(:version => 20141111152749) do
   create_table "people", :force => true do |t|
     t.string   "fname",                :limit => 50,                    :null => false
     t.string   "lname",                :limit => 50,                    :null => false
+    t.string   "slug"
     t.string   "email"
     t.integer  "year"
     t.string   "college"
@@ -119,6 +141,7 @@ ActiveRecord::Schema.define(:version => 20141111152749) do
 
   create_table "positions", :force => true do |t|
     t.string "position", :null => false
+    t.string "key"
   end
 
   create_table "showtimes", :force => true do |t|
@@ -128,6 +151,13 @@ ActiveRecord::Schema.define(:version => 20141111152749) do
   end
 
   add_index "showtimes", ["film_id"], :name => "show_index"
+
+  create_table "sites", :force => true do |t|
+    t.integer  "carousel_interval"
+    t.enum     "carousel_order",    :limit => [:date, :random]
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
+  end
 
   create_table "takeover_requests", :force => true do |t|
     t.integer  "person_id",                              :null => false

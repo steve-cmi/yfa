@@ -103,10 +103,8 @@
 										<td colspan="2" style="padding: 10px 0;">
 									<% end %>
 											<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
-											<strong>By:</strong> <%= film.writer %><br />
 											<%= film.tagline if !film.tagline.blank? %><%= raw "<br />" if !film.tagline.blank? %>
 											<strong>Directed By:</strong> <%= film.director %><br />
-											<strong>Place:</strong> <%= film.location %><br />
 											<% film.showtimes.each do |showtime| %>
 												<%= raw style_full_showtime(showtime.timestamp) %><br />
 											<% end %>
@@ -141,7 +139,6 @@
 							<tr>
 								<td width="40%" style="padding: 5px 0; vertical-align: top;">
 									<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
-									<strong>By:</strong> <%= film.writer %><br />
 									<strong>Show Dates:</strong> <%= format_showtimes(film.showtimes) %><br />
 									<strong>Directed By:</strong> <%= film.director %><br />
 								</td>
@@ -175,7 +172,6 @@
 					<h2>Auditions</h2>
 					<% @auditions.each do |film, auditions| %>
 						<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
-						<strong>By:</strong> <%= film.writer %><br />
 						<strong>Show Dates:</strong> <%= format_showtimes(film.showtimes) %><br />
 						<strong>Directed By:</strong> <%= film.director %><br />
 						<b>Audition Dates:</b> <%= format_showtimes auditions %><br />
