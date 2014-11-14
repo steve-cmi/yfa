@@ -4,6 +4,10 @@ class PagesController < ApplicationController
 	# The page users hit when they first visit in browser.
 	def index
 		@active_nav = :home
+		@site = Site.last
+		@carousels = Carousel.active.order_by(@site)
+		@upcoming_films = Film.by_date
+		@announcement = Announcement.last
 	end
 
 	# Static Pages
@@ -15,16 +19,6 @@ class PagesController < ApplicationController
 	def donate
 		@page_name = 'Donate'
 		@active_nav = :donate
-	end
-
-	# The parameter we recieve is the file that we want to render
-	def guides
-		# TODO: SHould probably NOINDEX these, or find a better way to get the data out and into the template
-		#Be careful with this as it could lead to bad things
-		@page_name = 'Resources'
-		@active_nav = :resources
-		@file = params[:static_file] + ".html"
-		raise ActiveRecord::RecordNotFound unless params[:static_file] =~ /\A[\w\-]+\Z/ && FileTest.exists?(Rails.root + "public/static_guides/" + @file)
 	end
 
 end

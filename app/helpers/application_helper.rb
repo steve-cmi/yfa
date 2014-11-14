@@ -1,5 +1,18 @@
 module ApplicationHelper
 
+  def smart_date(date)
+    today = Date.today
+    if date == today
+      'Today'
+    elsif date == today - 1
+      'Yesterday'
+    elsif date.year == today.year
+      date.strftime('%a %b %-d')
+    else
+      date.strftime('%b %-d %Y')
+    end
+  end
+
 	# Expects ordered showtime array, this is usually handled by the model
 	def format_showtimes(array)
 		start = array.first.timestamp

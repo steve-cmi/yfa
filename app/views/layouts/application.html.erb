@@ -22,7 +22,7 @@
 
 <body <%= yield :body_tag_content %>>
 
-  <div class="navbar navbar-default">
+  <div class="layout navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -89,8 +89,10 @@
 		<%= yield %>
 	</div>
 
-	<div class="container">
-    &copy; <%= Date.today.year %> <a href="mailto:<%= YFA_EMAIL %>">Yale Film Alliance</a>
+	<div class="container-fluid layout footer">
+    <div class="container">
+      &copy; <%= Date.today.year %> <a href="mailto:<%= YFA_EMAIL %>">Yale Film Alliance</a>
+    </div>
 	</div>
 
   <%= render "shared/google_analytics" if defined?(GA_ACCOUNT) %>
