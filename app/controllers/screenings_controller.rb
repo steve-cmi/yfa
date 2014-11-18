@@ -1,4 +1,4 @@
-class ShowtimesController < ApplicationController  
+class ScreeningsController < ApplicationController  
 	
 	before_filter :fetch_film
 	
@@ -6,7 +6,7 @@ class ShowtimesController < ApplicationController
 	end
 	
 	def show
-		@showtime = @film.showtimes.find(params[:id])
+		@screening = @film.screenings.find(params[:id])
 	end
 
 	private

@@ -40,9 +40,9 @@
 
 <div class="row">
 	<div class="span4 offset2 performances lg">
-		<h5>Showtimes</h5>
-		<% @film.showtimes.each do |showtime| %>
-			<%= raw style_full_showtime(showtime.timestamp) %><br />
+		<h5>Screenings</h5>
+		<% @film.screenings.each do |screening| %>
+			<%= raw style_full_screening(screening.timestamp) %><br />
 		<% end %>
 	</div>
 </div>

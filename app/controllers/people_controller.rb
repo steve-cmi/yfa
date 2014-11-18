@@ -9,13 +9,13 @@ class PeopleController < ApplicationController
 		#TODO: SHould we cache people's public profiles?
 		#TODO: Should admins be able to edit?
 		@page_name = @person.display_name
-		@film_positions = @person.film_positions.includes({:film => :showtimes},:position).where(:film_id => Film.unscoped.on_people_page)
-		@film_positions = @film_positions.select{|sp| sp.film}.sort_by{|sp| sp.film.showtimes.first.timestamp}.reverse
+		@film_positions = @person.film_positions.includes({:film => :screenings},:position).where(:film_id => Film.unscoped.on_people_page)
+		@film_positions = @film_positions.select{|sp| sp.film}.sort_by{|sp| sp.film.screenings.first.timestamp}.reverse
 	end
 	
 	def dashboard
 		#Determine type of user dashboard to film
-		@films = Film.unscoped.includes(:showtimes).find(@current_user.permissions.map(&:film_id))
+		@films = Film.unscoped.includes(:screenings).find(@current_user.permissions.map(&:film_id))
 		@permission_map = @current_user.permissions.group_by(&:film_id)
 		
 		#TODO: Could probably optimize this

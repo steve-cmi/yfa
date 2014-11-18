@@ -24,14 +24,14 @@ function add_fields(trigger_obj, association, content) {
 	// Manual hack for the first run
   if($(trigger_obj).is("a")) {
   	$(trigger_obj).parent().after($content);
-  	if(association == "showtimes")
+  	if(association == "screenings")
   		datify($(trigger_obj).parent().next());
   	$(trigger_obj).parent().remove();
   } else {
   	$(trigger_obj).after($content);
   }
   
-  if(association == "showtimes")
+  if(association == "screenings")
   	datify($(trigger_obj).next());
   if(association == "film_positions" || association == "permissions")
   	hookupPersonAutoComplete();

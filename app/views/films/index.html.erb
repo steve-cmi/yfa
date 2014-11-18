@@ -4,7 +4,7 @@
 
 <% content_for :head do %>
 	<script>
-	  var film_showtimes = <%= raw @showtime_data.to_json %>;
+	  var film_screenings = <%= raw @screening_data.to_json %>;
 	  $(document).ready(function(){ 	
 	   	// Initialize lazyload on films#index
     	$(".films.index .film-listing img.lazy").lazyload({

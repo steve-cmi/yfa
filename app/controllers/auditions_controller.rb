@@ -18,8 +18,8 @@ class AuditionsController < ApplicationController
 	# ^ TODO: Auto-prune old films with vacant positions so they don't end up clogging this query
 	def opportunities
 		@active_nav = :opportunities
-		@opportunities = FilmPosition.crew.vacant.includes({:film => :showtimes}, :position).where(:film_id => Showtime.future.select(:film_id))
-		@opportunities.select!{|o| o.film && o.film.showtimes.first.timestamp > Time.now }
+		@opportunities = FilmPosition.crew.vacant.includes({:film => :screenings}, :position).where(:film_id => Screening.future.select(:film_id))
+		@opportunities.select!{|o| o.film && o.film.screenings.first.timestamp > Time.now }
 		@opportunities = @opportunities.group_by(&:display_name)
 		# TODO: Replace film.contact with the email of the producer?
 	end

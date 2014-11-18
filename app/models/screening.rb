@@ -1,16 +1,16 @@
-class Showtime < ActiveRecord::Base	
+class Screening < ActiveRecord::Base	
 	belongs_to :film
 	
 	after_create :notify_oup
 	after_update :notify_oup
-	before_destroy :prevent_last_showtime_deletion
+	before_destroy :prevent_last_screening_deletion
 	
-	def prevent_last_showtime_deletion
-		return false if self.film && self.film.showtimes.count == 1
+	def prevent_last_screening_deletion
+		return false if self.film && self.film.screenings.count == 1
 	end
 
 	def self.future
-		where(["showtimes.timestamp >= ?",Time.now])
+		where(["screenings.timestamp >= ?",Time.now])
 	end
 	
 	# hack helper...don't use this, use application_helper instead
@@ -21,12 +21,12 @@ class Showtime < ActiveRecord::Base
 	def notify_oup
 		return unless self.timestamp_changed?
 		@film = self.film rescue nil # will error if film can't be found, meaning not approved
-		ShowtimeMailer.notify_oup_email(@film,self).deliver if @film && @film.approved		
+		ScreeningMailer.notify_oup_email(@film,self).deliver if @film && @film.approved		
 	end
 	
 	#### New code added by steve@commonmedia.com March 2013.
 
-	# Find showtimes by semester and academic year.
+	# Find screenings by semester and academic year.
 	YEAR_START_MONTH = 8 # August is in the second semester, July is in the first
 
 	def self.semester_start

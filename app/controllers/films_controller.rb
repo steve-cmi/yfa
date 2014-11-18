@@ -14,8 +14,8 @@ class FilmsController < ApplicationController
 		@films = Film.on_film_page.future
 		@this_week = @films.select{|s| s.this_week?}
 
-		@showtime_data = {}
-		@this_week.each {|film| @showtime_data[film.id] = film.showtimes.map {|st| {:id => st.id, :text => st.short_display_time, :cap => film.cap}}}
+		@screening_data = {}
+		@this_week.each {|film| @screening_data[film.id] = film.screenings.map {|st| {:id => st.id, :text => st.short_display_time, :cap => film.cap}}}
 
 		@this_semester = (@films - @this_week).select{|s| s.this_semester?}
 		@other = @films - @this_week - @this_semester
@@ -53,7 +53,7 @@ class FilmsController < ApplicationController
 		update
 	end
 	
-	#TODO: Prompt them on submit if they are altering showtimes or something
+	#TODO: Prompt them on submit if they are altering screenings or something
 	def edit
 		@page_name = 'Edit Film'
 	end
@@ -96,24 +96,24 @@ class FilmsController < ApplicationController
 			return
 		end
 		
-		#Process showtimes to timestamps
-		if params[:film][:showtimes_attributes].blank? && @film.showtimes.count == 0
+		#Process screenings to timestamps
+		if params[:film][:screenings_attributes].blank? && @film.screenings.count == 0
 			@film = Film.new
-			render :action => "edit", :notice => 'You must give at least one showtime'
+			render :action => "edit", :notice => 'You must give at least one screening'
 			return
 		end
-		if params[:film][:showtimes_attributes]
-			params[:film][:showtimes_attributes].each do |key,obj| 
+		if params[:film][:screenings_attributes]
+			params[:film][:screenings_attributes].each do |key,obj| 
 				# Remove it if it doesn't have the needed fields
 				if obj[:date].blank? || obj[:time].blank?
-					params[:film][:showtimes_attributes].delete(key) 
+					params[:film][:screenings_attributes].delete(key) 
 					next
 				end
 
 				# Format the date properly into a time object and use the current server TS to get UTC offset they meant
 				that_date =  DateTime.strptime("#{obj[:date]} #{obj[:time]}", '%m/%d/%Y %l:%M%P')
 				obj = { :id => obj[:id], :timestamp => Time.find_zone('Eastern Time (US & Canada)').local(that_date.year, that_date.month, that_date.day, that_date.hour, that_date.minute), :_destroy => obj[:_destroy] }
-				params[:film][:showtimes_attributes][key] = obj	
+				params[:film][:screenings_attributes][key] = obj	
 			end
 		end
 		

@@ -1,6 +1,6 @@
 class Film < ActiveRecord::Base
 
-	has_many :showtimes, :dependent => :destroy, :order => "timestamp ASC"
+	has_many :screenings, :dependent => :destroy, :order => "timestamp ASC"
 	has_many :film_positions, :dependent => :delete_all, :include => :person
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :destroy
@@ -16,9 +16,9 @@ class Film < ActiveRecord::Base
 	
 	attr_accessible :category, :title, :tagline, :url_key, :contact, :description, :poster, :accent_color, :flickr_id
 	attr_accessible :auditions_enabled, :aud_info, :start_date, :end_date
-	attr_accessible :showtimes_attributes, :film_positions_attributes, :permissions_attributes
+	attr_accessible :screenings_attributes, :film_positions_attributes, :permissions_attributes
 	attr_accessible :directors if Rails.env.development?
-	accepts_nested_attributes_for :showtimes, :allow_destroy => true
+	accepts_nested_attributes_for :screenings, :allow_destroy => true
 	accepts_nested_attributes_for :film_positions, :allow_destroy => true
 	accepts_nested_attributes_for :permissions, :allow_destroy => true
 	
@@ -44,7 +44,7 @@ class Film < ActiveRecord::Base
 	scope :by_date, order(:start_date, :end_date)
 	
 	def self.films_in_range(range)
-		Film.where(:id => Showtime.select(:film_id).where(:timestamp => range))
+		Film.where(:id => Screening.select(:film_id).where(:timestamp => range))
 	end
 
 	def poster_ratio
@@ -70,20 +70,20 @@ class Film < ActiveRecord::Base
 	
 	# All films which haven't yet closed
 	def self.future
-		self.joins(:showtimes).where(["showtimes.timestamp >= ?",Time.now]).order("showtimes.timestamp")
+		self.joins(:screenings).where(["screenings.timestamp >= ?",Time.now]).order("screenings.timestamp")
 	end
 
 	def has_opened?
-		self.showtimes.sort_by{|st| st.timestamp}.first.timestamp.to_time >= Time.now
+		self.screenings.sort_by{|st| st.timestamp}.first.timestamp.to_time >= Time.now
 	end
 	
 	def has_closed?
-		self.showtimes.sort_by{|st| st.timestamp}.last.timestamp.to_time < Time.now
+		self.screenings.sort_by{|st| st.timestamp}.last.timestamp.to_time < Time.now
 	end
 	
-	# Get the OCI term of the film's first showtime, can help for categorizing
+	# Get the OCI term of the film's first screening, can help for categorizing
 	def semester
-		return nil unless self.showtimes.first
+		return nil unless self.screenings.first
 		opens = self.open_date
 		if(opens.month < 7)
 			opens.year.to_s + "01"
@@ -93,7 +93,7 @@ class Film < ActiveRecord::Base
 	end
 
 	def open_date
-		self.showtimes.first.timestamp
+		self.screenings.first.timestamp
 	end
 	
 	# Helper for figuring out if it's this academic semester.
@@ -116,7 +116,7 @@ class Film < ActiveRecord::Base
 	def this_week?
 		range = (Time.now .. Time.now.sunday)
 		range = (Time.now .. Time.now.next_week) if(Time.now.sunday?)
-		self.showtimes.detect{ |st| range.cover? st.timestamp }
+		self.screenings.detect{ |st| range.cover? st.timestamp }
 	end
 	
 	def self.films_in_term(oci_term)
@@ -173,15 +173,15 @@ class Film < ActiveRecord::Base
 	# Find films by semester and academic year.
 	def self.upcoming
 		# not reusing self.future because joins break subqueries
-		where(:id => Showtime.select(:film_id).upcoming)
+		where(:id => Screening.select(:film_id).upcoming)
 	end
 
 	def self.this_semester
-		where(:id => Showtime.select(:film_id).this_semester)
+		where(:id => Screening.select(:film_id).this_semester)
 	end
 
 	def self.this_year
-		where(:id => Showtime.select(:film_id).this_year)
+		where(:id => Screening.select(:film_id).this_year)
 	end
 
 	####

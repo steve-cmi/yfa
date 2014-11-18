@@ -2,7 +2,7 @@
 <% @films.each do |film,auditions| %>
 	<div class="film">
 		<%= render :partial => "shared/film_listing", :locals => {:film => film} %><br />
-		<strong>Auditions:</strong> <%= format_showtimes(film.auditions) %><br />
+		<strong>Auditions:</strong> <%= format_screenings(film.auditions) %><br />
 		Slots available: <%= "#{auditions.select{|a| a.person_id == nil}.count} / #{auditions.count}" %><br />
 		<%= link_to "Signup Here", film_auditions_path(film) %>
 	</div>

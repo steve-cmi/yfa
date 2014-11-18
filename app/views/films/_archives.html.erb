@@ -1,6 +1,6 @@
 <% 
 	# This is bad to put logic in a view...
-	film = Film.where(:archive => true).films_in_term(term).select(&:has_closed?).sort_by{|film| film.showtimes.first.timestamp}
+	film = Film.where(:archive => true).films_in_term(term).select(&:has_closed?).sort_by{|film| film.screenings.first.timestamp}
 %>
 
 <% if film.any? %>

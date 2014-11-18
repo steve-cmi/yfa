@@ -23,8 +23,8 @@ module ApplicationHelper
     end
   end
 
-	# Expects ordered showtime array, this is usually handled by the model
-	def format_showtimes(array)
+	# Expects ordered screening array, this is usually handled by the model
+	def format_screenings(array)
 		start = array.first.timestamp
 		stop = array.last.timestamp
 		if start.month == stop.month && start.day == stop.day
@@ -40,13 +40,13 @@ module ApplicationHelper
 		str.html_safe
 	end
 	
-	def format_showtime_full(timestamp)
+	def format_screening_full(timestamp)
 		timestamp.strftime("%B %-d at %-l:%M%P")
 	end
 	
-	def style_full_showtime(timestamp)
+	def style_full_screening(timestamp)
 	    @is_next ||= false
-	    fs = format_showtime_full(timestamp)
+	    fs = format_screening_full(timestamp)
 	    cl = (timestamp < Time.now) ? "performances-past" : ""
 	    if timestamp > Time.now && !@is_next
 	       @is_next = true
@@ -56,10 +56,10 @@ module ApplicationHelper
 	end
 	
 	def format_long_rundates(film)
-		return "" unless film.showtimes.length > 0
-		showtimes = film.showtimes.sort_by{|st| st.timestamp}
-		start = showtimes.first.timestamp
-		stop = showtimes.last.timestamp
+		return "" unless film.screenings.length > 0
+		screenings = film.screenings.sort_by{|st| st.timestamp}
+		start = screenings.first.timestamp
+		stop = screenings.last.timestamp
 		if start.month == stop.month && start.day == stop.day
 			str = start.strftime("%b %-d, %Y")
 		elsif start.month == stop.month

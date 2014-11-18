@@ -1,0 +1,12 @@
+One of the screenings for <%= @film.title %> has been altered, we thought you'd want to know:
+
+NOTE: Blanks for old imply that this is a new screening. Blanks for new imply deletion
+
+<% @screening.changes.each do |attribute, values| %>
+Attribute: <%= attribute %>
+Old Value: <%= values.first %>
+New Value: <%= values.last %>
+
+<% end %>
+Thanks!
+YFA

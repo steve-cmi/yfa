@@ -105,8 +105,8 @@
 											<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
 											<%= film.tagline if !film.tagline.blank? %><%= raw "<br />" if !film.tagline.blank? %>
 											<strong>Directed By:</strong> <%= film.director %><br />
-											<% film.showtimes.each do |showtime| %>
-												<%= raw style_full_showtime(showtime.timestamp) %><br />
+											<% film.screenings.each do |screening| %>
+												<%= raw style_full_screening(screening.timestamp) %><br />
 											<% end %>
 											</td>
 								</tr>
@@ -139,7 +139,7 @@
 							<tr>
 								<td width="40%" style="padding: 5px 0; vertical-align: top;">
 									<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
-									<strong>Show Dates:</strong> <%= format_showtimes(film.showtimes) %><br />
+									<strong>Show Dates:</strong> <%= format_screenings(film.screenings) %><br />
 									<strong>Directed By:</strong> <%= film.director %><br />
 								</td>
 								<% if ops.length > 5 %>
@@ -172,9 +172,9 @@
 					<h2>Auditions</h2>
 					<% @auditions.each do |film, auditions| %>
 						<strong><%= link_to film.title, best_link(film, true), :class => 'title' %></strong><br />
-						<strong>Show Dates:</strong> <%= format_showtimes(film.showtimes) %><br />
+						<strong>Show Dates:</strong> <%= format_screenings(film.screenings) %><br />
 						<strong>Directed By:</strong> <%= film.director %><br />
-						<b>Audition Dates:</b> <%= format_showtimes auditions %><br />
+						<b>Audition Dates:</b> <%= format_screenings auditions %><br />
 						<b>Audition Signup:</b> <%= link_to auditions.select{|a| !a.person_id}.count.to_s + " Slots Available", film_auditions_url(film) %><br /><br />
 					<% end %>
 					<!--END AUDITIONS-->

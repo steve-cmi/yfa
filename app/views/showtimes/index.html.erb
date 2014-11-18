@@ -1,8 +1,0 @@
-<div class="title"><%= @show.title %></div>
-<br />
-<b>Showtimes:</b><br />
-<% @show.showtimes.each do |showtime| %>
-	<p>
-	 <b><%= link_to full_timestamp(showtime.timestamp), [@show,showtime] %></b>
-  </p>
-<% end %>

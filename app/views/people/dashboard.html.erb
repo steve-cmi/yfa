@@ -55,7 +55,7 @@
 				<% @films.each do |s| %>
 				<tr>
 					<td><%= link_to s.title, s %><%= " (Pending)" unless s.approved %></td>
-					<td><%= s.showtimes.first.timestamp.strftime("%b %d %Y") %></td>
+					<td><%= s.screenings.first.timestamp.strftime("%b %d %Y") %></td>
 					<td><%= @permission_map[s.id].map{|p| p.level.to_s.capitalize}.join(",") %></td>
 					<td>
 						<%= link_to "Film Dashboard", film_dashboard_path(s) %>

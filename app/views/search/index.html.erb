@@ -36,7 +36,7 @@ Please choose something to search for:<br />
 	<h4>Film Results:</h4><br />
 	<table>
 		<tr><th>Film Name</th><th>Dates</th></tr>
-		<% @films.sort_by{|s| s.showtimes.first.timestamp}.each do |s| %>
+		<% @films.sort_by{|s| s.screenings.first.timestamp}.each do |s| %>
 			<tr><td><%= link_to s.title, best_link(s) %></td><td><%= format_long_rundates(s) %></td></tr>
 		<% end %>
 	</table>
@@ -46,7 +46,7 @@ Please choose something to search for:<br />
 	<table>
 		<tr><th width="25%">Person</th><th width="40%">Film Name</th><th width="35%">Dates</th></tr>
 		<% @people.group_by(&:person_id).each do |person_id,arr| %>
-			<% arr.select{|sp| sp.film}.sort_by{|sp| sp.film.showtimes.first.timestamp}.reverse.each_with_index do |sp,i| %>
+			<% arr.select{|sp| sp.film}.sort_by{|sp| sp.film.screenings.first.timestamp}.reverse.each_with_index do |sp,i| %>
 				<% next unless sp.film %>
 				<tr><td><%= link_to sp.person.display_name, sp.person if i == 0 %></td><td><%= link_to sp.film.title, best_link(sp.film) %></td><td><%= format_long_rundates(sp.film) %></td></tr>
 			<% end %>

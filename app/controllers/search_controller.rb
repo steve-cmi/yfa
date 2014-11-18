@@ -17,7 +17,7 @@ class SearchController < ApplicationController
 		
 		# Prefilter the films by date if given, needed speed optimization
 		if !params[:start].blank? || !params[:end].blank?
-			film_ids = Showtime.uniq.where(:timestamp => (start..stop)).pluck(:film_id)
+			film_ids = Screening.uniq.where(:timestamp => (start..stop)).pluck(:film_id)
 		end
 		
 		@people1 = []

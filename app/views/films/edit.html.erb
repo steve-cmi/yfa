@@ -65,11 +65,11 @@
 			<p>Fill in what you know, but we'll need at least one date and time to get started</p>
 
 			<%= f.text_field :location, :class => "required", :placeholder => "Location", :validate => true %><br />
-	  	    <ol class="showtimes">
-				<%= f.fields_for :showtimes do |builder| %>
-					<%= render 'showtime_fields', :f => builder %>
+	  	    <ol class="screenings">
+				<%= f.fields_for :screenings do |builder| %>
+					<%= render 'screening_fields', :f => builder %>
 				<% end %>
-				<li><%= link_to_add_fields "Add Filmtime", f, :showtimes %></li>
+				<li><%= link_to_add_fields "Add Filmtime", f, :screenings %></li>
 			</ol>
 
 			<hr />
