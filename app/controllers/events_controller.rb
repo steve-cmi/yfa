@@ -2,7 +2,7 @@ class EventsController < ApplicationController
 
   def index
     @scopes = [:day, :week, :month]
-    @scope = params[:scope].to_sym || :week
+    @scope = (params[:scope] || :week).to_sym
 
     @filters = Filter.by_position
     @filter = Filter.find_by_slug(params[:filter])
