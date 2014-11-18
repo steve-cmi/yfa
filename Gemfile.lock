@@ -101,6 +101,8 @@ GEM
     paperclip-meta (1.1.0)
       paperclip (>= 3.0.2, < 5.0)
     polyglot (0.3.5)
+    quiet_assets (1.0.3)
+      railties (>= 3.1, < 5.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -176,6 +178,7 @@ DEPENDENCIES
   net-ldap
   paperclip
   paperclip-meta
+  quiet_assets
   rails (~> 3.2.0)
   rubycas-client
   sass-rails (~> 3.2.3)

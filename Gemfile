@@ -19,7 +19,7 @@ gem 'jquery-ui-rails'
 gem 'net-ldap'
 gem 'paperclip'
 gem 'paperclip-meta'
-# gem 'quiet_assets', :group => :development
+gem 'quiet_assets', :group => :development
 # gem 'rails-settings-cached'
 # gem 'remotipart'
 # gem 'ri_cal'
