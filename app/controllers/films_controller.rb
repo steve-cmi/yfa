@@ -8,7 +8,7 @@ class FilmsController < ApplicationController
 	
 	# upcoming films, grouped by week, semester, others
 	def index
-		@active_nav = :calendar
+		@active_nav = :films
 		@page_name = 'Upcoming Films'
 		
 		@films = Film.on_film_page.future
@@ -24,7 +24,7 @@ class FilmsController < ApplicationController
 	def show
 		# Do something with @film?
 		#redirect_to root_url
-		@active_nav = :calendar
+		@active_nav = :films
 		@page_name = @film.title
 		s3 = AWS::S3.new
 	   	s3_bucket = s3.buckets['yfa-dev']

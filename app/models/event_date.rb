@@ -29,7 +29,29 @@ class EventDate < ActiveRecord::Base
   end
 
   def self.featured
-    uniq.joins(:event).where('`events`.`featured` IS TRUE')
+    uniq.joins(:event).where(events: {featured: true})
+  end
+
+  def self.filtered_by(filter)
+    uniq.joins(:event => :events_filters).where(events_filters: {filter_id: filter.id})
+  end
+
+  def self.this_week
+    start_time = Date.today.beginning_of_week
+    end_time = start_time.next_week
+    where(:starts_at => start_time..end_time)
+  end
+
+  def self.this_month
+    start_time = Date.today.beginning_of_month
+    end_time = start_time.next_month
+    where(:starts_at => start_time..end_time)
+  end
+
+  def self.this_day
+    start_time = Date.today
+    end_time = Date.tomorrow
+    where(:starts_at => start_time..end_time)
   end
 
 end

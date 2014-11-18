@@ -1,0 +1,50 @@
+<h1>Calendar</h1>
+
+<div id="controls" class="row">
+  <form class="form-inline" role="form">
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-<%= @scope == :day ? :primary : :link %>" name="scope" value="day">Day</button>
+      <button type="submit" class="btn btn-<%= @scope == :week ? :primary : :link %>" name="scope" value="week">Week</button>
+      <button type="submit" class="btn btn-<%= @scope == :month ? :primary : :link %>" name="scope" value="month">Month</button>
+    </div>
+
+    <div class="col=md-9">
+      <%= select_tag "filter", options_from_collection_for_select(@filters, "slug", "name", params[:filter]), prompt: 'Event type', class: 'form-control' %>
+      <button type="submit" class="btn btn-default" name="scope" value="<%= @scope %>">Filter</button>
+    </div>
+  </form>
+</div>
+
+<% if @dates.empty? -%>
+<div class="date row">
+  <h4>
+    There are no
+    <%= @filter ? @filter.name : 'events of any type' %> listed
+    <%= @scope == :day ? 'for today' : "this #{@scope}" %>
+  </h4>
+</div>
+
+<% else -%>
+  <% @dates.group_by(&:date).each do |date, dates| -%>
+  <h3><%= smart_date date, :long %></h3>
+  <div class="date row">
+    <% dates.each do |date| -%>
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-5 image text-center">
+            <%= image_tag date.event.image.url(:homepage) -%>
+          </div>
+          <div class="col-md-7 info">
+            <%= link_to date.event.name, "" %><br />
+            <%= smart_time date.starts_at %> -
+            <%= smart_time date.ends_at %><br />
+            <%= date.event.location %><br />
+            <%= link_to_building date.event.building %>
+          </div>
+        </div>
+      </div>
+    <% end -%>
+  </div>
+  <% end -%>
+
+<% end -%>

@@ -50,8 +50,8 @@
 					<div class="col-md-8 info">
 						<%= link_to film.title, film %><br />
 						Directed By: <%= link_to film.director.name, film.director %><br />
-						<%= smart_date film.start_date %> through
-						<%= smart_date film.end_date %><br />
+						<%= smart_date film.start_date, :short %> through
+						<%= smart_date film.end_date, :short %><br />
 						<%= link_to "Opportunities", "" %> |
 						<%= link_to "Auditions", "" %>
 					</div>
@@ -96,7 +96,7 @@
 				<%= link_to_building @featured_event.event.building %>
 			</div>
 		</div>
-		<p><%= link_to "See more events", "" %></p>
+		<p><%= link_to "See more events", events_path %></p>
 
 	</div>
 

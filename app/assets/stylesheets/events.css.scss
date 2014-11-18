@@ -1,0 +1,18 @@
+// Place all the styles related to the events controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+div.container.events.index {
+
+  div#controls {
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    padding: 20px;
+  }
+
+  div.date.row {
+    padding: 20px;
+    border-bottom: 1px solid #aaa;
+  }
+
+}

@@ -1,15 +1,23 @@
 module ApplicationHelper
 
-  def smart_date(date)
+  def smart_date(date, length)
     today = Date.today
     if date == today
       'Today'
     elsif date == today - 1
       'Yesterday'
     elsif date.year == today.year
-      date.strftime('%a %b %-d')
+      if length == :short
+        date.strftime('%a %b %-d')
+      elsif length == :long
+        date.strftime('%A, %B %-d')
+      end
     else
-      date.strftime('%b %-d %Y')
+      if length == :short
+        date.strftime('%b %-d %Y')
+      elsif length == :long
+        date.strftime('%B, %-d %Y')
+      end
     end
   end
 

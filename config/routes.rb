@@ -47,7 +47,8 @@ Yfa::Application.routes.draw do
   #   end
   
   # Shouldn't have index...
-  resources :people 
+  resources :people
+  resources :events
   resources :news, :path => "/news"
   match 'people/:id/request_names' => 'people#takeover_request', :as => :takeover_request, :method => :post
 

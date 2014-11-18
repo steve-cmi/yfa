@@ -34,7 +34,7 @@
       </div>
       <div class="navbar-collapse collapse navbar-responsive-collapse">
         <ul class="nav navbar-nav">
-          <li class="<%= :active if @active_nav == :calendar %>">
+          <li class="<%= :active if @active_nav == :films %>">
             <%= link_to "Projects", films_path %>
           </li>
           <li class="dropdown <%= :active if @active_nav == :opportunities %>">
@@ -44,7 +44,9 @@
               <li><%= link_to "Jobs and Internships", opportunities_path %></li>
             </ul>
           </li>
-          <li><%= link_to "Calendar", "" %></li>
+          <li class="<%= :active if @active_nav == :calendar %>">
+            <%= link_to "Calendar", events_path %>
+          </li>
           <li class="dropdown <%= :active if @active_nav == :resources %>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Resources <b class="caret"></b></a>
             <ul class="dropdown-menu">

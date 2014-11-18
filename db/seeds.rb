@@ -171,10 +171,10 @@ end
 other_film    = Filter.find_or_create_by_name('Film Screenings')
 student_film  = Filter.find_or_create_by_name('Student Film Screenings')
 tea           = Filter.find_or_create_by_name('Master\'s Teas')
-workshop      = Filter.find_or_create_by_name('Workshops and Master\'s Classes')
-dcma          = Filter.find_or_create_by_name('DCMA Workshop Schedule')
+work          = Filter.find_or_create_by_name('Workshops and Master\'s Classes')
+dcma          = Filter.find_or_create_by_name('DCMA Workshops')
 pub           = Filter.find_or_create_by_name('Public Events')
-other         = Filter.find_or_create_by_name('Other')
+other         = Filter.find_or_create_by_name('Other Events')
 
 # -------- EVENTS --------
 
@@ -193,6 +193,7 @@ EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-21 10:0
 
 EventsFilter.find_or_create_by_event_id_and_filter_id(workshop.id, tea.id)
 EventsFilter.find_or_create_by_event_id_and_filter_id(workshop.id, pub.id)
+EventsFilter.find_or_create_by_event_id_and_filter_id(workshop.id, work.id)
 
 film_fest = Event.find_or_create_by_name('Film Festival',
   minutes: 480,
