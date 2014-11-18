@@ -5,10 +5,7 @@ class Carousel < ActiveRecord::Base
   acts_as_list
 
   has_attached_file :image,
-    # :styles => { :medium => "480x400>", :thumb => "150x150>" },        
-    :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/aws.yml",
-    :path => "/carousels/:id/image/:style/:filename"
+    :styles => { :homepage => "750x>" }
 
   validates_attachment_content_type :image,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,

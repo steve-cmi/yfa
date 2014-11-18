@@ -13,6 +13,16 @@ module ApplicationHelper
     end
   end
 
+  def smart_time(date)
+    date.strftime('%-l:%M%p')
+  end
+
+  def link_to_building(building)
+    if building
+      link_to building.name, "http://map.yale.edu/map/#building:#{building.code}", target: '_blank'
+    end
+  end
+
 	# Expects ordered showtime array, this is usually handled by the model
 	def format_showtimes(array)
 		start = array.first.timestamp

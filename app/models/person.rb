@@ -5,12 +5,14 @@ class Person < ActiveRecord::Base
   has_many :permissions, :dependent => :delete_all
   has_many :auditions, :dependent => :nullify
   has_many :takeover_requests, :dependent => :destroy #Outgoing requests, incoming are invisible
-  has_attached_file :picture, 
-        :styles => { :medium => ["400x400>", :jpg], :thumb => ["150x150>", :jpg] },
-        :storage => :s3,
-        :s3_credentials => "#{Rails.root}/config/aws.yml",
-        :path => "/people/:id/picture/:style/:filename"
+
+  has_attached_file :picture,
+    :styles => { }
   
+  validates_attachment_content_type :picture,
+    content_type: /\Aimage\/(jpeg|gif|png)\Z/,
+    message: 'file type is not allowed (only jpeg/png/gif images)'
+
   # TODO: Write a custom typo/distance algo and something else for nicknames
   # TODO: maybe allow a password for when they are gone? But we always have CAS right?
   

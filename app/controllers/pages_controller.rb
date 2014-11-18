@@ -8,6 +8,7 @@ class PagesController < ApplicationController
 		@carousels = Carousel.active.order_by(@site)
 		@upcoming_films = Film.by_date
 		@announcement = Announcement.last
+		@featured_event = EventDate.current.featured.by_date.first
 	end
 
 	# Static Pages

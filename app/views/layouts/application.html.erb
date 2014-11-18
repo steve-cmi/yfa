@@ -91,7 +91,29 @@
 
 	<div class="container-fluid layout footer">
     <div class="container">
-      &copy; <%= Date.today.year %> <a href="mailto:<%= YFA_EMAIL %>">Yale Film Alliance</a>
+      <div class="row">
+        <div class="col-md-4">
+          &copy; <%= Date.today.year %>
+          <a href="mailto:<%= YFA_EMAIL %>">Yale Film Alliance</a>
+        </div>
+        <div class="col-md-4">
+          TW | FB
+        </div>
+        <div class="col-md-4">
+          <div class="text-uppercase">
+            <strong>Sign up for our email newsletter</strong>
+          </div>
+          <form>
+            <div class="row">
+              <div class="col-md-8">
+                <input class="form-control" type="text" placeholder="email address" />
+              </div>
+              <div class="col-md-4">
+                <input class="form-control" type="submit" value="Submit" />
+              </div>
+            </div>
+          </form>
+        </div>
     </div>
 	</div>
 

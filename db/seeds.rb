@@ -157,3 +157,69 @@ eraserhead = Film.find_or_create_by_title('Eraserhead',
 
 FilmPosition.find_or_create_by_film_id_and_position_id(eraserhead.id, director.id, person_id: lynch.id)
 FilmPosition.find_or_create_by_film_id_and_position_id(eraserhead.id, writer.id, person_id: lynch.id)
+
+# -------- BUILDINGS --------
+
+require 'csv'
+CSV.foreach("db/buildings.csv") do |row|
+  name, code, address, city_state, zip = row
+  Building.find_or_create_by_code(code, name: name, address: address, city_state: city_state, zip: zip)
+end
+
+# -------- FILTERS --------
+
+other_film    = Filter.find_or_create_by_name('Film Screenings')
+student_film  = Filter.find_or_create_by_name('Student Film Screenings')
+tea           = Filter.find_or_create_by_name('Master\'s Teas')
+workshop      = Filter.find_or_create_by_name('Workshops and Master\'s Classes')
+dcma          = Filter.find_or_create_by_name('DCMA Workshop Schedule')
+pub           = Filter.find_or_create_by_name('Public Events')
+other         = Filter.find_or_create_by_name('Other')
+
+# -------- EVENTS --------
+
+workshop = Event.find_or_create_by_name('Acting Workshop',
+  minutes: 120,
+  location: 'Campus Center',
+  building_id: 1,
+  description: 'Acting! Genius! Thank you!',
+  featured: true,
+  image: File.new('db/seed-images/event-acting-workshop.gif')
+)
+
+EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-20 12:00:00')
+EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-20 16:00:00')
+EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-21 10:00:00')
+
+EventsFilter.find_or_create_by_event_id_and_filter_id(workshop.id, tea.id)
+EventsFilter.find_or_create_by_event_id_and_filter_id(workshop.id, pub.id)
+
+film_fest = Event.find_or_create_by_name('Film Festival',
+  minutes: 480,
+  location: 'Campus Auditorium',
+  building_id: 2,
+  description: 'All the films!',
+  featured: true,
+  image: File.new('db/seed-images/event-film-festival.jpg')
+)
+
+EventDate.find_or_create_by_event_id_and_starts_at(film_fest.id, '2014-11-20 11:00:00')
+EventDate.find_or_create_by_event_id_and_starts_at(film_fest.id, '2014-11-21 11:00:00')
+EventDate.find_or_create_by_event_id_and_starts_at(film_fest.id, '2014-11-22 11:00:00')
+
+EventsFilter.find_or_create_by_event_id_and_filter_id(film_fest.id, other_film.id)
+EventsFilter.find_or_create_by_event_id_and_filter_id(film_fest.id, pub.id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

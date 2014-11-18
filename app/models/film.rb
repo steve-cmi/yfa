@@ -5,11 +5,13 @@ class Film < ActiveRecord::Base
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :destroy
 
-	has_attached_file :poster, :styles => { :medium => "480x400>", :thumb => "150x150>" },				
-				:storage => :s3,
-     		:s3_credentials => "#{Rails.root}/config/aws.yml",
-    		:path => "/films/:id/poster/:style/:filename"
+	has_attached_file :poster,
+		:styles => { :homepage => "90x90>" }
 	
+  validates_attachment_content_type :poster,
+    content_type: /\Aimage\/(jpeg|gif|png)\Z/,
+    message: 'file type is not allowed (only jpeg/png/gif images)'
+
 	default_scope where(:approved => true)
 	
 	attr_accessible :category, :title, :tagline, :url_key, :contact, :description, :poster, :accent_color, :flickr_id

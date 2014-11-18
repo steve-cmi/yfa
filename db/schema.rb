@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141114191405) do
+ActiveRecord::Schema.define(:version => 20141117201833) do
 
   create_table "announcements", :force => true do |t|
     t.string   "title"
@@ -46,6 +46,14 @@ ActiveRecord::Schema.define(:version => 20141114191405) do
   add_index "board_positions", ["person_id"], :name => "index_board_positions_on_person_id"
   add_index "board_positions", ["year"], :name => "index_board_positions_on_year"
 
+  create_table "buildings", :force => true do |t|
+    t.string "code"
+    t.string "name"
+    t.string "address"
+    t.string "city_state"
+    t.string "zip"
+  end
+
   create_table "carousels", :force => true do |t|
     t.string   "title"
     t.string   "body"
@@ -58,6 +66,39 @@ ActiveRecord::Schema.define(:version => 20141114191405) do
     t.datetime "image_updated_at"
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
+  end
+
+  create_table "event_dates", :force => true do |t|
+    t.integer  "event_id"
+    t.datetime "starts_at"
+    t.integer  "minutes"
+    t.string   "location"
+    t.integer  "building_id"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.integer  "minutes"
+    t.string   "location"
+    t.integer  "building_id"
+    t.text     "description"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.string   "sponsor_name"
+    t.string   "sponsor_link"
+    t.boolean  "featured"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "events_filters", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "filter_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "film_positions", :force => true do |t|
@@ -94,6 +135,13 @@ ActiveRecord::Schema.define(:version => 20141114191405) do
     t.enum     "accent_color",          :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
     t.date     "start_date"
     t.date     "end_date"
+  end
+
+  create_table "filters", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "news", :force => true do |t|
@@ -154,9 +202,9 @@ ActiveRecord::Schema.define(:version => 20141114191405) do
 
   create_table "sites", :force => true do |t|
     t.integer  "carousel_interval"
-    t.enum     "carousel_order",    :limit => [:date, :random]
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
+    t.enum     "carousel_order",    :limit => [:position, :random]
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
   end
 
   create_table "takeover_requests", :force => true do |t|
