@@ -45,7 +45,7 @@
 			<% @upcoming_films.each do |film| -%>
 				<div class="production clearfix row">
 					<div class="col-md-4 image text-center">
-						<%= image_tag "placeholder-image.png" %>
+						<%= image_tag film.poster.url(:homepage) %>
 					</div>
 					<div class="col-md-8 info">
 						<%= link_to film.title, film %><br />

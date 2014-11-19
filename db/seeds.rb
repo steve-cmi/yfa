@@ -42,66 +42,6 @@ Carousel.find_or_create_by_title("Slideshow image three",
   image: File.new('db/seed-images/carousel-image-3.jpg')
 )
 
-# -------- PEOPLE --------
-
-admin = Person.find_or_create_by_email('steve.friedman@commonmediainc.com',
-  fname: 'Steve',
-  lname: 'Friedman',
-  year: 2014,
-  college: YALE_COLLEGES.keys.first,
-  active: true,
-  site_admin: true,
-  netid: 'cmi1'
-)
-
-tarantino = Person.find_or_create_by_email('quentin@tarantino.com',
-  fname: 'Quentin',
-  lname: 'Tarantino',
-  year: 2014,
-  college: YALE_COLLEGES.keys.last,
-  active: true
-)
-
-lynch = Person.find_or_create_by_email('dave@lynch.com',
-  fname: 'David',
-  lname: 'Lynch',
-  year: 2014,
-  college: YALE_COLLEGES.keys.first,
-  active: true
-)
-
-anderson = Person.find_or_create_by_email('wes@anderson.com',
-  fname: 'Wes',
-  lname: 'Anderson',
-  year: 2014,
-  college: YALE_COLLEGES.keys.last,
-  active: true
-)
-
-wilson = Person.find_or_create_by_email('owen@wilson.com',
-  fname: 'Owen',
-  lname: 'Wilson',
-  year: 2014,
-  college: YALE_COLLEGES.keys.last,
-  active: true
-)
-
-kubrick = Person.find_or_create_by_email('stanley@kubrick.com',
-  fname: 'Stanley',
-  lname: 'Kubrick',
-  year: 2014,
-  college: YALE_COLLEGES.keys.first,
-  active: true
-)
-
-clarke = Person.find_or_create_by_email('arthur@clarke.com',
-  fname: 'Arthur C.',
-  lname: 'Clarke',
-  year: 2014,
-  college: YALE_COLLEGES.keys.first,
-  active: true
-)
-
 # -------- POSITIONS --------
 
 actor             = Position.find_or_create_by_position('Actor', key: 'actor')
@@ -118,54 +58,6 @@ prod_designer     = Position.find_or_create_by_position('Production Designer')
 costume_designer  = Position.find_or_create_by_position('Costume Designer')
 asst_director     = Position.find_or_create_by_position('1st Assistant Director')
 
-# -------- FILMS --------
-
-space = Film.find_or_create_by_title('2001: A Space Odyssey',
-  category: 'film',
-  tagline: "I'm afraid I can't do that",
-  contact: 'mgm@studios.com',
-  description: 'Hal goes mayday. Classical music galore. Also the best slit-screen effect ever.',
-  start_date: Date.parse('2014-11-25'),
-  end_date: Date.parse('2014-12-03')
-)
-
-FilmPosition.find_or_create_by_film_id_and_position_id(space.id, director.id, person_id: kubrick.id)
-FilmPosition.find_or_create_by_film_id_and_position_id(space.id, writer.id, person_id: kubrick.id)
-FilmPosition.find_or_create_by_film_id_and_position_id(space.id, writer.id, person_id: clarke.id)
-
-tenenbaums = Film.find_or_create_by_title('The Royal Tenenbaums',
-  category: 'film',
-  tagline: "I can't even begin to think about knowing how to describe this movie.",
-  contact: 'anderson@studios.com',
-  description: 'Royal saves his family from the wreckage of a destroyed sinking battleship.',
-  start_date: Date.parse('2014-12-05'),
-  end_date: Date.parse('2014-12-30')
-)
-
-FilmPosition.find_or_create_by_film_id_and_position_id(tenenbaums.id, director.id, person_id: anderson.id)
-FilmPosition.find_or_create_by_film_id_and_position_id(tenenbaums.id, writer.id, person_id: anderson.id)
-FilmPosition.find_or_create_by_film_id_and_position_id(tenenbaums.id, writer.id, person_id: wilson.id)
-
-eraserhead = Film.find_or_create_by_title('Eraserhead',
-  category: 'film',
-  tagline: "But they're new!",
-  contact: 'lynch@studios.com',
-  description: "I have no idea what's going on right now.",
-  start_date: Date.parse('2014-12-15'),
-  end_date: Date.parse('2015-01-03')
-)
-
-FilmPosition.find_or_create_by_film_id_and_position_id(eraserhead.id, director.id, person_id: lynch.id)
-FilmPosition.find_or_create_by_film_id_and_position_id(eraserhead.id, writer.id, person_id: lynch.id)
-
-# -------- BUILDINGS --------
-
-require 'csv'
-CSV.foreach("db/buildings.csv") do |row|
-  name, code, address, city_state, zip = row
-  Building.find_or_create_by_code(code, name: name, address: address, city_state: city_state, zip: zip)
-end
-
 # -------- FILTERS --------
 
 other_film    = Filter.find_or_create_by_name('Film Screenings')
@@ -176,65 +68,106 @@ dcma          = Filter.find_or_create_by_name('DCMA Workshops')
 pub           = Filter.find_or_create_by_name('Public Events')
 other         = Filter.find_or_create_by_name('Other Events')
 
+# -------- BUILDINGS --------
+
+require 'csv'
+CSV.foreach("db/buildings.csv") do |row|
+  name, code, address, city_state, zip = row
+  Building.find_or_create_by_code(code, name: name, address: address, city_state: city_state, zip: zip)
+end
+
+# -------- PEOPLE --------
+
+# Admin
+Person.find_or_create_by_email('steve.friedman@commonmediainc.com',
+  fname: 'Steve',
+  lname: 'Friedman',
+  year: 2014,
+  college: YALE_COLLEGES.keys.sample,
+  active: true,
+  site_admin: true,
+  netid: 'cmi1'
+)
+
+if Person.count == 1
+  Person.populate(40) do |p|
+    p.fname = Faker::Name.first_name
+    p.lname = Faker::Name.last_name
+    p.slug = Faker::Internet.slug
+    p.email = Faker::Internet.email
+    p.year = Faker::Number.between(2010, 2014)
+    p.college = YALE_COLLEGES.keys
+    p.active = true
+    p.email_allow = true
+  end
+end
+
 # -------- EVENTS --------
 
-workshop = Event.find_or_create_by_name('Acting Workshop',
-  minutes: 120,
-  location: 'Campus Center',
-  building_id: 1,
-  description: event_description,
-  featured: true,
-  image: File.new('db/seed-images/event-acting-workshop.gif'),
-  sponsor_name: 'Google',
-  sponsor_link: 'http://google.com'
-)
+start_date = Date.today
+end_date = Date.today.next_month
+placeholder = File.new('db/seed-images/placeholder-large.png')
 
-event_description = %(<p>Event Description. Far far away, behind the word mountains,
-  far from the countries Vokalia and Consonantia, there live the blind texts.
-  Separated by Bookmarksgrove right at the coast of the Semantics, a large language ocean</p>
-  <p>A small river named Duden flows by their place and supplies it with the necessary regalia.
-  It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
-  unorthographic life. One day, however, a small line of blind text by the name of Lorem Ipsum
-  decided to leave for the far World of Grammer. The Big Oxmox advised her not to do so,
-  because there were thousands of bad Commas.</p>)
+if Event.count == 0
+  Event.populate(40) do |e|
+    e.name = Faker::Lorem.sentence(3)
+    e.slug = Faker::Internet.slug
+    e.minutes = Faker::Number.digit.to_i * 30
+    e.location = Faker::Address.street_name
+    e.building_id = rand(Building.count) + 1
+    e.description = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
+    e.sponsor_name = Faker::Company.name
+    e.sponsor_link = Faker::Internet.url
+    e.featured = [true, false]
+  end
+  Event.all.each do |e|
+    e.image = placeholder
+    e.save
+  end
+end
 
-EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-20 12:00:00')
-EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-20 16:00:00')
-EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-21 10:00:00')
+if EventDate.count == 0
+  EventDate.populate(300) do |d|
+    d.event_id = rand(Event.count) + 1
+    d.starts_at = Faker::Time.between(start_date, end_date, :day)
+  end
+end
 
-EventsFilter.find_or_create_by_event_id_and_filter_id(workshop.id, tea.id)
-EventsFilter.find_or_create_by_event_id_and_filter_id(workshop.id, pub.id)
-EventsFilter.find_or_create_by_event_id_and_filter_id(workshop.id, work.id)
+if EventsFilter.count == 0
+  EventsFilter.populate(100) do |f|
+    f.event_id = rand(Event.count) + 1
+    f.filter_id = rand(Filter.count) + 1
+  end
+end
 
-film_fest = Event.find_or_create_by_name('Film Festival',
-  minutes: 480,
-  location: 'Campus Auditorium',
-  building_id: 2,
-  description: event_description,
-  featured: true,
-  image: File.new('db/seed-images/event-film-festival.jpg'),
-  sponsor_name: 'Wikipedia',
-  sponsor_link: 'http://wikipedia.org'
-)
+# -------- FILMS --------
 
-EventDate.find_or_create_by_event_id_and_starts_at(film_fest.id, '2014-11-20 11:00:00')
-EventDate.find_or_create_by_event_id_and_starts_at(film_fest.id, '2014-11-21 11:00:00')
-EventDate.find_or_create_by_event_id_and_starts_at(film_fest.id, '2014-11-22 11:00:00')
+start_date = Date.parse('2010-01-01')
+end_date = Date.parse('2015-05-05')
 
-EventsFilter.find_or_create_by_event_id_and_filter_id(film_fest.id, other_film.id)
-EventsFilter.find_or_create_by_event_id_and_filter_id(film_fest.id, pub.id)
+if Film.count == 0
+  Film.populate(400) do |f|
+    f.category = 'film'
+    f.title = Faker::Lorem.sentence(5)
+    f.slug = Faker::Internet.slug
+    f.tagline = Faker::Lorem.sentence(8)
+    f.contact = Faker::Internet.email
+    f.description = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
+    f.approved = true
+    f.start_date = Faker::Date.between(start_date, end_date)
+    f.end_date = Faker::Date.between(f.start_date, end_date)
+    f.auditions_enabled = f.public_aud_info = true
+    f.archive = f.archive_reminder_sent = false
+  end
+  Film.all.each do |f|
+    f.poster = placeholder
+    f.save
+  end
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
+if FilmPosition.count == 0
+  Film.all.each do |film|
+    film.film_positions.create(:person_id => rand(Person.count) + 1, :position_id => 2)
+  end
+end
 

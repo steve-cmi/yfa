@@ -19,11 +19,16 @@ gem 'jquery-ui-rails'
 gem 'net-ldap'
 gem 'paperclip'
 gem 'paperclip-meta'
-gem 'quiet_assets', :group => :development
 # gem 'rails-settings-cached'
 # gem 'remotipart'
 # gem 'ri_cal'
 gem 'rubycas-client'
+
+group :development do
+  gem 'quiet_assets'
+  gem 'faker'
+  gem 'populator'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
