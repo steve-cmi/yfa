@@ -3,9 +3,12 @@
 <div id="controls" class="row">
   <form class="form-inline" role="form">
     <div class="col-md-3">
-      <button type="submit" class="btn btn-<%= @scope == :day ? :primary : :link %>" name="scope" value="day">Day</button>
-      <button type="submit" class="btn btn-<%= @scope == :week ? :primary : :link %>" name="scope" value="week">Week</button>
-      <button type="submit" class="btn btn-<%= @scope == :month ? :primary : :link %>" name="scope" value="month">Month</button>
+      <% @scopes.each do |scope| -%>
+        <button type="submit" name="scope" value="<%= scope %>"
+            class="btn btn-<%= @scope == scope ? :primary : :link %>">
+          <%= scope.to_s.titlecase %>
+        </button>
+      <% end -%>
     </div>
 
     <div class="col=md-9">
@@ -31,15 +34,26 @@
     <% dates.each do |date| -%>
       <div class="col-md-4">
         <div class="row">
+
           <div class="col-md-5 image text-center">
             <%= image_tag date.event.image.url(:homepage) -%>
           </div>
+
           <div class="col-md-7 info">
-            <%= link_to date.event.name, "" %><br />
-            <%= smart_time date.starts_at %> -
-            <%= smart_time date.ends_at %><br />
-            <%= date.event.location %><br />
-            <%= link_to_building date.event.building %>
+            <p>
+              <%= render "dialog", date: date %><br />
+              <%= smart_time date.starts_at %> -
+              <%= smart_time date.ends_at %>
+            </p>
+            <p>
+              <%= date.event.location %><br />
+              <%= link_to_building date.event.building %>
+            </p>
+            <p>
+              <% date.event.filters.each do |filter| -%>
+              <a href="#" class="btn btn-default btn-xs"><%= filter.name %> </a>
+              <% end -%>
+            </p>
           </div>
         </div>
       </div>

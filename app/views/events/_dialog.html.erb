@@ -1,0 +1,56 @@
+<% event = date.event -%>
+
+<a href="#" data-toggle="modal" data-target="#date-<%= date.id %>">
+  <%= event.name %>
+</a>
+
+<% content_for :dialogs do -%>
+<div id="date-<%= date.id %>" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"><%= event.name %></h4>
+        <h5>
+          <%= smart_date date.date, :short %>,
+
+          <%= smart_time date.starts_at %>-<%= smart_time date.ends_at %>,
+
+          <% if event.location? -%>
+          <%= event.location %><%= ',' if event.building %>
+          <% end -%>
+
+          <%= link_to_building event.building %>
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-5">
+            <p><%= image_tag event.image.url(:popup) -%></p>
+            <% if event.sponsor_name? -%>
+            <p>
+              Sponsored by
+              <%= link_to_if event.sponsor_link?, event.sponsor_name, event.sponsor_link, target: '_blank' %>
+            </p>
+            <p>
+              <% event.filters.each do |filter| -%>
+              <a href="#" class="btn btn-default btn-xs"><%= filter.name %></a>
+              <% end -%>
+            </p>
+            <% end -%>
+          </div>
+          <div class="col-md-7">
+            <%= event.description.html_safe %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          Back to
+          <%= controller_name == 'pages' ? 'Homepage' : 'Calendar' %>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<% end -%>

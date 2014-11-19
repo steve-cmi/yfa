@@ -11,7 +11,7 @@ class Event < ActiveRecord::Base
   attr_accessible :description, :image, :sponsor_name, :sponsor_link
 
   has_attached_file :image,
-    :styles => { :homepage => "125x125>" }
+    :styles => { :homepage => "125x125>", :popup => "220x220>" }
    
   validates_attachment_content_type :image,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,

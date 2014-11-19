@@ -182,10 +182,22 @@ workshop = Event.find_or_create_by_name('Acting Workshop',
   minutes: 120,
   location: 'Campus Center',
   building_id: 1,
-  description: 'Acting! Genius! Thank you!',
+  description: event_description,
   featured: true,
-  image: File.new('db/seed-images/event-acting-workshop.gif')
+  image: File.new('db/seed-images/event-acting-workshop.gif'),
+  sponsor_name: 'Google',
+  sponsor_link: 'http://google.com'
 )
+
+event_description = %(<p>Event Description. Far far away, behind the word mountains,
+  far from the countries Vokalia and Consonantia, there live the blind texts.
+  Separated by Bookmarksgrove right at the coast of the Semantics, a large language ocean</p>
+  <p>A small river named Duden flows by their place and supplies it with the necessary regalia.
+  It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
+  unorthographic life. One day, however, a small line of blind text by the name of Lorem Ipsum
+  decided to leave for the far World of Grammer. The Big Oxmox advised her not to do so,
+  because there were thousands of bad Commas.</p>)
 
 EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-20 12:00:00')
 EventDate.find_or_create_by_event_id_and_starts_at(workshop.id, '2014-11-20 16:00:00')
@@ -199,9 +211,11 @@ film_fest = Event.find_or_create_by_name('Film Festival',
   minutes: 480,
   location: 'Campus Auditorium',
   building_id: 2,
-  description: 'All the films!',
+  description: event_description,
   featured: true,
-  image: File.new('db/seed-images/event-film-festival.jpg')
+  image: File.new('db/seed-images/event-film-festival.jpg'),
+  sponsor_name: 'Wikipedia',
+  sponsor_link: 'http://wikipedia.org'
 )
 
 EventDate.find_or_create_by_event_id_and_starts_at(film_fest.id, '2014-11-20 11:00:00')
