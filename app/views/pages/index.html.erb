@@ -50,8 +50,8 @@
 					<div class="col-md-8 info">
 						<%= link_to film.title, film %><br />
 						Directed By: <%= link_to film.director.name, film.director %><br />
-						<%= smart_date film.start_date, :short %> through
-						<%= smart_date film.end_date, :short %><br />
+						<%= short_date film.start_date %> through
+						<%= short_date film.end_date %><br />
 						<%= link_to "Opportunities", "" %> |
 						<%= link_to "Auditions", "" %>
 					</div>
@@ -89,9 +89,9 @@
 			</div>
 			<div class="col-md-7 info">
 				<%= render "events/dialog", date: @featured_event -%><br />
-				<%= smart_date @featured_event.date, :short %><br />
-				<%= smart_time @featured_event.starts_at %> -
-				<%= smart_time @featured_event.ends_at %><br />
+				<%= short_date @featured_event.date %><br />
+				<%= time @featured_event.starts_at %> -
+				<%= time @featured_event.ends_at %><br />
 				<%= @featured_event.event.location %><br />
 				<%= link_to_building @featured_event.event.building %>
 			</div>

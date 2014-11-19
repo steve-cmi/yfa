@@ -12,9 +12,9 @@
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title"><%= event.name %></h4>
         <h5>
-          <%= smart_date date.date, :short %>,
+          <%= short_date date.date %>,
 
-          <%= smart_time date.starts_at %>-<%= smart_time date.ends_at %>,
+          <%= time date.starts_at %>-<%= time date.ends_at %>,
 
           <% if event.location? -%>
           <%= event.location %><%= ',' if event.building %>

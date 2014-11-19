@@ -29,7 +29,7 @@
 
 <% else -%>
   <% @dates.group_by(&:date).each do |date, dates| -%>
-  <h3><%= smart_date date, :long %></h3>
+  <h3><%= long_date date %></h3>
   <div class="date row">
     <% dates.each do |date| -%>
       <div class="col-md-4">
@@ -42,8 +42,8 @@
           <div class="col-md-7 info">
             <p>
               <%= render "dialog", date: date %><br />
-              <%= smart_time date.starts_at %> -
-              <%= smart_time date.ends_at %>
+              <%= time date.starts_at %> -
+              <%= time date.ends_at %>
             </p>
             <p>
               <%= date.event.location %><br />
