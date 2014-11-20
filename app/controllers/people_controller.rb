@@ -9,7 +9,7 @@ class PeopleController < ApplicationController
 		#TODO: SHould we cache people's public profiles?
 		#TODO: Should admins be able to edit?
 		@page_name = @person.display_name
-		@film_positions = @person.film_positions.includes({:film => :screenings},:position).where(:film_id => Film.unscoped.on_people_page)
+		@film_positions = @person.film_positions.includes({:film => :screenings}, :position)
 		@film_positions = @film_positions.select{|sp| sp.film}.sort_by{|sp| sp.film.screenings.first.timestamp}.reverse
 	end
 	

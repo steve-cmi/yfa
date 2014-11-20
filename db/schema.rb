@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141118204903) do
+ActiveRecord::Schema.define(:version => 20141120193107) do
 
   create_table "announcements", :force => true do |t|
     t.string   "title"
@@ -135,11 +135,13 @@ ActiveRecord::Schema.define(:version => 20141118204903) do
     t.enum     "accent_color",          :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
     t.date     "start_date"
     t.date     "end_date"
+    t.string   "semester"
   end
 
   create_table "filters", :force => true do |t|
     t.string   "name"
     t.string   "slug"
+    t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

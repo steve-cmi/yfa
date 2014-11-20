@@ -143,7 +143,7 @@ end
 # -------- FILMS --------
 
 start_date = Date.parse('2010-01-01')
-end_date = Date.parse('2015-05-05')
+end_date = Yale::year_end
 
 if Film.count == 0
   Film.populate(400) do |f|

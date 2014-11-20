@@ -3,17 +3,6 @@ class Screening < ActiveRecord::Base
 	
 	after_create :notify_oup
 	after_update :notify_oup
-	before_destroy :prevent_last_screening_deletion
-	
-	def prevent_last_screening_deletion
-		return false if self.film && self.film.screenings.count == 1
-	end
-
-	
-	# hack helper...don't use this, use application_helper instead
-	def short_display_time
-		self.timestamp.strftime("%b %d %-l:%M %p")
-	end
 
 	def notify_oup
 		return unless self.timestamp_changed?

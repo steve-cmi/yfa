@@ -4,21 +4,22 @@ class FilmsController < ApplicationController
 	before_filter :fetch_film, :except => [:index, :new, :create]
 	before_filter :auth, :except => [:index, :film, :new, :create, :dashboard]
 
-	cache_sweeper :film_sweeper
+	# cache_sweeper :film_sweeper
 	
 	# upcoming films, grouped by week, semester, others
 	def index
 		@active_nav = :films
 		@page_name = 'Upcoming Films'
-		
-		@films = Film.on_film_page.future
-		@this_week = @films.select{|s| s.this_week?}
 
-		@screening_data = {}
-		@this_week.each {|film| @screening_data[film.id] = film.screenings.map {|st| {:id => st.id, :text => st.short_display_time, :cap => film.cap}}}
+		@this_semester = Film.this_semester.by_date.reverse_order
+		@next_semester = Film.next_semester.by_date.reverse_order
+		@last_semesters = Film.last_semesters.by_date.reverse_order
 
-		@this_semester = (@films - @this_week).select{|s| s.this_semester?}
-		@other = @films - @this_week - @this_semester
+		@groups = [
+			[Yale::semester_label_for(@this_semester.first.start_date), @this_semester],
+			[Yale::semester_label_for(@next_semester.first.start_date), @next_semester],
+		] + @last_semesters.group_by(&:year).to_a
+
 	end
 	
 	def show

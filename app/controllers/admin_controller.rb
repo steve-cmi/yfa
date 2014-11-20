@@ -10,7 +10,7 @@ class AdminController < ApplicationController
 	end
 
 	def newsletter
-		@films = Film.readonly.coming_soon.this_week
+		@films = Film.readonly.this_week
 		@auditions = Audition.future.includes(:film).select{|a| a.film}.group_by(&:film)
 		future_film_ids = Film.future.pluck("`films`.`id`")
 		@opportunities = FilmPosition.crew.vacant.where(:film_id => future_film_ids).includes(:film, :position).group_by(&:film)

@@ -6,7 +6,7 @@ class Film < ActiveRecord::Base
 	has_many :auditions, :dependent => :destroy
 
 	has_attached_file :poster,
-		:styles => { :homepage => "90x90>" }
+		:styles => { :homepage => "90x90>", :grid => "125x125>" }
 	
   validates_attachment_content_type :poster,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
@@ -33,23 +33,10 @@ class Film < ActiveRecord::Base
 	extend FriendlyId
 	friendly_id :title, use: :slugged
 
-	after_update :check_to_notify_changes
-
 	delegate :directors, :actors, :writers, :cast, :crew, :to => :film_positions
 
 	def director
 		directors.first.person
-	end
-
-	scope :by_date, order(:start_date, :end_date)
-	
-	def self.films_in_range(range)
-		Film.where(:id => Screening.select(:film_id).where(:timestamp => range))
-	end
-
-	def poster_ratio
-		return nil unless poster.exists?
-		poster.width(:medium).to_f / poster.height(:medium).to_f
 	end
 
 	def has_opportunities?
@@ -57,75 +44,111 @@ class Film < ActiveRecord::Base
 	end
 	
 	def has_future_auditions?
-	  auditions.where(["`timestamp` > ?", Time.now]).count > 0
+	  auditions.immediate_future.any?
+	end
+
+	## Date functions
+
+	def started?
+		start_date >= Date.today
 	end
 	
-	# All films till the next Sunday
+	def ended?
+		end_date < Date.today
+	end
+	
+	def month
+		start_date.month
+	end
+
+	def year
+		start_date.year
+	end
+
+	def self.by_date
+		order(:start_date, :end_date)
+	end
+	
+	## Date range functions
+	
+	def self.in_range(range)
+		where(:start_date => range)
+	end
+
+	def self.current
+		where('end_date >= CURRENT_TIMESTAMP')
+	end
+
+	def self.past
+		where('end_date < CURRENT_TIMESTAMP')
+	end
+
+	## WEEK
+
 	def self.this_week
-		range = (Time.now .. Time.now.sunday)
-		range = (Time.now .. Time.now.next_week(:sunday)) if Time.now.sunday?
-		
-		self.films_in_range(range)
+		in_range(Yale::this_week)
 	end
 	
-	# All films which haven't yet closed
-	def self.future
-		self.joins(:screenings).where(["screenings.timestamp >= ?",Time.now]).order("screenings.timestamp")
-	end
-
-	def has_opened?
-		self.screenings.sort_by{|st| st.timestamp}.first.timestamp.to_time >= Time.now
-	end
-	
-	def has_closed?
-		self.screenings.sort_by{|st| st.timestamp}.last.timestamp.to_time < Time.now
-	end
-	
-	# Get the OCI term of the film's first screening, can help for categorizing
-	def semester
-		return nil unless self.screenings.first
-		opens = self.open_date
-		if(opens.month < 7)
-			opens.year.to_s + "01"
-		else
-			opens.year.to_s + "03"
-		end
-	end
-
-	def open_date
-		self.screenings.first.timestamp
-	end
-	
-	# Helper for figuring out if it's this academic semester.
-	# @note Expects that films won't span semesters, only uses opening date
-	def this_semester?
-		opens = self.open_date
-		today = Time.now
-		
-		# TODO: rewrite into a range so it's a bit cleaner
-		if(opens.month > 7 && today.month > 7 && today.year == opens.year)
-			true
-		elsif(opens.month <= 7 && today.month <= 7 && today.year == opens.year)
-			true
-		else
-			false
-		end
-	end
-	
-	# Helper for figuring out if the given film is running this week
 	def this_week?
-		range = (Time.now .. Time.now.sunday)
-		range = (Time.now .. Time.now.next_week) if(Time.now.sunday?)
-		self.screenings.detect{ |st| range.cover? st.timestamp }
+		Yale::this_week.include?(start_date)
+	end
+
+	## SEMESTER
+	
+	# automatically set semester_code from start_date
+	before_save :set_semester_code
+	def set_semester_code
+		self.semester_code = semester_code_for(start_date)
+	end
+
+	def update_semester_code
+		set_semester_code
+		save
+	end
+
+	def season_code
+		semester_code[-2,2]
+	end
+
+	def spring?
+		season_code == Yale::spring_code
+	end
+
+	def fall?
+		season_code == Yale::fall_code
+	end
+
+	def this_year?
+		start_date > Yale::year_start and start_date < Yale::year_end
+	end
+
+	def this_semester?
+		semester_code == Yale::this_semester
 	end
 	
-	def self.films_in_term(oci_term)
-		range = self.term_to_range(oci_term)
-		self.films_in_range(range)
+	def self.for_semester(semester_code)
+		where(:semester_code => semester_code)
 	end
-	
+
+	def self.before_semester(semester_code)
+		where('semester_code < ?', semester_code)
+	end
+
+	def self.this_semester
+		for_semester(Yale::this_semester)
+	end
+
+	def self.next_semester
+		for_semester(Yale::next_semester)
+	end
+
+	def self.last_semesters
+		before_semester(Yale::this_semester)
+	end
+
 	private
 
+	after_update :check_to_notify_changes
 	def check_to_notify_changes
 		# NOTE: DOESN'T COVER NESTED ATTRIBUTES. Those are handled on the respective models
 		if self.approved_changed? && self.approved
@@ -134,56 +157,4 @@ class Film < ActiveRecord::Base
 		end
 	end
 	
-	# Helper function to convert a static oci_term into a rails date range for querying
-	# @param oci_term [String] the oci_term to search for, i.e. 201201 = spring 2012, 201103 = fall 2011
-	def self.term_to_range(oci_term)
-		year = oci_term.slice(0,4).to_i
-		if(oci_term.slice(4,2).to_i == 1)
-			#spring
-			range = (Time.new(year,1,1).. Time.new(year,7,1))
-		else
-			#fall
-			range = (Time.new(year,7,1).. Time.new(year,12,31))
-		end
-		range
-	end
-
-	#### New code added by steve@commonmedia.com March 2013.
-
-	public
-
-	# Conditionally exclude or include certain event types.
-	### TODO: DO films have categories?
-	def self.in_category(category)
-		where(:category => category)
-	end
-
-	def self.coming_soon
-		in_category([:comedy, :dance, :theater])
-	end
-
-	def self.on_film_page
-		in_category([:dance, :theater])
-	end
-
-	def self.on_people_page
-		in_category([:dance, :theater])
-	end
-
-	# Find films by semester and academic year.
-	def self.upcoming
-		# not reusing self.future because joins break subqueries
-		where(:id => Screening.select(:film_id).upcoming)
-	end
-
-	def self.this_semester
-		where(:id => Screening.select(:film_id).this_semester)
-	end
-
-	def self.this_year
-		where(:id => Screening.select(:film_id).this_year)
-	end
-
-	####
-
 end

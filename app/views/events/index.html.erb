@@ -30,13 +30,13 @@
 <% else -%>
   <% @dates.group_by(&:date).each do |date, dates| -%>
   <h3><%= long_date date %></h3>
-  <div class="date row">
+  <div class="grid row">
     <% dates.each do |date| -%>
       <div class="col-md-4">
         <div class="row">
 
           <div class="col-md-5 image text-center">
-            <%= image_tag date.event.image.url(:homepage) -%>
+            <%= image_tag date.event.image.url(:grid) -%>
           </div>
 
           <div class="col-md-7 info">

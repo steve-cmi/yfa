@@ -1,0 +1,30 @@
+div.container.films.index {
+
+  div#scrollspy {
+    position: relative;
+
+    div#controls {
+      width: 1170px;
+      background-color: #fff;
+      z-index: 1000;
+
+      &.affix-top {
+        position: absolute;
+        top: 0px;
+      }
+
+      &.affix {
+        position: fixed;
+        top: 0px;
+        opacity: 0.85;
+      }
+
+    }
+
+    div.controls-spacer {
+      height: 85px;
+    }
+  
+  }
+
+}
