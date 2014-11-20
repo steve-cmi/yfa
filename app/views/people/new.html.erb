@@ -14,7 +14,7 @@
 				<div class="span3">
 					<%= f.label :fname, "First Name" %> <%= f.text_field :fname %><br />
 					<%= f.label :lname, "Last Name" %><%= f.text_field :lname %><br />
-					<%= f.label :college, "Residential College" %><%= f.select :college, YALE_COLLEGES.to_a.map(&:reverse) %><br />
+					<%= f.label :college, "Residential College" %><%= f.select :college, Yale::colleges.to_a.map(&:reverse) %><br />
 					<%= f.label :year, "Class Year" %><%= f.number_field :year %><br />
 					<%= f.label :picture, "Profile Picture" %><%= f.file_field :picture %><br />
 				</div>

@@ -83,7 +83,7 @@ Person.find_or_create_by_email('steve.friedman@commonmediainc.com',
   fname: 'Steve',
   lname: 'Friedman',
   year: 2014,
-  college: YALE_COLLEGES.keys.sample,
+  college: Yale::colleges.keys.sample,
   active: true,
   site_admin: true,
   netid: 'cmi1'
@@ -96,7 +96,7 @@ if Person.count == 1
     p.slug = Faker::Internet.slug
     p.email = Faker::Internet.email
     p.year = Faker::Number.between(2010, 2014)
-    p.college = YALE_COLLEGES.keys
+    p.college = Yale::colleges.keys
     p.active = true
     p.email_allow = true
   end

@@ -9,9 +9,6 @@ class Screening < ActiveRecord::Base
 		return false if self.film && self.film.screenings.count == 1
 	end
 
-	def self.future
-		where(["screenings.timestamp >= ?",Time.now])
-	end
 	
 	# hack helper...don't use this, use application_helper instead
 	def short_display_time
@@ -24,53 +21,16 @@ class Screening < ActiveRecord::Base
 		ScreeningMailer.notify_oup_email(@film,self).deliver if @film && @film.approved		
 	end
 	
-	#### New code added by steve@commonmedia.com March 2013.
-
-	# Find screenings by semester and academic year.
-	YEAR_START_MONTH = 8 # August is in the second semester, July is in the first
-
-	def self.semester_start
-		today = Date.today
-		if today.month >= YEAR_START_MONTH
-			Date.new today.year, YEAR_START_MONTH, 1
-		else
-			Date.new today.year, 1, 1
-		end
+	def self.future
+		where('timestamp >= CURRENT_TIMESTAMP')
 	end
-
-	def self.semester_end
-		today = Date.today
-		if today.month >= YEAR_START_MONTH
-			Date.new today.year + 1, 1, 1
-		else
-			Date.new today.year, YEAR_START_MONTH, 1
-		end
-	end
-
-	def self.year_start
-		today = Date.today
-		if today.month >= YEAR_START_MONTH
-			Date.new today.year, YEAR_START_MONTH, 1
-		else
-			Date.new today.year - 1, YEAR_START_MONTH, 1
-		end
-	end
-
-	def self.year_end
-		today = Date.today
-		if today.month >= YEAR_START_MONTH
-			Date.new today.year + 1, YEAR_START_MONTH, 1
-		else
-			Date.new today.year, YEAR_START_MONTH, 1
-		end
-	end
-
+	
 	def self.this_semester
-		where('timestamp BETWEEN ? AND ?', self.semester_start, self.semester_end)
+		where('timestamp BETWEEN ? AND ?', Yale::semester_start, Yale::semester_end)
 	end
 
 	def self.this_year
-		where('timestamp BETWEEN ? AND ?', self.year_start, self.year_end)
+		where('timestamp BETWEEN ? AND ?', Yale::year_start, Yale::year_end)
 	end
 
 	def self.upcoming
@@ -84,7 +44,5 @@ class Screening < ActiveRecord::Base
 	def past?
 		self.timestamp < Time.zone.now
 	end
-	
-	####
 	
 end

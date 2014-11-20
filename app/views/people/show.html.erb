@@ -1,7 +1,7 @@
 <div class="span8 offset2">
   <div class="person info">
     <h3><%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :fname, :type => :input %> <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :lname, :type => :input %></h3>
-    <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :college, :type => :select, :collection => YALE_COLLEGES.to_a %> <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :year, :type => :input %><br /><br />
+    <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :college, :type => :select, :collection => Yale::colleges.to_a %> <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :year, :type => :input %><br /><br />
     <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :bio, :type => :textarea, :display_with => lambda { |v| sanitize(v, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe } %>
     
     <% if @current_user && @person.id == @current_user.id %>
