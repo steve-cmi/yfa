@@ -117,8 +117,6 @@ ActiveRecord::Schema.define(:version => 20141120193107) do
     t.string   "contact",                                                                                                                :null => false
     t.boolean  "auditions_enabled",                                                                                :default => false,    :null => false
     t.text     "aud_info"
-    t.text     "aud_files"
-    t.boolean  "public_aud_info",                                                                                  :default => false,    :null => false
     t.text     "description",                                                                                                            :null => false
     t.boolean  "approved",                                                                                         :default => false,    :null => false
     t.text     "pw"
@@ -135,7 +133,7 @@ ActiveRecord::Schema.define(:version => 20141120193107) do
     t.enum     "accent_color",          :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
     t.date     "start_date"
     t.date     "end_date"
-    t.string   "semester"
+    t.string   "semester_code"
   end
 
   create_table "filters", :force => true do |t|
