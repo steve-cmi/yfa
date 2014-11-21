@@ -28,38 +28,36 @@ class Person < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-	def display_name
-		self.fname + " " + self.lname
-	end
-	
-	# Check if the user has permission to admin the given film
-	# @param film [Integer] the film id to check (can also be a film object)
-	# @param type [Symbol] One of :full, or a different type which is also in the DB
-	# @returns Boolean true if current user has permission
-	def has_permission?(film, type, any = false)
-		return true if self.site_admin?
-		film_id = film.instance_of?(Film) ? film.id : film.to_i
-		if(self.permissions.detect{|perm| perm.film_id == film_id && (any || perm.level == :full || perm.level == type)})
-			true
-		else
-			false
-		end
-	end
-	
-	def similar_to_me
-		people = []
-		people.concat Person.find_all_by_fname_and_lname(self.fname, self.lname) unless self.fname.blank? || self.lname.blank?
-		people.concat Person.find_all_by_email(self.email) unless self.email.blank?
-		people.concat Person.where(["fname LIKE ? AND lname = ?",self.fname.first(1) + "%", self.lname]) unless self.fname.blank? || self.lname.blank?
-		people.select! {|person| person.netid == nil }
-		people.uniq - [self] - self.takeover_requests.map{|tor| tor.requested_person}
-	end
+  # Check if the user has permission to admin the given film
+  # @param film [Integer, Film] the film id or object to check
+  # @param type [Symbol] One of :full, :any, or a type defined by the database
+  # @returns Boolean true if current user has permission
+  def has_permission?(film, type)
+    return true if site_admin?
+    film_id = film.instance_of?(Film) ? film.id : film.to_i
+    permissions = self.permissions.where(:film_id => film_id)
+    permissions = permissions.where(:level => [:full, type].uniq) unless type == :any
+    permissions.any?
+  end
+  
+  def similar_to_me
+    people = []
+    people += Person.find_all_by_fname_and_lname(self.fname, self.lname) if self.fname? and self.lname?
+    people += Person.find_all_by_email(self.email) if self.email?
+    people += Person.where(["fname LIKE ? AND lname = ?",self.fname.first(1) + "%", self.lname]) if self.fname? and self.lname?
+    people.reject!(&:netid?)
+    people.uniq - [self] - self.takeover_requests.collect(&:requested_person)
+  end
     
   # Accessors 
   def name
     self.fname.capitalize + " " + self.lname.capitalize
   end
   
+	def display_name
+    name
+	end
+	
   def site_admin?
     # netIDs of current site admins
     ["cmi1"].include? self.netid
