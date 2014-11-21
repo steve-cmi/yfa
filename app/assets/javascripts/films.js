@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 
   // Smooth scrolling for Projects page

@@ -10,6 +10,7 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+
 //= require jquery
 //= require jquery.lazyload.min
 //= # require jquery_ujs
@@ -17,10 +18,13 @@
 //= # require jquery-ui/autocomplete
 //= # require jquery-ui/sortable
 //= # require jquery.timepicker
+//= # require jquery.datepair
+
 //= require bootstrap
+//= require best_in_place
 //= # require rails.validations
 //= # require rails.validations.custom
-//= # require jquery.datepair
-//= # require best_in_place
-//= # require site
+
+//= require site
+//= require admin
 //= require films

@@ -1,4 +1,8 @@
 $(document).ready(function() {
+
+  /* Activating Best In Place */
+  $(".best_in_place").best_in_place();
+
 	// There will be no enter key submissions here
 	$("form").bind("keypress", function(e) {
         if (e.keyCode == 13) return false;
@@ -9,4 +13,5 @@ $(document).ready(function() {
 	  var url = $(this).attr("action").replace("id",$(this).find("select").val());
 	  $(this).attr("action",url);
   });
+
 });

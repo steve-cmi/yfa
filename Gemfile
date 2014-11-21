@@ -5,7 +5,7 @@ gem 'mysql2', '> 0.3'
 
 gem 'acts_as_list'
 gem 'aws-sdk'
-# gem 'best_in_place'
+gem 'best_in_place'
 gem 'capistrano', '~> 3.2.0'
 gem 'capistrano-rails', '~> 1.1'
 gem 'capistrano-bundler', '>= 1.1.0'
