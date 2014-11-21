@@ -5,8 +5,8 @@ class Film < ActiveRecord::Base
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :destroy
 
-  has_many :films_genres, dependent: :destroy
-  has_many :genres, through: :films_genres
+  has_many :film_genres, dependent: :destroy
+  has_many :genres, through: :film_genres
 
 	has_attached_file :poster,
 		:styles => { :homepage => "90x90>", :grid => "125x125>", :show => "262x>" }

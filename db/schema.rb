@@ -76,6 +76,13 @@ ActiveRecord::Schema.define(:version => 20141121165516) do
     t.integer  "building_id"
   end
 
+  create_table "event_filters", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "filter_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "events", :force => true do |t|
     t.string   "name"
     t.string   "slug"
@@ -94,9 +101,9 @@ ActiveRecord::Schema.define(:version => 20141121165516) do
     t.datetime "updated_at",         :null => false
   end
 
-  create_table "events_filters", :force => true do |t|
-    t.integer  "event_id"
-    t.integer  "filter_id"
+  create_table "film_genres", :force => true do |t|
+    t.integer  "film_id"
+    t.integer  "genre_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -110,19 +117,18 @@ ActiveRecord::Schema.define(:version => 20141121165516) do
   end
 
   create_table "films", :force => true do |t|
-    t.enum     "category",              :limit => [:theater, :dance, :film, :comedy, :casting],                    :default => :theater, :null => false
-    t.string   "title",                                                                                                                  :null => false
+    t.string   "title",                                                                                                               :null => false
     t.string   "slug"
     t.string   "tagline"
-    t.string   "contact",                                                                                                                :null => false
-    t.boolean  "auditions_enabled",                                                                                :default => false,    :null => false
+    t.string   "contact",                                                                                                             :null => false
+    t.boolean  "auditions_enabled",                                                                                :default => false, :null => false
     t.text     "aud_info"
-    t.text     "description",                                                                                                            :null => false
-    t.boolean  "approved",                                                                                         :default => false,    :null => false
+    t.text     "description",                                                                                                         :null => false
+    t.boolean  "approved",                                                                                         :default => false, :null => false
     t.text     "pw"
     t.string   "url_key",               :limit => 25
-    t.boolean  "archive",                                                                                          :default => true,     :null => false
-    t.boolean  "archive_reminder_sent",                                                                            :default => false,    :null => false
+    t.boolean  "archive",                                                                                          :default => true,  :null => false
+    t.boolean  "archive_reminder_sent",                                                                            :default => false, :null => false
     t.string   "poster_file_name"
     t.string   "poster_content_type"
     t.integer  "poster_file_size"
@@ -134,13 +140,6 @@ ActiveRecord::Schema.define(:version => 20141121165516) do
     t.date     "start_date"
     t.date     "end_date"
     t.string   "semester_code"
-  end
-
-  create_table "films_genres", :force => true do |t|
-    t.integer  "film_id"
-    t.integer  "genre_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "filters", :force => true do |t|

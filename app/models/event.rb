@@ -2,8 +2,8 @@ class Event < ActiveRecord::Base
 
   has_many :event_dates, dependent: :destroy, :order => '`event_dates`.`starts_at`'
 
-  has_many :events_filters, dependent: :destroy
-  has_many :filters, through: :events_filters
+  has_many :event_filters, dependent: :destroy
+  has_many :filters, through: :event_filters
 
   belongs_to :building
 

@@ -1,4 +1,4 @@
-class FilmsGenre < ActiveRecord::Base
+class FilmGenre < ActiveRecord::Base
 
   belongs_to :film
   belongs_to :genre

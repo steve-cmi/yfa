@@ -9,7 +9,7 @@ class CreateGenres < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :films_genres do |t|
+    create_table :film_genres do |t|
       t.belongs_to :film
       t.belongs_to :genre
       t.timestamps

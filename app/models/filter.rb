@@ -1,8 +1,8 @@
 class Filter < ActiveRecord::Base
   acts_as_list
 
-  has_many :events_filters, dependent: :destroy
-  has_many :events, through: :filters
+  has_many :event_filters, dependent: :destroy
+  has_many :events, through: :event_filters
 
   attr_accessible :name
 

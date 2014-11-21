@@ -116,12 +116,13 @@ end_date = Date.today.next_month
 placeholder = File.new('db/seed-images/placeholder-large.png')
 
 if Event.count == 0
+  building_count = Building.count
   Event.populate(40) do |e|
     e.name = Faker::Lorem.sentence(3)
     e.slug = Faker::Internet.slug
     e.minutes = Faker::Number.digit.to_i * 30
     e.location = Faker::Address.street_name
-    e.building_id = rand(Building.count) + 1
+    e.building_id = rand(building_count) + 1
     e.description = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
     e.sponsor_name = Faker::Company.name
     e.sponsor_link = Faker::Internet.url
@@ -134,16 +135,19 @@ if Event.count == 0
 end
 
 if EventDate.count == 0
+  event_count = Event.count
   EventDate.populate(300) do |d|
-    d.event_id = rand(Event.count) + 1
+    d.event_id = rand(event_count) + 1
     d.starts_at = Faker::Time.between(start_date, end_date, :day)
   end
 end
 
-if EventsFilter.count == 0
-  EventsFilter.populate(100) do |f|
-    f.event_id = rand(Event.count) + 1
-    f.filter_id = rand(Filter.count) + 1
+if EventFilter.count == 0
+  event_count = Event.count
+  filter_count = Filter.count
+  EventFilter.populate(100) do |f|
+    f.event_id = rand(event_count) + 1
+    f.filter_id = rand(filter_count) + 1
   end
 end
 
@@ -174,14 +178,20 @@ if Film.count == 0
 end
 
 if FilmPosition.count == 0
-  Film.all.each do |film|
-    film.film_positions.create(:person_id => rand(Person.count) + 1, :position_id => 2)
+  film_count = Film.count
+  position_count = Position.count
+  FilmPosition.populate(4000) do |f|
+    f.film_id = rand(film_count) + 1
+    f.position_id = rand(position_count) + 1
+    f.character = Faker::Name.name if f.position_id == 1
   end
 end
 
-if FilmsGenre.count == 0
-  FilmsGenre.populate(500) do |f|
-    f.film_id = rand(Film.count) + 1
-    f.genre_id = rand(Genre.count) + 1
+if FilmGenre.count == 0
+  film_count = Film.count
+  genre_count = Genre.count
+  FilmGenre.populate(500) do |f|
+    f.film_id = rand(film_count) + 1
+    f.genre_id = rand(genre_count) + 1
   end
 end

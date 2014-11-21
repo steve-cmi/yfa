@@ -1,4 +1,4 @@
-class EventsFilter < ActiveRecord::Base
+class EventFilter < ActiveRecord::Base
 
   belongs_to :event
   belongs_to :filter

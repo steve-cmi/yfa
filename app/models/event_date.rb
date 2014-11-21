@@ -33,7 +33,7 @@ class EventDate < ActiveRecord::Base
   end
 
   def self.filtered_by(filter)
-    uniq.joins(:event => :events_filters).where(events_filters: {filter_id: filter.id})
+    uniq.joins(:event => :event_filters).where(event_filters: {filter_id: filter.id})
   end
 
   def self.this_week

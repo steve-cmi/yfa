@@ -1,8 +1,8 @@
 class Genre < ActiveRecord::Base
   acts_as_list
 
-  has_many :films_genres, dependent: :destroy
-  has_many :films, through: :genres
+  has_many :film_genres, dependent: :destroy
+  has_many :films, through: :film_genres
 
   attr_accessible :name
 

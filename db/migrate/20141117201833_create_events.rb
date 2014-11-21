@@ -29,7 +29,7 @@ class CreateEvents < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :events_filters do |t|
+    create_table :event_filters do |t|
       t.belongs_to :event
       t.belongs_to :filter
       t.timestamps
