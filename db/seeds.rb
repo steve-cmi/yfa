@@ -58,6 +58,13 @@ prod_designer     = Position.find_or_create_by_position('Production Designer')
 costume_designer  = Position.find_or_create_by_position('Costume Designer')
 asst_director     = Position.find_or_create_by_position('1st Assistant Director')
 
+# -------- GENRES --------
+
+comedy  = Genre.find_or_create_by_name('Comedy')
+drama   = Genre.find_or_create_by_name('Drama')
+short   = Genre.find_or_create_by_name('Short')
+music   = Genre.find_or_create_by_name('Music Video')
+
 # -------- FILTERS --------
 
 other_film    = Filter.find_or_create_by_name('Film Screenings')
@@ -172,3 +179,9 @@ if FilmPosition.count == 0
   end
 end
 
+if FilmsGenre.count == 0
+  FilmsGenre.populate(100) do |f|
+    f.film_id = rand(Film.count) + 1
+    f.genre_id = rand(Genre.count) + 1
+  end
+end
