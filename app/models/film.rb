@@ -98,7 +98,9 @@ class Film < ActiveRecord::Base
 	# automatically set semester_code from start_date
 	before_save :set_semester_code
 	def set_semester_code
-		self.semester_code = semester_code_for(start_date)
+		if start_date_changed?
+			self.semester_code = Yale::semester_code_for(start_date)
+		end
 	end
 
 	def update_semester_code
