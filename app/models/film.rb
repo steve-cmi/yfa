@@ -6,7 +6,7 @@ class Film < ActiveRecord::Base
 	has_many :auditions, :dependent => :destroy
 
 	has_attached_file :poster,
-		:styles => { :homepage => "90x90>", :grid => "125x125>" }
+		:styles => { :homepage => "90x90>", :grid => "125x125>", :show => "262x>" }
 	
   validates_attachment_content_type :poster,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,

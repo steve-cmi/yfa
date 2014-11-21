@@ -153,7 +153,7 @@ if Film.count == 0
     f.tagline = Faker::Lorem.sentence(8)
     f.contact = Faker::Internet.email
     f.description = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
-    f.aud_info = Faker::Lorem.paragraphs(2).collect {|x| "<p>#{x}</p>"}.join
+    f.aud_info = Faker::Lorem.paragraph
     f.approved = true
     f.start_date = Faker::Date.between(start_date, end_date)
     f.end_date = Faker::Date.between(f.start_date, end_date)
