@@ -15,8 +15,8 @@ class FilmsController < ApplicationController
 		@last_semesters = Film.last_semesters.by_date.reverse_order
 
 		@groups = [
-			[Yale::semester_label_for(@this_semester.first.start_date), @this_semester],
-			[Yale::semester_label_for(@next_semester.first.start_date), @next_semester],
+			[Yale::this_semester_label, @this_semester],
+			[Yale::next_semester_label, @next_semester],
 		] + @last_semesters.group_by(&:year).to_a
 
 	end

@@ -54,6 +54,14 @@ class Yale
     semester_code_for(6.months.from_now)
   end
 
+  def self.this_semester_label
+    semester_label_for(Date.today)
+  end
+
+  def self.next_semester_label
+    semester_label_for(6.months.from_now)
+  end
+
   def self.semester_start
     today = Date.today
     if today.month >= year_start_month
