@@ -85,6 +85,8 @@ end
 
 # -------- PEOPLE --------
 
+placeholder = File.new('db/seed-images/placeholder-large.png')
+
 # Admin
 Person.find_or_create_by_email('steve.friedman@commonmediainc.com',
   fname: 'Steve',
@@ -92,6 +94,7 @@ Person.find_or_create_by_email('steve.friedman@commonmediainc.com',
   year: 2014,
   college: Yale::colleges.keys.sample,
   active: true,
+  email_allow: true,
   site_admin: true,
   netid: 'cmi1'
 )
@@ -104,8 +107,14 @@ if Person.count == 1
     p.email = Faker::Internet.email
     p.year = Faker::Number.between(2010, 2014)
     p.college = Yale::colleges.keys
+    p.bio = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
     p.active = true
     p.email_allow = true
+  end
+else
+  Person.all.each do |p|
+    p.picture = placeholder
+    p.save
   end
 end
 
@@ -113,7 +122,6 @@ end
 
 start_date = Date.today
 end_date = Date.today.next_month
-placeholder = File.new('db/seed-images/placeholder-large.png')
 
 if Event.count == 0
   building_count = Building.count

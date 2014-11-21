@@ -8,6 +8,18 @@ class Position < ActiveRecord::Base
   # have a specific ID or display name. We can now use these to cleanly
   # find a film's actors, writers, directors, cast, and crew.
 
+  def actor?
+    id == self.class.actor_id
+  end
+
+  def writer?
+    id == self.class.writer_id
+  end
+
+  def director?
+    id == self.class.director_id
+  end
+
   def self.actor_id
     @@actor_id ||= id_for_key(:actor)
   end

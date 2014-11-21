@@ -7,7 +7,7 @@ class Person < ActiveRecord::Base
   has_many :takeover_requests, :dependent => :destroy #Outgoing requests, incoming are invisible
 
   has_attached_file :picture,
-    :styles => { }
+    :styles => { :show => "360x>" }
   
   validates_attachment_content_type :picture,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,

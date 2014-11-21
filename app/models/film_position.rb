@@ -20,16 +20,28 @@ class FilmPosition < ActiveRecord::Base
 	scope :with_character, where("`character` IS NOT NULL AND `character` != ''")
 	scope :without_character, where("`character` IS NULL OR `character` = ''")
 
-	default_scope :order => "listing_order ASC, position_id ASC"
+	# default_scope :order => "listing_order ASC, position_id ASC"
 	
 	validates :person, :character, :presence => true, :if => :cast?
+
+	def actor?
+		cast?
+	end
+	
+	def writer?
+		position_id == Position.writer_id
+	end
+	
+	def director?
+		position_id == Position.director_id
+	end
 	
 	def cast?
-		position_id == 1
+		position_id == Position.actor_id
 	end
 	
 	def crew?
-		position_id != 1
+		position_id != Position.actor_id
 	end
 	
 	def display_name

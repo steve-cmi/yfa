@@ -1,33 +1,101 @@
-<div class="span8 offset2">
-  <div class="person info">
-    <h3><%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :fname, :type => :input %> <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :lname, :type => :input %></h3>
-    <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :college, :type => :select, :collection => Yale::colleges.to_a %> <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :year, :type => :input %><br /><br />
-    <%= best_in_place_if @current_user && @person.id == @current_user.id, @person, :bio, :type => :textarea, :display_with => lambda { |v| sanitize(v, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe } %>
-    
-    <% if @current_user && @person.id == @current_user.id %>
-      <br /><br />
-      <h4>This portion is only visible to you:</h4><br />
-      Email: <%= best_in_place @person, :email, :type => :input %><br />
-      Allow people to email me: <%= best_in_place @person, :email_allow, :type => :checkbox %><br />
-      Associated NetID: <%= @person.netid %>
-      Upload Picture:
-      <%= form_for @person, :html => { :multipart => true } do |f| %>
-        <%= f.file_field :picture %>
-        <%= f.submit "Submit New Photo" %>
-      <% end %>
-    <% end %>
+<div class="row">
+  <div class="col-md-4">
+    <%= image_tag @person.picture.url(:show), (@editable ? {"data-toggle" => "modal", "data-target" => "#edit-picture"} : {}) -%>
+
+    <% if @editable -%>
+      <% content_for :dialogs do -%>
+      <div id="edit-picture" class="modal fade">
+        <div class="modal-dialog">
+          <%= form_for @person, :html => { :multipart => true, :id => 'edit-picture-form' } do |f| %>
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Upload a <%= :new if @person.picture? -%> picture</h4>
+            </div>
+            <div class="modal-body">
+              <p><%= f.file_field :picture, :class => 'form-control' %></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <% end -%>
+    <% end -%>
+
   </div>
 
+  <div class="col-md-8">
+    <h1>
+      <%= editable_person :fname, :type => :input %>
+      <%= editable_person :lname, :type => :input %>
+    </h1>
+    <p>
+      <%= editable_person :college, :type => :select, :collection => Yale::colleges.to_a %>
+      <%= editable_person :year, :type => :input %>
+    </p>
+    <p>
+      <%= editable_person :bio, :type => :textarea, :display_with => lambda { |v| sanitize(v, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe } %>
+    </p>
+    <% if @editable %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Only you can see these:</h3>
+      </div>
+      <div class="panel-body">
+        <p>Email: <%= editable_person :email, :type => :input %></p>
+        <p>Allow people to email me: <%= editable_person :email_allow, :type => :checkbox %></p>
+        <p>Associated NetID: <%= @person.netid %></p>
+      </div>
+    </div>
+    <% end -%>
+  </div>
+</div>
 
-  <% if @person.picture.exists? %>
-    <div class="poster"><%= image_tag @person.picture.url(:medium) %></div>
-  <% end %>
-  <hr />
-  <h3>Film History</h3>
-  <table>
-    <tr><th>Film Name</th><th>Role</th><th>Dates</th></tr>
-    <% @film_positions.each do |sp| %>
-    <tr><td><%= link_to sp.film.title, best_link(sp.film) %></td><td><%= sp.display_name %></td><td><%= format_long_rundates(sp.film) %></td></tr>
-    <% end %>
-  </table>
+<br /><br />
+
+<div class="row">
+  <div class="col-md-4">
+    <p>
+      <strong>Resume</strong><br />
+      <table class="table table-striped">
+        <tbody>
+          <% @film_positions.each do |film_position| -%>
+          <tr>
+            <td>
+              <%= film_position.display_name %><br />
+              <small><%= short_date film_position.film.start_date %></small>
+            </td>
+            <td>
+              <%= link_to film_position.film.title, film_position.film %>
+            </td>
+          </tr>
+          <% end -%>
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+  <div class="col-md-4">
+    <p>
+      <strong>Has experience in:</strong><br />
+      ...
+    </p>
+
+    <p>
+      <strong>Is interested in:</strong><br />
+      ...
+    </p>
+  </div>
+
+  <div class="col-md-4">
+    <p>
+      <strong>On the web</strong><br />
+      ...
+    </p>
+  </div>
+
 </div>

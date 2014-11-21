@@ -3,6 +3,12 @@ class PeopleController < ApplicationController
 	skip_before_filter :force_auth, :only => [:film, :logout]
 	before_filter :verify_user, :except => [:film, :dashboard, :logout, :new, :create]
 	before_filter :fetch_user, :except => [:dashboard, :logout, :new, :create]
+
+	def show
+		@page_name = @person.display_name
+		@film_positions = @person.film_positions.includes(:film, :position).order('films.start_date DESC')
+		@editable = (@current_user and @person.id == @current_user.id)
+	end
 	
 	def film
 		# Show public view

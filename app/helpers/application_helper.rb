@@ -45,6 +45,10 @@ module ApplicationHelper
     tag :img, options
   end
 
+  def editable_person(field, options = {})
+    best_in_place_if @current_user && @person.id == @current_user.id, @person, field, options
+  end
+
   # ----- OLD HELPERS ------ prune when done.
 
 	# Expects ordered screening array, this is usually handled by the model
