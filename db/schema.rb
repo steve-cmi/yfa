@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141121190847) do
+ActiveRecord::Schema.define(:version => 20141121194323) do
 
   create_table "announcements", :force => true do |t|
     t.string   "title"
@@ -231,5 +231,13 @@ ActiveRecord::Schema.define(:version => 20141121190847) do
   end
 
   add_index "takeover_requests", ["person_id"], :name => "index_takeover_requests_on_person_id"
+
+  create_table "videos", :force => true do |t|
+    t.integer  "film_id"
+    t.string   "link"
+    t.integer  "position"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end
