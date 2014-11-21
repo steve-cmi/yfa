@@ -7,5 +7,7 @@ class UpdateFilms < ActiveRecord::Migration
     remove_column :films, :aud_files, :text
     remove_column :films, :public_aud_info, :boolean
     remove_column :film_positions, :assistant, :string
+    remove_column :showtimes, :email_sent, :boolean
+    rename_column :showtimes, :timestamp, :starts_at
   end
 end

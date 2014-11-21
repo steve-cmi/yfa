@@ -207,9 +207,8 @@ ActiveRecord::Schema.define(:version => 20141121165516) do
   end
 
   create_table "screenings", :force => true do |t|
-    t.integer  "film_id",                       :null => false
-    t.boolean  "email_sent", :default => false, :null => false
-    t.datetime "timestamp"
+    t.integer  "film_id",   :null => false
+    t.datetime "starts_at"
   end
 
   add_index "screenings", ["film_id"], :name => "show_index"

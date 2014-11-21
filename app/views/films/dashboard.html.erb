@@ -34,7 +34,7 @@
   	<h5>Scheduling &nbsp; <%= link_to "(Edit)", edit_film_path(@film) %></h5> 
   	<br />
   	<% @film.screenings.each do |screening| %>
-  		<%= small_timestamp(screening.timestamp) %><br />
+  		<%= small_timestamp(screening.starts_at) %><br />
   	<% end %>
   </div>
 </div>

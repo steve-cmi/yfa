@@ -106,7 +106,7 @@
 											<%= film.tagline if !film.tagline.blank? %><%= raw "<br />" if !film.tagline.blank? %>
 											<strong>Directed By:</strong> <%= film.director %><br />
 											<% film.screenings.each do |screening| %>
-												<%= raw style_full_screening(screening.timestamp) %><br />
+												<%= raw style_full_screening(screening.starts_at) %><br />
 											<% end %>
 											</td>
 								</tr>
