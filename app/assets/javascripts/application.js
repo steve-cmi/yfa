@@ -11,16 +11,16 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery.lazyload.min
 //= # require jquery_ujs
 //= # require jquery-ui/datepicker
 //= # require jquery-ui/autocomplete
 //= # require jquery-ui/sortable
 //= # require jquery.timepicker
-//= # require jquery.lazyload.min
 //= require bootstrap
 //= # require rails.validations
 //= # require rails.validations.custom
 //= # require jquery.datepair
 //= # require best_in_place
 //= # require site
-//= # require jquery.debounce
+//= require films

@@ -36,6 +36,15 @@ module ApplicationHelper
     end
   end
 
+  def lazy_image_tag(source, options = {})
+    options[:src] = image_path('placeholder.gif')
+    options["data-original"] = source
+    options[:class] = [options[:class], 'lazy'].compact.join(' ')
+    tag :img, options
+  end
+
+  # ----- OLD HELPERS ------ prune when done.
+
 	# Expects ordered screening array, this is usually handled by the model
 	def format_screenings(array)
 		start = array.first.timestamp

@@ -29,7 +29,7 @@
           <div class="row">
 
             <div class="col-md-5 image text-center">
-              <%= image_tag film.poster.url(:grid) -%>
+              <%= lazy_image_tag film.poster.url(:grid) -%>
             </div>
 
             <div class="col-md-7 info">
