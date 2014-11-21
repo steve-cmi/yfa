@@ -22,22 +22,16 @@ class FilmsController < ApplicationController
 	end
 	
 	def show
-		# Do something with @film?
-		#redirect_to root_url
 		@active_nav = :films
 		@page_name = @film.title
-		s3 = AWS::S3.new
-	   	s3_bucket = s3.buckets['yfa-dev']
-   		@s3_objects = s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
+ 		@s3_objects = Yale::s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
 	end
 
 	def dashboard
-		@page_name = 'Film Dashboard'
 		# People can see this as long as they have SOME permission
-		s3 = AWS::S3.new
-	   	s3_bucket = s3.buckets['yfa-dev']
-		@s3_objects = s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
-		raise ActionController::RoutingError.new('Not Found') unless @current_user.has_permission?(@film, nil, true)	
+		raise ActionController::RoutingError.new('Not Found') unless @current_user.has_permission?(@film, nil, true)
+		@page_name = "Film Dashboard - #{@film.title}"
+		@s3_objects = Yale::s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
 		@recent_auditions = @film.auditions.recent_past
 	end
 	
@@ -65,23 +59,20 @@ class FilmsController < ApplicationController
 	def edit_files
 		@page_name = 'Edit Film'
 		
-		s3 = AWS::S3.new
-   		s3_bucket = s3.buckets['yfa-dev']
-   		params[:destroy_files] ||= []
-   		s3_bucket.objects.delete(params[:destroy_files].map { |item| "films/#{@film.id}/misc/#{item}" })
-		@s3_objects = s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
+ 		params[:destroy_files] ||= []
+   	Yale::s3_bucket.objects.delete(params[:destroy_files].map { |item| "films/#{@film.id}/misc/#{item}" })
+		@s3_objects = Yale::s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
 	end
 
 	def handle_file_upload(data)
 	  orig_filename =  data.original_filename
 	  filename = sanitize_filename(orig_filename)
 	  ext = File.extname(filename).downcase
-	  raise unless [".jpg",".jpeg",".gif",".png",".doc",".docx",".xls",".xlsx",".pdf",".txt"].include? ext
-	  s3 = AWS::S3.new
-   	s3_bucket = s3.buckets['yfa-dev']
-	  o = s3_bucket.objects["films/#{@film.id}/misc/" + filename]
-		o.write(:file => data.tempfile, :access => :public_read)
-		# @s3_objects = s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
+	  raise unless [".jpg",".jpeg",".gif",".png",".doc",".docx",".xls",".xlsx",".pdf",".txt"].include?(ext)
+
+	  Yale::s3_bucket.objects["films/#{@film.id}/misc/" + filename]
+	  	.write(:file => data.tempfile, :access => :public_read)
+
 	  redirect_to film_edit_files_path(@film), :notice => "File uploaded"
 	end
 	
@@ -198,18 +189,15 @@ class FilmsController < ApplicationController
 	private
 	
 	def fetch_film
-		params[:id] = params[:film_id] if params[:id].blank?
-		@film = Film.unscoped.includes(:film_positions => [:person, :position]).find(params[:id]) if(params[:id])
-		@film = Film.unscoped.includes(:film_positions => [:person, :position]).find_by_url_key(params[:url_key]) if(params[:url_key])
+		@film = Film.unscoped.includes(:film_positions => [:person, :position]).find(params[:id]) if params[:id]
 		raise ActionController::RoutingError.new('Not Found') unless @film && (@film.approved || @current_user.has_permission?(@film, :full))
 	end
 
 	def sanitize_filename(file_name)
-      just_filename = File.basename(file_name)
-      just_filename.gsub(/[^\w\.\-]/,'_')
-    end
+    just_filename = File.basename(file_name)
+    just_filename.gsub(/[^\w\.\-]/,'_')
+  end
 
-	
 	def auth
 		return true if @current_user.has_permission?(@film, :full)
 		

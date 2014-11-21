@@ -17,6 +17,15 @@ class Yale
     }
   end
 
+  def self.s3_bucket
+    @@s3_bucket ||=
+      begin
+        bucket = YAML::load(File.new(Paperclip::Attachment.default_options[:s3_credentials]))[Rails.env]["bucket"]
+        s3 = AWS::S3.new
+        s3.buckets[bucket]
+      end
+  end
+
   # Determine semesters and academic years.
   def self.year_start_month
     8 # August is in the second semester, July is in the first
