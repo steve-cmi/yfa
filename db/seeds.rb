@@ -153,10 +153,11 @@ if Film.count == 0
     f.tagline = Faker::Lorem.sentence(8)
     f.contact = Faker::Internet.email
     f.description = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
+    f.aud_info = Faker::Lorem.paragraphs(2).collect {|x| "<p>#{x}</p>"}.join
     f.approved = true
     f.start_date = Faker::Date.between(start_date, end_date)
     f.end_date = Faker::Date.between(f.start_date, end_date)
-    f.auditions_enabled = f.public_aud_info = true
+    f.auditions_enabled = true
     f.archive = f.archive_reminder_sent = false
   end
   Film.all.each do |f|
