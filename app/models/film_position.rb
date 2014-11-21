@@ -15,7 +15,7 @@ class FilmPosition < ActiveRecord::Base
 	
 	scope :crew, where(arel_table[:position_id].not_eq(Position.actor_id))
 	scope :cast, actors()
-	scope :not_vacant, where("person_id IS NOT NULL AND person_id != 0")
+	scope :filled, where("person_id IS NOT NULL AND person_id != 0")
 	scope :vacant, where("person_id IS NULL OR person_id = 0")
 	scope :with_character, where("`character` IS NOT NULL AND `character` != ''")
 	scope :without_character, where("`character` IS NULL OR `character` = ''")

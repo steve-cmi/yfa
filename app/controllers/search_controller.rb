@@ -24,13 +24,13 @@ class SearchController < ApplicationController
 		@people2 = []
 		# Build up the query based on what we are looking for
 		if (params[:mode] == "crew" || params[:header_search]) && (!params[:position_id].blank? || !params[:name].blank?)
-			@people1 = FilmPosition.scoped.crew.not_vacant.includes(:film,:person)
+			@people1 = FilmPosition.scoped.crew.filled.includes(:film,:person)
 			@people1 = @people1.where(:film_id => film_ids) if film_ids
 			@people1 = @people1.where(:position_id => params[:position_id]) unless params[:position_id].blank?
 			@people1 = @people1.joins(:person).where(["CONCAT_WS( ' ', `fname` , `lname` ) LIKE ?", "%#{params[:name]}%"]) unless params[:name].blank?
 		end
 		if (params[:mode] == "actor" || params[:header_search]) && (!params[:character].blank? || !params[:name].blank?)
-			@people2 = FilmPosition.scoped.cast.not_vacant.includes(:film,:person)
+			@people2 = FilmPosition.scoped.cast.filled.includes(:film,:person)
 			@people2 = @people2.where(:film_id => film_ids) if film_ids
 			@people2 = @people2.where(:character => params[:character]) unless params[:character].blank?
 			@people2 = @people2.joins(:person).where(["CONCAT_WS( ' ', `fname` , `lname` ) LIKE ?", "%#{params[:name]}%"]) unless params[:name].blank?

@@ -11,6 +11,10 @@ class Screening < ActiveRecord::Base
 	# 	@film = self.film rescue nil # will error if film can't be found, meaning not approved
 	# 	ScreeningMailer.notify_oup_email(@film,self).deliver if @film && @film.approved		
 	# end
+
+	def self.by_date
+		order(:starts_at)
+	end
 	
 	def self.current
 		where('timestamp >= CURRENT_TIMESTAMP')

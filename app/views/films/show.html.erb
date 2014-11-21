@@ -1,93 +1,145 @@
-<% content_for :head do %>
-	<% if params[:url_key].blank? && !@film.url_key.blank? %>
-		<link type="canonical" href="<%= vanity_path(@film.url_key) %>">
-	<% end %>
-<% end %>
+<div class="row">
+
+	<div class="col-md-4">
+		<%= image_tag @film.poster.url(:show) %>
+	</div>
+
+	<div class="col-md-8">
+		<h1><%= @film.title %></h1>
+		<p>Directed by <%= link_to @film.director.name, @film.director %></p>
+		<%= @film.description.html_safe %>
+	</div>
+
+</div>
+
+<br /><br />
 
 <div class="row">
-	<div class="span12 film-header">
-		<% if !@film.approved %>
-			<div class="alert alert-info"><strong>DRAFT VIEW - Awaiting Approval</strong></div>
-		<% end %>
-		<h2 class="<%= @film.accent_color ? @film.accent_color.to_s : 'no_color' %>"><%= @film.title %></h2>
-		<p class="tagline"><%= @film.tagline %></p>
+
+	<div class="col-md-4">
+		<p>
+			<strong>Genres</strong><br />
+			<% if @film.genres.none? -%>
+			No genres have been selected.
+			<% else -%>
+	      <% @film.genres.each do |genre| -%>
+		      <a href="#" class="btn btn-default btn-xs"><%= genre.name %></a>
+	      <% end -%>
+	    <% end -%>
+		</p>
+
+		<p>
+			<strong>Production timeline</strong><br />
+			<%= long_date @film.start_date %> -
+			<%= long_date @film.end_date %>
+		</p>
+
+		<p>
+			<strong>Screening information</strong><br />
+			<table class="table table-striped">
+				<tbody>
+					<% @film.screenings.by_date.each do |screening| -%>
+					<tr>
+						<td>
+							<%= long_date screening.starts_at %>,
+							<%= time screening.starts_at %><br />
+
+		          <% if screening.location? -%>
+		          <%= screening.location %><%= ',' if screening.building %>
+		          <% end -%>
+
+		          <%= link_to_building screening.building %>
+						</td>
+					</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		</p>
+
+		<p>
+			<strong>Audition information</strong><br />
+			<%= @film.aud_info.html_safe %><br />
+			<%= link_to "Sign up here", "" %>
+		</p>
+
+		<p>
+			<strong>Contact information</strong><br />
+			For all inquiries regarding this project, please contact
+			<%= mail_to @film.contact, @film.contact %>
+		</p>
 	</div>
+
+	<div class="col-md-4">
+
+		<p>
+			<strong>Cast</strong><br />
+			<table class="table table-striped">
+				<tbody>
+					<% @film.cast.filled.each do |cast| -%>
+					<tr>
+						<td><%= cast.character %></td>
+						<td><%= link_to cast.person.name, cast.person %></td>
+					</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		</p>
+
+		<p>
+			<strong>Crew</strong><br />
+			<table class="table table-striped">
+				<tbody>
+					<% @film.crew.filled.each do |cast| -%>
+					<tr>
+						<td><%= cast.position.position %></td>
+						<td><%= link_to cast.person.name, cast.person %></td>
+					</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		</p>
+
+	</div>
+
+	<div class="col-md-4">
+		<p>
+			<strong>Cast positions needed</strong><br />
+			<table class="table table-striped">
+				<tbody>
+					<% @film.cast.vacant.each do |cast| -%>
+					<tr>
+						<td><%= cast.character %></td>
+					</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		</p>
+
+		<p>
+			<strong>Crew positions needed</strong><br />
+			<table class="table table-striped">
+				<tbody>
+					<% @film.crew.vacant.each do |cast| -%>
+					<tr>
+						<td><%= cast.position.position %></td>
+					</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		</p>
+
+		<p>
+			<strong>Video links</strong><br />
+			<table class="table table-striped">
+				<tbody>
+					<% @film.videos.by_position.each do |video| -%>
+					<tr>
+						<td><%= link_to video.name, video.link, target: '_blank' %></td>
+					</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		</p>
+	</div>
+
 </div>
-
-<% if @film.poster.exists? %>
-	<div class="row">
-		<div class="span12 poster">
-			<%= image_tag @film.poster.url %>
-		</div>
-	</div>
-<% end %>
-
-<div class="row">
-	<div class="span8 offset2 description lg">
-		<%= sanitize(@film.description, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe %>
-	</div>
-</div>
-
-<% if @film.contact? -%>
-<div class="row">
-	<div class="span8 offset2">
-		<h5 style="display:inline">Contact the Production</h5>
-		<small>at</small>
-		<%= mail_to @film.contact %>
-	</div>
-</div>
-<% end -%>
-
-<div class="row">
-	<div class="span4 offset2 performances lg">
-		<h5>Screenings</h5>
-		<% @film.screenings.each do |screening| %>
-			<%= raw style_full_screening(screening.timestamp) %><br />
-		<% end %>
-	</div>
-</div>
-
-<div class="row cast-crew">
-	<div class="span4 offset2 cast">
-		<h5>Cast</h5>
-		<table>
-			<% @film.cast.select(&:person).each do |sp| %>
-				<tr><td><%= sp.display_name %></td><td><%= link_to sp.person.display_name, sp.person %></td></tr>
-			<% end %>
-		</table>
-		<% if @film.has_future_auditions? %>
-			<br />
-			<%= link_to "Audition Information", film_auditions_path(@film) %>
-		<% end %>
-	</div>
-
-	<div class="span4 crew">
-		<h5>Production Staff</h5>
-		<table>
-			<% @film.crew.select(&:person).each do |sp| %>
-				<tr><td><%= sp.display_name %></td><td><%= link_to sp.person.display_name, sp.person %></td></tr>
-			<% end %>
-		</table>
-		<% if @film.has_opportunities? %>
-			<br />
-			<%= link_to "Find tech opportunities", opportunities_path %>
-		<% end %>
-	</div>
-</div>
-
-<% if @film.s3_objects.count > 0 %>
-	<div class="row">
-		<div class="span8 offset2 media">
-			<h5>Media &amp; Downloads</h5>
-			<% @film.s3_objects.in_groups_of(3) do |arr| %>
-				<div class="row">
-					<% arr.each do |obj| %>
-						<div class="span2">
-							<%= link_to obj.key.split("/")[-1], "#{obj.url_for(:read)}" %>
-						</div>
-					<% end %>
-				</div>
-			<% end %>
-		</div>
-	</div>
-<% end %>

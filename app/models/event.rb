@@ -5,7 +5,7 @@ class Event < ActiveRecord::Base
   has_many :event_filters, dependent: :destroy
   has_many :filters, through: :event_filters
 
-  belongs_to :building
+  belongs_to :building, :include => :building
 
   attr_accessible :name, :minutes, :location, :featured, :building_id
   attr_accessible :description, :image, :sponsor_name, :sponsor_link

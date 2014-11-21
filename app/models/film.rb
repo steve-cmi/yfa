@@ -1,15 +1,17 @@
 class Film < ActiveRecord::Base
 
-	has_many :screenings, :dependent => :destroy, :order => "timestamp ASC"
-	has_many :film_positions, :dependent => :delete_all, :include => :person
+	has_many :screenings, :dependent => :destroy, :include => :building
+	has_many :film_positions, :dependent => :delete_all, :include => [:position, :person]
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :destroy
 
   has_many :film_genres, dependent: :destroy
   has_many :genres, through: :film_genres
 
+  has_many :videos, :dependent => :destroy
+
 	has_attached_file :poster,
-		:styles => { :homepage => "90x90>", :grid => "125x125>", :show => "262x>" }
+		:styles => { :homepage => "90x90>", :grid => "125x125>", :show => "360x>" }
 	
   validates_attachment_content_type :poster,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,

@@ -178,12 +178,18 @@ if Film.count == 0
 end
 
 if FilmPosition.count == 0
-  film_count = Film.count
-  position_count = Position.count
-  FilmPosition.populate(4000) do |f|
-    f.film_id = rand(film_count) + 1
-    f.position_id = rand(position_count) + 1
-    f.character = Faker::Name.name if f.position_id == 1
+  person_count = Person.count
+  positions = Position.all
+  Film.all.each do |f|
+    Position.all.each do |p|
+      position_count = p.id == 1 ? 10 : 1
+      FilmPosition.populate(position_count) do |fp|
+        fp.film_id = f.id
+        fp.position_id = p.id
+        fp.person_id = rand(person_count) + 1 if p.id == 2 or [true, false].sample
+        fp.character = Faker::Name.name if p.id == 1
+      end
+    end
   end
 end
 
@@ -193,5 +199,27 @@ if FilmGenre.count == 0
   FilmGenre.populate(500) do |f|
     f.film_id = rand(film_count) + 1
     f.genre_id = rand(genre_count) + 1
+  end
+end
+
+if Screening.count == 0
+  building_count = Building.count
+  Film.all.each do |f|
+    Screening.populate([4,5,6,7].sample) do |s|
+      s.film_id = f.id
+      s.starts_at = Faker::Time.between(f.end_date, end_date, :day)
+      s.location = Faker::Address.street_name
+      s.building_id = rand(building_count) + 1
+    end
+  end
+end
+
+if Video.count == 0
+  Film.all.each do |f|
+    Video.populate([1,2,3,4,5,6].sample) do |v|
+      v.film_id = f.id
+      v.name = Faker::Lorem.sentence
+      v.link = Faker::Internet.url
+    end
   end
 end
