@@ -1,6 +1,7 @@
 class Screening < ActiveRecord::Base	
 	belongs_to :film
-	
+  belongs_to :building
+
 	# Does YFA want this?
 	# after_create :notify_oup
 	# after_update :notify_oup

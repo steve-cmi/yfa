@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141121165516) do
+ActiveRecord::Schema.define(:version => 20141121190847) do
 
   create_table "announcements", :force => true do |t|
     t.string   "title"
@@ -207,8 +207,10 @@ ActiveRecord::Schema.define(:version => 20141121165516) do
   end
 
   create_table "screenings", :force => true do |t|
-    t.integer  "film_id",   :null => false
+    t.integer  "film_id",     :null => false
     t.datetime "starts_at"
+    t.string   "location"
+    t.integer  "building_id"
   end
 
   add_index "screenings", ["film_id"], :name => "show_index"
