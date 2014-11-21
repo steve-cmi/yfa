@@ -14,7 +14,7 @@ Note: acceptible file formats are:<br />
 <%= form_tag(:method => :post) do %>
 	<table>
 		<tr><th>File</th><th>Remove?</th></tr>
-	<% @s3_objects.each do |obj| %>
+	<% @film.s3_objects.each do |obj| %>
 		<tr>
 			<td>
 				<%= link_to obj.key.split("/")[-1], "#{obj.url_for(:read)}" %>

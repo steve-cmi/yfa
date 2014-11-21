@@ -24,14 +24,12 @@ class FilmsController < ApplicationController
 	def show
 		@active_nav = :films
 		@page_name = @film.title
- 		@s3_objects = Yale::s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
 	end
 
 	def dashboard
 		# People can see this as long as they have SOME permission
 		raise ActionController::RoutingError.new('Not Found') unless @current_user.has_permission?(@film, nil, true)
 		@page_name = "Film Dashboard - #{@film.title}"
-		@s3_objects = Yale::s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
 		@recent_auditions = @film.auditions.recent_past
 	end
 	
@@ -47,7 +45,6 @@ class FilmsController < ApplicationController
 		update
 	end
 	
-	#TODO: Prompt them on submit if they are altering screenings or something
 	def edit
 		@page_name = 'Edit Film'
 	end
@@ -58,32 +55,17 @@ class FilmsController < ApplicationController
 
 	def edit_files
 		@page_name = 'Edit Film'
-		
- 		params[:destroy_files] ||= []
-   	Yale::s3_bucket.objects.delete(params[:destroy_files].map { |item| "films/#{@film.id}/misc/#{item}" })
-		@s3_objects = Yale::s3_bucket.objects.with_prefix("films/#{@film.id}/misc/")
+		@film.s3_destroy(params[:destroy_files])
 	end
 
-	def handle_file_upload(data)
-	  orig_filename =  data.original_filename
-	  filename = sanitize_filename(orig_filename)
-	  ext = File.extname(filename).downcase
-	  raise unless [".jpg",".jpeg",".gif",".png",".doc",".docx",".xls",".xlsx",".pdf",".txt"].include?(ext)
-
-	  Yale::s3_bucket.objects["films/#{@film.id}/misc/" + filename]
-	  	.write(:file => data.tempfile, :access => :public_read)
-
-	  redirect_to film_edit_files_path(@film), :notice => "File uploaded"
-	end
-	
 	def update
-		#Process blanks to nils
+		# Process blanks to nils
 		params[:film].each {|key,val| val = nil if val.blank? }
 
 		# handle file uploads
-		# TODO: move into it's own controlleR?
 		if (params[:film][:file])
-			handle_file_upload(params[:film][:file])
+		  @film.s3_create(params[:film][:file])
+		  redirect_to film_edit_files_path(@film), :notice => "File uploaded"
 			return
 		end
 		
@@ -182,7 +164,7 @@ class FilmsController < ApplicationController
 	
 	def destroy
 		@film.destroy
-		# Return them to wherever? Admin dash will redirect normal people to user dash
+		# Admin dash will redirect normal people to user dash
 		redirect_to admin_dashboard_path
 	end
 	
@@ -193,15 +175,8 @@ class FilmsController < ApplicationController
 		raise ActionController::RoutingError.new('Not Found') unless @film && (@film.approved || @current_user.has_permission?(@film, :full))
 	end
 
-	def sanitize_filename(file_name)
-    just_filename = File.basename(file_name)
-    just_filename.gsub(/[^\w\.\-]/,'_')
-  end
-
 	def auth
 		return true if @current_user.has_permission?(@film, :full)
-		
-		# Still hanging around? That means it isn't authed
 		raise ActionController::RoutingError.new('Not Found')		
 	end	
 end

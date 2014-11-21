@@ -75,11 +75,11 @@
 	</div>
 </div>
 
-<% if @s3_objects.count > 0 %>
+<% if @film.s3_objects.count > 0 %>
 	<div class="row">
 		<div class="span8 offset2 media">
 			<h5>Media &amp; Downloads</h5>
-			<% @s3_objects.in_groups_of(3) do |arr| %>
+			<% @film.s3_objects.in_groups_of(3) do |arr| %>
 				<div class="row">
 					<% arr.each do |obj| %>
 						<div class="span2">

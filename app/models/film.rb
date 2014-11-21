@@ -146,6 +146,30 @@ class Film < ActiveRecord::Base
 		before_semester(Yale::this_semester)
 	end
 
+	### S3 Attachments
+
+	def s3_objects
+		Yale::s3_bucket.objects.with_prefix("films/#{id}/misc/")
+	end
+
+	def s3_destroy(files)
+		if files
+			paths = files.collect {|file| "films/#{id}/misc/#{file}"}
+	   	Yale::s3_bucket.objects.delete(paths)
+  	end
+	end
+
+	def s3_create(data)
+	  orig_filename =  data.original_filename
+	  filename = File.basename(orig_filename).gsub(/[^\w\.\-]/,'_')
+	  ext = File.extname(filename).downcase
+	  raise unless ['.jpg','.jpeg','.gif','.png','.doc','.docx','.xls','.xlsx','.pdf','.txt'].include?(ext)
+	  Yale::s3_bucket.objects["films/#{id}/misc/#{filename}"]
+	  	.write(:file => data.tempfile, :access => :public_read)
+	end
+
+	# TODO: before_destroy, delete all attachments?!
+
 	private
 
 	after_update :check_to_notify_changes
