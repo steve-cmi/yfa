@@ -180,7 +180,7 @@ if FilmPosition.count == 0
 end
 
 if FilmsGenre.count == 0
-  FilmsGenre.populate(100) do |f|
+  FilmsGenre.populate(500) do |f|
     f.film_id = rand(Film.count) + 1
     f.genre_id = rand(Genre.count) + 1
   end
