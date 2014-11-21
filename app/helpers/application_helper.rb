@@ -36,6 +36,8 @@ module ApplicationHelper
     end
   end
 
+  # Generates image tags to work with jquery.lazyload.
+  # Note: it is recommended that width and height options are provided.
   def lazy_image_tag(source, options = {})
     options[:src] = image_path('placeholder.gif')
     options["data-original"] = source

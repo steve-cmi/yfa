@@ -6,7 +6,6 @@ class FilmsController < ApplicationController
 
 	# cache_sweeper :film_sweeper
 	
-	# upcoming films, grouped by week, semester, others
 	def index
 		@active_nav = :films
 		@page_name = 'Upcoming Films'
