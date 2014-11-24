@@ -20,7 +20,7 @@ class PeopleController < ApplicationController
 	end
 	
 	def dashboard
-		#Determine type of user dashboard to film
+		#Determine type of user dashboard to show
 		@films = Film.unscoped.includes(:screenings).find(@current_user.permissions.map(&:film_id))
 		@permission_map = @current_user.permissions.group_by(&:film_id)
 		

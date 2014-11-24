@@ -30,15 +30,15 @@
 
   <div class="col-md-8">
     <h1>
-      <%= editable_person :fname, :type => :input %>
-      <%= editable_person :lname, :type => :input %>
+      <%= person_field :fname %>
+      <%= person_field :lname %>
     </h1>
     <p>
-      <%= editable_person :college, :type => :select, :collection => Yale::colleges.to_a %>
-      <%= editable_person :year, :type => :input %>
+      <%= person_field :college, :type => :select, :collection => Yale::colleges.to_a %>
+      <%= person_field :year %>
     </p>
     <p>
-      <%= editable_person :bio, :type => :textarea, :display_with => lambda { |v| sanitize(v, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe } %>
+      <%= person_field :bio, :type => :textarea, :display_with => lambda { |bio| sanitize(bio, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe } %>
     </p>
     <% if @editable %>
     <div class="panel panel-primary">
@@ -46,8 +46,8 @@
         <h3 class="panel-title">Only you can see these:</h3>
       </div>
       <div class="panel-body">
-        <p>Email: <%= editable_person :email, :type => :input %></p>
-        <p>Allow people to email me: <%= editable_person :email_allow, :type => :checkbox %></p>
+        <p>Email: <%= person_field :email, :inner_class => 'form-control best-in-place-control' %></p>
+        <p>Allow people to email me: <%= person_field :email_allow, :type => :checkbox %></p>
         <p>Associated NetID: <%= @person.netid %></p>
       </div>
     </div>
@@ -94,7 +94,15 @@
   <div class="col-md-4">
     <p>
       <strong>On the web</strong><br />
-      ...
+      <table class="table table-striped">
+        <tbody>
+          <% @person.links.by_position.each do |link| -%>
+          <tr>
+            <td><%= link_to link.name, link.url, target: '_blank' %></td>
+          </tr>
+          <% end -%>
+        </tbody>
+      </table>
     </p>
   </div>
 

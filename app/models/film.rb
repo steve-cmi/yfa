@@ -8,7 +8,7 @@ class Film < ActiveRecord::Base
   has_many :film_genres, dependent: :destroy
   has_many :genres, through: :film_genres
 
-  has_many :videos, :dependent => :destroy
+  has_many :links, :as => :item, :dependent => :destroy
 
 	has_attached_file :poster,
 		:styles => { :homepage => "90x90>", :grid => "125x125>", :show => "360x>" }

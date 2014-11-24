@@ -4,7 +4,12 @@ class Person < ActiveRecord::Base
   has_many :film_positions, :dependent => :destroy
   has_many :permissions, :dependent => :delete_all
   has_many :auditions, :dependent => :nullify
-  has_many :takeover_requests, :dependent => :destroy #Outgoing requests, incoming are invisible
+  has_many :takeover_requests, :dependent => :destroy
+
+  has_many :links, :as => :item, :dependent => :destroy
+
+  has_many :experiences, :dependent => :destroy
+  has_many :interests, :dependent => :destroy
 
   has_attached_file :picture,
     :styles => { :show => "360x>" }
@@ -13,9 +18,6 @@ class Person < ActiveRecord::Base
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
     message: 'file type is not allowed (only jpeg/png/gif images)'
 
-  # TODO: Write a custom typo/distance algo and something else for nicknames
-  # TODO: maybe allow a password for when they are gone? But we always have CAS right?
-  
   attr_accessible :fname, :lname, :email, :year, :college, :bio, :email_allow, :picture
   attr_accessible :active, :site_admin, :netid if Rails.env.development?
   
@@ -23,7 +25,7 @@ class Person < ActiveRecord::Base
   validates :year, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1970, :less_than_or_equal_to => Time.now.year + 8 }, :allow_nil => true
   validates :college, :inclusion => { :in => Yale::colleges.flatten }, :allow_nil => true
   validates_format_of :email, :with => /^$|\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i,
-                              :message => "Must enter a valid email address."
+                              :message => 'must be a valid email address'
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -48,7 +50,7 @@ class Person < ActiveRecord::Base
     people.reject!(&:netid?)
     people.uniq - [self] - self.takeover_requests.collect(&:requested_person)
   end
-    
+  
   # Accessors 
   def name
     self.fname.capitalize + " " + self.lname.capitalize

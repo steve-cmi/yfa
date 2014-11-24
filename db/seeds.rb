@@ -107,11 +107,10 @@ if Person.count == 1
     p.email = Faker::Internet.email
     p.year = Faker::Number.between(2010, 2014)
     p.college = Yale::colleges.keys
-    p.bio = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
+    p.bio = Faker::Lorem.paragraphs(3).join("\n\n")
     p.active = true
     p.email_allow = true
   end
-else
   Person.all.each do |p|
     p.picture = placeholder
     p.save
@@ -222,12 +221,13 @@ if Screening.count == 0
   end
 end
 
-if Video.count == 0
-  Film.all.each do |f|
-    Video.populate([1,2,3,4,5,6].sample) do |v|
-      v.film_id = f.id
-      v.name = Faker::Lorem.sentence
-      v.link = Faker::Internet.url
+if Link.count == 0
+  (Film.all + Person.all).each do |i|
+    Link.populate([1,2,3,4,5,6].sample) do |v|
+      v.item_id = i.id
+      v.item_type = i.class.to_s
+      v.name = Faker::Company.name
+      v.url = Faker::Internet.url
     end
   end
 end

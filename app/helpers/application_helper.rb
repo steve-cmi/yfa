@@ -45,7 +45,7 @@ module ApplicationHelper
     tag :img, options
   end
 
-  def editable_person(field, options = {})
+  def person_field(field, options = {})
     best_in_place_if @current_user && @person.id == @current_user.id, @person, field, options
   end
 

@@ -132,9 +132,9 @@
 			<strong>Video links</strong><br />
 			<table class="table table-striped">
 				<tbody>
-					<% @film.videos.by_position.each do |video| -%>
+					<% @film.links.by_position.each do |link| -%>
 					<tr>
-						<td><%= link_to video.name, video.link, target: '_blank' %></td>
+						<td><%= link_to link.name, link.url, target: '_blank' %></td>
 					</tr>
 					<% end -%>
 				</tbody>
