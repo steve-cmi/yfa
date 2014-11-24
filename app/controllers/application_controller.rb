@@ -14,8 +14,9 @@ class ApplicationController < ActionController::Base
 	protected
 
 	def dummy_user
-		session[:cas_user] = "cmi1"
-		@current_user = Person.where(:netid => "cmi1").first
+		dummy_netid = 'cmi1'
+		session[:cas_user] = dummy_netid
+		@current_user = Person.where(:netid => dummy_netid).first
 	end
 	
 	# force auth is always run after check_user, so we might have been successful

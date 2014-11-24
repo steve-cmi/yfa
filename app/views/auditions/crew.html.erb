@@ -1,0 +1,62 @@
+<h1>Student Productions</h1>
+
+<div id="controls" class="row">
+  <form class="form-inline" role="form">
+    <div class="col-md-2">
+      <% @scopes.each do |scope| -%>
+        <%= link_to scope.to_s.titlecase, {:action => scope}, :class => "btn btn-#{@scope == scope ? :primary : :link}" %>
+      <% end -%>
+    </div>
+
+    <div class="col-md-9">
+      <div class="row">
+        <% @positions.each do |position| -%>
+          <div class="col-md-3">
+            <label for="position_<%= position.id %>" class="checkbox-inline">
+              <%= check_box_tag "positions[]", position.id, params[:positions].to_a.include?(position.id.to_s), id: "position_#{position.id}" %>
+              <%= position.position %>
+            </label>
+          </div>
+        <% end -%>
+      </div>
+    </div>
+
+    <div class="col-md-1">
+      <button type="submit" class="btn btn-default">Filter</button>
+    </div>
+  </form>
+</div>
+
+<% if @film_positions.any? -%>
+  <div class="grid row">
+    <% @film_positions.group_by(&:position).each do |position, film_positions| %>
+      <div class="col-md-4">
+        <h4><%= position.position %></h4>
+
+        <% film_positions.each do |film_position| -%>
+          <% film = film_position.film -%>
+
+          <%= link_to film.title, film %>
+          <br />
+
+          Production timeline:
+          <%= short_date film.start_date %> -
+          <%= short_date film.end_date %>
+          <br />
+
+          Contact:
+          <%= mail_to film.contact, film.contact %>
+          <br />
+          <br />
+        <% end -%>
+
+      </div>
+    <% end -%>
+  </div>
+
+<% else %>
+  <div class="row">
+    <h4>Sorry, there are no crew opportunities at this time. Please check back soon!</h4>
+  </div>
+
+<% end %>

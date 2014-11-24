@@ -3,7 +3,7 @@ You are signed up to audition for a film! Details are below:<br />
 <%= link_to @audition.film.title, best_link(@audition.film, true), :class => 'title' %><br />
 <br />
 <b>Your audition:</b><br />
-Time: <%= full_timestamp(@audition.timestamp) %><br />
+Time: <%= time @audition.starts_at %><br />
 Location <%= @audition.location %><br />
 <br />
 You can change your audition by going to the YFA website and going to <%= link_to "My Dashboard", dashboard_path %><br />

@@ -36,4 +36,8 @@ class Position < ActiveRecord::Base
     where(key: key.to_s).select(:id).first.id
   end
 
+  def self.crew
+    where('id != ?', actor_id)
+  end
+
 end

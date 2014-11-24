@@ -3,7 +3,7 @@ class Film < ActiveRecord::Base
 	has_many :screenings, :dependent => :destroy, :include => :building
 	has_many :film_positions, :dependent => :delete_all, :include => [:position, :person]
 	has_many :permissions, :dependent => :delete_all
-	has_many :auditions, :dependent => :destroy
+	has_many :auditions, :dependent => :destroy, :order => :starts_at
 
   has_many :film_genres, dependent: :destroy
   has_many :genres, through: :film_genres
@@ -49,6 +49,10 @@ class Film < ActiveRecord::Base
 	
 	def has_future_auditions?
 	  auditions.immediate_future.any?
+	end
+
+	def self.has_auditions
+		where(:id => Audition.imminent.select(:film_id))
 	end
 
 	## Date functions

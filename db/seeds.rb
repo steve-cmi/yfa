@@ -231,3 +231,14 @@ if Link.count == 0
     end
   end
 end
+
+if Audition.count == 0
+  Film.this_semester.each do |f|
+    Audition.populate([2,3,4,5,6,7,8].sample) do |a|
+      a.film_id = f.id
+      a.starts_at = Faker::Time.between(f.start_date, f.end_date, :day)
+      a.location = Faker::Address.street_name
+    end
+  end
+end
+

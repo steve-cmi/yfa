@@ -19,6 +19,7 @@ class FilmPosition < ActiveRecord::Base
 	scope :vacant, where("person_id IS NULL OR person_id = 0")
 	scope :with_character, where("`character` IS NOT NULL AND `character` != ''")
 	scope :without_character, where("`character` IS NULL OR `character` = ''")
+	scope :current, includes(:film).where('films.end_date >= CURRENT_TIMESTAMP')
 
 	# default_scope :order => "listing_order ASC, position_id ASC"
 	
@@ -46,6 +47,10 @@ class FilmPosition < ActiveRecord::Base
 	
 	def display_name
 		cast? ? character : position.position
+	end
+
+	def self.filtered_by(position_ids)
+		where(:position_id => position_ids)
 	end
 	
 	private

@@ -54,7 +54,6 @@ Yfa::Application.routes.draw do
 
   match 'dashboard' => 'people#dashboard', :as => :dashboard
   
-  
   match 'admin' => 'admin#dashboard', :as => :admin_dashboard
   match 'admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   match 'admin/approve_takeover/:id' => 'admin#approve_takeover', :as => :approve_takeover
@@ -62,12 +61,10 @@ Yfa::Application.routes.draw do
   match 'admin/approve_film/:id' => 'admin#approve_film', :as => :approve_film
   match 'admin/email_all' => 'admin#email_all', :as => :email_all
   
-  
   match 'login' => 'people#dashboard', :as => :login
   match 'logout' => 'people#logout', :as => :logout
   
   match 'archives(/:term)' => 'films#archives', :as => :archives
-  
   
   resources :films do
     get 'edit_people', :controller => :films, :action => :edit_people, :as => :edit_people
@@ -83,9 +80,8 @@ Yfa::Application.routes.draw do
 	  end
 	end
 	
-	match 'auditions' => 'auditions#all'
-	match 'opportunities' => 'auditions#opportunities'
-	
+	match 'auditions' => 'auditions#cast'
+	match 'opportunities' => 'auditions#crew'
 	
 	match 'search' => 'search#index', :as => :search
 	match 'search/lookup' => 'search#lookup', :as => :search_lookup
@@ -97,22 +93,11 @@ Yfa::Application.routes.draw do
   # Hijack guide links and wrap them in a special template
   match 'resources' => 'pages#resources'
   match 'donate' => 'pages#donate'
-  match 'guides/:static_file' => 'pages#guides', :as => :guides
-  
-  # Add legacy routes here
-  # TODO: These can be removed probably a month or so after launch, remove supporting code too
-  match 'audition_signup.php', :controller => :auditions, :action => :index
-
-  # Detect film slugs last, some legacy support for now
-  # TODO: build out /tickets, /reserve, etc.
-  match ':url_key' => 'films#film', :as => "vanity", :url_key => /[a-z0-9_]+/i
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  
-  
 
 end

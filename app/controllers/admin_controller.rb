@@ -32,7 +32,7 @@ class AdminController < ApplicationController
 		if req.fulfill
 			redirect_to admin_dashboard_path, :notice => "#{req.person.display_name}'s request granted!"
 		else
-			redirect_to admin_dashboard_path, :error => "There was a problem, please try again..."
+			redirect_to admin_dashboard_path, :alert => "There was a problem, please try again..."
 		end
 	end
 	
@@ -49,23 +49,23 @@ class AdminController < ApplicationController
 		if @film.save
 			redirect_to admin_dashboard_path, :notice => "Film approved!"
 		else
-			redirect_to admin_dashboard_path, :error => "There was a problem, please try again..."
+			redirect_to admin_dashboard_path, :alert => "There was a problem, please try again..."
 		end
 	end
 
 	def email_all
 		if params[:films].blank?
-			flash[:error] = 'Please select which films you want to email.'
+			flash[:alert] = 'Please select which films you want to email.'
 		elsif params[:positions].blank?
-			flash[:error] = 'Please select which positions you want to email.'
+			flash[:alert] = 'Please select which positions you want to email.'
 		elsif params[:subject].blank?
-			flash[:error] = 'Please enter a subject for your email.'
+			flash[:alert] = 'Please enter a subject for your email.'
 		elsif params[:message].blank?
-			flash[:error] = 'Please enter a message to send.'
+			flash[:alert] = 'Please enter a message to send.'
 		else
 			recipients = Person.staff_for(params[:films], params[:positions]).pluck(:email).compact
 			if recipients.empty?
-				flash[:error] = 'The selected options matched no people!'
+				flash[:alert] = 'The selected options matched no people!'
 			else
 				AdminMailer.staff_email(recipients, params[:subject], params[:message]).deliver
 				flash[:notice] = "Email sent to #{recipients.size} people."

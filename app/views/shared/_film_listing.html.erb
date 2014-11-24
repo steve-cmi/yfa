@@ -1,4 +1,0 @@
-<h4><%= link_to film.title, best_link(film), :class => 'title' %></h4>
-<%= film.tagline if !film.tagline.blank? %><%= raw "<br />" if !film.tagline.blank? %>
-<strong>Directed By:</strong> <%= film.director %><br />
-<strong>Screenings:</strong> <%= format_screenings(film.screenings) %>

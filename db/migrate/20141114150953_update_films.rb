@@ -9,5 +9,6 @@ class UpdateFilms < ActiveRecord::Migration
     remove_column :film_positions, :assistant, :string
     remove_column :showtimes, :email_sent, :boolean
     rename_column :showtimes, :timestamp, :starts_at
+    rename_column :auditions, :timestamp, :starts_at
   end
 end

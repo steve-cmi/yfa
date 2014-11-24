@@ -8,7 +8,7 @@ class SearchController < ApplicationController
 			start = DateTime.strptime(params[:start], '%m/%d/%Y') unless params[:start].blank?
 			stop = DateTime.strptime(params[:end], '%m/%d/%Y') unless params[:end].blank?
 		rescue
-			flash.now[:error] = "Invalid Date. Please use select dates from the calendar dropdowns instead!"
+			flash.now[:alert] = "Invalid Date. Please use select dates from the calendar dropdowns instead!"
 			return
 		end
 		

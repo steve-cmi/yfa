@@ -1,78 +1,89 @@
-<% javascript 'auditions.js' %>
+<h1>Auditions for &quot;<%= @film.title %>&quot;</h1>
 
-<div class="span10 offset1">
-	<h2><%= @film.title %> <span class="faded">auditions</span></h2>
+<div class="row">
+	<p><strong>Audition Information:</strong></p>
+	<p><%= best_in_place_if @aud_admin, @film, :aud_info, :type => :textarea %></p>
+</div>
 
-	<% if @aud_admin %>
-	<!-- 
-		<b>Batch add Audition Times</b>
-		<%= form_tag (url_for :controller => 'auditions', :action => 'create'), :class => "datepair", :remote => true do |f| %>
-			<%= label :audition, :location %>
-			<%= text_field_tag :location %>
-			<br />
-			Date: <%= text_field_tag :date, nil, :class => "date" %><br />
-			Start Time: <%= text_field_tag :start_time, nil, :class => "time start" %><br />
-			End Time: <%= text_field_tag :end_time, nil, :class => "time end" %><br />
-			Audition Length (minutes): <%= number_field_tag :duration %>
-			<%= submit_tag "Submit", :class => "btn" %>
-		<% end %>
-		<hr />
-		-->
+<hr />
 
-		<!--
-		Add a Single Audition Time
-		<%= form_for Audition.new, :class => "datepair" do |f| %>
-			<%= f.text_field :location %>
-			<%= f.datetime_select :timestamp %>
-			<%= f.submit "Submit", :class => "btn" %>
-		<% end %>
-		-->
-	<% end %>
+<div class="row">
+	<% if @auditions.any? %>
+		<%= form_tag film_auditions_path(@film), :method => :put, :class => 'form-horizontal' do %>
 
-	<b>Audition Information:</b><br />
-	<%= best_in_place_if @aud_admin, @film, :aud_info, :type => :textarea %>
+			<div class="row">
+				<h4>Your Information:</h4>
 
-	<hr />
+				<div class="form-group">
+					<label class="col-md-1 control-label">Name:</label>
+					<div class="col-md-10">
+						<p class="form-control-static">
+							<%= @current_user.display_name %> &nbsp; &nbsp; &nbsp; &nbsp;
+							Not you? <%= link_to "Logout", logout_path %>
+						</p>
+					</div>
+				</div>
 
-	<% if !@auditions.blank? %>
-		<%= form_tag film_auditions_path(@film), :method => :put do %>
-			<h4>Your Information:</h4><br />
-			Name: <%= @current_user.display_name %> &nbsp; &nbsp; Not you? <%= link_to "Logout", logout_path %><br />
-			Phone: <input type="text" name="phone" value="<%= @user_audition[:phone].to_s if @user_audition %>" /><br />
-			Email: <input type="text" name="email" value="<%= @user_audition ? @user_audition[:email].to_s : @current_user.email %>" />
-			<br />
-			<br />
-			<h4>Audition Times:</h4>
-			Note that signing up for a new slot will replace any previous slot you have<br />
-			<table class="<%= 'admin' if @aud_admin %>">
-			<tr>
-			<th>Audition Time</th><th>Location</th><th>Signup</th>
-			<% if @aud_admin %>
-				<th>Person</th>
-				<th>Email</th>
-				<th>Phone</th>
-				<th><%= submit_tag "Delete Selected", :class => "btn", :data => { :confirm => "This will delete the selected auditions. There is no undo. Are you sure?" } %></th>
-			<% end %>
-			</tr>
-			<tr><td colspan="4">
-		  <td></tr>
-			<% @auditions.each do |aud| %> 
-		    <%= fields_for "auditions[#{aud.id}]", aud do |builder| %>
-		    	<% if @aud_admin %>
-		    		<%= render :partial => 'shared/audition_entry_admin', :locals => {:audition => aud, :form => builder} %>
-		    	<% else %>
-		    		<%= render :partial => 'shared/audition_entry', :locals => {:audition => aud, :form => builder} %>
-		    	<% end %>
-		    <% end %>
-		  <% end %>
-		  <% if @aud_admin %>
-		  <tr>
-		  	<td colspan="6" style="text-align:left"><%= link_to "Past auditions", :action => :past, :film_id => @film.id if @recent_auditions.any? %></td>
-		  	<td><%= submit_tag "Delete Selected", :class => "btn", :data => { :confirm => "This will delete the selected auditions. There is no undo. Are you sure?" } %><td>
-	  	  </tr>
-		  <% end %>
-		  
+				<div class="form-group">
+					<label class="col-md-1 control-label">Phone:</label>
+					<div class="col-md-4">
+						<input type="text" name="phone" class="form-control" value="<%= @user_audition.phone if @user_audition %>" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-1 control-label">Email:</label>
+					<div class="col-md-4">
+						<input type="text" name="email" class="form-control" value="<%= @user_audition ? @user_audition.email : @current_user.email %>" />
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<h4>Audition Times:</h4>
+				<p>Note that signing up for a new slot will replace any previous slot you have</p>
+			</div>
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Audition Time</th>
+						<th>Location</th>
+						<th>Signup</th>
+						<% if @aud_admin %>
+							<th>Person</th>
+							<th>Email</th>
+							<th>Phone</th>
+						<% end %>
+					</tr>
+					<tr>
+						<td colspan="4"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<% @auditions.each do |audition| %> 
+				    <%= fields_for "auditions[#{audition.id}]", audition do |builder| %>
+				    	<% if @aud_admin %>
+			  	  		<%= render :partial => 'form_admin', :locals => {:audition => audition, :form => builder} %>
+			    		<% else %>
+			    			<%= render :partial => 'form', :locals => {:audition => audition, :form => builder} %>
+				    	<% end %>
+				    <% end %>
+				  <% end %>
+				</tbody>
+		  	<% if @aud_admin %>
+		  	<tfoot>
+				  <tr>
+				  	<td>
+				  		<%= submit_tag "Delete Selected", :class => "btn", :data => { :confirm => "This will delete the selected auditions. There is no undo. Are you sure?" } %><td>
+			  	  </tr>
+				  	<td colspan="6">
+				  		<%= link_to "Past auditions", :action => :past, :film_id => @film.id if @recent_auditions.any? %>
+				  	</td>
+			  	</tfoot>
+			  <% end %>
 		  </table>
+		  
 		<% end %>
 	<% end %>
 </div>

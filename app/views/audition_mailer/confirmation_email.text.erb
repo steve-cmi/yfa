@@ -3,7 +3,7 @@ You are signed up to audition for a film! Details are below:
 <%= @audition.film.title %>
 
 Your audition:
-Time: <%= full_timestamp(@audition.timestamp) %>
+Time: <%= time @audition.starts_at %>
 Location <%= @audition.location %>
 
 You can change your audition by going to the YFA website and going to "My Dashboard"

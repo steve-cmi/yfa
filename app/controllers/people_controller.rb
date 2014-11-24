@@ -55,7 +55,7 @@ class PeopleController < ApplicationController
 				redirect_to url, :notice => "Profile created successfully. Enjoy the new site! And if you need help, check out the learn tab above."
 			end			
 		else
-			flash.now[:error] = "There was an error with the data you entered, please try again!"
+			flash.now[:alert] = "There was an error with the data you entered, please try again!"
 			render :new
 		end
 	end

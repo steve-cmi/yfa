@@ -2,47 +2,36 @@
 
 class AuditionsController < ApplicationController
 
-	skip_before_filter :force_auth, :only => [:all, :opportunities]
-	#before_filter :verify_film_admin, :only => [:new, :create, :destroy]
-	#before_filter :verify_permission, :only => [:edit, :update]
-	before_filter :fetch_film, :except => [:all, :opportunities]
+	skip_before_filter :force_auth, :only => [:cast, :crew]
+	before_filter :fetch_film, :except => [:cast, :crew]
 
 	# Cast Opportunities
-	def all
+	def cast
 		@active_nav = :opportunities
-		@films = Audition.future.includes(:film).select(&:film).group_by(&:film)
+		@scopes = [:cast, :crew]
+		@scope = :cast
+		@films = Film.current.has_auditions.includes(:auditions)
 	end
 
-	# Crew opportunities
-	# TODO: Optimize to filter out old films
-	# ^ TODO: Auto-prune old films with vacant positions so they don't end up clogging this query
-	def opportunities
+	# Crew Opportunities
+	def crew
 		@active_nav = :opportunities
-		@opportunities = FilmPosition.crew.vacant.includes({:film => :screenings}, :position).where(:film_id => Screening.future.select(:film_id))
-		@opportunities.select!{|o| o.film && o.film.screenings.first.timestamp > Time.now }
-		@opportunities = @opportunities.group_by(&:display_name)
-		# TODO: Replace film.contact with the email of the producer?
+		@scopes = [:cast, :crew]
+		@scope = :crew
+		@film_positions = FilmPosition.current.crew.vacant.includes(:film, :position)
+		@film_positions = @film_positions.filtered_by(params[:positions]) if params[:positions]
+		@positions = Position.crew.all
 	end
 
 	def index
-		@auditions = [] and return if request.format == :csv && !@current_user.has_permission?(params[:film_id], :auditions)
 		@active_nav = :opportunities
-		@auditions = @film.auditions.immediate_future
-		redirect_to '/auditions' if @auditions.blank? && !@current_user.has_permission?(params[:film_id], :auditions)
-		@user_audition = @auditions.detect{|a| a.person_id == @current_user.id }
-		@recent_auditions = @film.auditions.recent_past
+		@auditions = [] and return if request.format == :csv && !@current_user.has_permission?(params[:film_id], :auditions)
 
-		# Legacy support, check and reassociate audition if given
-		if params[:aud_id]
-			legacy_aud =  @film.auditions.find(params[:aud_id])
-			require 'digest/md5'
-			if Digest::MD5.hexdigest(legacy_aud.name) == params[:aud_hash] || legacy_aud.person_id == @current_user.id
-				legacy_aud.update_attribute('person_id', @current_user.id) unless !legacy_aud.person_id.blank?
-				redirect_to film_auditions_path(@film), :notice => 'We\'ve associated you audition with your account on the new site. You can now access your audition for this film using the URL above or from the My Dashboard link'
-			end
-		end
+		@auditions = @film.auditions.current
+		redirect_to '/auditions' if @auditions.none? && !@current_user.has_permission?(params[:film_id], :auditions)
 
-		@user_audition ||= {}
+		@user_audition = @auditions.find_by_person_id(@current_user.id)
+		@recent_auditions = @film.auditions.recent
 	end
 
 	def past
@@ -52,10 +41,6 @@ class AuditionsController < ApplicationController
 			redirect_to :action => :index, :film_id => @film.id
 		end
 	end
-
-	#def new
-	#	@audition = Audition.new
-	#end
 
 	def create
 		#expect batch processing so figure out what we're iterating on
@@ -75,7 +60,7 @@ class AuditionsController < ApplicationController
 		if @film.auditions.where(:timestamp => (start...stop)).count > 0
 			#Bad params
 			@auditions = @film.auditions.future.includes(:person)
-			flash.now[:error] = 'Given audition times conflict with pre-existing auditions.'
+			flash.now[:alert] = 'Given audition times conflict with pre-existing auditions.'
 			render :action => 'index'
 			return
 		end
@@ -107,31 +92,25 @@ class AuditionsController < ApplicationController
 	def update
 
 		if params[:commit] == "cancel" || params[:commit] =~ /\d+/
-			# user wants to cancel/update, verify params
+
+			# If they want to add an audition, verify params first
 			if params[:commit] =~ /\d+/ && (params[:phone].blank? || params[:email].blank?)
-				redirect_to film_auditions_path(@film), :error => 'Please enter a valid phone and email so the film can contact you'
+				redirect_to film_auditions_path(@film), :alert => 'Please enter a valid phone and email so the production can contact you'
 				return
 			end
 
-			# If they had an old time
+			# If they already had an audition
 			@old_audition = @film.auditions.where(:person_id => @current_user.id).first
-			if @old_audition
-				@old_audition.person_id = nil
-				@old_audition.phone = nil
-				@old_audition.email = nil
-				@old_audition.save!
-			end
+			@old_audition.cancel! if @old_audition
 
-			# If they asked for a new time
+			# If they asked for a new audition
 			if params[:commit] =~ /\d+/
 				@audition = @film.auditions.where(:person_id => nil).find(params[:commit])
-				@audition.person_id = @current_user.id
-				@audition.phone = params[:phone]
-				@audition.email = params[:email]
-				@audition.save!
+				@audition.signup! @current_user, params
 			end
+
 		elsif params[:id]
-			raise unless @aud_admin #Only admins
+			raise unless @aud_admin
 			# single update as from best in place, just assign location?
 			@audition = @film.auditions.find(params[:id])
 			respond_to do |format|
@@ -144,22 +123,13 @@ class AuditionsController < ApplicationController
 		    end
 		  end
 		  return
+
 		else
-			raise unless @aud_admin #Only admins
-			# Mass delete, wish I could have managed this more cleanly
-			# @film.audition_ids = params[:auditions].select {|id,values| values[:_destroy] != "1"}.map{|id,values| id}
-
-			# New way form edit page -- did this work at one point?
-			# @film.auditions.find(params[:destroy_ids]).each{|a| a.destroy}
-			# @film.auditions(true)
-		 	# render :action => "create_success"
-			# return
-
-			# Updated delete from Auditions page deletion form.
+			raise unless @aud_admin
 			destroy_ids = params[:auditions].collect {|id, values| id if values[:_destroy] == "1"}.compact
 			@film.auditions.destroy(*destroy_ids) unless destroy_ids.empty?
-
 		end
+
 		redirect_to film_auditions_path(@film), :notice => 'Audition successfully updated.'
 	end
 

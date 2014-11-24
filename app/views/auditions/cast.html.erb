@@ -1,0 +1,38 @@
+<h1>Student Productions</h1>
+
+<div id="controls" class="row">
+  <div class="col-md-3">
+    <% @scopes.each do |scope| -%>
+      <%= link_to scope.to_s.titlecase, {:action => scope}, :class => "btn btn-#{@scope == scope ? :primary : :link}" %>
+    <% end -%>
+  </div>
+</div>
+
+<% if @films.any? -%>
+  <div class="grid row">
+    <% @films.each do |film| %>
+    	<div class="col-md-4">
+        <h4><%= link_to film.title, film %></h4>
+
+        Directed by:
+        <%= link_to film.director.name, film.director %>
+        <br />
+
+        Auditions:
+        <%= short_date film.auditions.first.starts_at %>
+        <% if film.auditions.first.date != film.auditions.last.date -%>
+        - <%= short_date film.auditions.last.starts_at %>
+        <% end -%>
+        <br />
+
+    		<%= link_to "Signup Here", film_auditions_path(film) %>
+      </div>
+    <% end -%>
+  </div>
+
+<% else %>
+  <div class="row">
+    <h4>Sorry, there are no upcoming auditions at this time. Please check back soon!</h4>
+  </div>
+
+<% end %>
