@@ -1,17 +1,18 @@
-<h1>Auditions for &quot;<%= @film.title %>&quot;</h1>
+<h1>Auditions: <%= @film.title %></h1>
 
 <div class="row">
-	<p><strong>Audition Information:</strong></p>
-	<p><%= best_in_place_if @aud_admin, @film, :aud_info, :type => :textarea %></p>
+	<div class="col-md-12">
+		<p><%= best_in_place_if @aud_admin, @film, :aud_info, :type => :textarea %></p>
+	</div>
 </div>
 
 <hr />
 
 <div class="row">
-	<% if @auditions.any? %>
-		<%= form_tag film_auditions_path(@film), :method => :put, :class => 'form-horizontal' do %>
+	<div class="col-md-12">
+		<% if @auditions.any? %>
+			<%= form_tag film_auditions_path(@film), :method => :put, :class => 'form-horizontal' do %>
 
-			<div class="row">
 				<h4>Your Information:</h4>
 
 				<div class="form-group">
@@ -37,53 +38,55 @@
 						<input type="text" name="email" class="form-control" value="<%= @user_audition ? @user_audition.email : @current_user.email %>" />
 					</div>
 				</div>
-			</div>
 
-			<div class="row">
+				<br />
 				<h4>Audition Times:</h4>
 				<p>Note that signing up for a new slot will replace any previous slot you have</p>
-			</div>
 
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Audition Time</th>
-						<th>Location</th>
-						<th>Signup</th>
-						<% if @aud_admin %>
-							<th>Person</th>
-							<th>Email</th>
-							<th>Phone</th>
-						<% end %>
-					</tr>
-					<tr>
-						<td colspan="4"></td>
-					</tr>
-				</thead>
-				<tbody>
-					<% @auditions.each do |audition| %> 
-				    <%= fields_for "auditions[#{audition.id}]", audition do |builder| %>
-				    	<% if @aud_admin %>
-			  	  		<%= render :partial => 'form_admin', :locals => {:audition => audition, :form => builder} %>
-			    		<% else %>
-			    			<%= render :partial => 'form', :locals => {:audition => audition, :form => builder} %>
-				    	<% end %>
-				    <% end %>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<% if @aud_admin %>
+								<th></th>
+							<% end -%>
+							<th>Audition Time</th>
+							<th>Location</th>
+							<th>Signup</th>
+							<% if @aud_admin %>
+								<th>Person</th>
+								<th>Email</th>
+								<th>Phone</th>
+							<% end %>
+						</tr>
+						<tr>
+							<td colspan="4"></td>
+						</tr>
+					</thead>
+					<tbody>
+						<% @auditions.each do |audition| %> 
+					    <%= fields_for "auditions[#{audition.id}]", audition do |builder| %>
+					    	<% if @aud_admin %>
+				  	  		<%= render :partial => 'form_admin', :locals => {:audition => audition, :form => builder} %>
+				    		<% else %>
+				    			<%= render :partial => 'form', :locals => {:audition => audition, :form => builder} %>
+					    	<% end %>
+					    <% end %>
+					  <% end %>
+					</tbody>
+			  	<% if @aud_admin %>
+				  	<tfoot>
+						  <tr>
+						  	<td></td>
+						  	<td colspan="6">
+						  		<%= submit_tag "Delete Selected", :class => "btn btn-primary", :data => { :confirm => "This will delete the selected auditions. There is no undo. Are you sure?" } %> &nbsp;
+						  		<%= link_to "Past auditions", {:action => :past, :film_id => @film.id}, :class => 'btn btn-link' if @recent_auditions.any? %>
+						  	</td>
+				  	  </tr>
+				  	</tfoot>
 				  <% end %>
-				</tbody>
-		  	<% if @aud_admin %>
-		  	<tfoot>
-				  <tr>
-				  	<td>
-				  		<%= submit_tag "Delete Selected", :class => "btn", :data => { :confirm => "This will delete the selected auditions. There is no undo. Are you sure?" } %><td>
-			  	  </tr>
-				  	<td colspan="6">
-				  		<%= link_to "Past auditions", :action => :past, :film_id => @film.id if @recent_auditions.any? %>
-				  	</td>
-			  	</tfoot>
-			  <% end %>
-		  </table>
-		  
+			  </table>
+			  
+			<% end %>
 		<% end %>
-	<% end %>
+	</div>
 </div>

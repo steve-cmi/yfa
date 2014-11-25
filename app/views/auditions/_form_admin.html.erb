@@ -1,9 +1,12 @@
-<tr>
+<tr class="<%= :info if audition.person == @current_user %>">
+
+	<td>
+		<%= form.check_box :_destroy %>&nbsp;
+	</td>
 
 	<td>
     <p>
     	<label for="auditions_<%= audition.id %>__destroy">
-				<%= form.check_box :_destroy %>&nbsp;
   	    <%= short_date audition.starts_at %> at
     	  <%= time audition.starts_at %>
     	</label>
@@ -15,7 +18,7 @@
 	</td>
 
 	<% if audition.person == @current_user %>
-		<td><button class="btn btn-default" name="commit" value="cancel" type="submit">Cancel Audition</button></td>
+		<td><button class="btn btn-default" name="commit" value="cancel" type="submit">Cancel</button></td>
 		<td><%= audition.person.display_name %></td>
 		<td><%= audition.email %></td>
 		<td><%= audition.phone %></td>

@@ -37,7 +37,7 @@ class AuditionsController < ApplicationController
 	def past
 		@active_nav = :opportunities
 		@auditions = @film.auditions
-		if !@aud_admin || @auditions.recent_past.empty?
+		unless @aud_admin and @auditions.recent.any?
 			redirect_to :action => :index, :film_id => @film.id
 		end
 	end
