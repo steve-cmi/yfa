@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 	# Add this before filter to force CAS Authentication on all controllers + actions
 	before_filter :dummy_user if Rails.env.development?
 	before_filter :force_auth
-	before_filter :check_user	
+	before_filter :check_user
 	
 	def logged_in?
 		!!@current_user

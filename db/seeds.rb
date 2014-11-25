@@ -271,3 +271,11 @@ if Job.count == 0
   end
 end
 
+# -------- PAGES --------
+
+Page.find_or_create_by_slug('film_fest',
+  title: 'Yale College Film Festival',
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'main',
+  menu_title: 'Film Fest'
+)

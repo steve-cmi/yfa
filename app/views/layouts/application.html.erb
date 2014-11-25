@@ -53,9 +53,13 @@
               <li><%= link_to "Resources", resources_path %></li>
             </ul>
           </li>
-          <li class="<%= :active if @active_nav == :fest %>">
-            <%= link_to "Film Fest", "" %>
+
+          <% Page.main.by_position.each do |page| -%>
+          <li class="<%= :active if @active_nav == page.slug.to_sym %>">
+            <%= link_to page.menu_title, "" %>
           </li>
+          <% end -%>
+
           <li class="<%= :active if @active_nav == :board %>">
             <%= link_to "Meet the Board", "" %>
           </li>
