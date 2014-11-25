@@ -1,6 +1,6 @@
 <h1>Student Productions</h1>
 
-<div id="controls" class="row">
+<div class="row controls">
   <div class="col-md-3">
     <% @scopes.each do |scope| -%>
       <%= link_to scope.to_s.titlecase, {:action => scope}, :class => "btn btn-#{@scope == scope ? :primary : :link}" %>

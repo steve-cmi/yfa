@@ -1,10 +1,10 @@
 <h1>Projects</h1>
 
-<% content_for :body_attrs, %(data-spy="scroll" data-target="#controls").html_safe %>
+<% content_for :body_attrs, %(data-spy="scroll" data-target="#film-controls").html_safe %>
 
 <div id="scrollspy">
 
-  <div id="controls" class="row affix-top" data-spy="affix" data-offset-top="155">
+  <div id="film-controls" class="row controls affix-top" data-spy="affix" data-offset-top="155">
     <ul class="nav nav-pills">
       <% @groups.collect(&:first).each_with_index do |group, index| -%>
         <li role="presentation" class="<%= :active if index == 0 %>">
