@@ -19,6 +19,11 @@ div.container {
     margin-bottom: 40px;
   }
 
+  div.controls-top {
+    padding: 20px;
+    border-top: 1px solid #aaa;
+  }
+
   div.grid.row {
     padding: 20px;
     padding-bottom: 40px;
@@ -35,4 +40,9 @@ div.container {
 
 .best-in-place-control {
   display: inline;
+}
+
+.button-label {
+  padding: 11px 0px;
+  display: block;
 }

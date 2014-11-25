@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141121194323) do
+ActiveRecord::Schema.define(:version => 20141125162240) do
 
   create_table "announcements", :force => true do |t|
     t.string   "title"
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(:version => 20141121194323) do
   end
 
   create_table "auditions", :force => true do |t|
-    t.integer   "film_id",                                                      :null => false
-    t.timestamp "timestamp",                 :default => '2003-01-01 08:00:00', :null => false
+    t.integer   "film_id",                   :null => false
+    t.timestamp "starts_at",                 :null => false
     t.string    "name",       :limit => 100
     t.string    "phone",      :limit => 50
     t.string    "email"
@@ -156,6 +156,30 @@ ActiveRecord::Schema.define(:version => 20141121194323) do
     t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "jobs", :force => true do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "position"
+    t.string   "title"
+    t.string   "compensation"
+    t.boolean  "alumni_affiliation"
+    t.string   "company"
+    t.string   "street"
+    t.string   "suite"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "country"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "website"
+    t.text     "description"
+    t.text     "application_instructions"
+    t.string   "application_link"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
   end
 
   create_table "links", :force => true do |t|

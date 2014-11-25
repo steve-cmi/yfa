@@ -242,3 +242,32 @@ if Audition.count == 0
   end
 end
 
+# -------- JOBS --------
+
+start_date = Yale::year_start
+end_date = Yale::year_end
+
+if Job.count == 0
+  Job.populate(15) do |j|
+    j.start_date = Faker::Date.between(start_date, end_date)
+    j.end_date = Faker::Date.between(j.start_date, end_date)
+    j.position = ['Intern', 'Contractor', 'Part Time', 'Full Time']
+    j.title = Faker::Lorem.sentence
+    j.compensation = [nil, "$#{Faker::Number.number(2)} per hour"]
+    j.alumni_affiliation = [true, false]
+    j.company = Faker::Company.name
+    j.street = Faker::Address.street_address
+    j.suite = [nil, Faker::Address.secondary_address]
+    j.city = Faker::Address.city
+    j.state = Faker::Address.state_abbr
+    j.zip = Faker::Address.zip
+    j.country = [nil, nil, nil, Faker::Address.country]
+    j.email = Faker::Internet.email
+    j.phone = Faker::PhoneNumber.phone_number
+    j.website = Faker::Internet.url
+    j.description = Faker::Lorem.paragraphs([2,3].sample).collect {|x| "<p>#{x}</p>"}.join
+    j.application_instructions = Faker::Lorem.sentence
+    j.application_link = Faker::Internet.url
+  end
+end
+

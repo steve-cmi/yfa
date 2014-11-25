@@ -1,0 +1,62 @@
+<a href="#" data-toggle="modal" data-target="#job-<%= job.id %>">More info</a>
+
+<% content_for :dialogs do -%>
+<div id="job-<%= job.id %>" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"><%= job.company %></h4>
+        <h5>Position: <%= job.position %></h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+
+            <strong>Description:</strong><br />
+            <%= job.description.html_safe %>
+            <br />
+
+            <strong>Alumni Affiliation:</strong>
+            <%= job.alumni_affiliation? ? 'Yes' : 'No' %>
+
+          </div>
+          <div class="col-md-6">
+
+            <p>
+              <strong>Timeframe:</strong><br />
+              <%= long_date job.start_date %> to
+              <%= long_date job.end_date %>
+            </p>
+
+            <p>
+              <strong>Compensation:</strong><br />
+              <%= job.compensation || 'Unpaid' %>
+            </p>
+
+            <p>
+              <strong>Location:</strong><br />
+              <%= job.full_address.join('<br />').html_safe %>
+            </p>
+
+            <p>
+              <strong>Application instructions:</strong><br />
+              <%= job.application_instructions %>
+            </p>
+
+            <p>
+              <%= link_to "Apply online", job.application_link, target: '_blank' %>
+            </p>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          Back to Jobs &amp; Internships
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<% end -%>
