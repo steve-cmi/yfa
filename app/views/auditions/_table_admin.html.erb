@@ -1,0 +1,183 @@
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th></th>
+      <th>Audition Time</th>
+      <th>Location</th>
+      <th>Signup</th>
+      <th>Person</th>
+      <th>Email</th>
+      <th>Phone</th>
+    </tr>
+    <tr>
+      <td colspan="7"></td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @auditions.each do |audition| %> 
+      <%= fields_for "auditions[#{audition.id}]", audition do |form| %>
+        <tr class="<%= :info if audition.person == @current_user %>">
+
+          <td>
+            <%= form.check_box :_destroy %>&nbsp;
+          </td>
+
+          <td>
+            <p>
+              <label for="auditions_<%= audition.id %>__destroy">
+                <%= short_date audition.starts_at %> at
+                <%= time audition.starts_at %>
+              </label>
+            </p>
+          </td>
+
+          <td>
+            <%= best_in_place audition, :location, :path => film_auditions_path(@film) + "/#{audition.id}" %>
+          </td>
+
+          <% if audition.person == @current_user %>
+            <td><button class="btn btn-default" name="commit" value="cancel" type="submit">Cancel</button></td>
+            <td><%= audition.person.display_name %></td>
+            <td><%= audition.email %></td>
+            <td><%= audition.phone %></td>
+
+          <% elsif audition.person %>
+            <td><button class="btn btn-link" disabled="disabled" type="button">Taken</button></td>
+            <td><%= audition.person.display_name %></td>
+            <td><%= audition.email %></td>
+            <td><%= audition.phone %></td>
+
+          <% else %>
+            <td><button class="btn btn-default" name="commit" value="<%= audition.id %>" type="submit">Signup</button></td>
+            <td colspan="3">Not Taken Yet</td>
+
+          <% end %>
+
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td></td>
+      <td colspan="6">
+        <%= submit_tag "Delete Selected", :class => "btn btn-primary", :data => { :confirm => "This will delete the selected auditions. There is no undo. Are you sure?" } %>
+
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-auditions">Add a Block of Auditions</button>
+        <% content_for :dialogs do -%>
+        <div id="add-auditions" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <%= form_tag({:controller => 'auditions', :action => 'create', :multiple => true}, :class => "form form-horizontal") do |f| %>
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Add a Block of Auditions</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12">
+
+                      <div class="form-group">
+                        <%= label_tag :location, nil, :class => "col-md-3 control-label" %>
+                        <div class="col-md-8">
+                          <%= text_field_tag :location, nil, :class => "form-control" %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <%= label_tag :date, nil, :class => "col-md-3 control-label" %>
+                        <div class="col-md-8">
+                          <%= text_field_tag :date, nil, :class => "form-control" %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <%= label_tag :start_time, nil, :class => "col-md-3 control-label" %>
+                        <div class="col-md-8">
+                          <%= text_field_tag :start_time, nil, :class => "form-control" %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <%= label_tag :end_time, nil, :class => "col-md-3 control-label" %>
+                        <div class="col-md-8">
+                          <%= text_field_tag :end_time, nil, :class => "form-control" %>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <%= label_tag :duration, "Duration<br /><small>(in minutes)</small>".html_safe, :class => "col-md-3 control-label" %>
+                        <div class="col-md-8">
+                          <%= text_field_tag :duration, nil, :class => "form-control" %>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <% end -%>
+
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-audition">Add a Single Audition</button>
+        <% content_for :dialogs do -%>
+        <div id="add-audition" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <%= form_tag({:controller => 'auditions', :action => 'create', :multiple => false}, :class => "form form-horizontal") do |f| %>
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Add a Single Audition</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="form-group">
+                      <%= label_tag :location_single, "Location", :class => "col-md-3 control-label" %>
+                      <div class="col-md-8">
+                        <%= text_field_tag :location, nil, :class => "form-control", :id => "location_single" %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <%= label_tag :date_single, "Date", :class => "col-md-3 control-label" %>
+                      <div class="col-md-8">
+                        <%= text_field_tag :date, nil, :class => "form-control", :id => "date_single" %>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <%= label_tag :time_single, "Time", :class => "col-md-3 control-label" %>
+                      <div class="col-md-8">
+                        <%= text_field_tag :time, nil, :class => "form-control", :id => "time_single" %>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <% end -%>
+
+        <%= link_to "Past auditions", {:action => :past, :film_id => @film.id}, :class => 'btn btn-link' if @recent_auditions.any? %>
+      </td>
+    </tr>
+  </tfoot>
+
+</table>

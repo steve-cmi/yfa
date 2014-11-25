@@ -43,49 +43,8 @@
 				<h4>Audition Times:</h4>
 				<p>Note that signing up for a new slot will replace any previous slot you have</p>
 
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<% if @aud_admin %>
-								<th></th>
-							<% end -%>
-							<th>Audition Time</th>
-							<th>Location</th>
-							<th>Signup</th>
-							<% if @aud_admin %>
-								<th>Person</th>
-								<th>Email</th>
-								<th>Phone</th>
-							<% end %>
-						</tr>
-						<tr>
-							<td colspan="4"></td>
-						</tr>
-					</thead>
-					<tbody>
-						<% @auditions.each do |audition| %> 
-					    <%= fields_for "auditions[#{audition.id}]", audition do |builder| %>
-					    	<% if @aud_admin %>
-				  	  		<%= render :partial => 'form_admin', :locals => {:audition => audition, :form => builder} %>
-				    		<% else %>
-				    			<%= render :partial => 'form', :locals => {:audition => audition, :form => builder} %>
-					    	<% end %>
-					    <% end %>
-					  <% end %>
-					</tbody>
-			  	<% if @aud_admin %>
-				  	<tfoot>
-						  <tr>
-						  	<td></td>
-						  	<td colspan="6">
-						  		<%= submit_tag "Delete Selected", :class => "btn btn-primary", :data => { :confirm => "This will delete the selected auditions. There is no undo. Are you sure?" } %> &nbsp;
-						  		<%= link_to "Past auditions", {:action => :past, :film_id => @film.id}, :class => 'btn btn-link' if @recent_auditions.any? %>
-						  	</td>
-				  	  </tr>
-				  	</tfoot>
-				  <% end %>
-			  </table>
-			  
+	  		<%= render :partial => (@aud_admin ? 'table_admin' : 'table') %>
+
 			<% end %>
 		<% end %>
 	</div>

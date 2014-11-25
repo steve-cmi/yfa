@@ -43,46 +43,69 @@ class AuditionsController < ApplicationController
 	end
 
 	def create
-		#expect batch processing so figure out what we're iterating on
-		# Assume they gave us Eastern Time Zone stuff
+		if params[:multiple] == 'true'
+			create_multiple
+		else
+			create_single
+		end
+	end
+
+	def create_multiple
+		# Parse date and time inputs into start and stop.
 		begin
-			that_date = DateTime.strptime("#{params[:date]} #{params[:start_time]}", '%m/%d/%Y %l:%M%P')
-			start = Time.find_zone('Eastern Time (US & Canada)').local(that_date.year, that_date.month, that_date.day, that_date.hour, that_date.minute)
-			that_date = DateTime.strptime("#{params[:date]} #{params[:end_time]}", '%m/%d/%Y %l:%M%P')
-			stop = Time.find_zone('Eastern Time (US & Canada)').local(that_date.year, that_date.month, that_date.day, that_date.hour, that_date.minute)
-		rescue ArgumentError
-			render :js => "alert('Invalid date format, please try again and be sure to use the dropdowns!')"
+			start = Time.zone.parse("#{params[:date]} #{params[:start_time]}")
+			stop = Time.zone.parse("#{params[:date]} #{params[:end_time]}")
+		rescue
+			redirect_to film_auditions_path(@film), :alert => "Invalid date format, please try again."
 			return
 		end
 
-		# Validate things here
-		# ensure there's no other time in this span, custom validator
-		if @film.auditions.where(:timestamp => (start...stop)).count > 0
-			#Bad params
-			@auditions = @film.auditions.future.includes(:person)
-			flash.now[:alert] = 'Given audition times conflict with pre-existing auditions.'
-			render :action => 'index'
+		# Ensure there are no other times in this time span
+		if @film.auditions.where(:starts_at => (start...stop)).count > 0
+			redirect_to film_auditions_path(@film), :alert => "Given audition times conflict with pre-existing auditions."
 			return
 		end
 
+		# Ensure duration makes sense.
 		if params[:duration].to_i <= 0
-			render :js => "alert('Auditions must have a duration (in minutes) greater than 0')"
+			redirect_to film_auditions_path(@film), :alert => "Auditions must have a Duration (in minutes) greater than 0."
 			return
 		end
 
+		# Build (don't save) auditions
 		while start < stop do
-			@film.auditions.build(:timestamp => start, :location => params[:location])
+			@film.auditions.build(:starts_at => start, :location => params[:location])
 			start += params[:duration].to_i.minutes
 		end
 
-		respond_to do |format|
-			if @film.save
-				format.html { redirect_to film_auditions_path(@film), :notice => 'Film was successfully updated.' }
-				format.json { render :json => {:success => true} }
-	      format.js { render :action => "create_success" }
-			else
-				render :nothing => true
-			end
+		if @film.save
+			redirect_to film_auditions_path(@film), :notice => 'Auditions were successfully created.'
+		else
+			redirect_to film_auditions_path(@film), :alert => 'Auditions were unable to be created.'
+		end
+	end
+
+	def create_single
+		# Parse date and time inputs into starts_at.
+		begin
+			starts_at = Time.zone.parse("#{params[:date]} #{params[:time]}")
+		rescue
+			redirect_to film_auditions_path(@film), :alert => "Invalid date format, please try again."
+			return
+		end
+
+		# Ensure there are no other times in this time span
+		if @film.auditions.where(:starts_at => starts_at).count > 0
+			redirect_to film_auditions_path(@film), :alert => "Given audition time conflicts with a pre-existing audition."
+			return
+		end
+
+		@film.auditions.build(:starts_at => starts_at, :location => params[:location])
+
+		if @film.save
+			redirect_to film_auditions_path(@film), :notice => 'Audition was successfully created.'
+		else
+			redirect_to film_auditions_path(@film), :alert => 'Audition was unable to be created.'
 		end
 	end
 
@@ -90,7 +113,6 @@ class AuditionsController < ApplicationController
 	end
 
 	def update
-
 		if params[:commit] == "cancel" || params[:commit] =~ /\d+/
 
 			# If they want to add an audition, verify params first
