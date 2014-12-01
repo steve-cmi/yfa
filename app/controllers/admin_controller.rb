@@ -6,7 +6,7 @@ class AdminController < ApplicationController
 		@pending_films = Film.unscoped.where(:approved => false)
 		@pending_takeovers = TakeoverRequest.where(:approved => false).all
 		@films = Film.unscoped.select([:id,:title]).order(:title).all
-		@news = News.order(:created_at).all.reverse
+		@announcements = Annoucement.order(:created_at).all.reverse
 	end
 
 	def newsletter

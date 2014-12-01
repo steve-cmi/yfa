@@ -50,7 +50,6 @@ Yfa::Application.routes.draw do
   resources :people
   resources :events
   resources :jobs
-  resources :news, :path => "/news"
   match 'people/:id/request_names' => 'people#takeover_request', :as => :takeover_request, :method => :post
 
   match 'dashboard' => 'people#dashboard', :as => :dashboard

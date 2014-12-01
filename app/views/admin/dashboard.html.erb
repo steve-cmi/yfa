@@ -82,26 +82,25 @@ div#email_content {margin:10px 0px;}
 <% end %>
 
 <br /><br />
-<b>Edit News:</b>
-<form method="get" action="/news/id/edit">
-  <%= select_tag :news_edit_id, options_from_collection_for_select(@news, :id, :title) %>
+<b>Edit Announcement:</b>
+<form method="get" action="/annoucement/id/edit">
+  <%= select_tag :annoucement_edit_id, options_from_collection_for_select(@annoucement, :id, :title) %>
   <%= submit_tag "Edit" %>
 </form>
 <br /><br />
 
-<b>Delete News:</b>
-<%= form_for(:news, :url => news_path("id"), :html => {:method => :delete}) do  %>
-  <%= select_tag :news_delete_id, options_from_collection_for_select(@news, :id, :title) %>
+<b>Delete Announcement:</b>
+<%= form_for(:annoucement, :url => annoucement_path("id"), :html => {:method => :delete}) do  %>
+  <%= select_tag :annoucement_delete_id, options_from_collection_for_select(@annoucement, :id, :title) %>
   <%= submit_tag "Delete", :confirm => "Are you sure you want to delete the selected article?" %>
 <% end %>
 
 <br /><br />
 
-<b>New News:</b>
-<div class="news">
-	<%= form_for News.new do |f| %>
+<b>New Announcement:</b>
+<div class="annoucement">
+	<%= form_for Announcement.new do |f| %>
 		Title: <%= f.text_field :title %><br />
-		Posted by: <%= f.text_field :poster %><br />
 		<%= f.text_area :text %>
 		<br /><br />
 		<%= f.submit "Create" %>
