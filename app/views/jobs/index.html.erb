@@ -1,39 +1,35 @@
 <h1>Jobs &amp; Internships</h1>
 
 <form class="form-inline" role="form">
-  <div class="row controls-top">
-
-    <div class="col-md-3 form-group">
-      <%= select_tag :state, grouped_options_for_select(@state_options, params[:state]), :prompt => 'Any Country and State', :class => 'form-control' %>
-    </div>
-
-    <div class="col-md-3 form-group">
-      <%= select_tag :paid, options_for_select([['Paid', true], ['Unpaid', false]], params[:paid]), :prompt => 'Any Compensation', :class => 'form-control' %>
-    </div>
-
-    <div class="col-md-3 form-group">
-      <%= select_tag :alum, options_for_select([['Yes', true], ['No', false]], params[:alum]), :prompt => 'Any Alumni affiliation', :class => 'form-control' %>
-    </div>
-
-    <div class="col-md-3">
-      <button type="submit" name="scope" value="<%= @scope %>" class="btn btn-default">Filter</button>
-    </div>
-
-  </div>
-
   <div class="row controls">
 
     <div class="col-md-1 form-group">
       <strong class="button-label">Sort by:</strong>
     </div>
 
-    <div class="col-md-11">
+    <div class="col-md-4">
       <% @scopes.each do |scope| -%>
         <button type="submit" name="scope" value="<%= scope %>"
             class="btn btn-<%= @scope == scope ? :primary : :link %>">
           <%= scope.to_s.titlecase %>
         </button>
       <% end -%>
+    </div>
+
+    <div class="col-md-2 form-group">
+      <%= select_tag :state, grouped_options_for_select(@state_options, params[:state]), :prompt => 'Any Country and State', :class => 'form-control' %>
+    </div>
+
+    <div class="col-md-2 form-group">
+      <%= select_tag :paid, options_for_select([['Paid', true], ['Unpaid', false]], params[:paid]), :prompt => 'Any Compensation', :class => 'form-control' %>
+    </div>
+
+    <div class="col-md-2 form-group">
+      <%= select_tag :alum, options_for_select([['Yes', true], ['No', false]], params[:alum]), :prompt => 'Any Alumni affiliation', :class => 'form-control' %>
+    </div>
+
+    <div class="col-md-1">
+      <button type="submit" name="scope" value="<%= @scope %>" class="btn btn-default">Filter</button>
     </div>
 
   </div>
