@@ -1,0 +1,16 @@
+<h1>How To's</h1>
+
+<hr />
+
+<div class="list row">
+
+  <% Page.howtos.by_position.each do |howto| -%>
+
+  <div class="col-md-4">
+    <h4><%= link_to howto.title, howto %></h4>
+    <p><%= howto.lead %></p>
+  </div>
+
+  <% end -%>
+
+</div>

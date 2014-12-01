@@ -54,19 +54,21 @@
           <li class="dropdown <%= :active if @active_nav == :resources %>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Resources <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Resources", resources_path %></li>
+              <li class="<%= :active if @active_subnav == :howtos %>">
+                <%= link_to "How To's", howtos_path %>
+              </li>
+              <% Page.resources.by_position.each do |page| -%>
+              <li class="<%= :active if @page == page %>">
+                <%= link_to page.menu_title, page %>
+              </li>
+              <% end -%>
             </ul>
           </li>
-
           <% Page.main.by_position.each do |page| -%>
-          <li class="<%= :active if @active_nav == page.slug.to_sym %>">
-            <%= link_to page.menu_title, "" %>
+          <li class="<%= :active if @page == page %>">
+            <%= link_to page.menu_title, page %>
           </li>
           <% end -%>
-
-          <li class="<%= :active if @active_nav == :board %>">
-            <%= link_to "Meet the Board", "" %>
-          </li>
           <li class="<%= :active if @active_nav == :donate %>">
             <%= link_to "Donate", donate_path %>
           </li>

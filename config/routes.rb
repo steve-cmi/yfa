@@ -90,9 +90,12 @@ Yfa::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => 'pages#index'
   
-  # Hijack guide links and wrap them in a special template
-  match 'resources' => 'pages#resources'
+  # Custom basic pages
+  match 'howtos' => 'pages#howtos'
   match 'donate' => 'pages#donate'
+
+  # Must be last for custom path
+  resources :pages, only: [:show], path: '', constraints: { format: 'html' }
 
   # See how all your routes lay out with "rake routes"
 

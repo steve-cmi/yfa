@@ -273,9 +273,82 @@ end
 
 # -------- PAGES --------
 
-Page.find_or_create_by_slug('film_fest',
+# MAIN MENU
+
+Page.find_or_create_by_slug('film-fest',
   title: 'Yale College Film Festival',
   content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
   menu: 'main',
   menu_title: 'Film Fest'
+)
+
+Page.find_or_create_by_slug('board',
+  title: 'Meet the Board',
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'main',
+  menu_title: 'Meet the Board'
+)
+
+# RESOURCES
+
+Page.find_or_create_by_slug('film-groups',
+  title: 'Campus Film Groups',
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'resources',
+  menu_title: 'Campus Film Groups'
+)
+
+Page.find_or_create_by_slug('institutional-resources',
+  title: 'Institutional Resources',
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'resources',
+  menu_title: 'Institutional Resources'
+)
+
+Page.find_or_create_by_slug('academic-studies-in-film',
+  title: 'Academic Studies in Film',
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'resources',
+  menu_title: 'Academic Studies in Film'
+)
+
+Page.find_or_create_by_slug('online-resources',
+  title: 'Online Resources',
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'resources',
+  menu_title: 'Online Resources'
+)
+
+# HOW TOS
+
+Page.find_or_create_by_slug('pre-production',
+  title: 'Pre-production',
+  lead: Faker::Lorem.sentences([2,3].sample).join(' '),
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'howtos',
+  menu_title: 'Pre-production'
+)
+
+Page.find_or_create_by_slug('production',
+  title: 'Production',
+  lead: Faker::Lorem.sentences([2,3].sample).join(' '),
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'howtos',
+  menu_title: 'Production'
+)
+
+Page.find_or_create_by_slug('faq',
+  title: 'FAQ',
+  lead: Faker::Lorem.sentences([2,3].sample).join(' '),
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'howtos',
+  menu_title: 'FAQ'
+)
+
+Page.find_or_create_by_slug('how-to-title',
+  title: 'How To Title',
+  lead: Faker::Lorem.sentences([2,3].sample).join(' '),
+  content: Faker::Lorem.paragraphs([4,5,6].sample).collect {|x| "<p>#{x}</p>"}.join,
+  menu: 'howtos',
+  menu_title: 'How To Title'
 )

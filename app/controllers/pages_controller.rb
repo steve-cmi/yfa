@@ -11,10 +11,24 @@ class PagesController < ApplicationController
 		@featured_event = EventDate.current.featured.by_date.first
 	end
 
+	# Dynamic pages from the pages table
+	def show
+		@page = Page.find params[:id]
+		@page_name = @page.title
+		case @page.menu.to_sym
+		when :resources
+			@active_nav = :resources
+		when :howtos
+			@active_nav = :resources
+			@active_subnav = :howtos
+		end
+	end
+
 	# Static Pages
-	def resources
-		@page_name = 'Resources'
+	def howtos
+		@page_name = 'How To\'s'
 		@active_nav = :resources
+		@active_subnav = :howtos
 	end
 
 	def donate
