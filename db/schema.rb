@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141125210313) do
+ActiveRecord::Schema.define(:version => 20141201164641) do
 
   create_table "announcements", :force => true do |t|
     t.string   "title"
@@ -33,18 +33,6 @@ ActiveRecord::Schema.define(:version => 20141125210313) do
     t.datetime  "created_at"
     t.datetime  "updated_at"
   end
-
-  create_table "board_positions", :force => true do |t|
-    t.string   "position"
-    t.integer  "year"
-    t.integer  "person_id"
-    t.string   "extra"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "board_positions", ["person_id"], :name => "index_board_positions_on_person_id"
-  add_index "board_positions", ["year"], :name => "index_board_positions_on_year"
 
   create_table "buildings", :force => true do |t|
     t.string "code"
