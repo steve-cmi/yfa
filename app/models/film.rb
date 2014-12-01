@@ -5,6 +5,9 @@ class Film < ActiveRecord::Base
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :destroy, :order => :starts_at
 
+	has_one :film_director, :class_name => 'FilmPosition', :conditions => "position_id = #{Position.director_id}", :include => :person
+	has_one :director, :source => :person, :through => :film_director
+
   has_many :film_genres, dependent: :destroy
   has_many :genres, through: :film_genres
 
@@ -38,10 +41,6 @@ class Film < ActiveRecord::Base
 	friendly_id :title, use: :slugged
 
 	delegate :directors, :actors, :writers, :cast, :crew, :to => :film_positions
-
-	def director
-		directors.first.person
-	end
 
 	def has_opportunities?
 		film_positions.cast.vacant.any?

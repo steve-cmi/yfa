@@ -11,7 +11,7 @@ class AuditionsController < ApplicationController
 		@active_subnav = :auditions
 		@scopes = [:cast, :crew]
 		@scope = :cast
-		@films = Film.current.has_auditions.includes(:auditions)
+		@films = Film.current.has_auditions.includes(:auditions, :director)
 	end
 
 	# Crew Opportunities
