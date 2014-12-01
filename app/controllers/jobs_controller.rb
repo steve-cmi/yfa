@@ -1,6 +1,9 @@
 class JobsController < ApplicationController
 
   def index
+    @active_nav = :opportunities
+    @active_subnav = :jobs
+
     @jobs = Job.current
 
     @jobs = @jobs.paid if params[:paid] == 'true'
