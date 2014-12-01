@@ -1,57 +1,17 @@
-<% javascript 'search.js' %>
+<h1>Search</h1>
 
-<h4>Search</h4>
-Please choose something to search for:<br />
-<%= form_tag '/search', :method => :get do %>
+<h4>Showing <%= @tab %> matching "<%= params[:q] %>"</h4>
 
-	<%= radio_button_tag :mode, "crew", params[:mode] == "crew" || params[:mode].blank? %> Crew Member<br />
-	<%= radio_button_tag :mode, "actor", params[:mode] == "actor" %> Actor/Character<br />
-	<%= radio_button_tag :mode, "film", params[:mode] == "film" %> Film/Production<br /><br /> 
-	
-	<div class="crew actor film">
-		Name: <%= text_field_tag :name, params[:name] %><br />
-	</div>
-	
-	<div class="crew">
-		Position: <%= select_tag :position_id, options_from_collection_for_select(Position.all, :id, :position, params[:position_id]), :prompt => "Please choose..." %><br />
-	</div>
-	
-	<div class="actor">
-		Character's Name: <%= text_field_tag :character, params[:character] %><br />
-	</div>
+<div class="row controls unpadded">
+	<ul class="nav nav-pills">
+    <% @tabs.each do |tab| -%>
+      <li class="<%= :active if @tab == tab %>">
+      	<%= link_to :t => tab, :q => params[:q] do %>
+	      	<%= tab.to_s.titlecase %> <span class="badge"><%= @badge[tab] %></span>
+      	<% end -%>
+      </button>
+    <% end -%>
+  </ul>
+</div>
 
-	<div class="crew actor film datepair">
-		Date Range: 
-		<%= text_field_tag :start, params[:start], :class => "date start" %> - 
-		<%= text_field_tag :end, params[:end], :class => "date end" %>
-	</div>
-	<br />	
-	<%= submit_tag "Submit" %>
-<% end %>
-<br />
-<hr />
-<br />
-
-<% if !@films.blank? %>
-	<h4>Film Results:</h4><br />
-	<table>
-		<tr><th>Film Name</th><th>Dates</th></tr>
-		<% @films.sort_by{|s| s.screenings.first.timestamp}.each do |s| %>
-			<tr><td><%= link_to s.title, best_link(s) %></td><td><%= format_long_rundates(s) %></td></tr>
-		<% end %>
-	</table>
-<% end %>
-<% if !@people.blank? %>
-	<h4>Person Results:</h4><br />
-	<table>
-		<tr><th width="25%">Person</th><th width="40%">Film Name</th><th width="35%">Dates</th></tr>
-		<% @people.group_by(&:person_id).each do |person_id,arr| %>
-			<% arr.select{|sp| sp.film}.sort_by{|sp| sp.film.screenings.first.timestamp}.reverse.each_with_index do |sp,i| %>
-				<% next unless sp.film %>
-				<tr><td><%= link_to sp.person.display_name, sp.person if i == 0 %></td><td><%= link_to sp.film.title, best_link(sp.film) %></td><td><%= format_long_rundates(sp.film) %></td></tr>
-			<% end %>
-		<% end %>
-</table>
-<% elsif params[:mode] && @people.blank? %>
-	<b>No Results Found</b>
-<% end %>
+<%= render @tab.to_s rescue nil %>

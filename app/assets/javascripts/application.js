@@ -26,5 +26,5 @@
 //= # require rails.validations.custom
 
 //= require site
-//= require admin
 //= require films
+//= # require admin

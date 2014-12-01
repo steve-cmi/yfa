@@ -119,8 +119,8 @@ end
 
 # -------- EVENTS --------
 
-start_date = Date.today
-end_date = Date.today.next_month
+start_date = Yale::semester_start
+end_date = Yale::semester_end - 1
 
 if Event.count == 0
   building_count = Building.count
@@ -161,7 +161,7 @@ end
 # -------- FILMS --------
 
 start_date = Date.parse('2010-01-01')
-end_date = Yale::year_end
+end_date = Yale::year_end -1
 
 if Film.count == 0
   Film.populate(400) do |f|
@@ -245,7 +245,7 @@ end
 # -------- JOBS --------
 
 start_date = Yale::year_start
-end_date = Yale::year_end
+end_date = Yale::year_end - 1
 
 if Job.count == 0
   Job.populate(15) do |j|

@@ -22,6 +22,7 @@ gem 'paperclip-meta'
 # gem 'rails-settings-cached'
 # gem 'remotipart'
 # gem 'ri_cal'
+gem 'ransack'
 gem 'rubycas-client'
 
 group :development do

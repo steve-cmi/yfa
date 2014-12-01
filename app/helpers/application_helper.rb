@@ -63,6 +63,10 @@ module ApplicationHelper
     "'" + year.to_s.last(2)
   end
 
+  def person_listing(person)
+    "#{person.name}, #{person.college} #{short_year person.year}"
+  end
+
   # ----- OLD HELPERS ------ prune when done.
 
 	# Expects ordered screening array, this is usually handled by the model

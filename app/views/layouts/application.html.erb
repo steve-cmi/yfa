@@ -73,8 +73,9 @@
             <%= link_to "Donate", donate_path %>
           </li>
         </ul>
-        <form class="navbar-form navbar-left" method="GET" action="/search">
-          <input type="text" class="form-control col-lg-8" placeholder="projects, people, events">
+        <form class="navbar-form navbar-left" method="GET" action="<%= search_path %>">
+          <input type="hidden" name="t" value="<%= @tab || :people %>" />
+          <input type="text" class="form-control col-lg-8" placeholder="projects, people, events" name="q" value="<%= params[:q] %>" />
         </form>
         <ul class="nav navbar-nav navbar-right">
           <li class="<%= :active if @active_nav == :user %>">

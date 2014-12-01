@@ -2,15 +2,12 @@ class Film < ActiveRecord::Base
 
 	has_many :screenings, :dependent => :destroy, :include => :building
 	has_many :film_positions, :dependent => :delete_all, :include => [:position, :person]
-	has_many :permissions, :dependent => :delete_all
-	has_many :auditions, :dependent => :destroy, :order => :starts_at
-
 	has_one :film_director, :class_name => 'FilmPosition', :conditions => "position_id = #{Position.director_id}", :include => :person
 	has_one :director, :source => :person, :through => :film_director
-
+	has_many :permissions, :dependent => :delete_all
+	has_many :auditions, :dependent => :destroy, :order => :starts_at
   has_many :film_genres, dependent: :destroy
   has_many :genres, through: :film_genres
-
   has_many :links, :as => :item, :dependent => :destroy
 
 	has_attached_file :poster,
