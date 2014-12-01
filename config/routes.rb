@@ -70,7 +70,6 @@ Yfa::Application.routes.draw do
   resources :films do
     get 'edit_people', :controller => :films, :action => :edit_people, :as => :edit_people
     match 'edit_files', :controller => :films, :action => :edit_files, :as => :edit_files, :via => [:get, :post]
-    match 'remind/:screening_id', :controller => :films, :action => :remind, :as => :remind, :via => [:get, :post]
     get 'dashboard', :controller => :films, :action => :dashboard, :as => :dashboard
 		resources :screenings, :only => [:film, :index]
 		resources :auditions do
