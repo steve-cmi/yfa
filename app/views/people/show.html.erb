@@ -34,11 +34,11 @@
       <%= person_field :lname %>
     </h1>
     <p>
-      <%= person_field :college, :type => :select, :collection => Yale::colleges.to_a %>
-      <%= person_field :year %>
+      <%= person_field :college, :type => :select, :collection => options_for_college %>
+      <%= person_field :year, :display_with => lambda {|year| short_year year} %>
     </p>
     <p>
-      <%= person_field :bio, :type => :textarea, :display_with => lambda { |bio| sanitize(bio, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe } %>
+      <%= person_field :bio, :type => :textarea, :display_with => lambda {|bio| sanitize_bio bio} %>
     </p>
     <% if @editable %>
     <div class="panel panel-primary">

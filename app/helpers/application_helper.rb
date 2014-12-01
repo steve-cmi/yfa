@@ -49,6 +49,20 @@ module ApplicationHelper
     best_in_place_if @current_user && @person.id == @current_user.id, @person, field, options
   end
 
+  def sanitize_bio(bio)
+    sanitize(bio, :tags => %w(b i em strong a br)).gsub(/\n/, '<br/>').html_safe
+  end
+
+  def options_for_college
+    Yale::colleges.collect do |key, value|
+      [key, key]
+    end
+  end
+
+  def short_year(year)
+    "'" + year.to_s.last(2)
+  end
+
   # ----- OLD HELPERS ------ prune when done.
 
 	# Expects ordered screening array, this is usually handled by the model

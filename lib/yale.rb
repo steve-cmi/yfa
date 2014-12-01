@@ -17,6 +17,11 @@ class Yale
     }
   end
 
+  def self.college_code_for(college_name)
+    keypair = colleges.rassoc(college_name)
+    keypair.first if keypair
+  end
+
   def self.s3_bucket
     @@s3_bucket ||=
       begin
