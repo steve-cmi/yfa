@@ -28,10 +28,10 @@ class AuditionsController < ApplicationController
 	def index
 		@active_nav = :opportunities
 		@active_subnav = :auditions
-		@auditions = [] and return if request.format == :csv && !@current_user.has_permission?(params[:film_id], :auditions)
+		@auditions = [] and return if request.format == :csv && !@current_user.has_permission?(@film)
 
 		@auditions = @film.auditions.current
-		redirect_to '/auditions' if @auditions.none? && !@current_user.has_permission?(params[:film_id], :auditions)
+		redirect_to '/auditions' if @auditions.none? && !@current_user.has_permission?(@film)
 
 		@user_audition = @auditions.find_by_person_id(@current_user.id)
 		@recent_auditions = @film.auditions.recent
@@ -169,7 +169,7 @@ class AuditionsController < ApplicationController
 		end
 
 		# Check permissions, if admin, pre-load the people too
-		if logged_in? && @current_user.has_permission?(params[:film_id], :auditions)
+		if logged_in? && @current_user.has_permission?(params[:film_id])
 			@aud_admin = true
 			@film = Film.includes(:auditions => [:person]).find(params[:film_id])
 		else

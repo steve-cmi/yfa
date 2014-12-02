@@ -28,7 +28,7 @@ class FilmsController < ApplicationController
 
 	def dashboard
 		# People can see this as long as they have SOME permission
-		raise ActionController::RoutingError.new('Not Found') unless @current_user.has_permission?(@film, :any)
+		raise ActionController::RoutingError.new('Not Found') unless @current_user.has_permission?(@film)
 		@page_name = "Film Dashboard - #{@film.title}"
 		@recent_auditions = @film.auditions.recent_past
 	end
@@ -172,11 +172,11 @@ class FilmsController < ApplicationController
 	
 	def fetch_film
 		@film = Film.unscoped.includes(:film_positions => [:person, :position]).find(params[:id]) if params[:id]
-		raise ActionController::RoutingError.new('Not Found') unless @film && (@film.approved || @current_user.has_permission?(@film, :full))
+		raise ActionController::RoutingError.new('Not Found') unless @film && (@film.approved || @current_user.has_permission?(@film))
 	end
 
 	def auth
-		return true if @current_user.has_permission?(@film, :full)
+		return true if @current_user.has_permission?(@film)
 		raise ActionController::RoutingError.new('Not Found')		
 	end	
 end
