@@ -1,6 +1,6 @@
 You are signed up to audition for a film! Details are below:<br />
 <br />
-<%= link_to @audition.film.title, best_link(@audition.film, true), :class => 'title' %><br />
+<%= link_to @audition.film.title, @audition.film, :class => 'title' %><br />
 <br />
 <b>Your audition:</b><br />
 Time: <%= time @audition.starts_at %><br />

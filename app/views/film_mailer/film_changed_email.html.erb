@@ -1,4 +1,4 @@
-There's been an information change to <%= link_to @film.title, best_link(@film, true), :class => 'title' %> we thought you'd want to know about:<br />
+There's been an information change to <%= link_to @film.title, @film, :class => 'title' %> we thought you'd want to know about:<br />
 <br />
 <% @changes.each do |attribute, values| %>
 Attribute: <b><%= attribute %></b><br />
