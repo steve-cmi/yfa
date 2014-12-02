@@ -105,7 +105,7 @@ if Person.count == 1
     p.lname = Faker::Name.last_name
     p.slug = Faker::Internet.slug
     p.email = Faker::Internet.email
-    p.year = Faker::Number.between(2010, 2014)
+    p.year = Faker::Number.between(2010, 2018)
     p.college = Yale::colleges.keys
     p.bio = Faker::Lorem.paragraphs(3).join("\n\n")
     p.active = true

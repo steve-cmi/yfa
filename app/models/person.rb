@@ -30,6 +30,18 @@ class Person < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  def self.by_first_last
+    order(:fname, :lname)
+  end
+
+  def self.current
+    where('year >= ?', Date.today.year)
+  end
+
+  def self.with_position(position_id)
+    where(:id => FilmPosition.uniq.where(:position_id => position_id).select(:person_id))
+  end
+
   # Check if the user has permission to admin the given film
   # @param film [Integer, Film] the film id or object to check
   # @param type [Symbol] One of :full, :any, or a type defined by the database

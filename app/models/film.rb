@@ -51,6 +51,10 @@ class Film < ActiveRecord::Base
 		where(:id => Audition.imminent.select(:film_id))
 	end
 
+	def self.by_title
+		order(:title)
+	end
+
 	## Date functions
 
 	def started?
