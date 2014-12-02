@@ -42,16 +42,11 @@ class Person < ActiveRecord::Base
     where(:id => FilmPosition.uniq.where(:position_id => position_id).select(:person_id))
   end
 
-  # Check if the user has permission to admin the given film
-  # @param film [Integer, Film] the film id or object to check
-  # @param type [Symbol] One of :full, :any, or a type defined by the database
-  # @returns Boolean true if current user has permission
-  def has_permission?(film, type)
+  # Check if the user has permission for the given film
+  def has_permission?(film)
     return true if site_admin?
     film_id = film.instance_of?(Film) ? film.id : film.to_i
-    permissions = self.permissions.where(:film_id => film_id)
-    permissions = permissions.where(:level => [:full, type].uniq) unless type == :any
-    permissions.any?
+    permissions.where(:film_id => film_id).any?
   end
   
   def similar_to_me

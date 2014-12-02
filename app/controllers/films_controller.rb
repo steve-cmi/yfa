@@ -132,8 +132,8 @@ class FilmsController < ApplicationController
 		respond_to do |format|
 	    if @film.update_attributes(params[:film])
 	    	# Add permissions for this person to the film if they tried to delete them
-	    	if !@current_user.site_admin? && !@film.permissions.detect{|sp| sp.person_id == @current_user.id && sp.level == :full}
-	    		@film.permissions.create(:person_id => @current_user.id, :level => :full)
+	    	if !@current_user.site_admin? && !@film.permissions.detect{|sp| sp.person_id == @current_user.id}
+	    		@film.permissions.create(:person_id => @current_user.id)
 	    		@film.save!
 	    	end
 
