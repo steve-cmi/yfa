@@ -20,6 +20,9 @@ class SearchController < ApplicationController
 
 		# Add refinements
 		case @tab
+		when :projects
+			@projects = @projects.search(:title_start => params[:title]).result if params[:title]
+			@projects = @projects.recent if params[:recent]
 		when :events
 			@event_dates = @event_dates.current if params[:future]
 		end

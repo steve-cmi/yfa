@@ -152,6 +152,10 @@ class Film < ActiveRecord::Base
 		before_semester(Yale::this_semester)
 	end
 
+	def self.recent
+		for_semester([Yale::this_semester, Yale::last_semester])
+	end
+
 	### S3 Attachments
 
 	def s3_objects

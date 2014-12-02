@@ -68,6 +68,10 @@ class Yale
     semester_code_for(6.months.from_now)
   end
 
+  def self.last_semester
+    semester_code_for(6.months.ago)
+  end
+
   def self.this_semester_label
     semester_label_for(Date.today)
   end
