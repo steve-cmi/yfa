@@ -10,23 +10,17 @@ class PeopleController < ApplicationController
 		@editable = (@current_user and @person.id == @current_user.id)
 	end
 	
+	def dashboard
+		@user = @current_user
+	end
+	
 	def film
 		# Show public view
 		#TODO: SHould we cache people's public profiles?
 		#TODO: Should admins be able to edit?
 		@page_name = @person.display_name
 		@film_positions = @person.film_positions.includes({:film => :screenings}, :position)
-		@film_positions = @film_positions.select{|sp| sp.film}.sort_by{|sp| sp.film.screenings.first.timestamp}.reverse
-	end
-	
-	def dashboard
-		#Determine type of user dashboard to show
-		@films = Film.unscoped.includes(:screenings).find(@current_user.permissions.map(&:film_id))
-		@permission_map = @current_user.permissions.group_by(&:film_id)
-		
-		#TODO: Could probably optimize this
-		@auditions = @current_user.auditions.where(["`timestamp` > ?",Time.now])
-		@similar_people = @current_user.similar_to_me
+		@film_positions = @film_positions.select(&:film).sort_by(&:start_date).reverse
 	end
 	
 	# New User step 1
@@ -45,7 +39,7 @@ class PeopleController < ApplicationController
 		if @current_user || @person.update_attributes(params[:person])
 			#Let's check to see if they have any recommended people they match. If so, send them there, otherwise take them away
 			@person ||= @current_user
-			@matches = @person.similar_to_me
+			@matches = @person.similar_users
 			if @matches.length > 0
 				render :new_step2
 			else

@@ -28,17 +28,17 @@ class AdminController < ApplicationController
 	end
 	
 	def approve_takeover
-		req = TakeoverRequest.find(params[:id])
-		if req.fulfill
-			redirect_to admin_dashboard_path, :notice => "#{req.person.display_name}'s request granted!"
+		request = TakeoverRequest.find(params[:id])
+		if request.fulfill
+			redirect_to admin_dashboard_path, :notice => "#{request.person.display_name}'s request granted!"
 		else
 			redirect_to admin_dashboard_path, :alert => "There was a problem, please try again..."
 		end
 	end
 	
 	def reject_takeover
-		req = TakeoverRequest.find(params[:id]) rescue nil
-		req.destroy if req
+		request = TakeoverRequest.find(params[:id]) rescue nil
+		request.destroy if request
 		redirect_to admin_dashboard_path, :notice => "Request Removed!"
 	end
 	

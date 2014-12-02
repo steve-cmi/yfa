@@ -3,6 +3,7 @@ class Person < ActiveRecord::Base
 
   has_many :film_positions, :dependent => :destroy
   has_many :permissions, :dependent => :delete_all
+  has_many :films, :through => :permissions, :uniq => true
   has_many :auditions, :dependent => :nullify
   has_many :takeover_requests, :dependent => :destroy
   has_many :links, :as => :item, :dependent => :destroy
@@ -49,7 +50,11 @@ class Person < ActiveRecord::Base
     permissions.where(:film_id => film_id).any?
   end
   
-  def similar_to_me
+  def similar_users
+    @similar_users ||= find_similar_users
+  end
+
+  def find_similar_users
     people = []
     people += Person.find_all_by_fname_and_lname(self.fname, self.lname) if self.fname? and self.lname?
     people += Person.find_all_by_email(self.email) if self.email?
