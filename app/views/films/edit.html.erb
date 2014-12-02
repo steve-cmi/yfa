@@ -20,27 +20,14 @@
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
   			<strong>Warning!</strong> Consider using a tagline below to keep your title short. Longer titles may not appear as nicely throughout the site.
 			</div>
-			<%= f.text_field :writer, :class => "required", :placeholder => "Writer", :validate => true %><br />
 			<%= f.text_field :tagline, :placeholder => "Tagline" %><br />
-			<%= f.text_area :description, :class => "required", :placeholder => "Summary/History/Other Info", :validate => true %><br />
 			<%= f.text_field :contact, :class => "required", :placeholder => "Contact Email Address", :validate => true %><br />
-			<%= f.text_field :url_key, :placeholder => "Unique URL" %><br />
-			<p class="field_explanation">
-				Your film will be accessible at
-				<span id="url-key-preview">http://<%= request.host_with_port %>/<span data-field="film_url_key">your-url</span></span>
-			</p>
+			<%= f.text_area :description, :class => "required", :placeholder => "Summary/History/Other Info", :validate => true %><br />
 			
 			<hr />
 			
 			<h4>Design Details</h4>
 			<p>Help sell your film by making it stand out in the crowd</p>
-
-			<% if @current_user.site_admin? %>
-			<%= f.text_field :flickr_id, :placeholder => "Flickr Gallery ID" %>
-			<p class="field_explanation">
-				If this film has a Flickr gallery, please enter the ID here
-			</p>
-			<% end %>
 
 			<span id="btn-upload" class="btn">
 				<%= f.file_field :poster %>
@@ -65,14 +52,16 @@
 			<p>Fill in what you know, but we'll need at least one date and time to get started</p>
 
 			<%= f.text_field :location, :class => "required", :placeholder => "Location", :validate => true %><br />
-	  	    <ol class="screenings">
+
+	    <ol class="screenings">
 				<%= f.fields_for :screenings do |builder| %>
 					<%= render 'screening_fields', :f => builder %>
 				<% end %>
 				<li><%= link_to_add_fields "Add Filmtime", f, :screenings %></li>
 			</ol>
-
+			
 			<hr />
+
 			<h4>Permissions</h4>
 			<a href="#" rel="tooltip" title="These are the people (besides you) who will be able to access your film to edit it (or portions of it)">What's This?</a>
 			<div class="permissions">

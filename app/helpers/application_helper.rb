@@ -138,35 +138,6 @@ module ApplicationHelper
 		[arr.slice!(0,3).join,arr.slice!(0,3).join,arr.slice!(0,4).join].join("-")
 	end
 	
-	def best_link(film, full_path = false)
-		if full_path
-			url_for film.url_key.blank? ? film_url(film) : vanity_url(film.url_key)
-		else
-			url_for film.url_key.blank? ? film : vanity_path(film.url_key)
-		end
-	end
-	
-	def square_film_thumb(poster, lazy = false)
-	    c = (poster.height(:thumb) > poster.width(:thumb)) ? "poster-vertical" : "poster-horizontal"
-	    if lazy
-	      "<img src=\"/assets/placeholder.gif\" data-original=\"#{poster.url(:thumb)}\" class=\"#{c} lazy\">"
-	    else
-	      "<img src=\"#{poster.url(:thumb)}\" class=\"#{c}\">"
-	    end
-	end
-	
-	def link_to_film_title(film)
-       # truncate long titles
-       title = (film.archive && film.title.length > 45) ? film.title[0,45] + "..." : film.title
-       tag_title = (film.archive && film.title.length > 45) ? film.title : ""
-       
-       if film.id.blank?
-           return "<span title=\"#{film.title}\">#{title}</span>"
-       else
-           return link_to title, best_link(film), :title => tag_title
-       end
-	end
-	
   def link_to_remove_fields(name, f)
     f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)", :class => "remove")
   end

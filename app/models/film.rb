@@ -19,7 +19,7 @@ class Film < ActiveRecord::Base
 
 	default_scope where(:approved => true)
 	
-	attr_accessible :title, :tagline, :url_key, :contact, :description, :poster, :accent_color, :flickr_id
+	attr_accessible :title, :tagline, :slug, :contact, :description, :poster, :accent_color, :flickr_id
 	attr_accessible :auditions_enabled, :aud_info, :start_date, :end_date
 	attr_accessible :screenings_attributes, :film_positions_attributes, :permissions_attributes
 	attr_accessible :directors if Rails.env.development?
@@ -27,10 +27,6 @@ class Film < ActiveRecord::Base
 	accepts_nested_attributes_for :film_positions, :allow_destroy => true
 	accepts_nested_attributes_for :permissions, :allow_destroy => true
 	
-	# Ensure unique slug
-	validates_format_of :url_key, :with => /\A[a-z0-9_]+\Z/i, :message => "The url key should contain only letters and numbers", :allow_blank => true
-	validates_uniqueness_of :url_key, :allow_blank => true, :case_sensitive => false, :message => "Sorry, the desired url is already taken. Please try another!"
-
 	validates :title, :contact, :description, :start_date, :end_date, :presence => true
 	validates :contact, :email_format => true
 

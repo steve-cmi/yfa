@@ -114,7 +114,6 @@ ActiveRecord::Schema.define(:version => 20141201164641) do
     t.text     "description",                                                                                                         :null => false
     t.boolean  "approved",                                                                                         :default => false, :null => false
     t.text     "pw"
-    t.string   "url_key",               :limit => 25
     t.boolean  "archive",                                                                                          :default => true,  :null => false
     t.boolean  "archive_reminder_sent",                                                                            :default => false, :null => false
     t.string   "poster_file_name"
