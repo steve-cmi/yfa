@@ -44,36 +44,53 @@ Carousel.find_or_create_by_title("Slideshow image three",
 
 # -------- POSITIONS --------
 
-actor             = Position.find_or_create_by_position('Actor', key: 'actor')
-director          = Position.find_or_create_by_position('Director', key: 'director')
-editor            = Position.find_or_create_by_position('Editor', key: 'editor')
-cinematographer   = Position.find_or_create_by_position('Cinematographer')
-sound_editor      = Position.find_or_create_by_position('Sound editor')
-composer          = Position.find_or_create_by_position('Composer')
-producer          = Position.find_or_create_by_position('Producer', key: 'producer')
-writer            = Position.find_or_create_by_position('Writer', key: 'writer')
-prod_asst         = Position.find_or_create_by_position('Production Assistant')
-makeup_artist     = Position.find_or_create_by_position('Make-up Artist')
-prod_designer     = Position.find_or_create_by_position('Production Designer')
-costume_designer  = Position.find_or_create_by_position('Costume Designer')
-asst_director     = Position.find_or_create_by_position('1st Assistant Director')
+Position.find_or_create_by_position('Actor', key: 'actor')
+Position.find_or_create_by_position('Director', key: 'director')
+Position.find_or_create_by_position('Editor', key: 'editor')
+Position.find_or_create_by_position('Cinematographer')
+Position.find_or_create_by_position('Sound editor')
+Position.find_or_create_by_position('Composer')
+Position.find_or_create_by_position('Producer', key: 'producer')
+Position.find_or_create_by_position('Writer', key: 'writer')
+Position.find_or_create_by_position('Production Assistant')
+Position.find_or_create_by_position('Make-up Artist')
+Position.find_or_create_by_position('Production Designer')
+Position.find_or_create_by_position('Costume Designer')
+Position.find_or_create_by_position('1st Assistant Director')
+
+# -------- ACTIVITIES --------
+
+Activity.find_or_create_by_name('Acting')
+Activity.find_or_create_by_name('Directing')
+Activity.find_or_create_by_name('Editing')
+Activity.find_or_create_by_name('Cinematography')
+Activity.find_or_create_by_name('Sound Editing')
+Activity.find_or_create_by_name('Composing')
+Activity.find_or_create_by_name('Producing')
+Activity.find_or_create_by_name('Writing')
+Activity.find_or_create_by_name('Make-up Artistry')
+Activity.find_or_create_by_name('Production Design')
+Activity.find_or_create_by_name('Costume Design')
+Activity.find_or_create_by_name('Assistant Directing')
+Activity.find_or_create_by_name('Color-Correcting')
+Activity.find_or_create_by_name('Sound Recording (on-set/ADR/foley)')
 
 # -------- GENRES --------
 
-comedy  = Genre.find_or_create_by_name('Comedy')
-drama   = Genre.find_or_create_by_name('Drama')
-short   = Genre.find_or_create_by_name('Short')
-music   = Genre.find_or_create_by_name('Music Video')
+Genre.find_or_create_by_name('Comedy')
+Genre.find_or_create_by_name('Drama')
+Genre.find_or_create_by_name('Short')
+Genre.find_or_create_by_name('Music Video')
 
 # -------- FILTERS --------
 
-other_film    = Filter.find_or_create_by_name('Film Screenings')
-student_film  = Filter.find_or_create_by_name('Student Film Screenings')
-tea           = Filter.find_or_create_by_name('Master\'s Teas')
-work          = Filter.find_or_create_by_name('Workshops and Master\'s Classes')
-dcma          = Filter.find_or_create_by_name('DCMA Workshops')
-pub           = Filter.find_or_create_by_name('Public Events')
-other         = Filter.find_or_create_by_name('Other Events')
+Filter.find_or_create_by_name('Film Screenings')
+Filter.find_or_create_by_name('Student Film Screenings')
+Filter.find_or_create_by_name('Master\'s Teas')
+Filter.find_or_create_by_name('Workshops and Master\'s Classes')
+Filter.find_or_create_by_name('DCMA Workshops')
+Filter.find_or_create_by_name('Public Events')
+Filter.find_or_create_by_name('Other Events')
 
 # -------- BUILDINGS --------
 
@@ -114,6 +131,24 @@ if Person.count == 1
   Person.all.each do |p|
     p.picture = placeholder
     p.save
+  end
+end
+
+if Experience.count == 0
+  activity_count = Activity.count
+  person_count = Person.count
+  Experience.populate(125) do |e|
+    e.activity_id = rand(activity_count) + 1
+    e.person_id = rand(person_count) + 1
+  end
+end
+
+if Interest.count == 0
+  activity_count = Activity.count
+  person_count = Person.count
+  Interest.populate(125) do |e|
+    e.activity_id = rand(activity_count) + 1
+    e.person_id = rand(person_count) + 1
   end
 end
 
@@ -161,7 +196,7 @@ end
 # -------- FILMS --------
 
 start_date = Date.parse('2010-01-01')
-end_date = Yale::year_end -1
+end_date = Yale::year_end - 1
 
 if Film.count == 0
   Film.populate(400) do |f|

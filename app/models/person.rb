@@ -5,11 +5,11 @@ class Person < ActiveRecord::Base
   has_many :permissions, :dependent => :delete_all
   has_many :auditions, :dependent => :nullify
   has_many :takeover_requests, :dependent => :destroy
-
   has_many :links, :as => :item, :dependent => :destroy
-
-  has_many :experiences, :dependent => :destroy
-  has_many :interests, :dependent => :destroy
+  has_many :experiences, :dependent => :destroy, :include => :activity
+  has_many :experienced_activities, :source => :activity, :through => :experiences, :uniq => true
+  has_many :interests, :dependent => :destroy, :include => :activity
+  has_many :interested_activities, :source => :activity, :through => :interests, :uniq => true
 
   has_attached_file :picture,
     :styles => { :show => "360x>" }

@@ -82,12 +82,24 @@
   <div class="col-md-4">
     <p>
       <strong>Has experience in:</strong><br />
-      ...
+      <% if @person.experienced_activities.none? -%>
+      No experiences have been selected.
+      <% else -%>
+        <% @person.experienced_activities.each do |activity| -%>
+          <a href="#" class="btn btn-default btn-xs"><%= activity.name %></a>
+        <% end -%>
+      <% end -%>
     </p>
 
     <p>
       <strong>Is interested in:</strong><br />
-      ...
+      <% if @person.interested_activities.none? -%>
+      No interests have been selected.
+      <% else -%>
+        <% @person.interested_activities.each do |activity| -%>
+          <a href="#" class="btn btn-default btn-xs"><%= activity.name %></a>
+        <% end -%>
+      <% end -%>
     </p>
   </div>
 

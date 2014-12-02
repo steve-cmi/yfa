@@ -7,7 +7,7 @@ class Film < ActiveRecord::Base
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :destroy, :order => :starts_at
   has_many :film_genres, dependent: :destroy
-  has_many :genres, through: :film_genres
+  has_many :genres, through: :film_genres, uniq: true
   has_many :links, :as => :item, :dependent => :destroy
 
 	has_attached_file :poster,

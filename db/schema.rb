@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141201164641) do
+ActiveRecord::Schema.define(:version => 20141202191852) do
+
+  create_table "activities", :force => true do |t|
+    t.string   "name"
+    t.string   "key"
+    t.integer  "position"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "announcements", :force => true do |t|
     t.string   "title"
@@ -89,6 +97,13 @@ ActiveRecord::Schema.define(:version => 20141201164641) do
     t.datetime "updated_at",         :null => false
   end
 
+  create_table "experiences", :force => true do |t|
+    t.integer  "activity_id"
+    t.integer  "person_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "film_genres", :force => true do |t|
     t.integer  "film_id"
     t.integer  "genre_id"
@@ -143,6 +158,13 @@ ActiveRecord::Schema.define(:version => 20141201164641) do
     t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "interests", :force => true do |t|
+    t.integer  "activity_id"
+    t.integer  "person_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "jobs", :force => true do |t|
