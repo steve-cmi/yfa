@@ -277,6 +277,15 @@ if Audition.count == 0
   end
 end
 
+if Permission.count == 0
+  film_count = Film.count
+  person_count = Person.count
+  Permission.populate(500) do |f|
+    f.film_id = rand(film_count) + 1
+    f.person_id = rand(person_count) + 1
+  end
+end
+
 # -------- JOBS --------
 
 start_date = Yale::year_start

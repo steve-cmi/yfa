@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141202191852) do
+ActiveRecord::Schema.define(:version => 20141202200327) do
 
   create_table "activities", :force => true do |t|
     t.string   "name"
@@ -242,11 +242,10 @@ ActiveRecord::Schema.define(:version => 20141202191852) do
   add_index "people", ["netid"], :name => "index_people_on_netid"
 
   create_table "permissions", :force => true do |t|
-    t.integer  "film_id",                                                  :null => false
-    t.integer  "person_id",                                                :null => false
-    t.enum     "level",      :limit => [:full, :reservations, :auditions]
-    t.datetime "created_at",                                               :null => false
-    t.datetime "updated_at",                                               :null => false
+    t.integer  "film_id",    :null => false
+    t.integer  "person_id",  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "permissions", ["film_id"], :name => "index_permissions_on_show_id"
