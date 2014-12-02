@@ -1,6 +1,6 @@
 class RemoveLevelFromPermissions < ActiveRecord::Migration
   def change
-    remove_coulmn :permissions, :level
+    remove_column :permissions, :level
   end
 
   def down
