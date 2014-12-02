@@ -20,17 +20,20 @@
 <table class="table table-striped">
   <thead>
     <th>Event name</th>
+    <th>Semester</th>
     <th>Date</th>
   </thead>
   <tbody>
     <% @event_dates.each do |event_date| -%>
     <tr>
       <td>
-        <%= link_to event_date.event.name, event_date.event %>
+        <%= render "events/dialog", date: event_date %>
+      </td>
+      <td>
+        <%= Yale::semester_label_for event_date.starts_at %>
       </td>
       <td>
         <%= short_date event_date.starts_at %>,
-        <%= Yale::semester_label_for event_date.starts_at %>,
         <%= time event_date.starts_at %>
       </td>
     </tr>

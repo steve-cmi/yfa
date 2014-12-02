@@ -46,8 +46,14 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">
-          Back to
-          <%= controller_name == 'pages' ? 'Homepage' : 'Calendar' %>
+          <% case controller_name -%>
+          <% when 'pages' -%>
+          Back to Homepage
+          <% when 'events' -%>
+          Back to Calendar
+          <% when 'search' -%>
+          Back to Search Results
+          <% end -%>
         </button>
       </div>
     </div>
