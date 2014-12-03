@@ -1,72 +1,63 @@
-<% audition_groups.each do |group| %>
-	<div class="audition-group clearfix">
-		<div class="date">
-			<%= long_date group.first.starts_at %><br />
-			<span class="location">@ <%= group.first.location %></span>
-			<br />
-			<br />
-			<span class="email alt-text">
-				<i class="icon-envelope"></i><%= link_to "Email", "mailto:" + group.map{|a| a.email }.reject(&:blank?).join(",") %>
-			</span>
-		</div>
-		<div class="entries">
-			<table>
-				<% group.each_with_index do |audition,i| %>
-					<% if group.length > 4 && i == 1 %>
-						<tr class="ellipsis"><td>...</td></tr>
-					<% end %>
-					<tr class="
-						<%= 'filled' if audition.person_id %> 
-						<%= 'past' if audition.starts_at <= Time.now %> 
-						<%= 'condensed' if i > 0 && i < group.length - 1 && group.length > 4 %>
-					" data-audition-id="<%= audition.id %>">
-						<td>
-							<%= time audition.starts_at %>
-						</td>
-						<td class="name">
-							<% if audition.person_id %>
-								<%= link_to audition.person.name, audition.person %>
-							<% else %>
-								<%= audition.name %>
-							<% end %>
-							<% if audition.starts_at >= Time.now %>
-								<a href="#" class="remove">(x)</a>
-							<% end %>
-						</td>
-						<td class="phone">
-							<%= format_phone audition.phone %>
-						</td>
-						<td class="email">
-							<%= link_to "Email", "mailto:" + audition.email if audition.email %>
-						</td>
-					</tr>
-					<% if group.length > 4 && i == group.length - 1 %>
-						<tr class="show-all">
-							<td>
-								<a href="#">Show all <%= group.length %> slots</a>
-							</td>
-						</tr>
-						<tr class="hide-all">
-							<td>
-								<a href="#">Hide <%= group.length - 2 %> slots</a>
-							</td>
-						</tr>
-					<% end %>
+<% javascript 'auditions.js' %>
+
+<table id="audition_groups" class="table table-striped">
+	<% audition_groups.each do |group| %>
+		<% condense = group.length > 4 -%>
+		<thead>
+			<tr><th colspan="5"><%= long_date group.first.starts_at %> at <%= group.first.location %></th></tr>
+		</thead>
+		<tbody>
+			<% group.each_with_index do |audition, i| %>
+				<% if condense and i == 1 %>
+					<tr class="ellipsis"><td></td><td colspan="4">...</td></tr>
 				<% end %>
-			</table>
-		</div>
-		<div class="block-remove">
-			<div class="btn btn-danger">
-				X
-			</div>
-		</div>
-	</div>
-	<hr />
-<% end %>
+				<tr class="
+									<%= :filled if audition.person_id %> 
+									<%= :past if audition.past? %> 
+									<%= :condensed if condense and i > 0 and i < group.length - 1 %>"
+						style="<%= "display:none" if condense and i > 0 and i < group.length - 1 %>"
+						data-audition-id="<%= audition.id %>">
+					<td>
+						<% if audition.future? %>
+							<button type="button" class="single-remove btn btn-danger btn-xs">X</button>
+						<% end %>
+					</td>
+					<td>
+						<%= time audition.starts_at %>
+					</td>
+					<td class="name">
+						<% if audition.person_id %>
+							<%= link_to audition.person.name, audition.person %>
+						<% else %>
+							<%= audition.name %>
+						<% end %>
+					</td>
+					<td class="phone">
+						<%= format_phone audition.phone %>
+					</td>
+					<td class="email">
+						<%= link_to "Email", "mailto:" + audition.email if audition.email %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					<%= link_to "Email Group", "mailto:" + group.collect(&:email).reject(&:blank?).join(","), :class => "btn btn-default" %>
+					<% if condense %>
+					<button type="button" class="show-all btn btn-default">Show all <%= group.length %> slots</button>
+					<button type="button" class="hide-all btn btn-default" style="display:none">Hide <%= group.length - 2 %> slots</button>
+					<% end %>
+					<button type="button" class="block-remove btn btn-danger">Delete Group</button>
+				</td>
+			</tr>
+		</tfoot>
+	<% end %>
+</table>
+
 <div class="audition-actions">
-<i class="icon-envelope"></i> <%= link_to "Email all students", "mailto:" + audition_groups.map{|group| group.map{|a| a.email }}.flatten.reject(&:blank?).join(",") %>
- &nbsp;
-<i class="icon-print"></i> <%= link_to "Print Full Audition List", film_auditions_path(@film) %>
- &nbsp;
-<i class="icon-download-alt"></i> <%= link_to "Download Full Audition List (CSV)", film_auditions_path(@film, "csv") %>
+	<%= link_to "Email All", "mailto:" + audition_groups.flatten.collect(&:email).reject(&:blank?).join(","), :class => "btn btn-default" %>
+	<%= link_to "Print Full List", film_auditions_path(@film), :class => "btn btn-default" %>
+	<%= link_to "Download Full List (CSV)", film_auditions_path(@film, "csv"), :class => "btn btn-default" %>
 </div>

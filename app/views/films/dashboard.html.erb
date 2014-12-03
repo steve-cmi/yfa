@@ -1,67 +1,109 @@
-<h2><%= @film.title %> <span class="faded">Dashboard</span></h2>
-<div class="row film-dashboard">
-  <div class="span6">
-  	<!-- BASIC DETAILS -->
-  	<h5>Film Details &nbsp; <%= link_to "(Edit)", edit_film_path(@film) %></h5> 
+<h1><%= @film.title %> <small>Dashboard</small></h1>
+
+<div class="grid row">
+
+  <div class="col-md-6">
+
+  	<h4>Film Details &nbsp; <small><%= link_to "Edit", edit_film_path(@film) %></small></h4>
   	<div class="row">
-  		<div class="span1 alt-text">
-  			Name
+  		<div class="col-md-2">
+  			<label>Title</label>
   		</div>
-  		<div class="span5">
-  			<%= @film.title %>
+  		<div class="col-md-10">
+  			<%= link_to @film.title, @film %>
   		</div>
   	</div>
   	<div class="row">
-  		<div class="span1 alt-text">
-  			Website
+  		<div class="col-md-2">
+  			<label>Timeline</label>
   		</div>
-  		<div class="span5">
-  			<%= link_to url_for(@film), @film %>
+  		<div class="col-md-10">
+        <%= long_date @film.start_date %> -
+        <%= long_date @film.end_date %>
   		</div>
   	</div>
-    <br /><br />
+
+    <h4>Files &nbsp; <small><%= link_to "Manage", film_edit_files_path(@film) %></small></h4>
     <div class="row">
-      <div class="span6">
-        <h5>Misc Files  &nbsp; <%= link_to "(Upload/Remove Files)", film_edit_files_path(@film) %></h5>
+      <div class="col-md-12">
         <% @film.s3_objects.each do |obj| %>
           <%= link_to obj.key.split("/")[-1], "#{obj.url_for(:read)}" %><br />
         <% end %>
       </div>
     </div>
+
   </div>
-  <!-- TICKETING AREA -->
-  <div class="span6">
-  	<h5>Scheduling &nbsp; <%= link_to "(Edit)", edit_film_path(@film) %></h5> 
-  	<br />
-  	<% @film.screenings.each do |screening| %>
-  		<%= small_timestamp(screening.starts_at) %><br />
-  	<% end %>
+
+  <div class="col-md-6">
+  	<h4>Screenings &nbsp; <small><%= link_to "Edit", edit_film_path(@film) %></small></h4>
+    <table class="table table-striped">
+      <tbody>
+        <% @film.screenings.by_date.each do |screening| -%>
+        <tr>
+          <td>
+            <%= long_date screening.starts_at %>,
+            <%= time screening.starts_at %>
+          </td>
+        </tr>
+        <% end -%>
+      </tbody>
+    </table>
   </div>
+
 </div>
-<hr />
-<div class="row film-dashboard">
-  <div class="span4 staff">
-  	<h5>Cast  &nbsp; <%= link_to "(Edit)", film_edit_people_path(@film) %></h5>
-  	<% @film.cast.each do |castmember| %>
-  		<%= link_to castmember.person.name, castmember.person %> (<%= castmember.display_name %>)<br />
-  	<% end %>
-  	<br />
-  	<h5>Production Staff  &nbsp; <%= link_to "(Edit)", film_edit_people_path(@film) %></h5> 
-  	<% @film.crew.each do |techie| %>
-  		<%= link_to techie.person.name, techie.person %> (<%= techie.display_name %>)<br />
-  	<% end %>
-  	<br />
-  	<span class="alt-text">Open Opportunities</span><br />
-  	<% @film.film_positions.select {|sp| sp.position_id != 17 && !sp.person}.each do |techie| %>
-  		(<%= techie.display_name %>)<br />
-  	<% end %>
+
+<div class="grid row">
+  <div class="col-md-6">
+    <h4>Cast &amp; Crew &nbsp; <small><%= link_to "Edit", film_edit_people_path(@film) %></small></h4>
+
+    <p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th colspan="2">Cast</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @film.cast.each do |cast| -%>
+          <tr>
+            <td><%= cast.character %></td>
+            <td>
+              <% if cast.person -%>
+              <%= link_to cast.person.name, cast.person %>
+              <% else -%>
+              <em>Vacant</em>
+              <% end -%>
+            </td>
+          </tr>
+          <% end -%>
+        </tbody>
+        <thead>
+          <tr>
+            <th colspan="2">Crew</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @film.crew.each do |crew| -%>
+          <tr>
+            <td><%= crew.position.position %></td>
+            <td>
+              <% if crew.person -%>
+              <%= link_to crew.person.name, crew.person %>
+              <% else -%>
+              <em>Vacant</em>
+              <% end -%>
+            </td>
+          </tr>
+          <% end -%>
+        </tbody>
+      </table>
+    </p>
+
   </div>
-  <div class="span8">
-  	<h5>Auditions &nbsp; <%= link_to "(Edit)", film_edit_people_path(@film) %></h5>
-  	<span class="alt-text">Audition Info</span><br />
-  	<p><%= @film.aud_info.blank? ? "(blank)" : @film.aud_info %></p>
-    <p><%= link_to "Past auditions", :controller => :auditions, :action => :past, :film_id => @film.id if @recent_auditions.any? %></p>
-  	<br />
-		<%= render 'auditions/groups', :audition_groups => Audition.group_into_blocks(@film.auditions.all) %>
+
+  <div class="col-md-6">
+  	<h4>Auditions &nbsp; <small><%= link_to "Edit", film_edit_people_path(@film) %></small></h4>
+		<%= render 'auditions/groups', :audition_groups => Audition.group_into_blocks(@film.auditions) %>
   </div>
+
 </div>

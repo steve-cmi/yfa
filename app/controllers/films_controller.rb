@@ -2,7 +2,7 @@ class FilmsController < ApplicationController
 	
 	skip_before_filter :force_auth, :only => [:film, :index]
 	before_filter :fetch_film, :except => [:index, :new, :create]
-	before_filter :auth, :except => [:index, :film, :new, :create, :dashboard]
+	before_filter :auth, :except => [:index, :film, :new, :create]
 
 	def index
 		@active_nav = :films
@@ -25,10 +25,7 @@ class FilmsController < ApplicationController
 	end
 
 	def dashboard
-		# People can see this as long as they have SOME permission
-		raise ActionController::RoutingError.new('Not Found') unless @current_user.has_permission?(@film)
 		@page_name = "Dashboard - #{@film.title}"
-		@recent_auditions = @film.auditions.recent_past
 	end
 	
 	def new
@@ -44,15 +41,15 @@ class FilmsController < ApplicationController
 	end
 	
 	def edit
-		@page_name = 'Edit Film'
+		@page_name = "Edit Film - #{@film.title}"
 	end
 
 	def edit_people
-		@page_name = 'Edit Film'
+		@page_name = "Edit Cast &amp Crew - #{@film.title}"
 	end
 
 	def edit_files
-		@page_name = 'Edit Film'
+		@page_name = "Edit Files - #{@film.title}"
 		@film.s3_destroy(params[:destroy_files])
 	end
 
@@ -169,7 +166,8 @@ class FilmsController < ApplicationController
 	private
 	
 	def fetch_film
-		@film = Film.unscoped.includes(:film_positions => [:person, :position]).find(params[:id]) if params[:id]
+		film_id = params[:film_id] || params[:id]
+		@film = Film.unscoped.includes(:film_positions => [:person, :position]).find(film_id) if film_id
 		raise ActionController::RoutingError.new('Not Found') unless @film && (@film.approved || @current_user.has_permission?(@film))
 	end
 

@@ -31,6 +31,14 @@ class Audition < ActiveRecord::Base
 		starts_at.to_date
 	end
 
+	def past?
+		starts_at <= Time.zone.now
+	end
+
+	def future?
+		starts_at > Time.zone.now
+	end
+
 	def signup!(person, params)
 		self.person = person
 		self.name = person.name

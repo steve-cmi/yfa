@@ -71,6 +71,16 @@ module ApplicationHelper
     content_for(:head) { javascript_include_tag(*files) }
   end
 
+  # Format all phone numbers as: 111-222-3333
+  def format_phone(string)
+    return nil if string.blank?
+    arr = string.scan(/(\d)/)
+    return nil if !arr || arr.empty?
+    arr.slice!(0,1) if arr.first.first == '1'
+    return nil if arr.length != 10
+    [arr.slice!(0,3).join,arr.slice!(0,3).join,arr.slice!(0,4).join].join('-')
+  end
+  
   # ----- OLD HELPERS ------ prune when done.
 
 	# Expects ordered screening array, this is usually handled by the model
@@ -131,17 +141,6 @@ module ApplicationHelper
 		time.strftime("%b %d %-l:%M %P")
 	end
 
-	# (517) 648-8850
-	def format_phone(string)
-		return "" if string.blank?
-		arr = string.scan(/(\d)/)
-		return "" if !arr || arr.empty?
-		builder = ""
-		arr.slice!(0,1) if arr.first.first == "1"
-		return "" if arr.length != 10
-		[arr.slice!(0,3).join,arr.slice!(0,3).join,arr.slice!(0,4).join].join("-")
-	end
-	
   def link_to_remove_fields(name, f)
     f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)", :class => "remove")
   end

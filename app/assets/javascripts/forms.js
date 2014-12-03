@@ -49,35 +49,6 @@ function watchTechOps() {
 	});
 }
 
-function removeSingleAudition(e) {
-	if (confirm("This audition will be deleted. There is no undo. Are you sure?")) {
-		e.preventDefault();
-		var aud_id = $(this).closest("tr").data("audition-id");
-		send_destroy([aud_id]);
-	}
-}
-
-function removeBlockAudition(e) {
-	if (confirm("These auditions will be deleted. There is no undo. Are you sure?")) {
-		e.preventDefault();
-		var aud_ids = $(this).closest(".audition-group").find("tr").map(function() { return $(this).data("audition-id"); });
-		send_destroy($.makeArray(aud_ids));
-	}
-}
-
-// Make a destroy call to remove the passed ids
-function send_destroy(ids) {
-	var url = $("form.auditions").attr("action");
-	$.ajax({
-		url: url,
-		data: {destroy_ids: ids},
-		type: "PUT",
-		success: function(data) {
-			eval(data);
-		}
-	})
-}
-
 // If they manually change the name after autocompleting...remove the person_id
 function protectAutocomplete() {
 	$(this).siblings("[name*=person_id]").val("");
@@ -205,8 +176,6 @@ $(document).ready(function() {
 
 	// Make the audition form submit the correct form
 	$(".auditions input[type=submit]").on("click",function(e) { e.preventDefault(); e.stopImmediatePropagation(); $(this).closest("form").submit()});
-	$("#audition_slots").on("click", "a.remove", removeSingleAudition);
-	$("#audition_slots").on("click", ".block-remove .btn", removeBlockAudition);
 
 	// Allow sorting of people/films
 	$("#submit").on('click', setPositionOrderingAndSubmit);
