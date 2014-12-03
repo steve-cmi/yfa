@@ -4,8 +4,6 @@ class FilmsController < ApplicationController
 	before_filter :fetch_film, :except => [:index, :new, :create]
 	before_filter :auth, :except => [:index, :film, :new, :create, :dashboard]
 
-	# cache_sweeper :film_sweeper
-	
 	def index
 		@active_nav = :films
 		@page_name = 'Upcoming Films'
