@@ -1,4 +1,4 @@
-<% javascript 'films.js' %>
+<% javascript 'films-edit.js' %>
 
 <% if @film.errors.any? %>
 	<ul>
@@ -16,7 +16,7 @@
 	  	<p>Tell the community about who's making your film happen. Leave the name field blank to list the position as a tech opportunity below.</p>
 	  	<input type="checkbox" name="order_crew" <%= "checked" if @film.crew.detect{|c| c.listing_order != nil} %>> Use custom ordering below for staff<br />
 		  	<ul id="film_positions">
-				<%= f.fields_for :film_positions, @film.film_positions.select {|sp| sp.position_id != 17} do |builder| %>
+				<%= f.fields_for :film_positions, @film.film_positions.crew do |builder| %>
 					<%= render 'film_position_fields', :f => builder %>
 				<% end %>
 				<li><%= link_to_add_fields "Add Crew", f, :film_positions %></li>
