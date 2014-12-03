@@ -1,6 +1,7 @@
 module ApplicationHelper
 
   def short_date(date)
+    return nil unless date
     today = Date.today
     if date == today
       'Today'
@@ -14,6 +15,7 @@ module ApplicationHelper
   end
 
   def long_date(date)
+    return nil unless date
     today = Date.today
     if date == today
       date.strftime('Today, %B %-d')
@@ -27,7 +29,7 @@ module ApplicationHelper
   end
 
   def time(date)
-    date.strftime('%-l:%M%p')
+    date.strftime('%-l:%M%p') if date
   end
 
   def link_to_building(building)
