@@ -1,50 +1,76 @@
+<h1><%= @film.title %> <small>Edit Cast &amp; Crew</small></h1>
 <% javascript 'films-edit.js' %>
 
 <% if @film.errors.any? %>
-	<ul>
-	<% @film.errors.full_messages.each do |msg| %>
-	  <li><%= msg %></li>
-	<% end %>
-	</ul>
+	<div class="alert alert-dismissable alert-danger">
+	  <button type="button" class="close" data-dismiss="alert">×</button>
+	  <strong>There were errors saving this film:</strong>
+			<% @film.errors.full_messages.each do |error| %>
+			  <li><%= error %></li>
+			<% end %>
+		</ul>
+	</div>
 <% end %>
 
-
-<div class="row film-form people">
+<div class="row">
 	<%= form_for @film, :validate => true do |f| %>
-	  <div class="span6">
-	  	<h5>Production Staff</h5>
-	  	<p>Tell the community about who's making your film happen. Leave the name field blank to list the position as a tech opportunity below.</p>
-	  	<input type="checkbox" name="order_crew" <%= "checked" if @film.crew.detect{|c| c.listing_order != nil} %>> Use custom ordering below for staff<br />
-		  	<ul id="film_positions">
-				<%= f.fields_for :film_positions, @film.film_positions.crew do |builder| %>
-					<%= render 'film_position_fields', :f => builder %>
-				<% end %>
-				<li><%= link_to_add_fields "Add Crew", f, :film_positions %></li>
-			</ul>
+
+	  <div class="col-md-6">
+	  	<h4>Production Staff</h4>
+	  	<p class="col-md-offset-1">
+	  		Who's helping create your film? Drag and drop to re-order the listings.
+	  	</p>
+
+	  	<p class="col-md-offset-1">
+		  	<input type="checkbox" name="order_crew" <%= "checked" if @film.crew.detect{|c| c.listing_order != nil} %>> &nbsp;
+		  	Use custom ordering below for staff
+		  </p>
+
+	  	<table class="table">
+	  		<tbody>
+					<%= f.fields_for :film_positions, @film.film_positions.crew do |builder| %>
+						<%= render 'film_position_fields', :f => builder %>
+					<% end %>
+				</tbody>
+				<tfoot>
+					<tr><th><%= link_to_add_fields "+", f, :film_positions %></th></tr>
+				</tfoot>
+			</table>
 	  </div>
-	  <div class="span6">
-	  	<h5>Cast</h5>
-	  	<p>Who's taking center stage? Drag and drop to re-order the listings.</p>
-	  	<input type="checkbox" name="order_cast" <%= "checked" if @film.cast.detect{|c| c.listing_order != nil} %>> Use custom ordering below for cast<br />
-	  	<ul id="film_cast">
-				<%= f.fields_for :film_positions, @film.cast do |builder| %>
-					<%= render 'film_position_fields', :f => builder %>
-				<% end %>
-				<li><%= link_to_cast_fields "Add Cast", f, :film_positions %></li>
-			</ul>
+
+	  <div class="col-md-6">
+	  	<h4>Cast</h4>
+	  	<p class="col-md-offset-1">
+	  		Who's starring in your film? Drag and drop to re-order the listings.
+	  	</p>
+
+	  	<p class="col-md-offset-1">
+		  	<input type="checkbox" name="order_cast" <%= "checked" if @film.cast.detect{|c| c.listing_order != nil} %>> &nbsp;
+		  	Use custom ordering below for cast
+		  </p>
+
+	  	<table class="table">
+	  		<tbody>
+					<%= f.fields_for :film_positions, @film.cast do |builder| %>
+						<%= render 'film_position_fields', :f => builder %>
+					<% end %>
+				</tbody>
+				<tfoot>
+					<tr><th><%= link_to_cast_fields "+", f, :film_positions %></th></tr>
+				</tfoot>
+			</table>
 	  </div>
-	  <% end %>
+
+  <% end %>
 </div>
+<button type="submit" class="btn btn-primary">Save Changes</button>
+<a class="btn btn-default" href="<%= film_dashboard_path(@film) %>">Cancel</a>
 <hr />
-<div class="row film-form people">
-  <div class="span6">
-  	<h5>Tech Opportunities</h5>
-  	<p>These positions (if any) will be listed on our tech opportunities page.</p>
-  	<ol id="tech_ops">
-  	</ol>
-  </div>
-  <div class="span6">
-  	<h5>Auditions</h5>
+
+<div class="row">
+
+	<h4>Auditions</h4>
+  <div class="col-md-12">
   	<p>Easily organize cast auditions with the YFA's built-in scheduling, or manage the process on your own.</p>
   	<%= form_for @film, :validate => true, :remote => true do |f| %>
 	  	<%= f.check_box :auditions_enabled %>
@@ -60,18 +86,18 @@
 					<%= text_field_tag :location, "", :placeholder => "Location", :validate => false %>
 					<br />
 					<div class="row">
-						<div class="span3">
+						<div class="col-md-3">
 							Date: <%= text_field_tag :date, nil, :class => "date", :validate => false %>
 						</div>
-						<div class="span2">
+						<div class="col-md-2">
 							Start Time: <%= text_field_tag :start_time, nil, :class => "time start", :validate => false %>
 						</div>
 					</div>
 					<div class="row">
-						<div class="span3">
+						<div class="col-md-3">
 							Slot Length: <%= number_field_tag :duration %>
 						</div>
-						<div class="span2">
+						<div class="col-md-2">
 							End Time: <%= text_field_tag :end_time, nil, :class => "time end", :validate => false %>
 						</div>
 					</div>				
@@ -87,15 +113,5 @@
 			<% end %>
 		</div>
   </div>
-</div>
-<hr />
-<div class="clearfix" style="text-align: center;">
-	<a class="btn" href="<%= dashboard_path %>">
-		Cancel
-	</a>
-	<div class="btn btn-primary" id="submit">
-		Save cast & crew
-	</div>
-</div>
-	
 
+</div>
