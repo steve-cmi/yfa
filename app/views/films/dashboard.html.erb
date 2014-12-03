@@ -62,8 +62,6 @@
   	<p><%= @film.aud_info.blank? ? "(blank)" : @film.aud_info %></p>
     <p><%= link_to "Past auditions", :controller => :auditions, :action => :past, :film_id => @film.id if @recent_auditions.any? %></p>
   	<br />
-		<div id="audition_slots">
-			<%= render :partial => 'shared/audition_blocks', :locals => { :audition_groups => Audition.group_into_blocks(@film.auditions) } %>
-		</div>
+		<%= render 'auditions/groups', :audition_groups => Audition.group_into_blocks(@film.auditions.all) %>
   </div>
 </div>

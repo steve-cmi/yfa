@@ -80,7 +80,7 @@
 
 				<%= @film.title %>'s Audition Slots
 				<div id="audition_slots">
-					<%= render :partial => 'shared/audition_blocks', :locals => { :audition_groups => Audition.group_into_blocks(@film.auditions) } %>
+					<%= render :partial => 'auditions/groups', :locals => { :audition_groups => Audition.group_into_blocks(@film.auditions) } %>
 				</div>
 			<% else %>
 				Your film needs to be approved by an admin before you can add audition slots. Check back later!
