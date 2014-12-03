@@ -7,6 +7,7 @@ class AuditionsController < ApplicationController
 
 	# Cast Opportunities
 	def cast
+		@page_name = "Student Productions - Cast"
 		@active_nav = :opportunities
 		@active_subnav = :auditions
 		@scopes = [:cast, :crew]
@@ -16,6 +17,7 @@ class AuditionsController < ApplicationController
 
 	# Crew Opportunities
 	def crew
+		@page_name = "Student Productions - Crew"
 		@active_nav = :opportunities
 		@active_subnav = :auditions
 		@scopes = [:cast, :crew]
@@ -26,6 +28,7 @@ class AuditionsController < ApplicationController
 	end
 
 	def index
+		@page_name = "Auditions - #{@film.title}"
 		@active_nav = :opportunities
 		@active_subnav = :auditions
 		@auditions = [] and return if request.format == :csv && !@current_user.has_permission?(@film)

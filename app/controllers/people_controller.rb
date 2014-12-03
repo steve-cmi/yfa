@@ -11,6 +11,7 @@ class PeopleController < ApplicationController
 	end
 	
 	def dashboard
+		@page_name = "My Dashboard"
 		@user = @current_user
 	end
 	

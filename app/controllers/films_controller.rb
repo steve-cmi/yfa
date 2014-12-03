@@ -29,7 +29,7 @@ class FilmsController < ApplicationController
 	def dashboard
 		# People can see this as long as they have SOME permission
 		raise ActionController::RoutingError.new('Not Found') unless @current_user.has_permission?(@film)
-		@page_name = "Film Dashboard - #{@film.title}"
+		@page_name = "Dashboard - #{@film.title}"
 		@recent_auditions = @film.auditions.recent_past
 	end
 	

@@ -6,6 +6,7 @@ class SearchController < ApplicationController
 
 		@tabs = [:people, :projects, :events]
 		@tab = (params[:t] || :people).to_sym
+		@page_name = "Search #{@tab.to_s.titlecase}"
 
 		@people = Person.search(:lname_or_fname_or_email_or_year_or_college_or_bio_cont => params[:q]).
 			result.by_first_last

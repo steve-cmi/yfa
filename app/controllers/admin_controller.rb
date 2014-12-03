@@ -7,6 +7,7 @@ class AdminController < ApplicationController
 		@pending_takeovers = TakeoverRequest.where(:approved => false).all
 		@films = Film.unscoped.select([:id,:title]).order(:title).all
 		@announcements = Annoucement.order(:created_at).all.reverse
+		@page_name = "Admin Dashboard"
 	end
 
 	def newsletter

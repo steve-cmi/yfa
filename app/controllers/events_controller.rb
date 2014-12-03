@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
 
   def index
+    @page_name = "Calendar"
+    
     @scopes = [:day, :week, :month]
     @scope = (params[:scope] || :week).to_sym
 

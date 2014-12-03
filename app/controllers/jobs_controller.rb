@@ -1,6 +1,8 @@
 class JobsController < ApplicationController
 
   def index
+    @page_name = "Jobs & Internships"
+    
     @active_nav = :opportunities
     @active_subnav = :jobs
 
