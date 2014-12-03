@@ -1,5 +1,0 @@
-Management of films can be handled through normal permissions, but need to assign permissions
-
-Authorize name recombination and film approval queue (Dashboard)
-
-Settings page to enter in their netid and password, needed for scraping. Maybe this page could also flash a warning if it's working or not.
