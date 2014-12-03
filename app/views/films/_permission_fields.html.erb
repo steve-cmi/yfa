@@ -1,5 +1,10 @@
-<li>
-	<%= f.text_field :name, :class => "person", :value => f.object.person ? f.object.person.display_name : "", :placeholder => "Student Name" %>
-	<%= f.hidden_field :person_id, :class => "person_id" %>
-	<%= link_to_remove_fields "remove", f %>
-</li>
+<tr>
+  <td width="10px">
+  	<%= link_to_remove_fields "&times;".html_safe, f %>
+  </td>
+
+  <td>
+    <%= f.text_field :name, :value => f.object.person.try(:display_name), :placeholder => "Student Name", :class => "form-control autocomplete-person" %>
+    <%= f.hidden_field :person_id, :class => "person_id" %>
+  </td>
+</tr>

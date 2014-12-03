@@ -2,7 +2,7 @@
 	<i class="icon-move"></i>
 <% if(f.object && f.object.position_id == Position.actor_id) %>
 	<%= f.text_field :character, :placeholder => "Character" %>
-	<%= f.text_field :name, :class => "person", :value => f.object.person ? f.object.person.display_name : "", :placeholder => "Student Name" %>
+	<%= f.text_field :name, :class => "form-control autocomplete-person", :value => f.object.person ? f.object.person.display_name : "", :placeholder => "Student Name" %>
 	<%= f.hidden_field :position_id, :value => Position.actor_id %>
 	<%= f.hidden_field :listing_order %>
 	<%= f.hidden_field :person_id, :class => "person_id" %>
@@ -10,7 +10,7 @@
 <% else %>
 	<%= f.enum_select :assistant %>
 	<%= f.collection_select(:position_id, Position.crew, :id, :position, :include_blank => true) %>
-	<%= f.text_field :name, :class => "person", :value => f.object.person ? f.object.person.display_name : "", :placeholder => "Student Name" %>
+	<%= f.text_field :name, :class => "form-control autocomplete-person", :value => f.object.person ? f.object.person.display_name : "", :placeholder => "Student Name" %>
 	<%= f.hidden_field :listing_order %>
 	<%= f.hidden_field :person_id, :class => "person_id" %>
 	<%= link_to_remove_fields "<i class='icon-remove'></i>".html_safe, f %>

@@ -57,67 +57,57 @@ class FilmsController < ApplicationController
 		# Process blanks to nils
 		params[:film].each {|key,val| val = nil if val.blank? }
 
-		# handle file uploads
+		# Handle file uploads
 		if (params[:film][:file])
 		  @film.s3_create(params[:film][:file])
 		  redirect_to film_edit_files_path(@film), :notice => "File uploaded"
 			return
 		end
 		
-		#Process screenings to timestamps
-		if params[:film][:screenings_attributes].blank? && @film.screenings.count == 0
-			@film = Film.new
-			render :action => "edit", :notice => 'You must give at least one screening'
-			return
-		end
+		# Process screenings
 		if params[:film][:screenings_attributes]
-			params[:film][:screenings_attributes].each do |key,obj| 
+			params[:film][:screenings_attributes].each do |key, obj| 
+				# Merge date and time strings into a starts_at datetime.
+				obj[:starts_at] = Time.zone.parse("#{obj.delete(:date)} #{obj.delete(:time)}") rescue nil
+
 				# Remove it if it doesn't have the needed fields
-				if obj[:date].blank? || obj[:time].blank?
+				if obj[:starts_at].blank?
 					params[:film][:screenings_attributes].delete(key) 
 					next
 				end
-
-				# Format the date properly into a time object and use the current server TS to get UTC offset they meant
-				that_date =  DateTime.strptime("#{obj[:date]} #{obj[:time]}", '%m/%d/%Y %l:%M%P')
-				obj = { :id => obj[:id], :timestamp => Time.find_zone('Eastern Time (US & Canada)').local(that_date.year, that_date.month, that_date.day, that_date.hour, that_date.minute), :_destroy => obj[:_destroy] }
-				params[:film][:screenings_attributes][key] = obj	
 			end
 		end
 		
-		#Process person_ids where applicable
-		if params[:film][:film_positions_attributes]
-			params[:film][:film_positions_attributes].each do |key,obj|
-				
-				# Create person if not exists
-				if obj[:person_id].blank? && !obj[:name].blank?
-					name = obj[:name].split
-					person = Person.create!(:fname => name[0], :lname => name[1..-1].join(" "))
-					obj[:person_id] = person.id
-				end
-				obj = { :id => obj[:id], 
-								:assistant => obj[:assistant], 
-								:position_id => obj[:position_id], 
-								:person_id => obj[:name].blank? ? nil : obj[:person_id], 
-								:character => obj[:character], 
-								:listing_order => obj[:listing_order].blank? ? nil : obj[:listing_order], 
-								:_destroy => obj[:_destroy]
-							}
-				params[:film][:film_positions_attributes][key] = obj
-
-				# Remove it if it doesn't have a position
-				params[:film][:film_positions_attributes].delete(key) if obj[:position_id].blank? || (obj[:position_id] == "17" && obj[:character].blank?)
-			end
-		end
-		
-		#Process permissions to remove names
+		# Process permissions
 		if params[:film][:permissions_attributes]
-			params[:film][:permissions_attributes].each do |key,obj|
+			params[:film][:permissions_attributes].each do |key, obj|
 				params[:film][:permissions_attributes].delete(key) if obj[:person_id].blank?
 				obj.delete(:name)
 			end
 		end
 
+		# Process film_positions
+		if params[:film][:film_positions_attributes]
+			params[:film][:film_positions_attributes].each do |key, obj|
+				
+				# Find or create person by name (adds new people if they don't exist)
+				if obj[:person_id].blank? && !obj[:name].blank?
+					fname, lname = obj[:name].split(' ', 2)
+					person = Person.find_or_create_by_fname_and_lname(fname, lname)
+					obj[:person_id] = person.id
+				end
+
+				# Convert blanks to nils
+				obj[:listing_order] = nil if obj[:listing_order].blank?
+				obj[:person_id] = nil if obj[:person_id].blank?
+
+				# Remove it if it doesn't have a position (or character, for actors)
+				if obj[:position_id].blank? || (obj[:position_id] == Position.actor_id && obj[:character].blank?)
+					params[:film][:film_positions_attributes].delete(key)
+				end
+			end
+		end
+		
 		if !@film.id
 			post_create = {}
 			post_create[:permissions_attributes] = params[:film][:permissions_attributes]

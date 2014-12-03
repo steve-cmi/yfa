@@ -1,5 +1,13 @@
-<li class="datepair">
-	<label> Date <%= f.text_field :date, :class => "date", :value => f.object.timestamp ? f.object.timestamp.strftime("%m/%d/%Y") : "" %></label>
-	<label> Time <%= f.text_field :time, :class => "time", :value => f.object.timestamp ? f.object.timestamp.strftime("%l:%M%P") : "" %></label>
-	<%= link_to_remove_fields "remove", f %>
-</li>
+<tr>
+  <td width="10px">
+  	<%= link_to_remove_fields "&times;".html_safe, f %>
+  </td>
+
+  <td>
+    <%= f.text_field :date, :class => "date", :value => long_date(f.object.starts_at), :class => "form-control", :placeholder => "Date" %>
+  </td>
+
+  <td>
+    <%= f.text_field :time, :class => "time", :value => time(f.object.starts_at), :class => "form-control", :placeholder => "Time" %>
+  </td>
+</tr>

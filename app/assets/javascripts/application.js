@@ -13,6 +13,7 @@
 
 //= require jquery
 //= require jquery.lazyload.min
+//= require jquery-ui/autocomplete
 //= require bootstrap
 //= require best_in_place
 //= require ckeditor/init

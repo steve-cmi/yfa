@@ -9,11 +9,8 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require bootstrap
- *= # require bootstrap-theme
  *= require bootstrap-flatly
- *= # require jquery-ui/datepicker
- *= # require jquery-ui/autocomplete
- *= # require jquery.timepicker
+ *= require jquery-ui/autocomplete
  *= require layout
  *= require homepage
  *= require films

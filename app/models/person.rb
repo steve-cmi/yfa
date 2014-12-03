@@ -62,6 +62,10 @@ class Person < ActiveRecord::Base
     people.reject!(&:netid?)
     people.uniq - [self] - self.takeover_requests.collect(&:requested_person)
   end
+
+  def self.named(name)
+    where("CONCAT_WS(' ', `fname` , `lname`) LIKE ?", "%#{name}%")
+  end
   
   # Accessors 
   def name

@@ -1,85 +1,101 @@
-<% javascript 'films.js' %>
+<% javascript 'films-edit.js' %>
 
 <% if @film.errors.any? %>
-	<ul>
-	<% @film.errors.full_messages.each do |msg| %>
-	  <li><%= msg %></li>
-	<% end %>
-	</ul>
+	<div class="alert alert-dismissable alert-danger">
+	  <button type="button" class="close" data-dismiss="alert">×</button>
+	  <strong>There were errors saving this film:</strong>
+			<% @film.errors.full_messages.each do |error| %>
+			  <li><%= error %></li>
+			<% end %>
+		</ul>
+	</div>
 <% end %>
 
-<%= form_for @film, :validate => true, :html => { :multipart => true } do |f| %>
-	<div class="row film-form">
-	  <div class="span6">
-			<h4>Film Details</h4>
-			<p>Tell us a bit about your awesome film!</p>
+<%= form_for @film, :validate => true, :html => { :multipart => true, :class => "form-horizontal" } do |f| %>
+	<div class="row">
+	  <div class="col-md-12">
 
-			<%= f.enum_select :category %><br />
-			<%= f.text_field :title, :class => "required", :placeholder => "Title", :validate => true %><br />
-			<div id="title_length_warning" class="alert" style="display:none; width: 85%; line-height: 18px;">
+		  <div class="form-group">
+		    <label for="film_title" class="col-sm-2 control-label">Title</label>
+		    <div class="col-sm-10">
+		      <%= f.text_field :title, :class => "required", :placeholder => "Title", :validate => true, :class => "form-control" %>
+		    </div>
+		  </div>
+
+			<div id="title_length_warning" class="alert alert-dismissable alert-danger col-sm-offset-2" style="display:none">
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
   			<strong>Warning!</strong> Consider using a tagline below to keep your title short. Longer titles may not appear as nicely throughout the site.
 			</div>
-			<%= f.text_field :tagline, :placeholder => "Tagline" %><br />
-			<%= f.text_field :contact, :class => "required", :placeholder => "Contact Email Address", :validate => true %><br />
-			<%= f.text_area :description, :class => "required", :placeholder => "Summary/History/Other Info", :validate => true %><br />
+
+		  <div class="form-group">
+		    <label for="film_tagline" class="col-sm-2 control-label">Tagline</label>
+		    <div class="col-sm-10">
+		    	<%= f.text_field :tagline, :placeholder => "Tagline", :class => "form-control" %>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="film_contact" class="col-sm-2 control-label">Contact</label>
+		    <div class="col-sm-10">
+		    	<%= f.text_field :contact, :placeholder => "Contact Email Address", :validate => true, :class => "form-control required" %>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="film_description" class="col-sm-2 control-label">Description</label>
+		    <div class="col-sm-10">
+		    	<%= f.cktext_area :description, :placeholder => "Summary/History/Other Info", :validate => true, :class => "form-control required" %>
+		    </div>
+		  </div>
 			
-			<hr />
-			
-			<h4>Design Details</h4>
-			<p>Help sell your film by making it stand out in the crowd</p>
-
-			<span id="btn-upload" class="btn">
-				<%= f.file_field :poster %>
-				<span class="btn-text" data-default-text="Upload a poster" data-selected-text="Choose a different file">Upload a poster</span>
-            </span>
-            <span id="upload-file" class="field_explanation"></span>
-            <br />
-
-			<hr />
-
-			<h4>Scheduling</h4>
-			<p>Fill in what you know, but we'll need at least one date and time to get started</p>
-
-			<%= f.text_field :location, :class => "required", :placeholder => "Location", :validate => true %><br />
-
-	    <ol class="screenings">
-				<%= f.fields_for :screenings do |builder| %>
-					<%= render 'screening_fields', :f => builder %>
-				<% end %>
-				<li><%= link_to_add_fields "Add Filmtime", f, :screenings %></li>
-			</ol>
-			
-			<hr />
-
-			<h4>Permissions</h4>
-			<a href="#" rel="tooltip" title="These are the people (besides you) who will be able to access your film to edit it (or portions of it)">What's This?</a>
-			<div class="permissions">
-				<ul>
-					<%= f.fields_for :permissions do |builder| %>
-						<%= render 'permission_fields', :f => builder %>
-					<% end %>
-					<li><%= link_to_add_fields "Add Permission", f, :permissions %></li>
-				</ul>
-			</div>			
-	
-			<p><%= f.submit @film.id ? "Submit" : "Next Step", :class => "btn" %></p>
-		</div>
-
-		<div class="span6 hidden-phone">
-			<h4>Design Preview</h4>
-			<p>See what your films will look like on the YFA Homepage</p>
-			<div class="frontpage-preview">
-				<div class="row">
-					<div class="span6 item">
-						<%= render :partial => 'shared/film_frontpage', :locals => { :film => @film, :row_count => 2, :css_classes => @film.accent_color ? @film.accent_color.to_s : "black" } %>
-					</div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Poster</label>
+				<div class="col-sm-6">
+		    	<%= f.file_field :poster, :class => "form-control required" %>
 				</div>
-				<div class="row">
-					<div class="span4 item">
-						<%= render :partial => 'shared/film_frontpage', :locals => { :film => @film, :row_count => 3, :css_classes => @film.accent_color ? @film.accent_color.to_s : "black" } %>
-					</div>
+		    <div class="col-sm-4">
+					<%= image_tag @film.poster.url(:show) if @film.poster? %>
+		    </div>
+		  </div>
+
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Screenings</label>
+	    	<div class="col-sm-10">
+			    <table class="table screenings">
+			    	<tbody>
+							<%= f.fields_for :screenings do |builder| %>
+								<%= render 'screening_fields', :f => builder %>
+							<% end %>
+						</tbody>
+						<tfoot>
+							<tr><th colspan="3"><%= link_to_add_fields "+", f, :screenings %></th></tr>
+						</tfoot>
+					</table>
 				</div>
 			</div>
+
+			<div class="form-group">
+		    <label class="col-sm-2 control-label">
+		    	Permissions<br />
+					<small><a href="#" data-toggle="tooltip" data-placement="bottom" title="These are the people, besides you, who will be able to make changes to your film.">What's This?</a></small>
+		    </label>
+	    	<div class="col-sm-10">
+					<table class="table permissions">
+						<tbody>
+							<%= f.fields_for :permissions do |builder| %>
+								<%= render 'permission_fields', :f => builder %>
+							<% end %>
+						</tbody>
+						<tfoot>
+							<tr><th colspan="2"><%= link_to_add_fields "+", f, :permissions %></th></tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+
+			<div class="col-sm-offset-2 col-sm-10">
+				<%= f.submit @film.id ? "Submit" : "Next Step", :class => "btn btn-primary" %>
+				<%= link_to "Cancel", film_dashboard_path(@film), :class => "btn btn-default" %>
+			</div>
 		</div>
+	</div>
+
 <% end %>
