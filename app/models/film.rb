@@ -1,9 +1,10 @@
 class Film < ActiveRecord::Base
 
-	has_many :screenings, :dependent => :destroy, :include => :building
 	has_many :film_positions, :dependent => :delete_all, :include => [:position, :person]
 	has_one :film_director, :class_name => 'FilmPosition', :conditions => "position_id = #{Position.director_id}", :include => :person
 	has_one :director, :source => :person, :through => :film_director
+	
+	has_many :screenings, :dependent => :destroy, :include => :building
 	has_many :permissions, :dependent => :delete_all
 	has_many :auditions, :dependent => :destroy, :order => :starts_at
   has_many :film_genres, dependent: :destroy
@@ -17,8 +18,6 @@ class Film < ActiveRecord::Base
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
     message: 'file type is not allowed (only jpeg/png/gif images)'
 
-	default_scope where(:approved => true)
-	
 	attr_accessible :title, :tagline, :slug, :contact, :description, :poster, :accent_color, :flickr_id
 	attr_accessible :auditions_enabled, :aud_info, :start_date, :end_date
 	attr_accessible :screenings_attributes, :film_positions_attributes, :permissions_attributes
@@ -34,7 +33,12 @@ class Film < ActiveRecord::Base
 	friendly_id :title, use: :slugged
 
 	delegate :directors, :actors, :writers, :cast, :crew, :to => :film_positions
+	default_scope where(:approved => true)
 
+	def self.pending
+		unscoped.where(:approved => false)
+	end
+	
 	def has_opportunities?
 		film_positions.cast.vacant.any?
 	end

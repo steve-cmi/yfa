@@ -1,108 +1,192 @@
 <% javascript 'admin.js' %>
-<h3>Admin Dashboard</h3>
+<h1>Admin Dashboard</h1>
 
-<style>
-label {display:inline;}
-input[type=radio] {margin:0px;margin-left:5px;vertical-align:center;}
-input#subject {margin:2px;width:517px;}
-textarea#message {padding:0px;margin:0px;height:100px;width:600px;font-size:12px;}
-div#email_content {margin:10px 0px;}
-</style>
-<h4>Email all</h4>
-<%= form_tag(:action => :email_all) do %>
-	<strong>Films</strong>:
-	<%= radio_button_tag :films, :upcoming %>
-	<%= label_tag :films_upcoming, "Upcoming" %>
-	<%= radio_button_tag :films, :semester %>
-	<%= label_tag :films_semester, "This semester" %>
-	<%= radio_button_tag :films, :year %>
-	<%= label_tag :films_year, "This year" %>
-	<br />
-	<strong>Positions</strong>:
-	<%= radio_button_tag :positions, :producers %>
-	<%= label_tag :positions_producers, "Producers" %>
-	<%= radio_button_tag :positions, :contacts %>
-	<%= label_tag :positions_contacts, "Producers, directors and stage managers" %>
-	<br />
-	<div id="email_content">
-		<strong>Subject</strong>:
-		<%= text_field_tag :subject %><br />
-		<%= text_area_tag :message %><br />
+<div class="grid row">
+
+	<div class="col-md-6">
+		<h3>Email all</h3>
+		<form class="form-horizontal" role="form" action="<%= url_for :action => :email_all %>">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Films</label>
+				<div class="col-sm-10">
+					<label class="radio-inline"><input type="radio" name="films" value="upcoming" /> Upcoming</label>
+					<label class="radio-inline"><input type="radio" name="films" value="semester" /> This Semester</label>
+					<label class="radio-inline"><input type="radio" name="films" value="year" /> This Year</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Positions</label>
+				<div class="col-sm-10">
+					<label class="radio-inline"><input type="radio" name="positions" value="producers" /> Producers</label>
+					<label class="radio-inline"><input type="radio" name="positions" value="contacts" /> Producers, directors and stage managers</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="subject">Subject</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="subject" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="message">Message</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" name="message"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Send</button>
+				</div>
+			</div>
+		</form>
 	</div>
-	<%= submit_tag "Send" %>
-<% end %>
 
-<h4>Pending Film Queue</h4>
-<% if @pending_films.blank? %>
-	No requests at this time!
-<% else %>
-	<table>
-		<tr><th>Film</th><th>- - -</th><th>Approve</th><th>- - -</th><th>Approve, but don't archive</th><th>- - -</th><th>Delete</th></tr>
-		<% @pending_films.each do |s| %>
-			<tr><td><%= link_to s.title, edit_film_path(s) %></td>
-				<td> </td>
-				<td><%= link_to "Approve", approve_film_path(s.id) + "?archive=1" %></td>
-				<td> </td>
-				<td><%= link_to "Approve (no archive)", approve_film_path(s.id) %></td>
-				<td> </td>
-				<td><%= form_for(:film, :url => film_path(s.id), :html => {:method => :delete}) do  %>
-			  <%= submit_tag "Delete", :confirm => "Are you sure you want to delete the selected film?" %>
-			<% end %></td>
-			</tr>
+	<div class="col-md-6">
+		<h3>Approvals</h3>
+		<strong>Pending Film Queue</strong>
+		<% if @pending_films.none? %>
+			<p>No requests at this time!</p>
+		<% else %>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Film</th>
+						<th>Approve</th>
+						<th>Approve, but don't archive</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @pending_films.each do |s| %>
+						<tr>
+							<td><%= link_to s.title, edit_film_path(s) %></td>
+							<td><%= link_to "Approve", approve_film_path(s.id) + "?archive=1" %></td>
+							<td><%= link_to "Approve (no archive)", approve_film_path(s.id) %></td>
+							<td>
+								<%= form_for(:film, :url => film_path(s.id), :html => {:method => :delete}) do  %>
+								<button type="submit" class="btn btn-xs btn-default" onClick="return confirm('Are you sure you want to delete the selected film?')">Delete</button>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
 		<% end %>
-	</table>
-<% end %>
-<br /><br />
 
-<h4>Pending Name Request Queue</h4>
-<% if @pending_takeovers.blank? %>
-	No requests at this time!
-<% else %>
-	<table>
-		<tr><th>User Name</th><th>Requested Name</th><th>Approve</th><th>Remove</th></tr>
-	<% @pending_takeovers.each do |req| %>
-		<tr><td><%= link_to req.person.display_name, req.person %></td><td><%= link_to req.requested_person.display_name, req.requested_person %></td><td><%= link_to "Approve", approve_takeover_path(req) %></td><td><%= link_to "Delete", reject_takeover_path(req) %></td></tr>
-	<% end %>
-	</table>
-<% end %>
+		<strong>Pending Name Request Queue</strong>
+		<% if @pending_takeovers.none? %>
+			<p>No requests at this time!</p>
+		<% else %>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>User Name</th>
+						<th>Requested Name</th>
+						<th>Approve</th>
+						<th>Remove</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @pending_takeovers.each do |req| %>
+						<tr>
+							<td><%= link_to req.person.display_name, req.person %></td>
+							<td><%= link_to req.requested_person.display_name, req.requested_person %></td>
+							<td><%= link_to "Approve", approve_takeover_path(req) %></td>
+							<td><%= link_to "Delete", reject_takeover_path(req) %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		<% end %>
+	</div>
 
+</div>
 
-<br /><br />
-<b>Select a film to edit:</b>
-<form method="get" action="/films/id/dashboard">
-  <%= select_tag :film_edit_id, options_from_collection_for_select(@films, :id, :title) %>
-  <%= submit_tag "Edit"%>
-</form>
+<div class="grid row">
 
-<br />
-<b>Delete a film:</b>
-<%= form_for(:film, :url => film_path("id"), :html => {:method => :delete}) do  %>
-  <%= select_tag :film_delete_id, options_from_collection_for_select(@films, :id, :title) %>
-  <%= submit_tag "Delete", :confirm => "Are you sure you want to delete the selected film?" %>
-<% end %>
+	<div class="col-md-12">
+		<h3>Manage Films</h3>
 
-<br /><br />
-<b>Edit Announcement:</b>
-<form method="get" action="/annoucement/id/edit">
-  <%= select_tag :annoucement_edit_id, options_from_collection_for_select(@annoucement, :id, :title) %>
-  <%= submit_tag "Edit" %>
-</form>
-<br /><br />
+		<form method="get" action="<%= film_dashboard_path('slug') %>" class="form-horizontal auto-slug">
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-1">
+				  <%= select_tag nil, options_from_collection_for_select(@films, :slug, :title), :class => "form-control" %>
+				</div>
+				<div class="col-sm-2">
+					<button type="submit" class="btn btn-default">Edit</button>
+				</div>
+			</div>
+		</form>
 
-<b>Delete Announcement:</b>
-<%= form_for(:annoucement, :url => annoucement_path("id"), :html => {:method => :delete}) do  %>
-  <%= select_tag :annoucement_delete_id, options_from_collection_for_select(@annoucement, :id, :title) %>
-  <%= submit_tag "Delete", :confirm => "Are you sure you want to delete the selected article?" %>
-<% end %>
+		<%= form_for(:film, :url => film_path("slug"), :html => {:method => :delete, :class => "form-horizontal auto-slug"}) do  %>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-1">
+				  <%= select_tag nil, options_from_collection_for_select(@films, :slug, :title), :class => "form-control" %>
+				</div>
+				<div class="col-sm-2">
+					<button type="submit" class="btn btn-default" onClick="return confirm('Are you sure you want to delete the selected film?')">Delete</button>
+				</div>
+			</div>
+		<% end %>
+		
+	</div>
+	
+</div>
 
-<br /><br />
+<div class="grid row">
 
-<b>New Announcement:</b>
-<div class="annoucement">
-	<%= form_for Announcement.new do |f| %>
-		Title: <%= f.text_field :title %><br />
-		<%= f.text_area :text %>
-		<br /><br />
-		<%= f.submit "Create" %>
-	<% end %>
+	<div class="col-md-12">
+		<h3>Manage Announcements</h3>
+		<form method="get" action="/announcement/id/edit" class="form-horizontal auto-slug">
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-1">
+				  <%= select_tag :announcement_edit_id, options_from_collection_for_select(@announcements, :id, :title), :class => "form-control" %>
+				</div>
+				<div class="col-sm-2">
+					<button type="submit" class="btn btn-default">Edit</button>
+				</div>
+			</div>
+		</form>
+
+		<%= form_for(:announcement, :url => announcement_path("id"), :html => {:method => :delete, :class => "form-horizontal auto-slug"}) do  %>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-1">
+				  <%= select_tag :announcement_delete_id, options_from_collection_for_select(@announcements, :id, :title), :class => "form-control" %>
+				</div>
+				<div class="col-sm-2">
+					<button type="submit" class="btn btn-default" onClick="return confirm('Are you sure you want to delete the selected article?')">Delete</button>
+				</div>
+			</div>
+		<% end %>
+	</div>
+	
+</div>
+
+<div class="grid row">
+
+	<div class="col-md-12">
+		<h3>Create Announcement</h3>
+
+		<%= form_for Announcement.new, :html => {:class => "form-horizontal"} do |f| %>
+			<div class="form-group">
+				<label class="col-sm-1 control-label">Title</label>
+				<div class="col-sm-9">
+					<%= f.text_field :title, :class => "form-control" %>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-1 control-label">Content</label>
+				<div class="col-sm-9">
+					<%= f.text_area :body, :class => "form-control" %>
+				</div>
+			</div>
+
+			<div class="col-sm-offset-1 col-sm-9">
+				<button type="submit" class="btn btn-default">Create</button>
+			</div>
+		<% end %>
+
+	</div>
+
 </div>

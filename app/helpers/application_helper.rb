@@ -67,6 +67,10 @@ module ApplicationHelper
     "#{person.name}, #{person.college} #{short_year person.year}"
   end
 
+  def javascript(*files)
+    content_for(:head) { javascript_include_tag(*files) }
+  end
+
   # ----- OLD HELPERS ------ prune when done.
 
 	# Expects ordered screening array, this is usually handled by the model
@@ -159,9 +163,4 @@ module ApplicationHelper
     link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")", :class => "add-link")
   end
   
-  #Helper to load javascript page specific stuff
-  def javascript(*files)
-    content_for(:head) { javascript_include_tag(*files) }
-  end
-
 end

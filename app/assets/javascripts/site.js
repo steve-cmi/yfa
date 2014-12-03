@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-  /* Activating Best In Place */
-  jQuery(".best_in_place").best_in_place();
+  /* Activate Best In Place */
+  $(".best_in_place").best_in_place();
 
   /* Activate Bootstrap Tooltips */
   $(function () {
