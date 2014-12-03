@@ -18,7 +18,7 @@ class Film < ActiveRecord::Base
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
     message: 'file type is not allowed (only jpeg/png/gif images)'
 
-	attr_accessible :title, :tagline, :slug, :contact, :description, :poster, :accent_color, :flickr_id
+	attr_accessible :title, :tagline, :slug, :contact, :description, :poster
 	attr_accessible :auditions_enabled, :aud_info, :start_date, :end_date
 	attr_accessible :screenings_attributes, :film_positions_attributes, :permissions_attributes
 	attr_accessible :directors if Rails.env.development?

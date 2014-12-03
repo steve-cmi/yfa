@@ -36,16 +36,6 @@
             <span id="upload-file" class="field_explanation"></span>
             <br />
 
-			<b>Choose an accent color...</b>
-			<div class="row" style="padding-left: 20px;">
-			<% @film.column_for_attribute(:accent_color).limit.each do |color| %>
-				<div class="color-item">
-					<%= label_tag("film_accent_color_#{color.to_s}", "<div class='swatch #{color.to_s}'></div>".html_safe) %>
-					<%= f.radio_button(:accent_color, color.to_s) %>
-				</div>
-			<% end %>
-			</div>
-
 			<hr />
 
 			<h4>Scheduling</h4>

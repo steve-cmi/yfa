@@ -7,6 +7,7 @@ class UpdateFilms < ActiveRecord::Migration
     remove_column :films, :aud_files
     remove_column :films, :public_aud_info
     remove_column :films, :url_key
+    remove_column :films, :accent_color
     remove_column :film_positions, :assistant
     remove_column :showtimes, :email_sent
     rename_column :showtimes, :timestamp, :starts_at
@@ -21,6 +22,7 @@ class UpdateFilms < ActiveRecord::Migration
     add_column :films, :aud_files, :text
     add_column :films, :public_aud_info, :boolean
     add_column :films, :url_key, :string
+    add_column :films, :accent_color, :enum, :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
     add_column :film_positions, :assistant, :enum, :limit => %w(Associate Assistant)
     add_column :showtimes, :email_sent, :boolean
     rename_column :showtimes, :timestamp, :starts_at
