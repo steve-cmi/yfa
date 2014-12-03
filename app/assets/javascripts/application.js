@@ -15,6 +15,7 @@
 //= require jquery.lazyload.min
 //= require bootstrap
 //= require best_in_place
+//= require ckeditor/init
 //= # require rails.validations
 //= # require rails.validations.custom
 

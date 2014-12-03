@@ -53,6 +53,9 @@ GEM
     capistrano-rvm (0.1.1)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
+    ckeditor (4.1.1)
+      cocaine
+      orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.4)
@@ -98,6 +101,7 @@ GEM
     net-ssh (2.9.1)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
+    orm_adapter (0.5.0)
     paperclip (4.2.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -183,6 +187,7 @@ DEPENDENCIES
   capistrano-bundler (>= 1.1.0)
   capistrano-rails (~> 1.1)
   capistrano-rvm
+  ckeditor
   coffee-rails (~> 3.2.1)
   enum_column3
   exception_notification

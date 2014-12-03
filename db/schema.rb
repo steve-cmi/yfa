@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141202200327) do
+ActiveRecord::Schema.define(:version => 20141203143839) do
 
   create_table "activities", :force => true do |t|
     t.string   "name"
@@ -63,6 +63,22 @@ ActiveRecord::Schema.define(:version => 20141202200327) do
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
   end
+
+  create_table "ckeditor_assets", :force => true do |t|
+    t.string   "data_file_name",                  :null => false
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.integer  "assetable_id"
+    t.string   "assetable_type",    :limit => 30
+    t.string   "type",              :limit => 30
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "ckeditor_assets", ["assetable_type", "assetable_id"], :name => "idx_ckeditor_assetable"
+  add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_ckeditor_assetable_type"
 
   create_table "event_dates", :force => true do |t|
     t.integer  "event_id"
@@ -120,17 +136,17 @@ ActiveRecord::Schema.define(:version => 20141202200327) do
   end
 
   create_table "films", :force => true do |t|
-    t.string   "title",                                                                                                               :null => false
+    t.string   "title",                                    :null => false
     t.string   "slug"
     t.string   "tagline"
-    t.string   "contact",                                                                                                             :null => false
-    t.boolean  "auditions_enabled",                                                                                :default => false, :null => false
+    t.string   "contact",                                  :null => false
+    t.boolean  "auditions_enabled",     :default => false, :null => false
     t.text     "aud_info"
-    t.text     "description",                                                                                                         :null => false
-    t.boolean  "approved",                                                                                         :default => false, :null => false
+    t.text     "description",                              :null => false
+    t.boolean  "approved",              :default => false, :null => false
     t.text     "pw"
-    t.boolean  "archive",                                                                                          :default => true,  :null => false
-    t.boolean  "archive_reminder_sent",                                                                            :default => false, :null => false
+    t.boolean  "archive",               :default => true,  :null => false
+    t.boolean  "archive_reminder_sent", :default => false, :null => false
     t.string   "poster_file_name"
     t.string   "poster_content_type"
     t.integer  "poster_file_size"
@@ -138,7 +154,6 @@ ActiveRecord::Schema.define(:version => 20141202200327) do
     t.text     "poster_meta"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.enum     "accent_color",          :limit => [:red, :yellow, :green, :dark_blue, :blue, :light_blue, :black]
     t.date     "start_date"
     t.date     "end_date"
     t.string   "semester_code"
