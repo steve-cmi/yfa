@@ -44,7 +44,7 @@ class SearchController < ApplicationController
 		params[:query] = params[:term] if params[:term]
 		
 		if params[:type] == "people"
-			@results = Person.named(params[:query])
+			@results = Person.autocomplete(params[:query])
 			respond_to do |format|
 		    format.html { render :action => "results" }
 		    format.json { render :json => @results.to_json(:only => [:id,:fname,:lname,:college,:year]) }

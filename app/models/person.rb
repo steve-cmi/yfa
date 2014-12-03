@@ -63,8 +63,8 @@ class Person < ActiveRecord::Base
     people.uniq - [self] - self.takeover_requests.collect(&:requested_person)
   end
 
-  def self.named(name)
-    where("CONCAT_WS(' ', `fname` , `lname`) LIKE ?", "%#{name}%")
+  def self.autocomplete(query)
+    where("`fname` LIKE ? OR `lname` LIKE ? OR CONCAT_WS(' ', `fname`, `lname`) LIKE ?", "#{query}%", "#{query}%", "#{query}%")
   end
   
   # Accessors 
