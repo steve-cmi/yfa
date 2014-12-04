@@ -1,45 +1,54 @@
 $(document).ready(function() {
-  $("table#audition_groups").
-    on('click', '.hide-all,.show-all', manageAuditionEllipsis).
-    on("click", "button.single-remove", removeSingleAudition).
-    on("click", "button.block-remove", removeBlockAudition);
+  initializeAuditionGroups();
 });
+
+function initializeAuditionGroups() {
+  $("table#audition_groups").
+    on('click', 'button.toggle-group', manageAuditionEllipsis).
+    on('click', 'button.single-remove', removeSingleAudition).
+    on('click', 'button.block-remove', removeBlockAudition);
+}
 
 function manageAuditionEllipsis(e) {
   e.preventDefault();
-  var hide = $(this).is(".hide-all");
-  var tbody = $(this).closest("tfoot").prev();
-  tbody.find(".ellipsis").toggle(hide);
-  tbody.find(".condensed").toggle(!hide);
-  tbody.next().find(".hide-all").toggle(!hide);
-  tbody.next().find(".show-all").toggle(hide);
+  var hide = $(this).is('.hide-group');
+  var thead = $(this).closest('thead')
+  var tbody = thead.next();
+  tbody.find('.ellipsis').toggle(hide);
+  tbody.find('.condensed').toggle(!hide);
+  thead.find('.show-group').toggle(hide);
+  thead.find('.hide-group').toggle(!hide);
 }
 
 function removeSingleAudition(e) {
-  if (confirm("This audition will be deleted. There is no undo. Are you sure?")) {
+  if (confirm('This audition will be deleted. There is no undo. Are you sure?')) {
+    var index = $(this).data('index');
+    var action = $(this).closest('form').attr('action');
+    var tr = $(this).closest('tr');
+    var thead = tr.closest('tbody').prev();
+    var audition_id = tr.data('audition-id');
     e.preventDefault();
-    var aud_id = $(this).closest("tr").data("audition-id");
-    send_destroy([aud_id]);
+    send_destroy(action, [audition_id], index);
   }
 }
 
 function removeBlockAudition(e) {
-  var audition_ids = $(this).closest("tfoot").prev().find("tr").map(function() { return $(this).data("audition-id"); });
-  if (confirm("These "+audition_ids.length+" auditions will be deleted. There is no undo. Are you sure?")) {
+  var action = $(this).closest('form').attr('action');
+  var thead = $(this).closest('thead');
+  var tbody = thead.next();
+  var audition_ids = tbody.find('tr').map(function() { return $(this).data('audition-id'); });
+  if (confirm('These '+audition_ids.length+' auditions will be deleted. There is no undo. Are you sure?')) {
     e.preventDefault();
-    send_destroy($.makeArray(audition_ids));
+    send_destroy(action, $.makeArray(audition_ids), null);
   }
 }
 
 // Make a destroy call to remove the passed ids
-function send_destroy(ids) {
-  var url = $("form.auditions").attr("action");
+function send_destroy(action, ids, index) {
   $.ajax({
-    url: url,
-    data: {destroy_ids: ids},
-    type: "PUT",
-    success: function(data) {
-      eval(data);
-    }
-  })
+    url: action,
+    data: {destroy_ids: ids, index: index},
+    type: 'PUT',
+    dataType: 'script'
+  });
 }

@@ -90,12 +90,15 @@ class FilmsController < ApplicationController
 		if params[:film][:film_positions_attributes]
 			params[:film][:film_positions_attributes].each do |key, obj|
 				
-				# Find or create person by name (adds new people if they don't exist)
+				# Find or create person by name (create new person if needed)
 				if obj[:person_id].blank? && !obj[:name].blank?
 					fname, lname = obj[:name].split(' ', 2)
 					person = Person.find_or_create_by_fname_and_lname(fname, lname)
 					obj[:person_id] = person.id
 				end
+
+				# Don't need name anymore. Either we have a person_id already or we found one above.
+				obj.delete(:name)
 
 				# Convert blanks to nils
 				obj[:listing_order] = nil if obj[:listing_order].blank?
@@ -138,7 +141,7 @@ class FilmsController < ApplicationController
 	      	end
 	      end
 	      format.json { render :json => {:success => true} }
-	      format.js { render :action => "edit_success" }
+	      format.js { render :nothing => true }
 	    else
 	      format.html { render :action => "edit" }
 	      format.json { render :json => {:error => true} }

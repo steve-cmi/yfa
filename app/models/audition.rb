@@ -52,27 +52,15 @@ class Audition < ActiveRecord::Base
 		self.save!
 	end
 
-	def self.group_into_blocks(auditions)
-		return [] if auditions.length == 0
-		return [auditions] if auditions.length == 1
-		auditions.sort_by!(&:starts_at)
-		last_ts = auditions.first.starts_at
-		expected_gap = auditions[1].starts_at - auditions[0].starts_at # Naive...might be improved somehow
-		groups = []
-		group = []
-
-		# If the next audition is in the expected gap, then push it into this group
-		auditions.each do |a|
-			if a.starts_at - last_ts <= expected_gap * 3
-				group << a
-			else
-				groups << group
-				group = [a]
-			end
-			last_ts = a.starts_at
-		end
-		groups << group
-		groups
+	def self.to_csv
+    require 'csv'
+		CSV.generate do |csv| 
+	    order(&:starts_at).includes(:person).all.each do |audition|
+	    	data = [audition.starts_at.to_s, audition.location]
+	    	data += [audition.person.display_name, audition.email, audition.phone] if audition.person
+	      csv << data
+	    end
+	  end
 	end
 
 	private

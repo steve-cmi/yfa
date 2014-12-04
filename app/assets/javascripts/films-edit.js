@@ -11,6 +11,16 @@ $(document).ready(function() {
     }
   });
 
+  // Toggle audition controls
+  $("#film_auditions_enabled").on('change', function() {
+    $("#aud_enabled_wrapper").toggle( $(this).is(":checked") );
+  });
+
+  // Trigger audition saves
+  $("#film_auditions_enabled, #film_aud_info").on('change', function() {
+    $(this).closest('form').submit();
+  });
+
   hookupPersonAutoComplete();
 
 });
@@ -30,7 +40,7 @@ function add_fields(trigger, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
   var content = $(content.replace(regexp, new_id));
-  $(trigger).closest('tfoot').prev().append(content);
+  $(trigger).closest('thead').next().append(content);
   if (association == "film_positions" || association == "permissions") hookupPersonAutoComplete();
   return false;
 }

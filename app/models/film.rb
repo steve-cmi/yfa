@@ -184,6 +184,36 @@ class Film < ActiveRecord::Base
 
 	# TODO: before_destroy, delete all attachments?!
 
+	### Audition groups
+
+	def audition_groups
+		@audition_groups ||= render_audition_groups
+	end
+
+	def render_audition_groups
+		auditions = self.auditions.order(:starts_at).all
+
+		return auditions if auditions.length <= 1
+
+		last_ts = auditions.first.starts_at
+		expected_gap = auditions[1].starts_at - auditions[0].starts_at # Naive...might be improved somehow
+		groups = []
+		group = []
+
+		# If the next audition is in the expected gap, then push it into this group
+		auditions.each do |a|
+			if a.starts_at - last_ts <= expected_gap * 3
+				group << a
+			else
+				groups << group
+				group = [a]
+			end
+			last_ts = a.starts_at
+		end
+		groups << group
+		groups
+	end
+
 	private
 
 	after_update :check_to_notify_changes

@@ -1,9 +1,0 @@
-$(".span6.item").html("<%= escape_javascript(render :partial => 'shared/film_frontpage', :locals => { :film => @film, :row_count => 2, :css_classes => 'blue' }) %>");
-$(".span4.item").html("<%= escape_javascript(render :partial => 'shared/film_frontpage', :locals => { :film => @film, :row_count => 3, :css_classes => 'blue' }) %>");
-
-// Update the path with our new info
-$("form").attr("action","<%= film_path @film %>");
-$("form").attr("method","POST");
-$("form").removeAttr("data-remote");
-$("form").removeData("remote");
-$("input[name=_method]").val("PUT");

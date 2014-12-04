@@ -61,57 +61,60 @@
 			</table>
 	  </div>
 
+	  <div class="col-md-12">
+			<button type="submit" class="btn btn-primary">Save Changes</button>
+			<a class="btn btn-default" href="<%= film_dashboard_path(@film) %>">Cancel</a>
+		</div>
+
   <% end %>
 </div>
-<button type="submit" class="btn btn-primary">Save Changes</button>
-<a class="btn btn-default" href="<%= film_dashboard_path(@film) %>">Cancel</a>
 <hr />
 
 <div class="row">
 
 	<h4>Auditions</h4>
+
   <div class="col-md-12">
+
   	<p>Easily organize cast auditions with the YFA's built-in scheduling, or manage the process on your own.</p>
   	<%= form_for @film, :validate => true, :remote => true do |f| %>
 	  	<%= f.check_box :auditions_enabled %>
 			<%= f.label :auditions_enabled, "Enable YFA Audition System" %>
 		<% end %>
-		<div id="aud_enabled_wrapper">
-			<% if @film.approved %>
-				<%= form_for @film, :validate => true, :remote => true do |f| %>
-					<%= f.text_area :aud_info, :class => "required", :placeholder => "Audition Info" %>
-				<% end %>
-				Create Audition Slots
-				<%= form_tag (url_for :controller => 'auditions', :action => 'create'), :validate => false, :remote => true, :class => "datepair auditions" do |f| %>
-					<%= text_field_tag :location, "", :placeholder => "Location", :validate => false %>
-					<br />
-					<div class="row">
-						<div class="col-md-3">
-							Date: <%= text_field_tag :date, nil, :class => "date", :validate => false %>
-						</div>
-						<div class="col-md-2">
-							Start Time: <%= text_field_tag :start_time, nil, :class => "time start", :validate => false %>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3">
-							Slot Length: <%= number_field_tag :duration %>
-						</div>
-						<div class="col-md-2">
-							End Time: <%= text_field_tag :end_time, nil, :class => "time end", :validate => false %>
-						</div>
-					</div>				
-					<%= submit_tag "Create Slots" %>
-				<% end %>
 
-				<%= @film.title %>'s Audition Slots
-				<div id="audition_slots">
-					<%= render :partial => 'auditions/groups', :locals => { :audition_groups => Audition.group_into_blocks(@film.auditions) } %>
+		<div id="aud_enabled_wrapper" class="row" style="<%= 'display:none' unless @film.auditions_enabled? %>">
+			<% if @film.approved %>
+
+				<div class="col-md-6">
+					<h5><strong>Audition Information</strong></h5>
+					<%= form_for @film, :validate => true, :remote => true do |f| %>
+						<%= f.text_area :aud_info, :class => "form-control required", :placeholder => "Audition Info" %>
+					<% end %>
 				</div>
+
+				<div class="col-md-6">
+					<h5><strong>Manage Audition Slots</strong></h5>
+					<%= form_tag film_auditions_path(@film), :method => :put, :class => 'form-horizontal' do %>
+						<div id="audition_slots">
+							<%= render :partial => 'auditions/groups' %>
+						</div>
+						<hr />
+						<p>
+							<%= render "auditions/add_multiple" %>
+							<%= render "auditions/add_single" %>
+						</p>
+					<% end -%>
+				</div>
+
 			<% else %>
-				Your film needs to be approved by an admin before you can add audition slots. Check back later!
+
+				<div class="alert alert-danger">
+					Your film needs to be approved by an admin before you can add audition slots. Check back later!
+				</div>
+
 			<% end %>
 		</div>
+
   </div>
 
 </div>

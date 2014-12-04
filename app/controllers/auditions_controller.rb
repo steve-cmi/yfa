@@ -38,6 +38,8 @@ class AuditionsController < ApplicationController
 
 		@user_audition = @auditions.find_by_person_id(@current_user.id)
 		@recent_auditions = @film.auditions.recent
+
+		send_data @auditions.to_csv, type: :csv, filename: 'auditions.csv' if params[:format] == 'csv'
 	end
 
 	def past
@@ -63,19 +65,19 @@ class AuditionsController < ApplicationController
 			start = Time.zone.parse("#{params[:date]} #{params[:start_time]}")
 			stop = Time.zone.parse("#{params[:date]} #{params[:end_time]}")
 		rescue
-			redirect_to film_auditions_path(@film), :alert => "Invalid date format, please try again."
+			redirect_to :back, :alert => "Invalid date format, please try again."
 			return
 		end
 
 		# Ensure there are no other times in this time span
 		if @film.auditions.where(:starts_at => (start...stop)).count > 0
-			redirect_to film_auditions_path(@film), :alert => "Given audition times conflict with pre-existing auditions."
+			redirect_to :back, :alert => "Given audition times conflict with pre-existing auditions."
 			return
 		end
 
 		# Ensure duration makes sense.
 		if params[:duration].to_i <= 0
-			redirect_to film_auditions_path(@film), :alert => "Auditions must have a Duration (in minutes) greater than 0."
+			redirect_to :back, :alert => "Auditions must have a Duration (in minutes) greater than 0."
 			return
 		end
 
@@ -86,9 +88,9 @@ class AuditionsController < ApplicationController
 		end
 
 		if @film.save
-			redirect_to film_auditions_path(@film), :notice => 'Auditions were successfully created.'
+			redirect_to :back, :notice => 'Auditions were successfully created.'
 		else
-			redirect_to film_auditions_path(@film), :alert => 'Auditions were unable to be created.'
+			redirect_to :back, :alert => 'Auditions were unable to be created.'
 		end
 	end
 
@@ -97,22 +99,22 @@ class AuditionsController < ApplicationController
 		begin
 			starts_at = Time.zone.parse("#{params[:date]} #{params[:time]}")
 		rescue
-			redirect_to film_auditions_path(@film), :alert => "Invalid date format, please try again."
+			redirect_to :back, :alert => "Invalid date format, please try again."
 			return
 		end
 
 		# Ensure there are no other times in this time span
 		if @film.auditions.where(:starts_at => starts_at).count > 0
-			redirect_to film_auditions_path(@film), :alert => "Given audition time conflicts with a pre-existing audition."
+			redirect_to :back, :alert => "Given audition time conflicts with a pre-existing audition."
 			return
 		end
 
 		@film.auditions.build(:starts_at => starts_at, :location => params[:location])
 
 		if @film.save
-			redirect_to film_auditions_path(@film), :notice => 'Audition was successfully created.'
+			redirect_to :back, :notice => 'Audition was successfully created.'
 		else
-			redirect_to film_auditions_path(@film), :alert => 'Audition was unable to be created.'
+			redirect_to :back, :alert => 'Audition was unable to be created.'
 		end
 	end
 
@@ -138,7 +140,10 @@ class AuditionsController < ApplicationController
 				@audition.signup! @current_user, params
 			end
 
+			redirect_to film_auditions_path(@film), :notice => 'Audition successfully updated.'
+
 		elsif params[:id]
+
 			raise unless @aud_admin
 			# single update as from best in place, just assign location?
 			@audition = @film.auditions.find(params[:id])
@@ -154,12 +159,21 @@ class AuditionsController < ApplicationController
 		  return
 
 		else
-			raise unless @aud_admin
-			destroy_ids = params[:auditions].collect {|id, values| id if values[:_destroy] == "1"}.compact
-			@film.auditions.destroy(*destroy_ids) unless destroy_ids.empty?
-		end
 
-		redirect_to film_auditions_path(@film), :notice => 'Audition successfully updated.'
+			raise unless @aud_admin
+			destroy_ids = params[:destroy_ids] || params[:auditions].collect {|id, values| id if values[:_destroy] == "1"}.compact
+			@film.auditions.destroy(*destroy_ids) unless destroy_ids.empty?
+
+			if params[:destroy_ids]
+				respond_to do |format|
+					format.js
+					format.html {
+						redirect_to film_auditions_path(@film), :notice => 'Audition successfully updated.'
+					}
+				end
+			end
+
+		end
 	end
 
 	private

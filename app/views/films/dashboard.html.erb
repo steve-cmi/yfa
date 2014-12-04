@@ -103,7 +103,7 @@
 
   <div class="col-md-6">
   	<h4>Auditions &nbsp; <small><%= link_to "Edit", film_edit_people_path(@film) %></small></h4>
-		<%= render 'auditions/groups', :audition_groups => Audition.group_into_blocks(@film.auditions) %>
+		<%= render 'auditions/groups' %>
   </div>
 
 </div>
