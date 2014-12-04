@@ -17,17 +17,8 @@
 
 	  <div class="col-md-6">
 	  	<h4>Production Staff</h4>
-	  	<p class="col-md-offset-1">
-	  		Who's helping create your film? Drag and drop to re-order the listings.
-	  	</p>
-
-	  	<p class="col-md-offset-1">
-		  	<input type="checkbox" name="order_crew" <%= "checked" if @film.crew.detect{|c| c.listing_order != nil} %>> &nbsp;
-		  	Use custom ordering below for staff
-		  </p>
-
 	  	<table class="table">
-	  		<tbody>
+	  		<tbody class="film-positions">
 					<%= f.fields_for :film_positions, @film.film_positions.crew do |builder| %>
 						<%= render 'film_position_fields', :f => builder %>
 					<% end %>
@@ -40,17 +31,8 @@
 
 	  <div class="col-md-6">
 	  	<h4>Cast</h4>
-	  	<p class="col-md-offset-1">
-	  		Who's starring in your film? Drag and drop to re-order the listings.
-	  	</p>
-
-	  	<p class="col-md-offset-1">
-		  	<input type="checkbox" name="order_cast" <%= "checked" if @film.cast.detect{|c| c.listing_order != nil} %>> &nbsp;
-		  	Use custom ordering below for cast
-		  </p>
-
 	  	<table class="table">
-	  		<tbody>
+	  		<tbody class="film-positions">
 					<%= f.fields_for :film_positions, @film.cast do |builder| %>
 						<%= render 'film_position_fields', :f => builder %>
 					<% end %>

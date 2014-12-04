@@ -21,9 +21,9 @@ class FilmPosition < ActiveRecord::Base
 	scope :without_character, where("`character` IS NULL OR `character` = ''")
 	scope :current, includes(:film).where('films.end_date >= CURRENT_TIMESTAMP')
 
-	# default_scope :order => "listing_order ASC, position_id ASC"
+	default_scope :order => "listing_order ASC, position_id ASC"
 	
-	validates :person, :character, :presence => true, :if => :cast?
+	validates :character, :presence => true, :if => :cast?
 
 	def actor?
 		cast?

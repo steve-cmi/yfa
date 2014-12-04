@@ -21,7 +21,18 @@ $(document).ready(function() {
     $(this).closest('form').submit();
   });
 
+  // Trigger autocomplete
   hookupPersonAutoComplete();
+
+  // Trigger sortable
+  $("tbody.film-positions").sortable({
+    handle: '.drag-handle',
+    update: function( event, ui ) {
+      $(ui.item).closest('tbody').find('input.listing_order').each(function(index, element) {
+        $(element).val(index + 1);
+      });
+    }
+  });
 
 });
 
