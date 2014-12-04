@@ -34,6 +34,11 @@ $(document).ready(function() {
     }
   });
 
+  // If they manually change the name after autocompleting...remove the person_id
+  $("form").on("change","[name*=name]", function () {
+    $(this).siblings("[name*=person_id]").val("");
+  });
+
 });
 
 function remove_fields(link) {
