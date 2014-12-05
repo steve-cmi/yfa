@@ -1,5 +1,5 @@
 <h1><%= @film.title %> <small>Edit</small></h1>
-<% javascript 'films-edit.js' %>
+<% javascript 'edit.js' %>
 
 <% if @film.errors.any? %>
 	<div class="alert alert-dismissable alert-danger">
@@ -34,12 +34,27 @@
 		    	<%= f.text_field :tagline, :placeholder => "Tagline", :class => "form-control" %>
 		    </div>
 		  </div>
+
+		  <div class="form-group">
+		    <label for="film_start_date" class="col-sm-2 control-label">Timeline</label>
+		    <div class="col-sm-4">
+		    	<%= f.text_field :start_date, :placeholder => "Start Date", :class => "form-control" %>
+		    </div>
+		    <div class="col-sm-2 text-center">
+		    	<label class="control-label">to</label>
+		    </div>
+		    <div class="col-sm-4">
+		    	<%= f.text_field :end_date, :placeholder => "End Date", :class => "form-control" %>
+		    </div>
+		  </div>
+
 		  <div class="form-group">
 		    <label for="film_contact" class="col-sm-2 control-label">Contact</label>
 		    <div class="col-sm-10">
 		    	<%= f.text_field :contact, :placeholder => "Contact Email Address", :validate => true, :class => "form-control required" %>
 		    </div>
 		  </div>
+
 		  <div class="form-group">
 		    <label for="film_description" class="col-sm-2 control-label">Description</label>
 		    <div class="col-sm-10">
@@ -68,6 +83,22 @@
 						</tbody>
 						<tfoot>
 							<tr><th colspan="3"><%= link_to_add_fields "+", f, :screenings %></th></tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Video Links</label>
+	    	<div class="col-sm-10">
+			    <table class="table links">
+			    	<tbody class="sortable">
+							<%= f.fields_for :links do |builder| %>
+								<%= render 'link_fields', :f => builder %>
+							<% end %>
+						</tbody>
+						<tfoot>
+							<tr><th colspan="3"><%= link_to_add_fields "+", f, :links %></th></tr>
 						</tfoot>
 					</table>
 				</div>
@@ -104,7 +135,6 @@
 						</tfoot>
 					</table>
 				</div>
-
 			</div>
 
 			<div class="col-sm-offset-2 col-sm-10">

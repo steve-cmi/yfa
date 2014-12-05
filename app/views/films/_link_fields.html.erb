@@ -1,0 +1,22 @@
+<tr>
+  <div class="row">
+
+    <td width="10px">
+      <%= link_to_remove_fields "&times;".html_safe, f %>
+    </td>
+
+    <td>
+      <%= f.text_field :name, :placeholder => "Title", :class => "form-control" %>
+    </td>
+
+    <td>
+      <%= f.text_field :url, :placeholder => "Link", :class => "form-control" %>
+    </td>
+
+    <td width="10px">
+      <span class="drag-handle glyphicon glyphicon-move btn btn-link"></span>
+      <%= f.hidden_field :position, :class => "sort-value" %>
+    </td>
+
+  </div>
+</tr>

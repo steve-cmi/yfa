@@ -6,7 +6,7 @@ class Person < ActiveRecord::Base
   has_many :films, :through => :permissions, :uniq => true
   has_many :auditions, :dependent => :nullify
   has_many :takeover_requests, :dependent => :delete_all
-  has_many :links, :as => :item, :dependent => :delete_all
+  has_many :links, :as => :item, :dependent => :delete_all, :order => :position
   has_many :experiences, :dependent => :delete_all, :include => :activity
   has_many :experienced_activities, :source => :activity, :through => :experiences, :uniq => true
   has_many :interests, :dependent => :delete_all, :include => :activity
@@ -21,6 +21,11 @@ class Person < ActiveRecord::Base
 
   attr_accessible :fname, :lname, :email, :year, :college, :bio, :email_allow, :picture
   attr_accessible :active, :site_admin, :netid if Rails.env.development?
+
+  attr_accessible :experiences_attributes, :interests_attributes, :links_attributes
+  accepts_nested_attributes_for :experiences, :allow_destroy => true
+  accepts_nested_attributes_for :interests, :allow_destroy => true
+  accepts_nested_attributes_for :links, :allow_destroy => true
   
   validates :fname, :lname, :presence => true
   validates :year, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1970, :less_than_or_equal_to => Time.now.year + 8 }, :allow_nil => true

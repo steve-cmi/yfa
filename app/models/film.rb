@@ -9,7 +9,7 @@ class Film < ActiveRecord::Base
 	has_many :auditions, :dependent => :delete_all, :order => :starts_at
   has_many :film_genres, dependent: :delete_all
   has_many :genres, through: :film_genres, uniq: true
-  has_many :links, :as => :item, :dependent => :delete_all
+  has_many :links, :as => :item, :dependent => :delete_all, :order => :position
 
 	has_attached_file :poster,
 		:styles => { :homepage => "90x90>", :grid => "125x125>", :show => "360x>" }
@@ -20,13 +20,15 @@ class Film < ActiveRecord::Base
 
 	attr_accessible :title, :tagline, :slug, :contact, :description, :poster
 	attr_accessible :auditions_enabled, :aud_info, :start_date, :end_date
-	attr_accessible :film_positions_attributes, :film_genres_attributes
-	attr_accessible :screenings_attributes, :permissions_attributes
 	attr_accessible :directors if Rails.env.development?
-	accepts_nested_attributes_for :screenings, :allow_destroy => true
+	
+	attr_accessible :film_positions_attributes, :film_genres_attributes
+	attr_accessible :screenings_attributes, :permissions_attributes, :links_attributes
 	accepts_nested_attributes_for :film_positions, :allow_destroy => true
 	accepts_nested_attributes_for :film_genres, :allow_destroy => true
+	accepts_nested_attributes_for :screenings, :allow_destroy => true
 	accepts_nested_attributes_for :permissions, :allow_destroy => true
+	accepts_nested_attributes_for :links, :allow_destroy => true
 	
 	validates :title, :contact, :description, :start_date, :end_date, :presence => true
 	validates :contact, :email_format => true

@@ -17,6 +17,13 @@ class PeopleController < ApplicationController
 		@user = @current_user
 	end
 	
+	def edit
+		@active_nav = :user
+		@active_subnav = :dashboard
+		@page_name = "Edit My Account"
+		@user = @current_user
+	end
+	
 	def film
 		# Show public view
 		#TODO: SHould we cache people's public profiles?
@@ -76,7 +83,7 @@ class PeopleController < ApplicationController
 	def update
 		respond_to do |format|
 	    if @person.update_attributes(params[:person])
-	      format.html { redirect_to(@person, :notice => 'User was successfully updated.') }
+	      format.html { redirect_to(:back, :notice => 'User was successfully updated.') }
 	      format.json { respond_with_bip(@person) }
 	    else
 	      format.html { render :action => "edit" }

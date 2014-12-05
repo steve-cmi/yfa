@@ -1,3 +1,5 @@
+<% javascript 'edit.js' %>
+
 <div class="pull-right">
 	<%= link_to "Logout", logout_path, :class => "btn btn-link" %>
 </div>
@@ -54,6 +56,54 @@
 
 			<% end %>
 		<% end %>
+		<br />
+
+    <h4>
+    	Experiences &nbsp;
+			<small><%= link_to "Edit", edit_person_path(@user) %></small>
+    </h4>
+    <p>
+      <% if @user.experienced_activities.none? -%>
+      No experiences have been selected.
+      <% else -%>
+        <% @user.experienced_activities.each do |activity| -%>
+          <a href="#" class="btn btn-default btn-xs"><%= activity.name %></a>
+        <% end -%>
+      <% end -%>
+    </p>
+		<br />
+
+    <h4>
+    	Interests &nbsp;
+			<small><%= link_to "Edit", edit_person_path(@user) %></small>
+    </h4>
+    <p>
+      <% if @user.interested_activities.none? -%>
+      No interests have been selected.
+      <% else -%>
+        <% @user.interested_activities.each do |activity| -%>
+          <a href="#" class="btn btn-default btn-xs"><%= activity.name %></a>
+        <% end -%>
+      <% end -%>
+    </p>
+		<br />
+
+    <h4>
+    	Links &nbsp;
+			<small><%= link_to "Edit", edit_person_path(@user) %></small>
+    </h4>
+    <p>
+      <table class="table table-striped">
+        <tbody>
+          <% @user.links.by_position.each do |link| -%>
+          <tr>
+            <td><%= link_to link.name, link.url, target: '_blank' %></td>
+          </tr>
+          <% end -%>
+        </tbody>
+      </table>
+    </p>
+		<br />
 
 	</div>
 

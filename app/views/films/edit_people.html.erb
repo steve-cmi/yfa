@@ -1,5 +1,5 @@
 <h1><%= @film.title %> <small>Edit Cast &amp; Crew</small></h1>
-<% javascript 'films-edit.js' %>
+<% javascript 'edit.js' %>
 
 <% if @film.errors.any? %>
 	<div class="alert alert-dismissable alert-danger">
@@ -19,7 +19,7 @@
 	  	<h4>Production Staff</h4>
 	  	<table class="table">
 	  		<tbody class="sortable">
-					<%= f.fields_for :film_positions, @film.film_positions.crew do |builder| %>
+					<%= f.fields_for :film_positions, @film.crew do |builder| %>
 						<%= render 'film_position_fields', :f => builder %>
 					<% end %>
 				</tbody>

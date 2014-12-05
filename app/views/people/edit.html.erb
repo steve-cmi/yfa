@@ -1,0 +1,58 @@
+<h1>Edit My Account</h1>
+
+<%= form_for @user, :validate => true do |f| %>
+  <div class="row">
+
+    <div class="col-md-4">
+      <h4>My Experiences</h4>
+        <table class="table">
+          <tbody>
+            <%= f.fields_for :experiences do |builder| %>
+              <%= render 'experience_fields', :f => builder %>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th><%= link_to_add_fields "+", f, :experiences %></th>
+            </tr>
+          </tfoot>
+        </table>
+    </div>
+
+    <div class="col-md-4 col-md-offset-2">
+      <h4>My Interests</h4>
+        <table class="table">
+          <tbody>
+            <%= f.fields_for :interests do |builder| %>
+              <%= render 'interest_fields', :f => builder %>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th><%= link_to_add_fields "+", f, :interests %></th>
+            </tr>
+          </tfoot>
+        </table>
+    </div>
+
+    <div class="col-md-12">
+      <h4>My Links</h4>
+        <table class="table">
+          <tbody class="sortable">
+            <%= f.fields_for :links do |builder| %>
+              <%= render 'link_fields', :f => builder %>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th><%= link_to_add_fields "+", f, :links %></th>
+            </tr>
+          </tfoot>
+        </table>
+    </div>
+
+  </div>
+
+  <hr />
+  <button type="submit" class="btn btn-primary">Save Changes</button>
+<% end -%>
