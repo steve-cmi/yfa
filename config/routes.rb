@@ -76,6 +76,7 @@ Yfa::Application.routes.draw do
   match 'admin/announcements' => 'admin#announcements', :as => :admin_announcements
   match 'admin/buildings' => 'admin#buildings', :as => :admin_buildings
   match 'admin/carousels' => 'admin#carousels', :as => :admin_carousels
+  match 'admin/jobs' => 'admin#jobs', :as => :admin_jobs
   match 'admin/films' => 'admin#films', :as => :admin_films
 
   match 'admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter

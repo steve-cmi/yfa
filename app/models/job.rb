@@ -1,5 +1,7 @@
 class Job < ActiveRecord::Base
 
+  validates :start_date, :end_date, :position, :title, :company, :description, :presence => true
+
   def self.by_date
     order(:start_date, :end_date)
   end

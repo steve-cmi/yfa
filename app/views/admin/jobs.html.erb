@@ -1,0 +1,47 @@
+<% javascript 'admin.js' %>
+<h1>Jobs Dashboard</h1>
+
+<div class="grid row">
+
+  <div class="col-md-12">
+    <%= link_to "New Job", new_job_path, :class => "btn btn-primary pull-right" %>
+    <h3>Manage Jobs</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th>From</th>
+          <th>To</th>
+          <th>Company</th>
+          <th>Position</th>
+          <th>Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @jobs.each do |job| -%>
+          <tr>
+            <td>
+              <%= link_to "&times;".html_safe, job_path(job), :method => :delete, :class => "btn btn-md btn-danger", :confirm => "This will permanently delete this job. There is no undo. Are you sure?" %>
+            </td>
+            <td>
+              <%= short_date job.start_date %>
+            </td>
+            <td>
+              <%= short_date job.end_date %>
+            </td>
+            <td>
+              <%= job.company %>
+            </td>
+            <td>
+              <%= job.position %>
+            </td>
+            <td>
+              <%= link_to job.title, edit_job_path(job) %>
+            </td>
+          </tr>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -26,6 +26,10 @@ class AdminController < ApplicationController
 		@building = Building.new
 	end
 
+	def jobs
+		@jobs = Job.by_date.reverse_order
+	end
+
 	def films
 		@films = Film.unscoped.select([:slug, :title]).order(:title)
 		@positions = Position.all

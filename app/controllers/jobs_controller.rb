@@ -1,5 +1,7 @@
 class JobsController < ApplicationController
 
+  before_filter :verify_user, :except => :index
+
   def index
     @page_name = "Jobs & Internships"
     
@@ -32,5 +34,55 @@ class JobsController < ApplicationController
     @scope = (params[:scope] || :date).to_sym
     @jobs = @jobs.send("by_#{@scope}")
   end
+
+  def new
+    @job = Job.new
+  end
+  
+  def show
+    @job = Job.find(params[:id])
+    render :edit
+  end
+  
+  def edit
+    @job = Job.find(params[:id])
+  end
+  
+  def create
+    @job = Job.new
+    if @job.update_attributes(params[:job])
+      redirect_to admin_jobs_path, :notice => 'Job was successfully created.'
+    else
+      render :new
+    end
+  end
+  
+  def update
+    @job = Job.find(params[:id])
+    if @job.update_attributes(params[:job])
+      redirect_to admin_jobs_path, :notice => 'Job was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def update_all
+    Job.update params[:jobs].keys, params[:jobs].values
+    redirect_to admin_jobs_path, :notice => 'Jobs were successfully updated.'
+  end
+  
+  def destroy
+    @job = Job.find(params[:id]) rescue nil
+    @job.destroy if @job
+    redirect_to admin_jobs_path, :notice => 'Job was successfully deleted.'
+  end
+  
+  private
+  
+  def verify_user
+    redirect_to root_path if(!@current_user || !@current_user.site_admin?)
+  end
+
+
 
 end

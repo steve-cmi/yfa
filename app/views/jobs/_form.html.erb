@@ -1,0 +1,128 @@
+<% if @job.errors.any? %>
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>There were errors saving this job:</strong>
+      <% @job.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for @job, :html => {:class => "form-horizontal"} do |f| %>
+
+  <hr />
+  <h3>Job Information</h3>
+  <div class="form-group">
+    <label for="job_title" class="col-sm-2 control-label">Title</label>
+    <div class="col-sm-9">
+      <%= f.text_field :title, :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="job_start_date" class="col-sm-2 control-label">Timeline</label>
+    <div class="col-sm-3">
+      <%= f.text_field :start_date, :placeholder => "Start Date", :class => "form-control" %>
+    </div>
+    <div class="col-sm-3 text-center">
+      <label for="job_end_date" class="control-label">to</label>
+    </div>
+    <div class="col-sm-3">
+      <%= f.text_field :end_date, :placeholder => "End Date", :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="job_compensation" class="col-sm-2 control-label">Compensation</label>
+    <div class="col-sm-9">
+      <%= f.text_field :compensation, :class => "form-control", :placeholder => "Unpaid" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="job_description" class="col-sm-2 control-label">Description</label>
+    <div class="col-sm-9">
+      <%= f.cktext_area :description, :rows => 2, :class => "form-control" %>
+    </div>
+  </div>
+
+  <hr />
+  <h3>Company Information</h3>
+  <div class="form-group">
+    <label for="job_company" class="col-sm-2 control-label">Name</label>
+    <div class="col-md-9">
+      <%= f.text_field :company, :class => "form-control" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="job_street" class="col-sm-2 control-label">Street</label>
+    <div class="col-md-4">
+      <%= f.text_field :street, :class => "form-control" %>
+    </div>
+    <label for="job_suite" class="col-sm-1 control-label">Suite</label>
+    <div class="col-md-4">
+      <%= f.text_field :suite, :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="job_city" class="col-sm-2 control-label">City</label>
+    <div class="col-md-4">
+      <%= f.text_field :city, :class => "form-control" %>
+    </div>
+    <label for="job_state" class="col-sm-1 control-label">State</label>
+    <div class="col-md-1">
+      <%= f.text_field :state, :class => "form-control" %>
+    </div>
+    <label for="job_zip" class="col-sm-1 control-label">Zip</label>
+    <div class="col-md-2">
+      <%= f.text_field :zip, :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="job_country" class="col-sm-2 control-label">Country</label>
+    <div class="col-md-4">
+      <%= f.text_field :country, :class => "form-control" %>
+    </div>
+    <label for="job_email" class="col-sm-1 control-label">Email</label>
+    <div class="col-md-4">
+      <%= f.text_field :email, :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="job_phone" class="col-sm-2 control-label">Phone</label>
+    <div class="col-md-4">
+      <%= f.text_field :phone, :class => "form-control" %>
+    </div>
+    <label for="job_website" class="col-sm-1 control-label">Website</label>
+    <div class="col-md-4">
+      <%= f.text_field :website, :class => "form-control" %>
+    </div>
+  </div>
+
+  <hr />
+  <h3>Application Information</h3>
+  <div class="form-group">
+    <label for="job_application_instructions" class="col-sm-2 control-label">Application Instructions</label>
+    <div class="col-sm-9">
+      <%= f.text_area :application_instructions, :rows => 2, :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="job_application_link" class="col-sm-2 control-label">Application Link</label>
+    <div class="col-sm-9">
+      <%= f.text_field :application_link, :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="col-sm-offset-2 col-sm-9">
+    <button type="submit" class="btn btn-default">
+      <%= f.object.new_record? ? 'Create' : 'Update' %>
+    </button>
+  </div>
+<% end %>
