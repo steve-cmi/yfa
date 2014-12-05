@@ -11,7 +11,7 @@ class AdminController < ApplicationController
 	end
 
 	def announcements
-		@announcements = Announcement.order(:created_at).reverse_order
+		@announcements = Announcement.unscoped.reverse_order
 		@announcement = Announcement.new
 	end
 
