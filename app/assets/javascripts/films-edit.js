@@ -46,7 +46,7 @@ function add_fields(trigger, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
   var content = $(content.replace(regexp, new_id));
-  $(trigger).closest('thead').next().append(content);
+  $(trigger).closest('tfoot').prev().append(content);
   if (association == "film_positions" || association == "permissions") hookupPersonAutoComplete();
   return false;
 }
