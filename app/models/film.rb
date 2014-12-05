@@ -20,10 +20,12 @@ class Film < ActiveRecord::Base
 
 	attr_accessible :title, :tagline, :slug, :contact, :description, :poster
 	attr_accessible :auditions_enabled, :aud_info, :start_date, :end_date
-	attr_accessible :screenings_attributes, :film_positions_attributes, :permissions_attributes
+	attr_accessible :film_positions_attributes, :film_genres_attributes
+	attr_accessible :screenings_attributes, :permissions_attributes
 	attr_accessible :directors if Rails.env.development?
 	accepts_nested_attributes_for :screenings, :allow_destroy => true
 	accepts_nested_attributes_for :film_positions, :allow_destroy => true
+	accepts_nested_attributes_for :film_genres, :allow_destroy => true
 	accepts_nested_attributes_for :permissions, :allow_destroy => true
 	
 	validates :title, :contact, :description, :start_date, :end_date, :presence => true

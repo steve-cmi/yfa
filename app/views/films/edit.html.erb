@@ -78,7 +78,7 @@
 		    	Permissions<br />
 					<small><a href="#" data-toggle="tooltip" data-placement="bottom" title="These are the people, besides you, who will be able to make changes to your film.">What's This?</a></small>
 		    </label>
-	    	<div class="col-sm-10">
+	    	<div class="col-sm-4">
 					<table class="table permissions">
 						<tbody>
 							<%= f.fields_for :permissions do |builder| %>
@@ -90,6 +90,21 @@
 						</tfoot>
 					</table>
 				</div>
+
+		    <label class="col-sm-2 control-label">Genres</label>
+	    	<div class="col-sm-4">
+					<table class="table film_genres">
+						<tbody>
+							<%= f.fields_for :film_genres do |builder| %>
+								<%= render 'film_genre_fields', :f => builder %>
+							<% end %>
+						</tbody>
+						<tfoot>
+							<tr><th colspan="2"><%= link_to_add_fields "+", f, :film_genres %></th></tr>
+						</tfoot>
+					</table>
+				</div>
+
 			</div>
 
 			<div class="col-sm-offset-2 col-sm-10">
