@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
 
-  has_many :event_dates, dependent: :destroy, :order => '`event_dates`.`starts_at`'
-  has_many :event_filters, dependent: :destroy
+  has_many :event_dates, dependent: :delete_all, :order => '`event_dates`.`starts_at`'
+  has_many :event_filters, dependent: :delete_all
   has_many :filters, through: :event_filters, uniq: true
 
   belongs_to :building

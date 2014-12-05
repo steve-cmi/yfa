@@ -1,15 +1,15 @@
 class Person < ActiveRecord::Base	
 	require 'net/ldap'
 
-  has_many :film_positions, :dependent => :destroy
+  has_many :film_positions, :dependent => :delete_all
   has_many :permissions, :dependent => :delete_all
   has_many :films, :through => :permissions, :uniq => true
   has_many :auditions, :dependent => :nullify
-  has_many :takeover_requests, :dependent => :destroy
-  has_many :links, :as => :item, :dependent => :destroy
-  has_many :experiences, :dependent => :destroy, :include => :activity
+  has_many :takeover_requests, :dependent => :delete_all
+  has_many :links, :as => :item, :dependent => :delete_all
+  has_many :experiences, :dependent => :delete_all, :include => :activity
   has_many :experienced_activities, :source => :activity, :through => :experiences, :uniq => true
-  has_many :interests, :dependent => :destroy, :include => :activity
+  has_many :interests, :dependent => :delete_all, :include => :activity
   has_many :interested_activities, :source => :activity, :through => :interests, :uniq => true
 
   has_attached_file :picture,
