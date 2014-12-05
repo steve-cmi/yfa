@@ -3,11 +3,17 @@ class AdminController < ApplicationController
 	before_filter :verify_user
 
 	def dashboard
+		@active_nav = :user
+		@active_subnav = :admin
 		@page_name = "Admin Dashboard"
 		@pending_films = Film.pending
 		@pending_takeovers = TakeoverRequest.where(:approved => false)
 		@films = Film.unscoped.select([:slug, :title]).order(:title)
+	end
+
+	def announcements
 		@announcements = Announcement.order(:created_at).reverse_order
+		@announcement = Announcement.new
 	end
 
 	def newsletter

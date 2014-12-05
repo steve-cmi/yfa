@@ -11,6 +11,8 @@ class PeopleController < ApplicationController
 	end
 	
 	def dashboard
+		@active_nav = :user
+		@active_subnav = :dashboard
 		@page_name = "My Dashboard"
 		@user = @current_user
 	end

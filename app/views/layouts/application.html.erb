@@ -78,9 +78,34 @@
           <input type="text" class="form-control col-lg-8" placeholder="projects, people, events" name="q" value="<%= params[:q] %>" />
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li class="<%= :active if @active_nav == :user %>">
-            <%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %>
-          </li>
+          <% if @current_user and @current_user.site_admin? -%>
+
+            <li class="dropdown <%= :active if @active_nav == :user %>">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Admin <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+
+                <li class="<%= :active if @active_subnav == :dashboard %>">
+                  <%= link_to "My Dashboard", dashboard_path %>
+                </li>
+
+                <li class="divider"></li>
+                <li class="dropdown-header">Administration</li>
+
+                <li class="<%= :active if @active_subnav == :admin %>">
+                  <%= link_to "Dashboard", admin_dashboard_path %>
+                </li>
+                <li class="<%= :active if @active_subnav == :announcements %>">
+                  <%= link_to "Announcements", admin_announcements_path %>
+                </li>
+
+              </ul>
+            </li>
+
+          <% else -%>
+            <li class="<%= :active if @active_nav == :user %>">
+              <%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %>
+            </li>
+          <% end -%>
         </ul>
       </div>
     </div>

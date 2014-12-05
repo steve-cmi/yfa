@@ -1,9 +1,6 @@
-<% if @user.site_admin? -%>
 <div class="pull-right">
-	<%= link_to "Site Admin Dashboard", admin_dashboard_path, :class => "btn btn-link" %>
 	<%= link_to "Logout", logout_path, :class => "btn btn-link" %>
 </div>
-<% end -%>
 
 <h1>Welcome <%= @user.fname %>!</h1>
 

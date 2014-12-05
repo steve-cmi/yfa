@@ -58,6 +58,7 @@ Yfa::Application.routes.draw do
   match 'dashboard' => 'people#dashboard', :as => :dashboard
   
   match 'admin' => 'admin#dashboard', :as => :admin_dashboard
+  match 'admin/announcements' => 'admin#announcements', :as => :admin_announcements
   match 'admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   match 'admin/approve_takeover/:id' => 'admin#approve_takeover', :as => :approve_takeover
   match 'admin/reject_takeover/:id' => 'admin#reject_takeover', :as => :reject_takeover
