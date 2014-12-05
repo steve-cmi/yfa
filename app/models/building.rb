@@ -5,4 +5,8 @@ class Building < ActiveRecord::Base
 
   attr_accessible :code, :name, :address, :city_state, :zip
 
+  def self.by_name
+    order(:name)
+  end
+
 end

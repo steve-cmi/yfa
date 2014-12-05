@@ -21,6 +21,11 @@ class AdminController < ApplicationController
 		@site = Site.last
 	end
 
+	def buildings
+		@buildings = Building.by_name
+		@building = Building.new
+	end
+
 	def films
 		@films = Film.unscoped.select([:slug, :title]).order(:title)
 		@positions = Position.all

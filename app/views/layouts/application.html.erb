@@ -97,6 +97,9 @@
                 <li class="<%= :active if @active_subnav == :announcements %>">
                   <%= link_to "Announcements", admin_announcements_path %>
                 </li>
+                <li class="<%= :active if @active_subnav == :buildings %>">
+                  <%= link_to "Buildings", admin_buildings_path %>
+                </li>
                 <li class="<%= :active if @active_subnav == :carousels %>">
                   <%= link_to "Carousels", admin_carousels_path %>
                 </li>
