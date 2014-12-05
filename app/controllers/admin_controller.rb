@@ -15,6 +15,12 @@ class AdminController < ApplicationController
 		@announcement = Announcement.new
 	end
 
+	def carousels
+		@carousels = Carousel.by_position
+		@carousel = Carousel.new
+		@site = Site.last
+	end
+
 	def films
 		@films = Film.unscoped.select([:slug, :title]).order(:title)
 		@positions = Position.all

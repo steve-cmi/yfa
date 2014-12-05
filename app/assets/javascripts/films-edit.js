@@ -24,16 +24,6 @@ $(document).ready(function() {
   // Trigger autocomplete
   hookupPersonAutoComplete();
 
-  // Trigger sortable
-  $("tbody.film-positions").sortable({
-    handle: '.drag-handle',
-    update: function( event, ui ) {
-      $(ui.item).closest('tbody').find('input.listing_order').each(function(index, element) {
-        $(element).val(index + 1);
-      });
-    }
-  });
-
   // If they manually change the name after autocompleting...remove the person_id
   $("form").on("change","[name*=name]", function () {
     $(this).siblings("[name*=person_id]").val("");

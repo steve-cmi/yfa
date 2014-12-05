@@ -1,0 +1,73 @@
+<% javascript 'admin.js' %>
+<h1>Carousels Dashboard</h1>
+
+<div class="grid row">
+
+  <div class="col-md-5">
+    <%= form_tag({:controller => "carousels", :action => "update_all"}, :class => "form-horizontal") do -%>
+    
+      <button type="submit" class="btn btn-sm btn-primary pull-right">Save Changes</button>
+      <h3>Manage Carousels</h3>
+
+      <table class="table table-striped">
+        <tbody class="sortable">
+          <% @carousels.each do |carousel| -%>
+            <tr>
+              <td width="10px">
+                <%= link_to "&times;".html_safe, carousel_path(carousel), :method => :delete, :class => "btn btn-md btn-danger", :confirm => "This will permanently delete this carousel. There is no undo. Are you sure?" %>
+              </td>
+              <td width="10px">
+                <span class="drag-handle glyphicon glyphicon-move btn btn-link"></span>
+                <input type="hidden" class="sort-value"
+                       name="carousels[<%= carousel.id %>][position]"
+                       value="<%= carousel.position %>" />
+              </td>
+              <td>
+                <%= image_tag carousel.image.url(:admin), :class => "drag-handle" %>
+              </td>
+              <td>
+                <input type="hidden"
+                       name="carousels[<%= carousel.id %>][active]" value="0" />
+                <input type="checkbox"
+                       name="carousels[<%= carousel.id %>][active]" value="1"
+                       <%= 'checked="checked"' if carousel.active? %> /> &nbsp;
+                <%= link_to carousel.title, carousel %>
+              </td>
+            </tr>
+          <% end -%>
+        </tbody>
+      </table>
+
+      <%= fields_for @site do |f| -%>
+        <div class="form-group">
+          <label for="site_carousel_interval" class="col-sm-7 control-label">
+            Auto-advance Interval (ms)
+            <span class="help-block">Leave blank to disable</span>
+          </label>
+          <div class="col-sm-3">
+            <%= f.number_field :carousel_interval, :step => 50, :class => "form-control" %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="site_carousel_order" class="col-sm-7 control-label">
+            Show in Random Order
+          </label>
+          <div class="col-sm-3">
+            <input type="hidden"
+                   name="site[carousel_order]" value="position" />
+            <input type="checkbox" id="site_carousel_order" class="form-control"
+                   <%= 'checked="checked"' if @site.carousel_order == :random %>
+                   name="site[carousel_order]" value="random" /> &nbsp;
+          </div>
+        </div>
+      <% end -%>
+
+    <% end -%>
+  </div>
+  
+  <div class="col-md-7">
+    <h3>Create Carousel</h3>
+    <%= render "carousels/form" %>
+  </div>
+
+</div>

@@ -5,7 +5,7 @@ class Carousel < ActiveRecord::Base
   acts_as_list
 
   has_attached_file :image,
-    :styles => { :homepage => "750x>" }
+    :styles => { :admin => "75x>", :homepage => "750x>" }
 
   validates_attachment_content_type :image,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,

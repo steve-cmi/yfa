@@ -92,10 +92,13 @@
                 <li class="dropdown-header">Administration</li>
 
                 <li class="<%= :active if @active_subnav == :admin %>">
-                  <%= link_to "Dashboard", admin_dashboard_path %>
+                  <%= link_to "Main Dashboard", admin_dashboard_path %>
                 </li>
                 <li class="<%= :active if @active_subnav == :announcements %>">
                   <%= link_to "Announcements", admin_announcements_path %>
+                </li>
+                <li class="<%= :active if @active_subnav == :carousels %>">
+                  <%= link_to "Carousels", admin_carousels_path %>
                 </li>
 
               </ul>
