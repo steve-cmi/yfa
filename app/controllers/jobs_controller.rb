@@ -83,6 +83,4 @@ class JobsController < ApplicationController
     redirect_to root_path if(!@current_user || !@current_user.site_admin?)
   end
 
-
-
 end

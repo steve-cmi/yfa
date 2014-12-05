@@ -66,6 +66,11 @@ Yfa::Application.routes.draw do
       post :update_all
     end
   end
+  resources :pages, except: [:show] do
+    collection do
+      post :update_all
+    end
+  end
   
   match 'people/:id/request_names' => 'people#takeover_request', :as => :takeover_request, :method => :post
 
@@ -77,6 +82,7 @@ Yfa::Application.routes.draw do
   match 'admin/buildings' => 'admin#buildings', :as => :admin_buildings
   match 'admin/carousels' => 'admin#carousels', :as => :admin_carousels
   match 'admin/jobs' => 'admin#jobs', :as => :admin_jobs
+  match 'admin/pages' => 'admin#pages', :as => :admin_pages
   match 'admin/films' => 'admin#films', :as => :admin_films
 
   match 'admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter

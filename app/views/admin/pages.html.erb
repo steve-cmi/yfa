@@ -1,0 +1,42 @@
+<% javascript 'admin.js' %>
+<h1>Pages Dashboard</h1>
+
+<div class="grid row">
+
+  <div class="col-md-12">
+    <%= form_tag({:controller => "pages", :action => "update_all"}, :class => "form-horizontal") do -%>  
+      <% @pages.each do |menu, pages| -%>
+        <h3><%= menu.to_s.titlecase.singularize %> Pages</h3>
+        <table class="table table-striped">
+          <tbody class="sortable">
+            <% pages.each do |page| -%>
+              <tr>
+                <td width="10px">
+                  <%= link_to "&times;".html_safe, page_path(page), :method => :delete, :class => "btn btn-md btn-danger", :confirm => "This will permanently delete this page. There is no undo. Are you sure?" %>
+                </td>
+                <td width="10px">
+                  <span class="drag-handle glyphicon glyphicon-move btn btn-link"></span>
+                  <input type="hidden" class="sort-value"
+                         name="pages[<%= page.id %>][position]"
+                         value="<%= page.position %>" />
+                </td>
+                <td>
+                  <%= link_to page.title, edit_page_path(page) %>
+                </td>
+              </tr>
+            <% end -%>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <%= link_to "New #{menu.to_s.titlecase.singularize} Page", new_page_path(menu: menu), :class => "btn btn-default" %>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      <% end -%>
+    <% end -%>
+  </div>
+
+</div>

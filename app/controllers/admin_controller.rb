@@ -30,6 +30,14 @@ class AdminController < ApplicationController
 		@jobs = Job.by_date.reverse_order
 	end
 
+	def pages
+		@menus = [:main, :resources, :howtos]
+		@pages = @menus.inject({}) do |hash, menu|
+			hash[menu] = Page.where(menu: menu).order(:position)
+			hash
+		end
+	end
+
 	def films
 		@films = Film.unscoped.select([:slug, :title]).order(:title)
 		@positions = Position.all

@@ -44,4 +44,8 @@ class Page < ActiveRecord::Base
     menu == 'howtos'
   end
 
+  def uses_lead?
+    howto?
+  end
+
 end

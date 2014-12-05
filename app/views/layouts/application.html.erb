@@ -106,6 +106,9 @@
                 <li class="<%= :active if @active_subnav == :jobs %>">
                   <%= link_to "Jobs", admin_jobs_path %>
                 </li>
+                <li class="<%= :active if @active_subnav == :pages %>">
+                  <%= link_to "Pages", admin_pages_path %>
+                </li>
                 <li class="<%= :active if @active_subnav == :films %>">
                   <%= link_to "Films", admin_films_path %>
                 </li>
