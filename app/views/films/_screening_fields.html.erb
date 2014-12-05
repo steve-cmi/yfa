@@ -4,10 +4,18 @@
   </td>
 
   <td>
-    <%= f.text_field :date, :class => "date", :value => long_date(f.object.starts_at), :class => "form-control", :placeholder => "Date" %>
+    <%= f.text_field :date, :value => long_date(f.object.starts_at), :class => "form-control", :placeholder => "Date" %>
   </td>
 
   <td>
-    <%= f.text_field :time, :class => "time", :value => time(f.object.starts_at), :class => "form-control", :placeholder => "Time" %>
+    <%= f.text_field :time, :value => time(f.object.starts_at), :class => "form-control", :placeholder => "Time" %>
+  </td>
+
+  <td>
+    <%= f.text_field :location, :class => "form-control", :placeholder => "Location" %>
+  </td>
+
+  <td>
+    <%= f.collection_select :building_id, Building.all, :id, :name, {:prompt => "Building"}, :class => "form-control" %>
   </td>
 </tr>
