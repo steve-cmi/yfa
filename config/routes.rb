@@ -53,12 +53,18 @@ Yfa::Application.routes.draw do
   resources :events
   resources :jobs
   resources :announcements
+  resources :activities
+  resources :genres
+  resources :positions
   match 'people/:id/request_names' => 'people#takeover_request', :as => :takeover_request, :method => :post
 
   match 'dashboard' => 'people#dashboard', :as => :dashboard
   
   match 'admin' => 'admin#dashboard', :as => :admin_dashboard
+
   match 'admin/announcements' => 'admin#announcements', :as => :admin_announcements
+  match 'admin/films' => 'admin#films', :as => :admin_films
+
   match 'admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   match 'admin/approve_takeover/:id' => 'admin#approve_takeover', :as => :approve_takeover
   match 'admin/reject_takeover/:id' => 'admin#reject_takeover', :as => :reject_takeover

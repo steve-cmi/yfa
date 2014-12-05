@@ -17,4 +17,12 @@ $(document).ready(function() {
     $(this).attr("action",url);
   });
 
+  $("form.alert-on-error").on('ajax:success', function(xhr, status, error) {
+    var error_message = "There was an error saving this change:\n\n";
+    $.each(status.errors, function(index, value) {
+      error_message += value + "\n";
+    })
+    alert(error_message);
+  })
+
 });

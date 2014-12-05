@@ -1,6 +1,9 @@
 class Position < ActiveRecord::Base	
-	has_many :film_positions
+	has_many :film_positions, :dependent => :delete_all
 	has_many :people, :through => :film_positions
+
+  validates :position, :presence => true
+  validates :position, :uniqueness => true
 
   # Instead of identifying positions by ID or name, which can change,
   # we have added a "key" column. This is intended to act as a marker

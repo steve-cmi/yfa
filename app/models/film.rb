@@ -4,12 +4,12 @@ class Film < ActiveRecord::Base
 	has_one :film_director, :class_name => 'FilmPosition', :conditions => "position_id = #{Position.director_id}", :include => :person
 	has_one :director, :source => :person, :through => :film_director
 	
-	has_many :screenings, :dependent => :destroy, :include => :building
+	has_many :screenings, :dependent => :delete_all, :include => :building
 	has_many :permissions, :dependent => :delete_all
-	has_many :auditions, :dependent => :destroy, :order => :starts_at
-  has_many :film_genres, dependent: :destroy
+	has_many :auditions, :dependent => :delete_all, :order => :starts_at
+  has_many :film_genres, dependent: :delete_all
   has_many :genres, through: :film_genres, uniq: true
-  has_many :links, :as => :item, :dependent => :destroy
+  has_many :links, :as => :item, :dependent => :delete_all
 
 	has_attached_file :poster,
 		:styles => { :homepage => "90x90>", :grid => "125x125>", :show => "360x>" }
@@ -163,7 +163,7 @@ class Film < ActiveRecord::Base
 	### S3 Attachments
 
 	def s3_objects
-		Yale::s3_bucket.objects.with_prefix("films/#{id}/misc/")
+		[] # Yale::s3_bucket.objects.with_prefix("films/#{id}/misc/") TODO : ITS SLOW!!
 	end
 
 	def s3_destroy(files)

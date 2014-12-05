@@ -1,10 +1,11 @@
 class Genre < ActiveRecord::Base
-  acts_as_list
-
-  has_many :film_genres, dependent: :destroy
+  has_many :film_genres, dependent: :delete_all
   has_many :films, through: :film_genres
 
-  attr_accessible :name
+  acts_as_list
+
+  validates :name, :presence => true
+  validates :name, :uniqueness => true
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -13,5 +14,4 @@ class Genre < ActiveRecord::Base
     order(:position)
   end
 
-  attr_accessible :name
 end
