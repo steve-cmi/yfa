@@ -1,7 +1,7 @@
 A new film has been registered on the YFA Website. Please login to approve or reject it.
 
 <%= @film.title %>
-Directed By: <%= @film.director %>
+Directed By: <%= @film.director.name if @film.director %>
 Production: <%= short_date @film.start_date %> to <%= short_date @film.end_date %>
 
 Thanks!

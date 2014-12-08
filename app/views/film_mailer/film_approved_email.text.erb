@@ -1,8 +1,8 @@
 A new film has been approved and will now be displayed on the YFA Website. Information is below:
 
 <%= @film.title %>
-Directed By: <%= @film.director %>
-<%= format_screenings(@film.screenings) %>
+Directed By: <%= @film.director.name if @film.director %>
+Production: <%= short_date @film.start_date %> to <%= short_date @film.end_date %>
 
 Thanks!
 YFA
