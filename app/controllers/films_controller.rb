@@ -64,8 +64,18 @@ class FilmsController < ApplicationController
 	end
 
 	def update
+		if params[:film].blank?
+			redirect_to @film
+			return
+		end
+
 		# Process blanks to nils
 		params[:film].each {|key,val| val = nil if val.blank? }
+
+		# Process start and end dates
+		[:start_date, :end_date].each do |column|
+			params[:film][column] = Date.parse(params[:film][column]) rescue nil
+		end
 
 		# Handle file uploads
 		if (params[:film][:file])
@@ -122,9 +132,7 @@ class FilmsController < ApplicationController
 		end
 		
 		if !@film.id
-			post_create = {}
-			post_create[:permissions_attributes] = params[:film][:permissions_attributes]
-			params[:film].delete(:permissions_attributes)
+			permissions_attributes = params[:film].delete(:permissions_attributes)
 		end
 		
 		respond_to do |format|
@@ -135,9 +143,9 @@ class FilmsController < ApplicationController
 	    		@film.save!
 	    	end
 
-	    	# If it is a new film, now we can ammend permissions and other related models
-	    	if post_create
-	    		 @film.update_attributes(post_create)
+	    	# If it is a new film, now we can ammend permissions attributes
+	    	if permissions_attributes
+	    		@film.update_attribute(:permissions_attributes, permissions_attributes)
 	    	end
 
 	    	# Tell the FilmMailer to send an approval Email to the admin after save

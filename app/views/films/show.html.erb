@@ -6,8 +6,12 @@
 
 	<div class="col-md-8">
 		<h1><%= @film.title %></h1>
+
+		<% if @film.director -%>
 		<p>Directed by <%= link_to @film.director.name, @film.director %></p>
-		<%= @film.description.html_safe %>
+		<% end -%>
+
+		<%= @film.description.try(:html_safe) %>
 	</div>
 
 </div>
@@ -58,8 +62,8 @@
 
 		<p>
 			<strong>Audition information</strong><br />
-			<%= @film.aud_info.html_safe %><br />
-			<%= link_to "Sign up here", "" %>
+			<%= @film.aud_info.try(:html_safe) %><br />
+			<%= link_to "Sign up here", film_auditions_path(@film) if @film.auditions.imminent.any? %>
 		</p>
 
 		<p>
