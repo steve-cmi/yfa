@@ -83,7 +83,7 @@ class PeopleController < ApplicationController
 	def update
 		respond_to do |format|
 	    if @person.update_attributes(params[:person])
-	      format.html { redirect_to(:back, :notice => 'User was successfully updated.') }
+	      format.html { redirect_to(dashboard_path(@person), :notice => 'User was successfully updated.') }
 	      format.json { respond_with_bip(@person) }
 	    else
 	      format.html { render :action => "edit" }
