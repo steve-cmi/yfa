@@ -224,11 +224,9 @@ class Film < ActiveRecord::Base
 
 	private
 
-	after_update :check_to_notify_changes
-	def check_to_notify_changes
-		# NOTE: DOESN'T COVER NESTED ATTRIBUTES. Those are handled on the respective models
+	after_update :send_approval_email
+	def send_approval_email
 		if self.approved_changed? && self.approved
-			# Send OUP a note about the new film. Maybe send the film a note too!
 			FilmMailer.film_approved_email(self).deliver
 		end
 	end

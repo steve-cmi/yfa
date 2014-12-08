@@ -1,8 +1,8 @@
 class FilmsController < ApplicationController  
 	
-	skip_before_filter :force_auth, :only => [:film, :index]
+	skip_before_filter :force_auth, :only => :index
 	before_filter :fetch_film, :except => [:index, :new, :create]
-	before_filter :auth, :except => [:index, :film, :new, :create]
+	before_filter :auth, :except => [:index, :new, :create]
 
 	def index
 		@active_nav = :films

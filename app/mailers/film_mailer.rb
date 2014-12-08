@@ -13,10 +13,4 @@ class FilmMailer < ActionMailer::Base
     mail(:to => [film.contact,"steve.friedman@commonmediainc.com"], :subject => "[YFA Site] New Film Approved: " + film.title)
   end
 
-  def film_changed_email(film, changes)
-  	@film = film
-  	@changes = changes
-    mail(:to => ["steve.friedman@commonmediainc.com"], :subject => "[YFA Site] Film Changed: " + film.title)
-  end
-
 end
