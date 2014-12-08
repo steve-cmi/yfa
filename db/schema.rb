@@ -23,11 +23,11 @@ ActiveRecord::Schema.define(:version => 20141203143839) do
 
   create_table "announcements", :force => true do |t|
     t.string   "title"
-    t.string   "body"
+    t.string   "body",       :default => ""
     t.string   "link_text"
     t.string   "link_url"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "auditions", :force => true do |t|
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20141203143839) do
   end
 
   create_table "events", :force => true do |t|
+    t.integer  "person_id"
     t.string   "name"
     t.string   "slug"
     t.integer  "minutes"
@@ -109,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20141203143839) do
     t.string   "sponsor_name"
     t.string   "sponsor_link"
     t.boolean  "featured"
+    t.boolean  "approved"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end

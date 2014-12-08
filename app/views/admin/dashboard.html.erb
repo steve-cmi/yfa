@@ -1,32 +1,23 @@
 <% javascript 'admin.js' %>
 <h1>Admin Dashboard</h1>
 
-<div class="grid row">
+<div class="row">
 
 	<div class="col-md-6">
-		<h3>Approvals</h3>
-		<strong>Pending Film Queue</strong>
+		<h3>Pending Film Queue</h3>
 		<% if @pending_films.none? %>
 			<p>No requests at this time!</p>
 		<% else %>
 			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Film</th>
-						<th>Approve</th>
-						<th>Approve, but don't archive</th>
-						<th>Delete</th>
-					</tr>
-				</thead>
 				<tbody>
-					<% @pending_films.each do |s| %>
+					<% @pending_films.each do |film| %>
 						<tr>
-							<td><%= link_to s.title, edit_film_path(s) %></td>
-							<td><%= link_to "Approve", approve_film_path(s.id) + "?archive=1" %></td>
-							<td><%= link_to "Approve (no archive)", approve_film_path(s.id) %></td>
+							<td><%= link_to film.title, edit_film_path(film) %></td>
+							<td><%= link_to "Approve", approve_film_path(film.id, :archive => 1), :class => "btn btn-xs btn-primary" %></td>
+							<td><%= link_to "Approve (but don't archive)", approve_film_path(film.id), :class => "btn btn-xs btn-primary" %></td>
 							<td>
-								<%= form_for(:film, :url => film_path(s.id), :html => {:method => :delete}) do  %>
-								<button type="submit" class="btn btn-xs btn-default" onClick="return confirm('Are you sure you want to delete the selected film?')">Delete</button>
+								<%= form_for(:film, :url => film_path(film), :html => {:method => :delete}) do  %>
+								<button type="submit" class="btn btn-xs btn-danger" onClick="return confirm('Are you sure you want to delete the selected film?')">Delete</button>
 								<% end %>
 							</td>
 						</tr>
@@ -34,8 +25,33 @@
 				</tbody>
 			</table>
 		<% end %>
+	</div>
 
-		<strong>Pending Name Request Queue</strong>
+	<div class="col-md-6">
+		<h3>Pending Event Queue</h3>
+		<% if @pending_events.none? %>
+			<p>No requests at this time!</p>
+		<% else %>
+			<table class="table table-striped">
+				<tbody>
+					<% @pending_events.each do |event| %>
+						<tr>
+							<td><%= link_to event.name, edit_event_path(event) %></td>
+							<td><%= link_to "Approve", approve_event_path(event.id), :class => "btn btn-xs btn-primary" %></td>
+							<td>
+								<%= form_for(:event, :url => event_path(event), :html => {:method => :delete}) do  %>
+								<button type="submit" class="btn btn-xs btn-danger" onClick="return confirm('Are you sure you want to delete the selected event?')">Delete</button>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		<% end %>
+	</div>
+
+	<div class="col-md-6">
+		<h3>Pending Name Request Queue</h3>
 		<% if @pending_takeovers.none? %>
 			<p>No requests at this time!</p>
 		<% else %>
@@ -45,7 +61,7 @@
 						<th>User Name</th>
 						<th>Requested Name</th>
 						<th>Approve</th>
-						<th>Remove</th>
+						<th>Reject</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -53,8 +69,8 @@
 						<tr>
 							<td><%= link_to req.person.display_name, req.person %></td>
 							<td><%= link_to req.requested_person.display_name, req.requested_person %></td>
-							<td><%= link_to "Approve", approve_takeover_path(req) %></td>
-							<td><%= link_to "Delete", reject_takeover_path(req) %></td>
+							<td><%= link_to "Approve", approve_takeover_path(req), :class => "btn btn-xs btn-primary" %></td>
+							<td><%= link_to "Reject", reject_takeover_path(req), :class => "btn btn-xs btn-danger" %></td>
 						</tr>
 					<% end %>
 				</tbody>

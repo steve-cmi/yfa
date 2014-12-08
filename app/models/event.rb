@@ -4,10 +4,8 @@ class Event < ActiveRecord::Base
   has_many :event_filters, dependent: :delete_all
   has_many :filters, through: :event_filters, uniq: true
 
+  belongs_to :person
   belongs_to :building
-
-  attr_accessible :name, :minutes, :location, :featured, :building_id
-  attr_accessible :description, :image, :sponsor_name, :sponsor_link
 
   has_attached_file :image,
     :styles => { :homepage => "125x125>", :grid => "125x125>", :popup => "220x220>" }
@@ -19,6 +17,12 @@ class Event < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  default_scope where(:approved => true)
+
+  def self.pending
+    unscoped.where(:approved => false)
+  end
+  
   def self.featured
     where(featured: true)
   end
@@ -33,6 +37,15 @@ class Event < ActiveRecord::Base
 
   def self.by_date
     uniq.joins(:event_dates).order('`event_dates`.`starts_at` ASC')
+  end
+
+  private
+
+  after_update :send_approval_email
+  def send_approval_email
+    if self.approved_changed? && self.approved
+      EventMailer.event_approved_email(self).deliver
+    end
   end
 
 end

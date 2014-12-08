@@ -7,6 +7,7 @@ class AdminController < ApplicationController
 		@active_subnav = :admin
 		@page_name = "Admin Dashboard"
 		@pending_films = Film.pending
+		@pending_events = Event.pending
 		@pending_takeovers = TakeoverRequest.where(:approved => false)
 	end
 
@@ -96,6 +97,16 @@ class AdminController < ApplicationController
 		@film.archive = params[:archive].to_i == 1
 		if @film.save
 			redirect_to admin_dashboard_path, :notice => "Film approved!"
+		else
+			redirect_to admin_dashboard_path, :alert => "There was a problem, please try again..."
+		end
+	end
+
+	def approve_event
+		@event = Event.unscoped.find(params[:id])
+		@event.approved = true
+		if @event.save
+			redirect_to admin_dashboard_path, :notice => "Event approved!"
 		else
 			redirect_to admin_dashboard_path, :alert => "There was a problem, please try again..."
 		end

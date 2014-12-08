@@ -1,6 +1,7 @@
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
+      t.belongs_to :person
       t.string :name
       t.string :slug
       t.integer :minutes
@@ -11,6 +12,7 @@ class CreateEvents < ActiveRecord::Migration
       t.string :sponsor_name
       t.string :sponsor_link
       t.boolean :featured
+      t.boolean :approved
       t.timestamps
     end
 

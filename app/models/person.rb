@@ -4,6 +4,7 @@ class Person < ActiveRecord::Base
   has_many :film_positions, :dependent => :delete_all
   has_many :permissions, :dependent => :delete_all
   has_many :films, :through => :permissions, :uniq => true
+  has_many :events
   has_many :auditions, :dependent => :nullify
   has_many :takeover_requests, :dependent => :delete_all
   has_many :links, :as => :item, :dependent => :delete_all, :order => :position
@@ -138,8 +139,6 @@ class Person < ActiveRecord::Base
     self.lname = name[1].downcase || ''
     self.save
   end
-
-  #### New code added by steve@commonmedia.com March 2013.
 
   # Generate a list of people for the admin email_all form.
   def self.staff_for(film_option, position_option)

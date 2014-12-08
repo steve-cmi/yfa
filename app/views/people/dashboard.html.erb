@@ -160,17 +160,24 @@
 	</div>
 
 	<div class="col-md-6">
-		<h4>My Events</h4>
-		<table class="table table-striped">
-			<tbody>
-				<tr>
-					<td>
-					</td>
-					<td>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<h4>
+      My Events &nbsp;
+      <small><%= link_to "New", new_event_path %></small>
+    </h4>
+    <table class="table table-striped">
+      <tbody>
+        <% @user.events.by_date.each do |event| -%>
+        <tr>
+          <td>
+            <%= event.name %>
+          </td>
+          <td>
+            <%= link_to "Edit", edit_event_path(event) %>
+          </td>
+        </tr>
+        <% end -%>
+      </tbody>
+    </table>
 	</div>
 
 </div>
