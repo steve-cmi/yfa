@@ -1,12 +1,12 @@
 <% javascript 'admin.js' %>
 <h1>Pages Dashboard</h1>
 
-<div class="grid row">
+<div class="row">
 
-  <div class="col-md-12">
-    <%= form_tag({:controller => "pages", :action => "update_all"}, :class => "form-horizontal") do -%>  
-      <% @pages.each do |menu, pages| -%>
-        <h3><%= menu.to_s.titlecase.singularize %> Pages</h3>
+  <%= form_tag({:controller => "pages", :action => "update_all"}, :class => "form-horizontal") do -%>  
+    <% @pages.each do |menu, pages| -%>
+      <div class="col-md-4">
+        <h4><%= menu.to_s.titlecase.singularize %> Pages</h4>
         <table class="table table-striped">
           <tbody class="sortable">
             <% pages.each do |page| -%>
@@ -21,7 +21,7 @@
                          value="<%= page.position %>" />
                 </td>
                 <td>
-                  <p class="control-p"><%= link_to page.title, edit_page_path(page) %></p>
+                  <label class="control-label"><%= link_to page.title, edit_page_path(page) %></label>
                 </td>
               </tr>
             <% end -%>
@@ -29,14 +29,14 @@
           <tfoot>
             <tr>
               <td colspan="3">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <%= link_to "New #{menu.to_s.titlecase.singularize} Page", new_page_path(menu: menu), :class => "btn btn-default" %>
+                <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+                <%= link_to "New #{menu.to_s.titlecase.singularize} Page", new_page_path(menu: menu), :class => "btn btn-sm btn-default" %>
               </td>
             </tr>
           </tfoot>
         </table>
-      <% end -%>
+      </div>
     <% end -%>
-  </div>
+  <% end -%>
 
 </div>
