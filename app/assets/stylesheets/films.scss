@@ -6,7 +6,6 @@ div.container.films.index {
     div.controls {
       width: 1170px;
       background-color: #fff;
-      z-index: 1000;
 
       &.affix-top {
         position: absolute;
@@ -18,6 +17,7 @@ div.container.films.index {
         top: 0px;
         opacity: 0.85;
         border-top: 0px;
+        z-index: 1000;
       }
 
     }
