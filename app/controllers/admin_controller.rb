@@ -11,26 +11,36 @@ class AdminController < ApplicationController
 	end
 
 	def announcements
+		@active_nav = :user
+		@active_subnav = :announcements
 		@announcements = Announcement.unscoped.reverse_order
 		@announcement = Announcement.new
 	end
 
 	def carousels
+		@active_nav = :user
+		@active_subnav = :carousels
 		@carousels = Carousel.by_position
 		@carousel = Carousel.new
 		@site = Site.last
 	end
 
 	def buildings
+		@active_nav = :user
+		@active_subnav = :buildings
 		@buildings = Building.by_name
 		@building = Building.new
 	end
 
 	def jobs
+		@active_nav = :user
+		@active_subnav = :jobs
 		@jobs = Job.by_date.reverse_order
 	end
 
 	def pages
+		@active_nav = :user
+		@active_subnav = :pages
 		@menus = [:main, :resources, :howtos]
 		@pages = @menus.inject({}) do |hash, menu|
 			hash[menu] = Page.where(menu: menu).order(:position)
@@ -39,6 +49,8 @@ class AdminController < ApplicationController
 	end
 
 	def films
+		@active_nav = :user
+		@active_subnav = :films
 		@films = Film.unscoped.select([:slug, :title]).order(:title)
 		@positions = Position.all
 		@activities = Activity.all

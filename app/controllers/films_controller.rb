@@ -25,10 +25,14 @@ class FilmsController < ApplicationController
 	end
 
 	def dashboard
+		@active_nav = :user
+		@active_subnav = :films
 		@page_name = "Dashboard - #{@film.title}"
 	end
 	
 	def new
+		@active_nav = :user
+		@active_subnav = :films
 		@film = Film.new
 		@page_name = 'New Film'
 		render :edit
@@ -41,14 +45,20 @@ class FilmsController < ApplicationController
 	end
 	
 	def edit
+		@active_nav = :user
+		@active_subnav = :films
 		@page_name = "Edit Film - #{@film.title}"
 	end
 
 	def edit_people
+		@active_nav = :user
+		@active_subnav = :films
 		@page_name = "Edit Cast &amp Crew - #{@film.title}"
 	end
 
 	def edit_files
+		@active_nav = :user
+		@active_subnav = :films
 		@page_name = "Edit Files - #{@film.title}"
 		@film.s3_destroy(params[:destroy_files])
 	end

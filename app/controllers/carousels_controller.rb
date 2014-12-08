@@ -6,14 +6,20 @@ class CarouselsController < ApplicationController
   end
   
   def new
+    @active_nav = :user
+    @active_subnav = :carousels
   end
   
   def show
+    @active_nav = :user
+    @active_subnav = :carousels
     @carousel = Carousel.find(params[:id])
     render :edit
   end
   
   def edit
+    @active_nav = :user
+    @active_subnav = :carousels
     @carousel = Carousel.find(params[:id])
   end
   

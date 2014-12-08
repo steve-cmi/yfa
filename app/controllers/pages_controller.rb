@@ -41,15 +41,21 @@ class PagesController < ApplicationController
   before_filter :verify_user, :only => [:new, :show, :edit, :create, :update, :update_all, :destroy]
 
   def new
+    @active_nav = :user
+    @active_subnav = :pages
     @page = Page.new menu: params[:menu]
   end
   
   def show
+    @active_nav = :user
+    @active_subnav = :pages
     @page = Page.find(params[:id])
     render :edit
   end
   
   def edit
+    @active_nav = :user
+    @active_subnav = :pages
     @page = Page.find(params[:id])
   end
   

@@ -36,15 +36,21 @@ class JobsController < ApplicationController
   end
 
   def new
+    @active_nav = :user
+    @active_subnav = :jobs
     @job = Job.new
   end
   
   def show
+    @active_nav = :user
+    @active_subnav = :jobs
     @job = Job.find(params[:id])
     render :edit
   end
   
   def edit
+    @active_nav = :user
+    @active_subnav = :jobs
     @job = Job.find(params[:id])
   end
   

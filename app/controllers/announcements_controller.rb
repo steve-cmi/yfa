@@ -6,14 +6,21 @@ class AnnouncementsController < ApplicationController
 	end
 	
 	def new
+		@active_nav = :user
+		@active_subnav = :announcements
 	end
 	
 	def show
+		@active_nav = :user
+		@active_subnav = :announcements
 		@announcement = Announcement.find(params[:id])
 		render :edit
 	end
 	
 	def edit
+		@active_nav = :user
+		@active_subnav = :announcements
+		@announcement = Announcement.find(params[:id])
 		@announcement = Announcement.find(params[:id])
 	end
 	

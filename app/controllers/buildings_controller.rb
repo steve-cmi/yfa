@@ -6,14 +6,20 @@ class BuildingsController < ApplicationController
   end
   
   def new
+    @active_nav = :user
+    @active_subnav = :buildings
   end
   
   def show
+    @active_nav = :user
+    @active_subnav = :buildings
     @building = Building.find(params[:id])
     render :edit
   end
   
   def edit
+    @active_nav = :user
+    @active_subnav = :buildings
     @building = Building.find(params[:id])
   end
   
