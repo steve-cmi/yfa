@@ -1,7 +1,7 @@
 A new film has been registered on the YFA Website. Please login to approve or reject it.<br />
 <br />
-<%= link_to @film.title, @film, :class => 'title' %><br />
-<%= @film.tagline if !@film.tagline.blank? %><%= raw "<br />" if !@film.tagline.blank? %>
+<%= link_to @film.title, film_url(@film), :class => 'title' %><br />
+<%= (@film.tagline + tag(:br)).html_safe if @film.tagline? -%>
 <strong>Directed By:</strong> <%= @film.director.name if @film.director %><br />
 <strong>Production: </strong> <%= short_date @film.start_date %> to <%= short_date @film.end_date %><br />
 <br />
