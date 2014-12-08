@@ -208,6 +208,7 @@ if Film.count == 0
     f.description = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
     f.aud_info = Faker::Lorem.paragraph
     f.approved = true
+    f.archived = [true, false]
     f.start_date = Faker::Date.between(start_date, end_date)
     f.end_date = Faker::Date.between(f.start_date, end_date)
     f.auditions_enabled = true

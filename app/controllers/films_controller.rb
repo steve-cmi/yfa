@@ -10,7 +10,7 @@ class FilmsController < ApplicationController
 
 		@this_semester = Film.this_semester.by_date.reverse_order
 		@next_semester = Film.next_semester.by_date.reverse_order
-		@last_semesters = Film.last_semesters.by_date.reverse_order
+		@last_semesters = Film.last_semesters.archived.by_date.reverse_order
 
 		@groups = [
 			[Yale::this_semester_label, @this_semester],

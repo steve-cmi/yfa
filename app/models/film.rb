@@ -39,6 +39,10 @@ class Film < ActiveRecord::Base
 	delegate :directors, :actors, :writers, :cast, :crew, :to => :film_positions
 	default_scope where(:approved => true)
 
+	def self.archived
+		where(:archive => true)
+	end
+
 	def self.pending
 		unscoped.where(:approved => false)
 	end
