@@ -38,10 +38,24 @@ class EventsController < ApplicationController
   def edit
     @active_nav = :user
     @active_subnav = :events
-    @page_name = "Edit Event - #{@event.title}"
+    @page_name = "Edit Event - #{@event.name}"
   end
 
   def update
+    # Process event_dates
+    if params[:event][:event_dates_attributes]
+      params[:event][:event_dates_attributes].each do |key, obj| 
+        # Merge date and time strings into a starts_at datetime.
+        obj[:starts_at] = Time.zone.parse("#{obj.delete(:date)} #{obj.delete(:time)}") rescue nil
+
+        # Remove it if it doesn't have the needed fields
+        if obj[:starts_at].blank?
+          params[:event][:event_dates_attributes].delete(key) 
+          next
+        end
+      end
+    end
+
     respond_to do |format|
       if @event.update_attributes(params[:event])
 
@@ -52,7 +66,7 @@ class EventsController < ApplicationController
           if params[:id].blank?
             redirect_to(event_edit_people_path(@event))
           else
-            redirect_to(event_dashboard_path(@event), :notice => 'Event was successfully updated.')
+            redirect_to(dashboard_path, :notice => 'Event was successfully updated.')
           end
         end
         format.json { render :json => {:success => true} }
@@ -75,7 +89,7 @@ class EventsController < ApplicationController
   
   def fetch_event
     event_id = params[:event_id] || params[:id]
-    @event = Event.unscoped.includes(:event_positions => [:person, :position]).find(event_id) if event_id
+    @event = Event.unscoped.includes(:event_dates, :event_filters).find(event_id) if event_id
     raise ActionController::RoutingError.new('Not Found') unless @event && (@event.approved || @current_user.has_permission?(@event))
   end
 end

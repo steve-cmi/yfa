@@ -8,11 +8,17 @@ class Event < ActiveRecord::Base
   belongs_to :building
 
   has_attached_file :image,
-    :styles => { :homepage => "125x125>", :grid => "125x125>", :popup => "220x220>" }
+    :styles => { :homepage => "125x125>", :grid => "125x125>", :popup => "220x220>", :show => "360x>" }
   
   validates_attachment_content_type :image,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
     message: 'file type is not allowed (only jpeg/png/gif images)'
+
+  attr_accessible :name, :minutes, :image, :description, :sponsor_name, :sponsor_link
+
+  attr_accessible :event_dates_attributes, :event_filters_attributes
+  accepts_nested_attributes_for :event_dates, :allow_destroy => true
+  accepts_nested_attributes_for :event_filters, :allow_destroy => true
 
   extend FriendlyId
   friendly_id :name, use: :slugged

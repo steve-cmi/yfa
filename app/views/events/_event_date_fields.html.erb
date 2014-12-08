@@ -1,0 +1,25 @@
+<tr>
+  <td width="10px">
+  	<%= link_to_remove_fields "&times;".html_safe, f %>
+  </td>
+
+  <td>
+    <%= f.text_field :date, :value => short_date(f.object.starts_at), :class => "form-control", :placeholder => "Date" %>
+  </td>
+
+  <td>
+    <%= f.text_field :time, :value => time(f.object.starts_at), :class => "form-control", :placeholder => "Time" %>
+  </td>
+
+<!--   <td>
+    <%= f.number_field :minutes, :step => 5, :placeholder => "Minutes", :validate => true, :class => "form-control required" %>
+  </td>
+
+  <td>
+    <%= f.text_field :location, :class => "form-control", :placeholder => "Location" %>
+  </td>
+
+  <td>
+    <%= f.collection_select :building_id, Building.all, :id, :name, {:prompt => "Building"}, :class => "form-control" %>
+  </td>
+ --></tr>

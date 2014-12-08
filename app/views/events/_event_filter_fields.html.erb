@@ -1,0 +1,13 @@
+<tr>
+  <div class="row">
+
+    <td width="10px">
+      <%= link_to_remove_fields "&times;".html_safe, f %>
+    </td>
+
+    <td>
+      <%= f.collection_select(:filter_id, Filter.all, :id, :name, {:include_blank => true}, :class => "form-control") %>
+    </td>
+
+  </div>
+</tr>
