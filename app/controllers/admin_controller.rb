@@ -114,27 +114,6 @@ class AdminController < ApplicationController
 		end
 	end
 
-	def email_all
-		if params[:films].blank?
-			flash[:alert] = 'Please select which films you want to email.'
-		elsif params[:positions].blank?
-			flash[:alert] = 'Please select which positions you want to email.'
-		elsif params[:subject].blank?
-			flash[:alert] = 'Please enter a subject for your email.'
-		elsif params[:message].blank?
-			flash[:alert] = 'Please enter a message to send.'
-		else
-			recipients = Person.staff_for(params[:films], params[:positions]).pluck(:email).compact
-			if recipients.empty?
-				flash[:alert] = 'The selected options matched no people!'
-			else
-				AdminMailer.staff_email(recipients, params[:subject], params[:message]).deliver
-				flash[:notice] = "Email sent to #{recipients.size} people."
-			end
-		end
-		redirect_to :action => :dashboard
-	end
-	
 	private
 	
 	def verify_user
