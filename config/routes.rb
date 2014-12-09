@@ -55,6 +55,7 @@ Yfa::Application.routes.draw do
   resources :announcements
   resources :activities
   resources :genres
+  resources :filters
   resources :positions
   resources :carousels do
     collection do
@@ -83,6 +84,7 @@ Yfa::Application.routes.draw do
   match 'admin/carousels' => 'admin#carousels', :as => :admin_carousels
   match 'admin/jobs' => 'admin#jobs', :as => :admin_jobs
   match 'admin/pages' => 'admin#pages', :as => :admin_pages
+  match 'admin/events' => 'admin#events', :as => :admin_events
   match 'admin/films' => 'admin#films', :as => :admin_films
 
   match 'admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter

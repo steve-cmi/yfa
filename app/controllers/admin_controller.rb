@@ -18,6 +18,13 @@ class AdminController < ApplicationController
 		@announcement = Announcement.new
 	end
 
+	def buildings
+		@active_nav = :user
+		@active_subnav = :buildings
+		@buildings = Building.by_name
+		@building = Building.new
+	end
+
 	def carousels
 		@active_nav = :user
 		@active_subnav = :carousels
@@ -26,11 +33,20 @@ class AdminController < ApplicationController
 		@site = Site.last
 	end
 
-	def buildings
+	def events
 		@active_nav = :user
-		@active_subnav = :buildings
-		@buildings = Building.by_name
-		@building = Building.new
+		@active_subnav = :events
+		@events = Event.unscoped.select([:slug, :name]).order(:name)
+		@filters = Filter.all
+	end
+
+	def films
+		@active_nav = :user
+		@active_subnav = :films
+		@films = Film.unscoped.select([:slug, :title]).order(:title)
+		@positions = Position.all
+		@activities = Activity.all
+		@genres = Genre.all
 	end
 
 	def jobs
@@ -47,15 +63,6 @@ class AdminController < ApplicationController
 			hash[menu] = Page.where(menu: menu).order(:position)
 			hash
 		end
-	end
-
-	def films
-		@active_nav = :user
-		@active_subnav = :films
-		@films = Film.unscoped.select([:slug, :title]).order(:title)
-		@positions = Position.all
-		@activities = Activity.all
-		@genres = Genre.all
 	end
 
 	def newsletter
