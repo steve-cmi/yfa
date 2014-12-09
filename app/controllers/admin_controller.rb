@@ -138,7 +138,7 @@ class AdminController < ApplicationController
 	private
 	
 	def verify_user
-		redirect_to dashboard_path if(!@current_user || !@current_user.site_admin?)
+		redirect_to dashboard_path unless @current_user and @current_user.site_admin?
 	end
 	
 end

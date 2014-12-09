@@ -56,7 +56,7 @@ class AnnouncementsController < ApplicationController
 	private
 	
 	def verify_user
-		redirect_to root_path if(!@current_user || !@current_user.site_admin?)
+		redirect_to root_path unless @current_user and @current_user.site_admin?
 	end
 	
 end

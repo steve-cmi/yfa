@@ -38,7 +38,7 @@ class PagesController < ApplicationController
 	end
 
 	##### Administrator access
-  before_filter :verify_user, :only => [:new, :show, :edit, :create, :update, :update_all, :destroy]
+  before_filter :verify_user, :only => [:new, :edit, :create, :update, :update_all, :destroy]
 
   def new
     @active_nav = :user
@@ -84,7 +84,7 @@ class PagesController < ApplicationController
   private
   
   def verify_user
-    redirect_to root_path if(!@current_user || !@current_user.site_admin?)
+    redirect_to root_path unless @current_user and @current_user.site_admin?
   end
 
 end
