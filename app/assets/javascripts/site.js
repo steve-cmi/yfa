@@ -12,7 +12,7 @@ $(document).ready(function() {
   $(".sortable").sortable({
     handle: '.drag-handle',
     update: function( event, ui ) {
-      $(ui.item).closest('tbody').find('input.sort-value').each(function(index, element) {
+      $(ui.item).closest('.sortable').find('input.sort-value').each(function(index, element) {
         $(element).val(index + 1);
       });
     }
