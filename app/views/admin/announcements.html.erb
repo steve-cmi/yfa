@@ -4,28 +4,34 @@
 <div class="grid row">
 
   <div class="col-md-12">
-    <h3>Manage Announcements</h3>
-    <form method="get" action="<%= announcement_path('id') %>" class="form-horizontal auto-id">
-      <div class="form-group">
-        <div class="col-sm-9 col-sm-offset-1">
-          <%= select_tag nil, options_from_collection_for_select(@announcements, :id, :title), :class => "form-control" %>
-        </div>
-        <div class="col-sm-2">
-          <button type="submit" class="btn btn-default">Edit</button>
-        </div>
-      </div>
-    </form>
 
-    <%= form_for(:announcement, :url => announcement_path("id"), :html => {:method => :delete, :class => "form-horizontal auto-id"}) do  %>
-      <div class="form-group">
-        <div class="col-sm-9 col-sm-offset-1">
-          <%= select_tag nil, options_from_collection_for_select(@announcements, :id, :title), :class => "form-control" %>
-        </div>
-        <div class="col-sm-2">
-          <button type="submit" class="btn btn-default" onClick="return confirm('Are you sure you want to delete the selected article?')">Delete</button>
-        </div>
-      </div>
-    <% end %>
+    <%= form_tag({:controller => "announcements", :action => "update_all"}, :remote => true, :class => "form-horizontal") do -%>
+    
+      <h3>Manage Annoucements</h3>
+      <p>The top most active announcement will be shown on the homepage.</p>
+
+      <table class="table table-striped">
+        <tbody>
+          <% @announcements.each do |announcement| -%>
+            <tr>
+              <td width="10px">
+                <%= link_to "&times;".html_safe, announcement_path(announcement), :method => :delete, :class => "btn btn-xs btn-danger", :confirm => "This will permanently delete this announcement. There is no undo. Are you sure?" %>
+              </td>
+              <td>
+                <input type="hidden"
+                       name="announcements[<%= announcement.id %>][active]" value="0" />
+                <input type="checkbox"
+                       name="announcements[<%= announcement.id %>][active]" value="1"
+                       <%= 'checked="checked"' if announcement.active? %> /> &nbsp;
+                <%= link_to announcement.title, announcement %>
+              </td>
+            </tr>
+          <% end -%>
+        </tbody>
+      </table>
+
+    <% end -%>
+
   </div>
   
 </div>

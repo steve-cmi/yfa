@@ -41,6 +41,11 @@ class AnnouncementsController < ApplicationController
     	render :edit
     end
 	end
+
+  def update_all
+    Announcement.update params[:announcements].keys, params[:announcements].values
+    redirect_to admin_announcements_path, :notice => 'Announcements were successfully updated.'
+  end
 	
 	def destroy
 		@announcement = Announcement.find(params[:id]) rescue nil

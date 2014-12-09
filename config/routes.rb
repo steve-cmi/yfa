@@ -52,7 +52,11 @@ Yfa::Application.routes.draw do
   resources :people
   resources :events
   resources :jobs
-  resources :announcements
+  resources :announcements do
+    collection do
+      post :update_all
+    end
+  end
   resources :activities
   resources :genres
   resources :filters

@@ -3,7 +3,7 @@
 
 <div class="grid row">
 
-  <div class="col-md-5">
+  <div class="col-md-12">
     <%= form_tag({:controller => "carousels", :action => "update_all"}, :class => "form-horizontal") do -%>
     
       <button type="submit" class="btn btn-sm btn-primary pull-right">Save Changes</button>
@@ -22,7 +22,7 @@
                        name="carousels[<%= carousel.id %>][position]"
                        value="<%= carousel.position %>" />
               </td>
-              <td>
+              <td width="100px">
                 <%= image_tag carousel.image.url(:admin), :class => "drag-handle" %>
               </td>
               <td>
@@ -40,16 +40,16 @@
 
       <%= fields_for @site do |f| -%>
         <div class="form-group">
-          <label for="site_carousel_interval" class="col-sm-7 control-label">
+
+          <label for="site_carousel_interval" class="col-sm-3 control-label">
             Auto-advance Interval (ms)
-            <span class="help-block">Leave blank to disable</span>
+            <small class="help-block">Leave blank to disable</small>
           </label>
           <div class="col-sm-3">
             <%= f.number_field :carousel_interval, :step => 50, :class => "form-control" %>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="site_carousel_order" class="col-sm-7 control-label">
+
+          <label for="site_carousel_order" class="col-sm-3 control-label">
             Show in Random Order
           </label>
           <div class="col-sm-3">
@@ -59,13 +59,14 @@
                    <%= 'checked="checked"' if @site.carousel_order == :random %>
                    name="site[carousel_order]" value="random" /> &nbsp;
           </div>
+
         </div>
       <% end -%>
 
     <% end -%>
   </div>
   
-  <div class="col-md-7">
+  <div class="col-md-12">
     <h3>Create Carousel</h3>
     <%= render "carousels/form" %>
   </div>
