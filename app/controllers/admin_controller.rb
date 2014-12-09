@@ -59,24 +59,6 @@ class AdminController < ApplicationController
 			hash
 		end
 	end
-
-	def newsletter
-		@films = Film.readonly.this_week
-		@auditions = Audition.future.includes(:film).select{|a| a.film}.group_by(&:film)
-		future_film_ids = Film.future.pluck("`films`.`id`")
-		@opportunities = FilmPosition.crew.vacant.where(:film_id => future_film_ids).includes(:film, :position).group_by(&:film)
-		@opportunities = @opportunities.select{|film, arr| film.open_date >= Time.now + 11.days && film.open_date <= Time.now + 60.days}.sort_by{|s,arr| s.open_date}
-		@request = request
-
-		@announcements = params[:subject] && params[:message] ? params[:subject].zip(params[:message]) : []
-		@preview = true
-		if params[:send]
-			NewsletterMailer.newsletter_email(@films, @auditions, @announcements, @opportunities, request).deliver
-			redirect_to admin_dashboard_path, :notice => "Email sent"
-		else
-			render :file => 'newsletter_mailer/newsletter_email.html.erb', :layout => false
-		end
-	end
 	
 	def approve_takeover
 		request = TakeoverRequest.find(params[:id])

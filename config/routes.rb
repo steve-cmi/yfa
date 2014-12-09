@@ -92,7 +92,6 @@ Yfa::Application.routes.draw do
   match 'admin/events' => 'admin#events', :as => :admin_events
   match 'admin/films' => 'admin#films', :as => :admin_films
 
-  match 'admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
   match 'admin/approve_takeover/:id' => 'admin#approve_takeover', :as => :approve_takeover
   match 'admin/reject_takeover/:id' => 'admin#reject_takeover', :as => :reject_takeover
   match 'admin/approve_film/:id' => 'admin#approve_film', :as => :approve_film
