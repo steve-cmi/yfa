@@ -1,9 +1,9 @@
 class FilmsController < ApplicationController  
 	
-	skip_before_filter :force_auth, :only => :index
+	skip_before_filter :force_auth, :only => [:index, :show]
 	before_filter :fetch_film, :except => [:index, :new, :create]
-	before_filter :auth, :except => [:index, :new, :create]
-
+	before_filter :auth, :except => [:index, :show, :new, :create]
+	
 	def index
 		@active_nav = :films
 		@page_name = 'Upcoming Films'
@@ -177,7 +177,7 @@ class FilmsController < ApplicationController
 	end
 	
 	private
-	
+
 	def fetch_film
 		film_id = params[:film_id] || params[:id]
 		@film = Film.unscoped.includes(:film_positions => [:person, :position]).find(film_id) if film_id

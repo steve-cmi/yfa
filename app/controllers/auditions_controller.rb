@@ -179,18 +179,15 @@ class AuditionsController < ApplicationController
 	private
 
 	def fetch_film
-		# Hack to get the mass-update going, id is actually film_id here
-		if params[:film_id].blank? && action_name == "update"
-			params[:film_id] = params[:id]
-			params.delete(:id)
-		end
+		# Fim id is sometimes film_id
+		film_id = params[:film_id] || params[:id]
 
 		# Check permissions, if admin, pre-load the people too
-		if logged_in? && @current_user.has_permission?(params[:film_id])
+		if logged_in? && @current_user.has_permission?(film_id)
 			@aud_admin = true
-			@film = Film.includes(:auditions => [:person]).find(params[:film_id])
+			@film = Film.includes(:auditions => :person).find(film_id)
 		else
-			@film = Film.includes(:auditions).find(params[:film_id])
+			@film = Film.includes(:auditions).find(film_id)
 		end
 	end
 end

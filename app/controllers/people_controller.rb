@@ -1,7 +1,7 @@
 class PeopleController < ApplicationController  
 
-	skip_before_filter :force_auth, :only => [:film, :logout]
-	before_filter :verify_user, :except => [:film, :dashboard, :logout, :new, :create]
+	skip_before_filter :force_auth, :only => [:show, :logout]
+	before_filter :verify_user, :except => [:show, :dashboard, :logout, :new, :create]
 	before_filter :fetch_user, :except => [:dashboard, :logout, :new, :create]
 
 	def show
@@ -22,15 +22,6 @@ class PeopleController < ApplicationController
 		@active_subnav = :dashboard
 		@page_name = "Edit My Account"
 		@user = @current_user
-	end
-	
-	def film
-		# Show public view
-		#TODO: SHould we cache people's public profiles?
-		#TODO: Should admins be able to edit?
-		@page_name = @person.display_name
-		@film_positions = @person.film_positions.includes({:film => :screenings}, :position)
-		@film_positions = @film_positions.select(&:film).sort_by(&:start_date).reverse
 	end
 	
 	# New User step 1
@@ -105,7 +96,7 @@ class PeopleController < ApplicationController
 	end
 	
 	def verify_user
-		raise ActionController::RoutingError.new('Forbidden')	unless @current_user && (@current_user.id == params[:id].to_i || @current_user.site_admin?)
+		raise ActionController::RoutingError.new('Forbidden')	unless @current_user && (@current_user.friendly_id.to_s == params[:id] || @current_user.site_admin?)
 	end
 	
 end

@@ -16,11 +16,6 @@ class EventsController < ApplicationController
     @dates = @dates.filtered_by(@filter) if @filter
   end
 
-  def show
-    @active_nav = :events
-    @page_name = @event.title
-  end
-
   def new
     @active_nav = :user
     @active_subnav = :events
@@ -90,6 +85,6 @@ class EventsController < ApplicationController
   def fetch_event
     event_id = params[:event_id] || params[:id]
     @event = Event.unscoped.includes(:event_dates, :event_filters).find(event_id) if event_id
-    raise ActionController::RoutingError.new('Not Found') unless @event && (@event.approved || @current_user.has_permission?(@event))
+    raise ActionController::RoutingError.new('Not Found') unless @event && (@event.approved || @event.person == @current_user || @current_user.site_admin?)
   end
 end
