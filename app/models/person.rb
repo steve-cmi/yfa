@@ -139,36 +139,5 @@ class Person < ActiveRecord::Base
     self.lname = name[1].downcase || ''
     self.save
   end
-
-  # Generate a list of people for the admin email_all form.
-  def self.staff_for(film_option, position_option)
-
-    # select films
-    case film_option.to_sym
-    when :upcoming
-      films = Film.upcoming
-    when :semester
-      films = Film.this_semester
-    when :year
-      films = Film.this_year
-    end
-
-    # select positions
-    case position_option.to_sym
-    when :producers
-      positions = FilmPosition.primary.producers
-    when :contacts
-      positions = FilmPosition.primary.contacts
-    end
-
-    # merge films and positions
-    film_positions = positions.where(:film_id => films.select(:id))
-
-    # select people
-    Person.where(:id => film_positions.select(:person_id))
-
-  end
-
-  ####
   
 end
