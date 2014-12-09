@@ -25,7 +25,7 @@ class SearchController < ApplicationController
 		# Add refinements
 		case @tab
 		when :people
-			@years = Person.uniq.order(:year).pluck(:year)
+			@years = Person.uniq.order(:year).pluck(:year).reject(&:blank?)
 			@positions = Position.all.collect {|p| [p.position, p.id]}
 			@people = @people.search(:lname_or_fname_start => params[:name]).result unless params[:name].blank?
 			@people = @people.current if params[:current]
