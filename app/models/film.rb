@@ -171,17 +171,19 @@ class Film < ActiveRecord::Base
 	### S3 Attachments
 
 	def s3_objects
-		[] # Yale::s3_bucket.objects.with_prefix("films/#{id}/misc/") TODO : ITS SLOW!!
+		@s3_objects ||= Yale::s3_bucket.objects.with_prefix("films/#{id}/misc/")
 	end
 
 	def s3_destroy(files)
 		if files
+	   	@s3_objects = nil
 			paths = files.collect {|file| "films/#{id}/misc/#{file}"}
 	   	Yale::s3_bucket.objects.delete(paths)
   	end
 	end
 
 	def s3_create(data)
+   	@s3_objects = nil
 	  orig_filename =  data.original_filename
 	  filename = File.basename(orig_filename).gsub(/[^\w\.\-]/,'_')
 	  ext = File.extname(filename).downcase

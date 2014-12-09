@@ -74,7 +74,9 @@ class FilmsController < ApplicationController
 
 		# Process start and end dates
 		[:start_date, :end_date].each do |column|
-			params[:film][column] = Date.parse(params[:film][column]) rescue nil
+			if params[:film] and params[:film][column]
+				params[:film][column] = Date.parse(params[:film][column]) rescue nil
+			end
 		end
 
 		# Handle file uploads

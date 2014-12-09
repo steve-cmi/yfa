@@ -107,6 +107,10 @@ module ApplicationHelper
     end
     link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")", :class => "add-link btn btn-primary")
   end
+
+  def link_to_file(object)
+    link_to object.key.split("/")[-1], "#{object.url_for(:read)}", target: '_blank'
+  end
   
   # ----- OLD HELPERS ------ prune when done.
 

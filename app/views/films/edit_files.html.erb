@@ -1,29 +1,61 @@
-<h4>Edit files for <%= @film.title %></h4>
- 
-<h5>Upload a New File:</h5>
-Note: acceptible file formats are:<br />
- jpg, jpeg, gif, png, doc, docx, xls, xlsx, pdf
+<% javascript 'edit.js' %>
 
-<%= form_for @film, :remote => true do |f| %>
-	<%= f.file_field :file %>
-	<%= f.submit "Upload" %>
+<h1>
+
+  <div class="pull-right">
+    <%= link_to "&laquo; Dashboard".html_safe, film_dashboard_path(@film), :class => "btn btn-default" %>
+  </div>
+
+	<%= @film.title %> <small>Edit Files</small>
+</h1>
+
+<% if @film.errors.any? %>
+	<div class="alert alert-dismissable alert-danger">
+	  <button type="button" class="close" data-dismiss="alert">×</button>
+	  <strong>There were errors saving this film:</strong>
+			<% @film.errors.full_messages.each do |error| %>
+			  <li><%= error %></li>
+			<% end %>
+		</ul>
+	</div>
 <% end %>
 
-<hr />
-<h5>Current Files:</h5>
-<%= form_tag(:method => :post) do %>
-	<table>
-		<tr><th>File</th><th>Remove?</th></tr>
-	<% @film.s3_objects.each do |obj| %>
-		<tr>
-			<td>
-				<%= link_to obj.key.split("/")[-1], "#{obj.url_for(:read)}" %>
-			</td>
-			<td>
-				<input type=checkbox name="destroy_files[]" value="<%= obj.key.split("/")[-1] %>">
-			</td>
-		</tr>
+<div class="row">
+	<div class="col-md-6">
+		<h4>Current Files:</h4>
+		<%= form_tag(:method => :post) do %>
+			<table class="table table-striped">
+				<tbody>
+					<% @film.s3_objects.each do |obj| %>
+					<tr>
+						<td width="10px">
+							<input type=checkbox name="destroy_files[]" value="<%= obj.key.split("/")[-1] %>">
+						</td>
+						<td>
+							<%= link_to_file obj %>
+						</td>
+					</tr>
+					<% end %>
+				</tbody>
+				<tfoot>
+					<td colspan="2">
+						<button type="submit" class="btn btn-sm btn-danger" onClick="return confirm('This will permanently delete the selected files. There is no undo. Are you sure?');">Delete Selected Files</button>
+					</td>
+				</tfoot>
+			</table>
 		<% end %>
-	</table>
-	<input type=submit name=destroy value="Delete Selected Files">
-<% end %>
+	</div>
+
+	<div class="col-md-6">
+		<h4>Upload a New File:</h4>
+		<%= form_for @film, :remote => true, :class => "form-horizontal" do |f| %>
+			<div class="form-group">
+				<%= f.file_field :file, :class => "form-control" %>
+			</div>
+			<label class="help-block">
+				Acceptible file formats: jpg, jpeg, gif, png, doc, docx, xls, xlsx, pdf
+			</label>
+		<% end %>
+	</div>
+
+</div>
