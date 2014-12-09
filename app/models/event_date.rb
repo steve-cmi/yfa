@@ -32,6 +32,10 @@ class EventDate < ActiveRecord::Base
     uniq.joins(:event).where(events: {featured: true})
   end
 
+  def self.approved
+    uniq.joins(:event).where(events: {approved: true})
+  end
+
   def self.filtered_by(filter)
     uniq.joins(:event => :event_filters).where(event_filters: {filter_id: filter.id})
   end

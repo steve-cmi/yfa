@@ -9,7 +9,7 @@ class PagesController < ApplicationController
 		@carousels = Carousel.active.order_by(@site)
 		@upcoming_films = Film.by_date.includes(:director).limit(5)
 		@announcement = Announcement.last
-		@featured_event = EventDate.current.featured.by_date.first
+		@featured_event = EventDate.current.approved.featured.by_date.first
 	end
 
 	# Dynamic pages from the pages table

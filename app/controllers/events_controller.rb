@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     @filters = Filter.by_position
     @filter = Filter.find_by_slug(params[:filter])
 
-    @dates = EventDate.current.by_date.includes(:event => [:building, :filters]).send("this_#{@scope}")
+    @dates = EventDate.approved.current.by_date.includes(:event => [:building, :filters]).send("this_#{@scope}")
     @dates = @dates.filtered_by(@filter) if @filter
   end
 

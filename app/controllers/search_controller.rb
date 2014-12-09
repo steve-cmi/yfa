@@ -13,7 +13,7 @@ class SearchController < ApplicationController
 		@projects = Film.search(:title_or_tagline_or_contact_or_description_cont => params[:q]).
 			result.by_title
 		@event_dates = EventDate.search(:event_name_or_event_location_or_event_description_cont => params[:q]).
-			result.includes(:event => [:filters, :building]).by_date.reverse_order
+			result.includes(:event => [:filters, :building]).approved.by_date.reverse_order
 
 		# Obtain badge counts before adding refinements
 		@badge = {
