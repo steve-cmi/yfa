@@ -26,7 +26,7 @@ class BuildingsController < ApplicationController
   def create
     @building = Building.new
     if @building.update_attributes(params[:building])
-      redirect_to admin_buildings_path, :notice => 'Building was successfully created.'
+      redirect_to admin_events_path, :notice => 'Building was successfully created.'
     else
       render :new
     end
@@ -35,7 +35,7 @@ class BuildingsController < ApplicationController
   def update
     @building = Building.find(params[:id])
     if @building.update_attributes(params[:building])
-      redirect_to admin_buildings_path, :notice => 'Building was successfully updated.'
+      redirect_to admin_events_path, :notice => 'Building was successfully updated.'
     else
       render :edit
     end
@@ -43,13 +43,13 @@ class BuildingsController < ApplicationController
 
   def update_all
     Building.update params[:buildings].keys, params[:buildings].values
-    redirect_to admin_buildings_path, :notice => 'Buildings were successfully updated.'
+    render :json => {:success => true}
   end
   
   def destroy
     @building = Building.find(params[:id]) rescue nil
     @building.destroy if @building
-    redirect_to admin_buildings_path, :notice => 'Building was successfully deleted.'
+    redirect_to admin_events_path, :notice => 'Building was successfully deleted.'
   end
   
   private

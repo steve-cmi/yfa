@@ -42,7 +42,7 @@
             <%= link_to "&times;".html_safe, filter_path(filter), :method => :delete, :class => "btn btn-danger", :confirm => "This will permanently delete this filter. There is no undo. Are you sure?" %>
           </div>
           <div class="col-md-10">
-            <%= f.text_field :name, :class => "form-control", :onChange => "$(this).closest('form').submit()" %>
+            <%= f.text_field :name, :class => "form-control" %>
           </div>
         </div>
         <br />
@@ -58,6 +58,62 @@
         </div>
       </div>
     <% end -%>
+  </div>
+
+</div>
+
+<div class="grid row">
+
+  <div class="col-md-12">
+    <%= form_tag({:controller => "buildings", :action => "update_all"}, :remote => true, :class => "form-horizontal") do -%>
+    
+      <button type="submit" class="btn btn-sm btn-primary pull-right">Save Changes</button>
+      <h3>Buildings</h3>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City, State</th>
+            <th>Zip</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @buildings.each do |building| -%>
+            <tr>
+              <td width="10px">
+                <%= link_to "&times;".html_safe, building_path(building), :method => :delete, :class => "btn btn-md btn-danger", :confirm => "This will permanently delete this building. There is no undo. Are you sure?" %>
+              </td>
+              <td width="15%">
+                <input type="text" class="form-control" name="buildings[<%= building.id %>][code]" value="<%= building.code %>" />
+              </td>
+              <td>
+                <input type="text" class="form-control" name="buildings[<%= building.id %>][name]" value="<%= building.name %>" />
+              </td>
+              <td width="20%">
+                <input type="text" class="form-control" name="buildings[<%= building.id %>][address]" value="<%= building.address %>" />
+              </td>
+              <td width="15%">
+                <input type="text" class="form-control" name="buildings[<%= building.id %>][city_state]" value="<%= building.city_state %>" />
+              </td>
+              <td width="9%">
+                <input type="text" class="form-control" name="buildings[<%= building.id %>][zip]" value="<%= building.zip %>" />
+              </td>
+            </tr>
+          <% end -%>
+        </tbody>
+      </table>
+
+      <button type="submit" class="btn btn-sm btn-primary pull-right">Save Changes</button>
+    <% end -%>
+  </div>
+  
+  <div class="col-md-12">
+    <h3>Create Building</h3>
+    <%= render "buildings/form" %>
   </div>
 
 </div>

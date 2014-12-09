@@ -18,13 +18,6 @@ class AdminController < ApplicationController
 		@announcement = Announcement.new
 	end
 
-	def buildings
-		@active_nav = :user
-		@active_subnav = :buildings
-		@buildings = Building.by_name
-		@building = Building.new
-	end
-
 	def carousels
 		@active_nav = :user
 		@active_subnav = :carousels
@@ -38,6 +31,8 @@ class AdminController < ApplicationController
 		@active_subnav = :events
 		@events = Event.unscoped.select([:slug, :name]).order(:name)
 		@filters = Filter.all
+		@buildings = Building.by_name
+		@building = Building.new
 	end
 
 	def films

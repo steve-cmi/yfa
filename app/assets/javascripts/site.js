@@ -18,4 +18,9 @@ $(document).ready(function() {
     }
   });
 
+  // Automatically submit remote forms on change
+  $('form[data-remote="true"] input, form[data-remote="true"] select, form[data-remote="true"] textarea').change(function () {
+    $(this).closest('form[data-remote="true"]').submit();
+  })
+
 });
