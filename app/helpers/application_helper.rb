@@ -113,7 +113,7 @@ module ApplicationHelper
   end
 
   def image_field(builder, column, size = :show)
-    if builder.object.send(column)
+    if builder.object.send("#{column}?")
       image_tag(builder.object.send(column).url(size),
         :id => 'show-image',
         :onClick => "$('#show-image').toggle(); $('#edit-image').toggle()",
