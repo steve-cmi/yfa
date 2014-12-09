@@ -108,7 +108,6 @@ Yfa::Application.routes.draw do
     get 'dashboard', :controller => :films, :action => :dashboard, :as => :dashboard
     get 'edit_people', :controller => :films, :action => :edit_people, :as => :edit_people
     match 'edit_files', :controller => :films, :action => :edit_files, :as => :edit_files, :via => [:get, :post]
-		resources :screenings, :only => [:film, :index]
 		resources :auditions do
       get 'past', :on => :collection
     end

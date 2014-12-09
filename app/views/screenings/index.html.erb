@@ -1,8 +1,0 @@
-<div class="title"><%= @show.title %></div>
-<br />
-<b>Screenings:</b><br />
-<% @show.screenings.each do |screening| %>
-	<p>
-	 <b><%= link_to full_timestamp(screening.starts_at), [@show,screening] %></b>
-  </p>
-<% end %>
