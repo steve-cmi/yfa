@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20141203143839) do
     t.string   "body",       :default => ""
     t.string   "link_text"
     t.string   "link_url"
+    t.boolean  "active"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
   end

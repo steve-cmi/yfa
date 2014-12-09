@@ -5,6 +5,7 @@ class CreateAnnouncements < ActiveRecord::Migration
       t.string :body
       t.string :link_text
       t.string :link_url
+      t.boolean :active
       t.timestamps
     end
   end
