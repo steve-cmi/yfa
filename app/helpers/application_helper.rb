@@ -111,5 +111,19 @@ module ApplicationHelper
   def link_to_file(object)
     link_to object.key.split("/")[-1], "#{object.url_for(:read)}", target: '_blank'
   end
+
+  def image_field(builder, column, size = :show)
+    if builder.object.send(column)
+      image_tag(builder.object.send(column).url(size),
+        :id => 'show-image',
+        :onClick => "$('#show-image').toggle(); $('#edit-image').toggle()",
+        "data-toggle" => "tooltip",
+        "data-placement" => "right",
+        :title => "Click to replace") +
+      builder.file_field(column, :class => 'form-control', :id => 'edit-image', :style => 'display:none')
+    else
+      builder.file_field(column, :class => 'form-control')
+    end
+  end
   	
 end
