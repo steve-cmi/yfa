@@ -91,8 +91,8 @@
 				<%= short_date @featured_event.date %><br />
 				<%= time @featured_event.starts_at %> -
 				<%= time @featured_event.ends_at %><br />
-				<%= @featured_event.event.location %><br />
-				<%= link_to_building @featured_event.event.building %>
+				<%= @featured_event.event_location %><br />
+				<%= link_to_building @featured_event.event_building %>
 			</div>
 		</div>
 		<p><%= link_to "See more events", events_path %></p>

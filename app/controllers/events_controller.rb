@@ -21,6 +21,7 @@ class EventsController < ApplicationController
     @active_subnav = :events
     @event = @current_user.events.build
     @page_name = 'New Event'
+    @buildings = Building.all
     render :edit
   end
   
@@ -34,6 +35,7 @@ class EventsController < ApplicationController
     @active_nav = :user
     @active_subnav = :events
     @page_name = "Edit Event - #{@event.name}"
+    @buildings = Building.all
   end
 
   def update

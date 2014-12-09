@@ -14,7 +14,7 @@ class Event < ActiveRecord::Base
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
     message: 'file type is not allowed (only jpeg/png/gif images)'
 
-  attr_accessible :name, :minutes, :image, :description, :sponsor_name, :sponsor_link
+  attr_accessible :name, :minutes, :image, :description, :sponsor_name, :sponsor_link, :location, :building_id
 
   attr_accessible :event_dates_attributes, :event_filters_attributes
   accepts_nested_attributes_for :event_dates, :allow_destroy => true

@@ -16,11 +16,11 @@
 
           <%= time date.starts_at %>-<%= time date.ends_at %>,
 
-          <% if event.location? -%>
-          <%= event.location %><%= ',' if event.building %>
+          <% if date.event_location -%>
+          <%= date.event_location %><%= ',' if date.event_building %>
           <% end -%>
 
-          <%= link_to_building event.building %>
+          <%= link_to_building date.event_building %>
         </h5>
       </div>
       <div class="modal-body">

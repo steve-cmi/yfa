@@ -11,15 +11,15 @@
     <%= f.text_field :time, :value => time(f.object.starts_at), :class => "form-control", :placeholder => "Time" %>
   </td>
 
-<!--   <td>
+  <td class="active">
     <%= f.number_field :minutes, :step => 5, :placeholder => "Minutes", :validate => true, :class => "form-control required" %>
   </td>
 
-  <td>
+  <td class="active">
     <%= f.text_field :location, :class => "form-control", :placeholder => "Location" %>
   </td>
 
-  <td>
-    <%= f.collection_select :building_id, Building.all, :id, :name, {:prompt => "Building"}, :class => "form-control" %>
+  <td class="active">
+    <%= f.collection_select :building_id, @buildings, :id, :name, {:prompt => "Building"}, :class => "form-control" %>
   </td>
- --></tr>
+</tr>

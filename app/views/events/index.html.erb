@@ -46,8 +46,8 @@
               <%= time date.ends_at %>
             </p>
             <p>
-              <%= date.event.location %><br />
-              <%= link_to_building date.event.building %>
+              <%= date.event_location %><br />
+              <%= link_to_building date.event_building %>
             </p>
             <p>
               <% date.event.filters.each do |filter| -%>

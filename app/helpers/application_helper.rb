@@ -24,7 +24,7 @@ module ApplicationHelper
     elsif date.year == today.year
       date.strftime('%A, %B %-d')
     else
-      date.strftime('%B, %-d %Y')
+      date.strftime('%B %-d, %Y')
     end
   end
 

@@ -1,6 +1,7 @@
 class EventDate < ActiveRecord::Base
 
   belongs_to :event
+  belongs_to :building
 
   def date
     starts_at.to_date
@@ -11,9 +12,19 @@ class EventDate < ActiveRecord::Base
   end
 
   def seconds
-    minutes = self.minutes
-    minutes ||= event.minutes if event
-    minutes * 60 if minutes
+    event_minutes * 60 if event_minutes
+  end
+
+  def event_minutes
+    minutes || event.minutes
+  end
+
+  def event_location
+    location || event.location
+  end
+
+  def event_building
+    building || event.building
   end
 
   def self.by_date
