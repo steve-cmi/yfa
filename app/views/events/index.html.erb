@@ -19,7 +19,7 @@
 </div>
 
 <% if @dates.empty? -%>
-<div class="date row">
+<div class="row">
   <h4>
     There are no
     <%= @filter ? @filter.name : 'events of any type' %> listed
@@ -59,6 +59,7 @@
       </div>
     <% end -%>
   </div>
+  <hr />
   <% end -%>
 
 <% end -%>

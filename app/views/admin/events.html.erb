@@ -2,7 +2,7 @@
 <h1>Events Dashboard</h1>
 
 <h3>Manage Events</h3>
-<div class="grid row">
+<div class="row">
 
   <div class="col-md-12">
     <form method="get" action="<%= edit_event_path('slug') %>" class="form-horizontal auto-slug">
@@ -31,7 +31,7 @@
   
 </div>
 
-<div class="grid row">
+<div class="row">
 
   <div class="col-md-12">
     <h3>Filters</h3>
@@ -62,7 +62,7 @@
 
 </div>
 
-<div class="grid row">
+<div class="row">
 
   <div class="col-md-12">
     <%= form_tag({:controller => "buildings", :action => "update_all"}, :remote => true, :class => "form-horizontal") do -%>

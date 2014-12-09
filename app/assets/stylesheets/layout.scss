@@ -23,8 +23,7 @@ div.container {
     margin-bottom: 0px;
   }
 
-  div.grid.row,
-  div.list.row {
+  div.grid.row {
     padding: 20px;
     padding-bottom: 40px;
     div.col-md-4 {
@@ -33,10 +32,6 @@ div.container {
         clear: both;
       }
     }
-  }
-
-  div.grid.row {
-    border-bottom: 1px solid #aaa;
   }
 
 }
