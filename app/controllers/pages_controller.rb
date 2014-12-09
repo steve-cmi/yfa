@@ -46,13 +46,6 @@ class PagesController < ApplicationController
     @page = Page.new menu: params[:menu]
   end
   
-  def show
-    @active_nav = :user
-    @active_subnav = :pages
-    @page = Page.find(params[:id])
-    render :edit
-  end
-  
   def edit
     @active_nav = :user
     @active_subnav = :pages

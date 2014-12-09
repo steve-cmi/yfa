@@ -67,8 +67,10 @@ Yfa::Application.routes.draw do
       post :update_all
     end
   end
-  resources :pages, except: [:show] do
+  resources :pages do
     collection do
+      match 'howtos', :as => :howtos
+      match 'donate', :as => :donate
       post :update_all
     end
   end
@@ -121,13 +123,6 @@ Yfa::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => 'pages#index'
   
-  # Custom basic pages
-  match 'howtos' => 'pages#howtos'
-  match 'donate' => 'pages#donate'
-
-  # Must be last for custom path
-  resources :pages, only: [:show], path: '', constraints: { format: 'html' }
-
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
