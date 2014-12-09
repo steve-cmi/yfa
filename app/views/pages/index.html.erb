@@ -52,8 +52,7 @@
 						Directed By: <%= link_to film.director.name, film.director %><br />
 						<%= short_date film.start_date %> through
 						<%= short_date film.end_date %><br />
-						<%= link_to "Opportunities", "" %> |
-						<%= link_to "Auditions", "" %>
+						<%= link_to "Auditions", film_auditions_path(film) if film.auditions.imminent.any? %>
 					</div>
 				</div>
 			<% end -%>
@@ -106,7 +105,7 @@
 
 		<p>The Yale Film Alliane is a student and faculty group that provides a cohesive support system for students interested in film.</p>
 		<p>This site acts as a home base for everything related to film-making and moving images that takes place on campus as well as a recource for off-campus opportunities, such as festivals, fellowships, jobs and internships.</p>
-		<p><%= link_to "Sign up", "" %>
+		<p><%= link_to "Sign up", login_path %>
 
 	</div>
 </div>
