@@ -1,12 +1,29 @@
-# LOCAL
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
+  pool: 5
+
+staging:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
+  pool: 5
+
 development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: ydc_development
-  pool: 5
+  database: yfa_development
   username: root
-  password: password
+  password:
+  pool: 5
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -15,17 +32,7 @@ test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: ydc_test
-  pool: 5
+  database: yfa_test
   username: root
-  password: password
-
-production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: ydc_production
+  password:
   pool: 5
-  username: root
-  password: password
-  host: remote.database.com
