@@ -80,10 +80,10 @@ Yfa::Application.configure do
   config.action_mailer.default_url_options = { :host => "yfa-staging.herokuapp.com" }
   
   #Use notifier plugin gem
-  config.middleware.use ExceptionNotification::Rack,
-  	:email => { 
-      :email_prefix => "[YFA Site] ",
-  	  :sender_address => %{"YFA Bug Notifier" <rails@commonmediainc.com>},
-  	  :exception_recipients => %w{steve.friedman@commonmediainc.com}
-    }
+  # config.middleware.use ExceptionNotification::Rack,
+  # 	:email => { 
+  #     :email_prefix => "[YFA Site] ",
+  # 	  :sender_address => %{"YFA Bug Notifier" <rails@commonmediainc.com>},
+  # 	  :exception_recipients => %w{steve.friedman@commonmediainc.com}
+  #   }
 end
