@@ -110,7 +110,7 @@
 			</div>
 
 			<div class="col-sm-offset-2 col-sm-10">
-				<%= f.submit @event.id ? "Submit" : "Next Step", :class => "btn btn-primary" %>
+				<%= f.submit @event.id ? "Update" : "Create", :class => "btn btn-primary" %>
 				<%= link_to "Cancel", dashboard_path, :class => "btn btn-default" unless @event.new_record? %>
 			</div>
 		</div>

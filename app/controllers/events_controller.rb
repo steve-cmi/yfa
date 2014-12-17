@@ -59,13 +59,7 @@ class EventsController < ApplicationController
         # Tell the EventMailer to send an approval Email to the admin after save
         EventMailer.need_approval_email(@event).deliver if params[:id].blank?
 
-        format.html do 
-          if params[:id].blank?
-            redirect_to(event_edit_people_path(@event))
-          else
-            redirect_to(dashboard_path, :notice => 'Event was successfully updated.')
-          end
-        end
+        format.html { redirect_to(dashboard_path, :notice => 'Event was successfully updated.') }
         format.json { render :json => {:success => true} }
         format.js { render :nothing => true }
       else
