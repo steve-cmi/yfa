@@ -65,6 +65,17 @@ Yfa::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
+  s3_credentials = {access_key_id: ENV['AWS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'], bucket: ENV['AWS_BUCKET']}
+
+  require 'aws'
+  AWS.config(:logger => Rails.logger)
+  AWS.config(s3_credentials)
+
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials: s3_credentials
+  }
+
   # Root url used for action mailer links
   config.action_mailer.default_url_options = { :host => "yfa-staging.herokuapp.com" }
   
