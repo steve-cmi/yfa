@@ -10,8 +10,11 @@ div.container.pages.index {
       padding: 10px 20px;
     }
     div.productions {
+      padding: 0px;
+      margin: 0px;
       height: 282px;
-      overflow: scroll;
+      overflow-x: hidden;
+      overflow-y: scroll;
       div.production {
         border-bottom: 1px solid #aaa;
         padding: 10px;        
