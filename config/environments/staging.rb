@@ -65,19 +65,14 @@ Yfa::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-
   # Root url used for action mailer links
-  config.action_mailer.default_url_options = { :host => "localhost", :port => 3000 }
+  config.action_mailer.default_url_options = { :host => "yfa-staging.herokuapp.com" }
   
   #Use notifier plugin gem
-  # config.middleware.use ExceptionNotification::Rack,
-  # 	:email => { 
-  #     :email_prefix => "[YFA Site] ",
-  # 	  :sender_address => %{"YFA Bug Notifier" <ydc123@gmail.com>},
-  # 	  :exception_recipients => %w{steve.friedman@commonmediainc.com}
-  #   }
+  config.middleware.use ExceptionNotification::Rack,
+  	:email => { 
+      :email_prefix => "[YFA Site] ",
+  	  :sender_address => %{"YFA Bug Notifier" <rails@commonmediainc.com>},
+  	  :exception_recipients => %w{steve.friedman@commonmediainc.com}
+    }
 end
-
-# Also in development, don't really send emails...just put them in a file
-ActionMailer::Base.delivery_method = :file
-ActionMailer::Base.file_settings = { :location => Rails.root.join('tmp/mail') }
