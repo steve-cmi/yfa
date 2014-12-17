@@ -48,4 +48,5 @@ end
 group :staging do
   # For heroku
   gem 'activerecord-mysql-adapter'
+  gem 'exception_notification'
 end
