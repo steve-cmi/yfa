@@ -81,12 +81,7 @@ class Person < ActiveRecord::Base
 	def display_name
     name
 	end
-	
-  def site_admin?
-    # netIDs of current site admins
-    ["cmi1"].include? self.netid
-  end
-  
+	  
   def needs_registration?
   	self.fname.blank?
   end
