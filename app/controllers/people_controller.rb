@@ -47,7 +47,7 @@ class PeopleController < ApplicationController
 				url = session[:user_flow_entry]
 				session[:user_flow_entry] = nil
 				url ||= dashboard_path
-				redirect_to url, :notice => "Profile created successfully. Enjoy the new site! And if you need help, check out the learn tab above."
+				redirect_to url, :notice => "Profile created successfully. Enjoy the new site!"
 			end			
 		else
 			flash.now[:alert] = "There was an error with the data you entered, please try again!"
@@ -65,7 +65,7 @@ class PeopleController < ApplicationController
 		if session[:user_flow_entry]
 			url = session[:user_flow_entry]
 			session[:user_flow_entry] = nil
-			redirect_to url, :notice => "Profile created successfully. Enjoy the new site! And if you need help, check out the learn tab above."
+			redirect_to url, :notice => "Profile created successfully. Enjoy the new site!"
 		else
 			redirect_to dashboard_path, :notice => "Takeover request successful!"
 		end

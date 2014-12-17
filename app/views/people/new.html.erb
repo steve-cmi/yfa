@@ -1,35 +1,38 @@
+<h1>Welcome to the Yale Film Alliance Website!</h1>
+
 <div class="row">
-	<div class="span6 offset3">
-		<h3>Welcome to the Yale Film Alliance Website!</h3>
+	<div class="col-md-12">
 		<p>
 			You either tried to access something on the site that requires registration, or you just happened to be logged in to CAS. Either way, we're glad you got here!
 		</p>
 		<p>
 			Anyways we know you were doing something, and we'll get you back there in one second, but first <b>please take a minute to fill out your basic information.	You'll only have to do this once!</b>
 		</p>
-		Your NetID: <b><%= session[:cas_user] %></b> &nbsp; &nbsp; &nbsp; Not you? <%= link_to "Logout", logout_path %><br />
-		<br />
+		<p>
+			Your NetID: <b><%= session[:cas_user] %></b> &nbsp; &nbsp; &nbsp; Not you? <%= link_to "Logout", logout_path %>
+		</p>
 		<%= form_for @person, :html => { :multipart => true } do |f| %>
 			<div class="row">
-				<div class="span3">
-					<%= f.label :fname, "First Name" %> <%= f.text_field :fname %><br />
-					<%= f.label :lname, "Last Name" %><%= f.text_field :lname %><br />
-					<%= f.label :college, "Residential College" %><%= f.select :college, Yale::colleges.to_a.map(&:reverse) %><br />
-					<%= f.label :year, "Class Year" %><%= f.number_field :year %><br />
-					<%= f.label :picture, "Profile Picture" %><%= f.file_field :picture %><br />
+				<div class="col-md-6">
+					<%= f.label :fname, "First Name" %> <%= f.text_field :fname, :class => "form-control" %><br />
+					<%= f.label :lname, "Last Name" %><%= f.text_field :lname, :class => "form-control" %><br />
+					<%= f.label :college, "Residential College" %><%= f.select :college, Yale::colleges.to_a.map(&:reverse), {:prompt => "Please select..."}, :class => "form-control" %><br />
+					<%= f.label :year, "Class Year" %><%= f.number_field :year, :class => "form-control" %><br />
+					<%= f.label :picture, "Profile Picture" %><%= f.file_field :picture, :class => "form-control" %><br />
 				</div>
-				<div class="span3">
+				<div class="col-md-6">
 					<%= f.label :bio, "Short Bio" %>
-					<br />
-					<%= f.text_area :bio %>
+					<%= f.text_area :bio, :class => "form-control" %>
+				</div>
+				<div class="col-md-12">
+					<h4>This portion will only visible to you:</h4>
+					<%= f.label :email, "Email Address" %><%= f.text_field :email, :class => "form-control" %><br />
+					<%= f.check_box :email_allow %> <%= f.label :email_allow, "Allow people to email me (they won't see your address)" %><br /><br />
+				</div>
+				<div class="col-md-12">
+					<%= f.submit "Get Started!", :class => "btn" %>
 				</div>
 			</div>
-			<br />
-			<h4>This portion will only visible to you:</h4>
-			<%= f.label :email, "Email Address" %><%= f.text_field :email %><br />
-			Allow people to email me: <%= f.check_box :email_allow %> (they won't see your address)<br /><br />
-			<%= f.submit "Get Started!", :class => "btn" %>
-			
 		<% end %>
 	</div>
 </div>

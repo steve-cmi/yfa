@@ -1,15 +1,20 @@
+<h1>Do you already have an account?</h1>
+
 <div class="row">
-	<div class="span6 offset3">
-		<h4>Old User Matches for You</h4>
-		<p>One last thing, then you're on your way! We know you probably had an account on the old site, and we want to make sure everything syncs up to this new account. We've found some people that might be you below, if they are, just check them off and once approved, the associated data will be moved to this new account</p>
-		<br /><br />
-		<b>Similar Names:</b><br />
+	<div class="col-md-12">
+		<p>We've found some people that might be you. If they are, just check them off below and once approved, the associated data will be moved to this new account.</p>
+		<hr />
 		<%= form_tag takeover_request_path(@person) do %>
-			<% @matches.each do |p| %>
-				<%= check_box_tag 'person_ids[]', p.id %> <%= p.display_name %><%= "(#{p.college} #{p.year})" if p.college || p.year %><br />
-			<% end %>
-			<br />
-			<%= submit_tag "Request Names", :class => "btn" %>
+			<p>
+				<h4>Similar Names:</h4>
+				<% @matches.each do |p| %>
+					<label for="person_<%= p.id %>">
+						<%= check_box_tag 'person_ids[]', p.id, nil, :id => "person_#{p.id}" %> &nbsp;
+						<%= p.display_name %><%= " (#{p.college} #{short_year p.year})" if p.college || p.year %>
+					</label>
+				<% end %>
+			</p>
+			<p><%= submit_tag "Request Names", :class => "btn" %></p>
 		<% end %>
 	</div>
 </div>
