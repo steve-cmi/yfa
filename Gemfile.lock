@@ -194,7 +194,7 @@ DEPENDENCIES
   capistrano-rails (~> 1.1)
   capistrano-rvm
   ckeditor
-  coffee-rails (~> 3.2.1)
+  coffee-rails
   enum_column3
   exception_notification
   faker
@@ -210,6 +210,6 @@ DEPENDENCIES
   rails (~> 3.2.0)
   ransack
   rubycas-client
-  sass-rails (~> 3.2.3)
+  sass-rails
   therubyracer
-  uglifier (>= 1.0.3)
+  uglifier
