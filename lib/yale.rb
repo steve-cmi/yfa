@@ -25,13 +25,9 @@ class Yale
   def self.s3_bucket
     @@s3_bucket ||=
       begin
-        if ENV['AWS_BUCKET']
-          ENV['AWS_BUCKET']
-        else
-          bucket = YAML::load(File.new(Paperclip::Attachment.default_options[:s3_credentials]))[Rails.env]["bucket"]
-          s3 = AWS::S3.new
-          s3.buckets[bucket]
-        end
+        bucket = ENV['AWS_BUCKET'] || YAML::load(File.new(Paperclip::Attachment.default_options[:s3_credentials]))[Rails.env]["bucket"]
+        s3 = AWS::S3.new
+        s3.buckets[bucket]
       end
   end
 
