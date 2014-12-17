@@ -27,7 +27,7 @@ class PeopleController < ApplicationController
 	# New User step 1
 	def new
 		redirect_to @current_user if @current_user # They must be CAS authed no we're OK
-		@person = Person.new
+		@person = Person.new(:year => Date.today.year + 4)
 		@person.netid = session[:cas_user]
 		@person.populateLDAP
 		@current_user = @person
@@ -40,8 +40,7 @@ class PeopleController < ApplicationController
 		if @current_user || @person.update_attributes(params[:person])
 			#Let's check to see if they have any recommended people they match. If so, send them there, otherwise take them away
 			@person ||= @current_user
-			@matches = @person.similar_users
-			if @matches.length > 0
+			if not @person.similar_users.empty?
 				render :new_step2
 			else
 				url = session[:user_flow_entry]
