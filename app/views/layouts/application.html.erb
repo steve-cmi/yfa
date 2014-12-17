@@ -118,7 +118,7 @@
 
           <% else -%>
             <li class="<%= :active if @active_nav == :user %>">
-              <%= link_to (@current_user ? "My Dashboard" : "Sign In"), dashboard_path %>
+              <%= link_to (@current_user ? "Dashboard" : "Sign In"), dashboard_path %>
             </li>
           <% end -%>
         </ul>
