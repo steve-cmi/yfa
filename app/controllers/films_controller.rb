@@ -34,6 +34,7 @@ class FilmsController < ApplicationController
 		@active_nav = :user
 		@active_subnav = :films
 		@film = Film.new
+		@film.permissions.build(:person_id => @current_user.id)
 		@page_name = 'New Film'
 		render :edit
 	end
