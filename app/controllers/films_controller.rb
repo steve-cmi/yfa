@@ -174,7 +174,7 @@ class FilmsController < ApplicationController
 	def destroy
 		@film.destroy
 		# Admin dash will redirect normal people to user dash
-		redirect_to admin_dashboard_path
+		redirect_to admin_films_path
 	end
 	
 	private

@@ -73,7 +73,7 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     # Admin dash will redirect normal people to user dash
-    redirect_to admin_dashboard_path
+    redirect_to admin_events_path
   end
 
   private
