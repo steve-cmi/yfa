@@ -8,7 +8,7 @@
     <form method="get" action="<%= film_dashboard_path('slug') %>" class="form-horizontal auto-slug">
       <div class="form-group">
         <div class="col-sm-9 col-sm-offset-1">
-          <%= select_tag nil, options_from_collection_for_select(@films, :slug, :title), :class => "form-control" %>
+          <%= select_tag nil, options_from_collection_for_select(@films, :slug, :title), :class => "form-control", :prompt => "Select a film..." %>
         </div>
         <div class="col-sm-2">
           <button type="submit" class="btn btn-default">Edit</button>
@@ -19,7 +19,7 @@
     <%= form_for(:film, :url => film_path("slug"), :html => {:method => :delete, :class => "form-horizontal auto-slug"}) do  %>
       <div class="form-group">
         <div class="col-sm-9 col-sm-offset-1">
-          <%= select_tag nil, options_from_collection_for_select(@films, :slug, :title), :class => "form-control" %>
+          <%= select_tag nil, options_from_collection_for_select(@films, :slug, :title), :class => "form-control", :prompt => "Select a film..." %>
         </div>
         <div class="col-sm-2">
           <button type="submit" class="btn btn-default" onClick="return confirm('Are you sure you want to delete the selected film?')">Delete</button>
