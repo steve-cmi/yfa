@@ -34,8 +34,12 @@
   </div>
 
   <div class="form-group">
+    <label for="job_position" class="col-sm-2 control-label">Position</label>
+    <div class="col-sm-3">
+      <%= f.text_field :position, :class => "form-control", :placeholder => "Unpaid" %>
+    </div>
     <label for="job_compensation" class="col-sm-2 control-label">Compensation</label>
-    <div class="col-sm-9">
+    <div class="col-sm-4">
       <%= f.text_field :compensation, :class => "form-control", :placeholder => "Unpaid" %>
     </div>
   </div>
