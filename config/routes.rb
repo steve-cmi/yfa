@@ -50,7 +50,11 @@ Yfa::Application.routes.draw do
   
   # Shouldn't have index...
   resources :people
-  resources :events
+  resources :events do
+    collection do
+      post :set_featured
+    end
+  end
   resources :jobs
   resources :announcements do
     collection do

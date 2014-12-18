@@ -38,6 +38,12 @@ class EventsController < ApplicationController
     @buildings = Building.all
   end
 
+  def set_featured
+    Event.unscoped.update_all 'featured = false'
+    @event.update_attribute(:featured, true)
+    redirect_to admin_events_path, :notice => 'Featured Event was successfully set.'
+  end
+
   def update
     # Process event_dates
     if params[:event][:event_dates_attributes]
