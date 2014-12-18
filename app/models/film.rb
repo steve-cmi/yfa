@@ -203,7 +203,8 @@ class Film < ActiveRecord::Base
 	def render_audition_groups
 		auditions = self.auditions.order(:starts_at).all
 
-		return auditions if auditions.length <= 1
+		return [] if auditions.length == 0
+		return [auditions] if auditions.length == 1
 
 		last_ts = auditions.first.starts_at
 		expected_gap = auditions[1].starts_at - auditions[0].starts_at # Naive...might be improved somehow

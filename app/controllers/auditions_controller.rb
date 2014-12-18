@@ -142,7 +142,7 @@ class AuditionsController < ApplicationController
 
 			redirect_to film_auditions_path(@film), :notice => 'Audition successfully updated.'
 
-		elsif params[:id]
+		elsif params[:id] and not params[:destroy_ids]
 
 			raise unless @aud_admin
 			# single update as from best in place, just assign location?
