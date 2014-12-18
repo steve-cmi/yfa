@@ -32,12 +32,13 @@
 </div>
 
 <h3>Featured Event</h3>
+<p>Only events with upcoming dates can be selected.</p>
 <div class="row">
   <div class="col-md-12">
     <%= form_for(:event, :url => set_featured_events_path, :html => {:class => "form-horizontal"}) do  %>
       <div class="form-group">
         <div class="col-sm-9 col-sm-offset-1">
-          <%= select_tag :id, options_from_collection_for_select(@events, :slug, :name, @featured_event.try(:slug)), :class => "form-control", :prompt => "Select an event..." %>
+          <%= select_tag :id, options_from_collection_for_select(@events.current, :slug, :name, @featured_event.try(:slug)), :class => "form-control", :prompt => "Select an event..." %>
         </div>
         <div class="col-sm-2">
           <button type="submit" class="btn btn-default">Set</button>
