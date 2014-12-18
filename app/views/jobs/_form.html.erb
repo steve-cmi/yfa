@@ -36,7 +36,7 @@
   <div class="form-group">
     <label for="job_position" class="col-sm-2 control-label">Position</label>
     <div class="col-sm-3">
-      <%= f.text_field :position, :class => "form-control", :placeholder => "Unpaid" %>
+      <%= f.text_field :position, :class => "form-control" %>
     </div>
     <label for="job_compensation" class="col-sm-2 control-label">Compensation</label>
     <div class="col-sm-4">
@@ -48,6 +48,15 @@
     <label for="job_description" class="col-sm-2 control-label">Description</label>
     <div class="col-sm-9">
       <%= f.cktext_area :description, :rows => 2, :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-9 col-sm-offset-2">
+      <label for="job_alumni_affiliation">
+        <%= f.check_box :alumni_affiliation %> &nbsp;
+        Alumni affiliation
+      </label>
     </div>
   </div>
 
