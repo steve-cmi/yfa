@@ -7,4 +7,5 @@ class AuditionMailer < ActionMailer::Base
     @audition = audition
     mail(:to => audition.email, :subject => "[YFA Site] Audition Confirmation: " + audition.film.title) unless audition.email.blank?
   end
+
 end
