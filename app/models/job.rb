@@ -39,8 +39,7 @@ class Job < ActiveRecord::Base
   end
 
   def self.current
-    # TODO: confirm - start or end date?
-    where('start_date > CURRENT_TIMESTAMP')
+    where('end_date > CURRENT_TIMESTAMP')
   end
 
   def full_address
