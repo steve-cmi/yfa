@@ -40,7 +40,7 @@
         <%= Yale::semester_label_for film.end_date %>
       </td>
       <td>
-        <%= link_to person_listing(film.director), film.director %>
+        <%= link_to person_listing(film.director), film.director if film.director %>
       </td>
     </tr>
     <% end -%>
