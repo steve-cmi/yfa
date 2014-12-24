@@ -2,6 +2,7 @@ class PeopleController < ApplicationController
 
 	skip_before_filter :force_auth, :only => [:show, :logout]
 	before_filter :verify_user, :except => [:show, :dashboard, :logout, :new, :create]
+	before_filter :verify_admin, :only => [:add_admin, :update_admin, :remove_admin]
 	before_filter :fetch_user, :except => [:dashboard, :logout, :new, :create]
 
 	def show
@@ -74,12 +75,47 @@ class PeopleController < ApplicationController
 		respond_to do |format|
 	    if @person.update_attributes(params[:person])
 	      format.html { redirect_to(dashboard_path(@person), :notice => 'User was successfully updated.') }
-	      format.json { respond_with_bip(@person) }
+	      format.json { render :json => {:success => true} }
+	      format.js { render :json => {:success => true} }
 	    else
 	      format.html { render :action => "edit" }
-	      format.json { respond_with_bip(@person) }
+	      format.json { render :json => {:success => false} }
+	      format.js { render :json => {:success => false} }
 	    end
 	  end
+	end
+
+	def add_admin
+		@person.site_admin = true
+		@person.admin_admin = false
+		if @person.save
+			redirect_to admin_admins_path, :notice => "Admin was successfully added."
+		else
+			redirect_to admin_admins_path, :error => "Admin was unable to be added."
+		end
+	end
+	
+	def update_admin
+		[:site_admin, :admin_admin].each do |column|
+			if params[:person] and params[:person][column]
+				@person.send("#{column}=", params[:person].delete(column))
+			end
+		end
+		if @person.save
+			render :json => {:success => true}
+		else
+			render :json => {:success => false}
+		end
+	end
+
+	def remove_admin
+		@person.site_admin = false
+		@person.admin_admin = false
+		if @person.save
+			redirect_to admin_admins_path, :notice => "Admin was successfully removed."
+		else
+			redirect_to admin_admins_path, :error => "Admin was unable to be removed."
+		end
 	end
 	
 	def logout
@@ -91,11 +127,15 @@ class PeopleController < ApplicationController
 	private
 	
 	def fetch_user
-		@person = Person.find(params[:id])
+		@person = Person.find(params[:id] || params[:person_id])
 	end
 	
 	def verify_user
 		raise ActionController::RoutingError.new('Forbidden')	unless @current_user && (@current_user.friendly_id.to_s == params[:id] || @current_user.site_admin?)
 	end
 	
+	def verify_admin
+		raise ActionController::RoutingError.new('Forbidden')	unless @current_user && @current_user.site_admin?
+	end
+
 end

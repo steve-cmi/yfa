@@ -112,7 +112,12 @@
                 <li class="<%= :active if @active_subnav == :pages %>">
                   <%= link_to "Pages", admin_pages_path %>
                 </li>
-
+                <% if @current_user.admin_admin? -%>
+                <li class="divider"></li>
+                <li cass="<%= :active if @active_subnav == :admins %>">
+                  <%= link_to "Admins", admin_admins_path %>
+                </li>
+                <% end -%>
               </ul>
             </li>
 

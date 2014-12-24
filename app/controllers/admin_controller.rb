@@ -1,6 +1,7 @@
 class AdminController < ApplicationController  
 
-	before_filter :verify_user
+	before_filter :verify_site_admin
+	before_filter :verify_admin_admin, :only => :admins
 
 	def dashboard
 		@active_nav = :user
@@ -60,6 +61,10 @@ class AdminController < ApplicationController
 			hash
 		end
 	end
+
+	def admins
+		@admins = Person.admins.by_first_last
+	end
 	
 	def approve_takeover
 		request = TakeoverRequest.find(params[:id])
@@ -99,8 +104,12 @@ class AdminController < ApplicationController
 
 	private
 	
-	def verify_user
+	def verify_site_admin
 		redirect_to dashboard_path unless @current_user and @current_user.site_admin?
+	end
+	
+	def verify_admin_admin
+		redirect_to dashboard_path unless @current_user and @current_user.admin_admin?
 	end
 	
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141203143839) do
+ActiveRecord::Schema.define(:version => 20141224170349) do
 
   create_table "activities", :force => true do |t|
     t.string   "name"
@@ -248,6 +248,7 @@ ActiveRecord::Schema.define(:version => 20141203143839) do
     t.boolean  "active",                             :default => false, :null => false
     t.boolean  "email_allow",                        :default => false, :null => false
     t.boolean  "site_admin",                         :default => false
+    t.boolean  "admin_admin"
     t.string   "picture_file_name"
     t.string   "picture_content_type"
     t.integer  "picture_file_size"

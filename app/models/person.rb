@@ -49,6 +49,14 @@ class Person < ActiveRecord::Base
     where(:id => FilmPosition.uniq.where(:position_id => position_id).select(:person_id))
   end
 
+  def self.admins
+    where(:site_admin => true)
+  end
+
+  def self.users
+    where(:site_admin => [false, nil])
+  end
+
   # Check if the user has permission for the given film
   def has_permission?(film)
     return true if site_admin?

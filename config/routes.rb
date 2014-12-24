@@ -49,7 +49,13 @@ Yfa::Application.routes.draw do
   #   end
   
   # Shouldn't have index...
-  resources :people
+  resources :people do
+    collection do
+      post :add_admin
+    end
+    put :update_admin
+    post :remove_admin
+  end
   resources :events do
     collection do
       post :set_featured
@@ -95,6 +101,7 @@ Yfa::Application.routes.draw do
   match 'admin/pages' => 'admin#pages', :as => :admin_pages
   match 'admin/events' => 'admin#events', :as => :admin_events
   match 'admin/films' => 'admin#films', :as => :admin_films
+  match 'admin/admins' => 'admin#admins', :as => :admin_admins
 
   match 'admin/approve_takeover/:id' => 'admin#approve_takeover', :as => :approve_takeover
   match 'admin/reject_takeover/:id' => 'admin#reject_takeover', :as => :reject_takeover

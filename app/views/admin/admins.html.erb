@@ -1,0 +1,50 @@
+<% javascript 'admin.js' %>
+<h1>Admins Admin</h1>
+
+<div class="row">
+
+  <div class="col-md-6">
+    
+      <h3>Manage Admins</h3>
+
+      <table class="table table-striped">
+        <tbody>
+          <% @admins.each do |admin| -%>
+            <tr>
+              <td>
+                <%= button_to "&times;".html_safe, person_remove_admin_path(admin), :class => "btn btn-xs btn-danger" unless admin == @current_user %>
+              </td>
+              <td>
+                <%= link_to admin.name, admin %>
+                <%= '(you)' if @current_user == admin %>
+              </td>
+              <td>
+                <%= form_for admin, :url => person_update_admin_path(admin), :remote => true do |f| -%>
+                <%= f.check_box :admin_admin, :disabled => admin == @current_user, :id => "admin_#{admin.id}" %> &nbsp;
+                <%= f.label :admin_admin, "Can manage admins", :for => "admin_#{admin.id}" %>
+                <% end -%>
+              </td>
+            </tr>
+          <% end -%>
+        </tbody>
+      </table>
+
+  </div>
+  
+  <div class="col-md-6">
+    <h3>Add an Admin</h3>
+
+    <%= form_tag({:controller => "people", :action => "add_admin"}, :class => "form-horizontal") do  %>
+      <div class="form-group">
+        <div class="col-sm-9 col-sm-offset-1">
+          <%= select_tag :id, options_from_collection_for_select(Person.users, :slug, :name), :class => "form-control", :prompt => "Select a person..." %>
+        </div>
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-default">Add</button>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>
