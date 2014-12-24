@@ -37,7 +37,7 @@
     <%= form_tag({:controller => "people", :action => "add_admin"}, :class => "form-horizontal") do  %>
       <div class="form-group">
         <div class="col-sm-9 col-sm-offset-1">
-          <%= select_tag :id, options_from_collection_for_select(Person.users, :slug, :name), :class => "form-control", :prompt => "Select a person..." %>
+          <%= select_tag :id, options_from_collection_for_select(@users, :slug, :name), :class => "form-control", :prompt => "Select a person..." %>
         </div>
         <div class="col-sm-2">
           <button type="submit" class="btn btn-default">Add</button>

@@ -64,6 +64,7 @@ class AdminController < ApplicationController
 
 	def admins
 		@admins = Person.admins.by_first_last
+		@users = Person.users.by_first_last
 	end
 	
 	def approve_takeover
