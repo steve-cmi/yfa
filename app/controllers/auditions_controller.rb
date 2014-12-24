@@ -52,7 +52,9 @@ class AuditionsController < ApplicationController
 	end
 
 	def create
-		if params[:multiple] == 'true'
+		if !@aud_admin
+			redirect_to :back, :notice => 'You do not have permission to create auditions.'
+		elsif params[:multiple] == 'true'
 			create_multiple
 		else
 			create_single
