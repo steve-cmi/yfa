@@ -87,7 +87,7 @@ class PeopleController < ApplicationController
 
 	def add_admin
 		@person.site_admin = true
-		@person.admin_admin = false
+		@person.admin_admin = nil
 		if @person.save
 			redirect_to admin_admins_path, :notice => "Admin was successfully added."
 		else
@@ -109,8 +109,8 @@ class PeopleController < ApplicationController
 	end
 
 	def remove_admin
-		@person.site_admin = false
-		@person.admin_admin = false
+		@person.site_admin = nil
+		@person.admin_admin = nil
 		if @person.save
 			redirect_to admin_admins_path, :notice => "Admin was successfully removed."
 		else
