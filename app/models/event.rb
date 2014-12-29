@@ -45,6 +45,10 @@ class Event < ActiveRecord::Base
     uniq.joins(:event_dates).order('`event_dates`.`starts_at` ASC')
   end
 
+  def featured_date
+    event_dates.current.first || event_dates.archived.last
+  end
+
   private
 
   after_update :send_approval_email

@@ -31,7 +31,7 @@ class AdminController < ApplicationController
 		@active_nav = :user
 		@active_subnav = :events
 		@events = Event.unscoped.select([:slug, :name]).order(:name)
-		@featured_event = Event.featured.by_date.first
+		@featured_event = Event.featured.last
 		@filters = Filter.all
 		@buildings = Building.by_name
 		@building = Building.new

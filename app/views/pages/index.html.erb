@@ -85,15 +85,15 @@
 		<div class="row">
 			<% if @featured_event -%>
 				<div class="col-md-5 image text-center">
-					<%= image_tag @featured_event.event.image.url(:homepage) -%>
+					<%= image_tag @featured_event.image.url(:homepage) -%>
 				</div>
 				<div class="col-md-7 info">
-					<%= render "events/dialog", date: @featured_event -%><br />
-					<%= short_date @featured_event.date %><br />
-					<%= time @featured_event.starts_at %> -
-					<%= time @featured_event.ends_at %><br />
-					<%= @featured_event.event_location %><br />
-					<%= link_to_building @featured_event.event_building %>
+					<%= render "events/dialog", date: @featured_event_date -%><br />
+					<%= short_date @featured_event_date.date %><br />
+					<%= time @featured_event_date.starts_at %> -
+					<%= time @featured_event_date.ends_at %><br />
+					<%= @featured_event.location %><br />
+					<%= link_to_building @featured_event_date.event_building %>
 				</div>
 			<% else -%>
 				<div class="col-md-12">
