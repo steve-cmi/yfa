@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   // Smooth scrolling for Projects page
-  $("div.container.films.index #controls li a[href*=#]").click(function () {
+  $("div.container.films.index #film-controls li a[href*=#]").click(function () {
     this.blur();
     smoothScrollTo(this.hash);
     return false;
