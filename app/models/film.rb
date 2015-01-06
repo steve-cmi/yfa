@@ -30,7 +30,7 @@ class Film < ActiveRecord::Base
 	accepts_nested_attributes_for :permissions, :allow_destroy => true
 	accepts_nested_attributes_for :links, :allow_destroy => true
 	
-	validates :title, :contact, :description, :start_date, :end_date, :presence => true
+	validates :title, :contact, :start_date, :end_date, :presence => true
 	validates :contact, :email_format => true
 
 	extend FriendlyId
