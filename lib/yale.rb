@@ -65,11 +65,11 @@ class Yale
   end
 
   def self.next_semester
-    semester_code_for(6.months.from_now)
+    semester_code_for(Yale::semester_end)
   end
 
   def self.last_semester
-    semester_code_for(6.months.ago)
+    semester_code_for(Yale::semester_start - 1)
   end
 
   def self.this_semester_label
@@ -77,7 +77,7 @@ class Yale
   end
 
   def self.next_semester_label
-    semester_label_for(6.months.from_now)
+    semester_label_for(Yale::semester_end)
   end
 
   def self.semester_start
