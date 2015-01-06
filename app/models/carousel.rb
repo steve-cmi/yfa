@@ -11,6 +11,8 @@ class Carousel < ActiveRecord::Base
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
     message: 'file type is not allowed (only jpeg/png/gif images)'
 
+  validates :title, :image, :presence => true
+
   def self.active
     where(active: true)
   end

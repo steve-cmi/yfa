@@ -22,7 +22,7 @@ class ActivitiesController < ApplicationController
     if @activity.update_attributes(params[:activity])
       redirect_to admin_films_path, :notice => 'Activity was successfully created.'
     else
-      render :new
+      redirect_to admin_films_path, :alert => "Activity was not able to be created: #{@activity.errors.full_messages.to_sentence}"
     end
   end
   

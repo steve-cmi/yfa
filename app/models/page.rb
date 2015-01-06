@@ -1,4 +1,7 @@
 class Page < ActiveRecord::Base
+
+  validates :title, :content, :presence => true
+  
   acts_as_list :scope => 'menu = \'#{menu}\''
 
   extend FriendlyId

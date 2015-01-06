@@ -22,7 +22,7 @@ class FiltersController < ApplicationController
     if @filter.update_attributes(params[:filter])
       redirect_to admin_events_path, :notice => 'Filter was successfully created.'
     else
-      render :new
+      redirect_to admin_films_path, :alert => "Filter was not able to be created: #{@filter.errors.full_messages.to_sentence}"
     end
   end
   

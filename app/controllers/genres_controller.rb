@@ -22,7 +22,7 @@ class GenresController < ApplicationController
     if @genre.update_attributes(params[:genre])
       redirect_to admin_films_path, :notice => 'Genre was successfully created.'
     else
-      render :new
+      redirect_to admin_films_path, :alert => "Genre was not able to be created: #{@genre.errors.full_messages.to_sentence}"
     end
   end
   

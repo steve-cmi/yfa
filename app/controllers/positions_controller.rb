@@ -22,7 +22,7 @@ class PositionsController < ApplicationController
     if @position.update_attributes(params[:position])
       redirect_to admin_films_path, :notice => 'Position was successfully created.'
     else
-      redirect_to admin_films_path, :alert => 'Position was not able to be created: '+@position.errors.full_messages.to_sentence
+      redirect_to admin_films_path, :alert => "Position was not able to be created: #{@position.errors.full_messages.to_sentence}"
     end
   end
   
