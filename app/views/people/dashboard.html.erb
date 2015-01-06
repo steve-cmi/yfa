@@ -112,19 +112,23 @@
       My Projects &nbsp;
       <small><%= link_to "New", new_film_path %></small>
     </h4>
-		<table class="table table-striped">
-			<tbody>
-				<% @user.films.by_date.each do |film| -%>
-				<tr>
-					<td>
-						<%= link_to film.title, film %>
-					</td>
-					<td>
-						<%= link_to "Edit", film_dashboard_path(film) %>
-					</td>
-				</tr>
-				<% end -%>
-			</tbody>
+		<table class="table">
+      <% @user.films.by_date.reverse_order.group_by(&:semester_label).each do |semester_label, films| -%>
+  			<tbody>
+        <% films.each_with_index do |film, index| -%>
+  				<tr>
+            <% if index == 0 -%>
+    					<td class="text-right" rowspan="<%= films.size %>">
+                <small><nobr><%= film.semester_label %></nobr></small>
+              </td>
+            <% end -%>
+            <td>
+              <%= link_to film.title, film_dashboard_path(film) %>
+            </td>
+  				</tr>
+        <% end -%>
+  			</tbody>
+      <% end -%>
 		</table>
 	</div>
 
@@ -166,13 +170,10 @@
     </h4>
     <table class="table table-striped">
       <tbody>
-        <% @user.events.by_date.each do |event| -%>
+        <% @user.events.by_name.each do |event| -%>
         <tr>
           <td>
-            <%= event.name %>
-          </td>
-          <td>
-            <%= link_to "Edit", edit_event_path(event) %>
+            <%= link_to event.name, edit_event_path(event) %>
           </td>
         </tr>
         <% end -%>

@@ -7,8 +7,8 @@ class AdminController < ApplicationController
 		@active_nav = :user
 		@active_subnav = :admin
 		@page_name = "Admin Dashboard"
-		@pending_films = Film.pending
-		@pending_events = Event.pending
+		@pending_films = Film.pending.by_date.reverse_order
+		@pending_events = Event.pending.by_date.reverse_order
 		@pending_takeovers = TakeoverRequest.where(:approved => false)
 	end
 

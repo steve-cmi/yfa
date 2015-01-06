@@ -186,6 +186,10 @@ class Film < ActiveRecord::Base
 		for_semester([Yale::this_semester, Yale::last_semester])
 	end
 
+	def semester_label
+		Yale::semester_label_for start_date
+	end
+
 	### S3 Attachments
 
 	def s3_objects

@@ -41,6 +41,10 @@ class Event < ActiveRecord::Base
     where(:id => EventDate.archived.select(:event_id))
   end
 
+  def self.by_name
+    order(:name)
+  end
+
   def self.by_date
     uniq.joins(:event_dates).order('`event_dates`.`starts_at` ASC')
   end

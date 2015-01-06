@@ -26,13 +26,13 @@ class FilmsController < ApplicationController
 
 	def dashboard
 		@active_nav = :user
-		@active_subnav = :films
+		@active_subnav = @current_user.has_permission?(@film) ? :dashboard : :films
 		@page_name = "Dashboard - #{@film.title}"
 	end
 	
 	def new
 		@active_nav = :user
-		@active_subnav = :films
+		@active_subnav = @current_user.has_permission?(@film) ? :dashboard : :films
 		@film = Film.new
 		@film.permissions.build(:person_id => @current_user.id)
 		@page_name = 'New Film'
@@ -48,19 +48,19 @@ class FilmsController < ApplicationController
 	
 	def edit
 		@active_nav = :user
-		@active_subnav = :films
+		@active_subnav = @current_user.has_permission?(@film) ? :dashboard : :films
 		@page_name = "Edit Film - #{@film.title}"
 	end
 
 	def edit_people
 		@active_nav = :user
-		@active_subnav = :films
+		@active_subnav = @current_user.has_permission?(@film) ? :dashboard : :films
 		@page_name = "Edit Cast &amp Crew - #{@film.title}"
 	end
 
 	def edit_files
 		@active_nav = :user
-		@active_subnav = :films
+		@active_subnav = @current_user.has_permission?(@film) ? :dashboard : :films
 		@page_name = "Edit Files - #{@film.title}"
 		@film.s3_destroy(params[:destroy_files])
 	end
@@ -175,7 +175,7 @@ class FilmsController < ApplicationController
 	def destroy
 		@film.destroy
 		# Admin dash will redirect normal people to user dash
-		redirect_to admin_films_path
+		redirect_to @film.approved? ? admin_films_path : admin_dashboard_path
 	end
 	
 	private
