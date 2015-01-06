@@ -63,6 +63,24 @@ class Film < ActiveRecord::Base
 		order(:title)
 	end
 
+	## Director assignment
+
+	def director=(person)
+		@director = person
+	end
+
+	after_save :save_director
+	def save_director
+		if @director
+			if film_director
+				success = film_director.update_attribute(:person_id, @director.id)
+			else
+				success = film_positions.create(:position_id => Position.director_id, :person_id => @director.id)
+			end
+			@director = nil if success
+		end
+	end
+
 	## Date functions
 
 	def started?

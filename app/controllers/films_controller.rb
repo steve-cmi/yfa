@@ -41,6 +41,7 @@ class FilmsController < ApplicationController
 	
 	def create
 		@film = Film.new
+		@film.director = @current_user
 		@film.approved = false
 		update
 	end
