@@ -27,7 +27,7 @@
 			No genres have been selected.
 			<% else -%>
 	      <% @film.genres.each do |genre| -%>
-		      <a href="#" class="btn btn-default btn-xs"><%= genre.name %></a>
+		      <span class="label label-default"><%= genre.name %></span>
 	      <% end -%>
 	    <% end -%>
 		</p>

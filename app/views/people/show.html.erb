@@ -86,7 +86,7 @@
       No experiences have been selected.
       <% else -%>
         <% @person.experienced_activities.each do |activity| -%>
-          <a href="#" class="btn btn-default btn-xs"><%= activity.name %></a>
+          <span class="label label-default"><%= activity.name %></span>
         <% end -%>
       <% end -%>
     </p>
@@ -97,7 +97,7 @@
       No interests have been selected.
       <% else -%>
         <% @person.interested_activities.each do |activity| -%>
-          <a href="#" class="btn btn-default btn-xs"><%= activity.name %></a>
+          <span class="label label-default"><%= activity.name %></span>
         <% end -%>
       <% end -%>
     </p>
