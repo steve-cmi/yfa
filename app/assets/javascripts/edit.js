@@ -48,6 +48,11 @@ function add_fields(trigger, association, content) {
   var content = $(content.replace(regexp, new_id));
   $(trigger).closest('tfoot').prev().append(content);
   if (association == "film_positions" || association == "permissions") hookupPersonAutoComplete();
+
+  $(content).find('.datepicker').each(function(){
+    $(this).datepicker();
+  });
+
   return false;
 }
 

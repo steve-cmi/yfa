@@ -19,10 +19,11 @@ $(document).ready(function() {
   });
 
   // Trigger datepicker
-  $(".datepicker").datepicker({
+  $.datepicker.setDefaults({
     numberOfMonths: 2,
     dateFormat: 'M d yy' // match the field_date helper
   });
+  $(".datepicker").datepicker();
 
   // Automatically submit remote forms on change
   $('form[data-remote="true"] input, form[data-remote="true"] select, form[data-remote="true"] textarea').change(function () {
