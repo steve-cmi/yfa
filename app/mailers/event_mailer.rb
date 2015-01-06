@@ -10,7 +10,7 @@ class EventMailer < ActionMailer::Base
 
   def event_approved_email(event)
     @event = event
-    mail(:to => [event.person.email,"steve.friedman@commonmediainc.com"], :subject => "[YFA Site] New Event Approved: " + event.name)
+    mail(:to => [event.person.email, YFA_EMAIL, YCA_EMAIL], :subject => "[YFA Site] New Event Approved: " + event.name)
   end
 
 end
