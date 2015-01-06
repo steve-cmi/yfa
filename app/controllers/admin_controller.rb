@@ -49,7 +49,11 @@ class AdminController < ApplicationController
 	def jobs
 		@active_nav = :user
 		@active_subnav = :jobs
-		@jobs = Job.by_date.reverse_order
+		@jobs = Job
+    @scopes = [:start_date, :end_date, :company, :position, :title]
+    @scope = (params[:scope] || @scopes.first).to_sym
+    @jobs = @jobs.order(@scope)
+    @jobs = @jobs.reverse_order if params[:desc] == '1'
 	end
 
 	def pages
