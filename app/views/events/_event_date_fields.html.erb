@@ -4,7 +4,7 @@
   </td>
 
   <td>
-    <%= f.text_field :date, :value => short_date(f.object.starts_at), :class => "form-control", :placeholder => "Date" %>
+    <%= f.text_field :date, :value => field_date(f.object.starts_at), :class => "datepicker form-control", :placeholder => "Date" %>
   </td>
 
   <td>

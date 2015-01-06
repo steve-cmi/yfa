@@ -28,6 +28,10 @@ module ApplicationHelper
     end
   end
 
+  def field_date(date)
+    date.strftime('%b %-d %Y') if date
+  end
+
   def time(date)
     date.strftime('%-l:%M%p') if date
   end

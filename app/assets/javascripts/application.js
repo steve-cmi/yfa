@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require jquery.lazyload.min
 //= require jquery-ui/autocomplete
+//= require jquery-ui/datepicker
 //= require jquery-ui/sortable
 //= require bootstrap
 //= require best_in_place
