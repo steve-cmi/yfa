@@ -84,7 +84,6 @@ Yfa::Application.routes.draw do
   resources :pages do
     collection do
       match 'howtos', :as => :howtos
-      match 'donate', :as => :donate
       post :update_all
     end
   end

@@ -33,11 +33,6 @@ class PagesController < ApplicationController
 		@active_subnav = :howtos
 	end
 
-	def donate
-		@page_name = 'Donate'
-		@active_nav = :donate
-	end
-
 	##### Administrator access
   before_filter :verify_user, :only => [:new, :edit, :create, :update, :update_all, :destroy]
 

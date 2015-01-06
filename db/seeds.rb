@@ -334,6 +334,13 @@ Page.find_or_create_by_slug('board',
   menu_title: 'Meet the Board'
 )
 
+Page.find_or_create_by_slug('donate',
+  title: 'Donate',
+  content: '<h4>The YFA uses funds to provide refreshments at YFA sponsored events, publicize events, purchase supplies, and any other event-related expenses.</h4><p>&nbsp;</p><h4>Make checks payable to:</h4><p>&nbsp;</p><div class="jumbotron">Yale Film Alliance: An Undergraduate Organization</div><h4>Mail to:</h4><div class="jumbotron">Yale Film Alliance<br />[TODO: Contact Information]</div><p>Please note that donations to the YFA are not tax-deductable.</p>',
+  menu: 'main',
+  menu_title: 'Donate'
+)
+
 # RESOURCES
 
 Page.find_or_create_by_slug('film-groups',

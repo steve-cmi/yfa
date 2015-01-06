@@ -1,9 +1,20 @@
 <h1>
 
   <% if @page.howto? -%>
-  <div class="pull-right">
-    <%= button_to "&laquo; Back to How To's".html_safe, howtos_pages_path, :class => "btn btn-default" %>
-  </div>
+    <div class="pull-right">
+      <%= button_to "&laquo; Back to How To's".html_safe, howtos_pages_path, :class => "btn btn-default" %>
+    </div>
+  <% end -%>
+
+  <% if @page.slug == 'donate' -%>
+    <div class="pull-right">
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xcpck">
+        <input type="hidden" name="hosted_button_id" value="8Y69A4SNN92QN">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" style="border:0px" name="submit" alt="PayPal - The safer, easier way to pay onpne!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      </form>
+    </div>
   <% end -%>
 
   <%= @page.title %>
@@ -14,12 +25,22 @@
 
 <div class="row">
 
-  <div class="col-md-6">
-    <%= @page.content.html_safe %>
-  </div>
+  <% if @page.image? -%>
 
-  <div class="col-md-6">
-    <%= image_tag @page.image.url(:show) if @page.image? %>
-  </div>
+    <div class="col-md-6">
+      <%= @page.content.html_safe %>
+    </div>
+ 
+    <div class="col-md-6">
+      <%= image_tag @page.image.url(:show) %>
+    </div>
+
+  <% else -%>
+
+    <div class="col-md-12">
+      <%= @page.content.html_safe %>
+    </div>
+
+  <% end -%>
 
 </div>
