@@ -45,4 +45,9 @@ class ApplicationController < ActionController::Base
 		end
 		
 	end
+
+  def render_404
+    render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
+  end
+
 end

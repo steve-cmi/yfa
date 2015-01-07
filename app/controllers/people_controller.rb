@@ -1,9 +1,13 @@
 class PeopleController < ApplicationController  
 
 	skip_before_filter :force_auth, :only => [:show, :logout]
-	before_filter :verify_user, :except => [:show, :dashboard, :logout, :new, :create]
-	before_filter :verify_admin, :only => [:add_admin, :update_admin, :remove_admin]
-	before_filter :fetch_user, :except => [:dashboard, :logout, :new, :create]
+	before_filter :verify_user, :except => [:index, :show, :dashboard, :logout, :new, :create]
+	before_filter :verify_admin, :only => [:index, :add_admin, :update_admin, :remove_admin]
+	before_filter :fetch_user, :except => [:index, :dashboard, :logout, :new, :create]
+
+	def index
+		render_404
+	end
 
 	def show
 		@page_name = @person.display_name
@@ -127,7 +131,8 @@ class PeopleController < ApplicationController
 	private
 	
 	def fetch_user
-		@person = Person.find(params[:id] || params[:person_id])
+		@person = Person.find(params[:id] || params[:person_id]) rescue nil
+		redirect_to :back, :alert => "User not found" unless @person
 	end
 	
 	def verify_user

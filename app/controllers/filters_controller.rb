@@ -27,11 +27,13 @@ class FiltersController < ApplicationController
   end
   
   def update
-    @filter = Filter.find(params[:id])
-    if @filter.update_attributes(params[:filter])
+    @filter = Filter.find(params[:id]) rescue nil
+    if @filter and @filter.update_attributes(params[:filter])
       render :json => {:success => true}
-    else
+    elsif @filter
       render :json => {:success => false, :errors => @filter.errors.full_messages}
+    else
+      render :json => {:success => false, :errors => "Filter not found"}
     end
   end
   

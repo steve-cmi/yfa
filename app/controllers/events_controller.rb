@@ -40,8 +40,11 @@ class EventsController < ApplicationController
 
   def set_featured
     Event.unscoped.update_all 'featured = false'
-    @event.update_attribute(:featured, true)
-    redirect_to admin_events_path, :notice => 'Featured Event was successfully set.'
+    if @event and @event.update_attribute(:featured, true)
+      redirect_to admin_events_path, :notice => 'Featured Event was successfully set.'
+    else
+      redirect_to admin_events_path, :alert => 'Featured Event was unable to be set.'
+    end
   end
 
   def update
@@ -86,7 +89,7 @@ class EventsController < ApplicationController
   
   def fetch_event
     event_id = params[:event_id] || params[:id]
-    @event = Event.unscoped.includes(:event_dates, :event_filters).find(event_id) if event_id
-    raise ActionController::RoutingError.new('Not Found') unless @event && (@event.approved || @event.person == @current_user || @current_user.site_admin?)
+    @event = Event.unscoped.includes(:event_dates, :event_filters).find(event_id) rescue nil if event_id
+    raise ActionController::RoutingError.new('Not Found') unless @current_user.site_admin? || (@event && @event.approved && @event.person == @current_user)
   end
 end

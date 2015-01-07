@@ -27,11 +27,13 @@ class PositionsController < ApplicationController
   end
   
   def update
-    @position = Position.find(params[:id])
-    if @position.update_attributes(params[:position])
+    @position = Position.find(params[:id]) rescue nil
+    if @position and @position.update_attributes(params[:position])
       render :json => {:success => true}
-    else
+    elsif @position
       render :json => {:success => false, :errors => @position.errors.full_messages}
+    else
+      render :json => {:success => false, :errors => "Position not found"}
     end
   end
   

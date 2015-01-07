@@ -14,9 +14,11 @@
     	<div class="col-md-4">
         <h4><%= link_to film.title, film %></h4>
 
+        <% if film.director -%>
         Directed by:
         <%= link_to film.director.name, film.director %>
         <br />
+        <% end -%>
 
         Auditions:
         <%= short_date film.auditions.first.starts_at %>

@@ -27,11 +27,13 @@ class GenresController < ApplicationController
   end
   
   def update
-    @genre = Genre.find(params[:id])
-    if @genre.update_attributes(params[:genre])
+    @genre = Genre.find(params[:id]) rescue nil
+    if @genre and @genre.update_attributes(params[:genre])
       render :json => {:success => true}
-    else
+    elsif @genre
       render :json => {:success => false, :errors => @genre.errors.full_messages}
+    else
+      render :json => {:success => false, :errors => "Genre not found"}
     end
   end
   

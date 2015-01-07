@@ -27,11 +27,13 @@ class ActivitiesController < ApplicationController
   end
   
   def update
-    @activity = Activity.find(params[:id])
-    if @activity.update_attributes(params[:activity])
+    @activity = Activity.find(params[:id]) rescue nil
+    if @activity and @activity.update_attributes(params[:activity])
       render :json => {:success => true}
-    else
+    elsif @activity
       render :json => {:success => false, :errors => @activity.errors.full_messages}
+    else
+      render :json => {:success => false, :errors => "Activity not found"}
     end
   end
   
