@@ -144,6 +144,24 @@
 				</tbody>
 			</table>
 		</p>
+
+		<% if @film.s3_objects? -%>
+		<p>
+			<strong>Files</strong>
+			<table class="table table-striped">
+				<tbody>
+					<% @film.s3_objects.each do |obj| %>
+					<tr>
+						<td>
+							<%= link_to_file obj %>
+						</td>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</p>
+		<% end -%>
+
 	</div>
 
 </div>

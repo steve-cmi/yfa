@@ -192,6 +192,10 @@ class Film < ActiveRecord::Base
 
 	### S3 Attachments
 
+	def s3_objects?
+		s3_objects.any?
+	end
+
 	def s3_objects
 		@s3_objects ||= Yale::s3_bucket.objects.with_prefix("films/#{id}/misc/")
 	end

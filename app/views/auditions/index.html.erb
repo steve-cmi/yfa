@@ -13,30 +13,52 @@
 		<% if @auditions.any? %>
 			<%= form_tag film_auditions_path(@film), :method => :put, :class => 'form-horizontal' do %>
 
-				<h4>Your Information:</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<h4>Your Information:</h4>
 
-				<div class="form-group">
-					<label class="col-md-1 control-label">Name:</label>
-					<div class="col-md-10">
-						<p class="form-control-static">
-							<%= @current_user.display_name %> &nbsp; &nbsp; &nbsp; &nbsp;
-							Not you? <%= link_to "Logout", logout_path %>
-						</p>
-					</div>
-				</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Name:</label>
+							<div class="col-md-10">
+								<p class="form-control-static">
+									<%= @current_user.display_name %> &nbsp; &nbsp; &nbsp; &nbsp;
+									Not you? <%= link_to "Logout", logout_path %>
+								</p>
+							</div>
+						</div>
 
-				<div class="form-group">
-					<label class="col-md-1 control-label">Phone:</label>
-					<div class="col-md-4">
-						<input type="text" name="phone" class="form-control" value="<%= @user_audition.phone if @user_audition %>" />
-					</div>
-				</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Phone:</label>
+							<div class="col-md-8">
+								<input type="text" name="phone" class="form-control" value="<%= @user_audition.phone if @user_audition %>" />
+							</div>
+						</div>
 
-				<div class="form-group">
-					<label class="col-md-1 control-label">Email:</label>
-					<div class="col-md-4">
-						<input type="text" name="email" class="form-control" value="<%= @user_audition ? @user_audition.email : @current_user.email %>" />
+						<div class="form-group">
+							<label class="col-md-2 control-label">Email:</label>
+							<div class="col-md-8">
+								<input type="text" name="email" class="form-control" value="<%= @user_audition ? @user_audition.email : @current_user.email %>" />
+							</div>
+						</div>
 					</div>
+
+					<% if @film.s3_objects? -%>
+					<div class="col-md-6">
+						<h4>Files:</h4>
+						<table class="table table-striped">
+							<tbody>
+								<% @film.s3_objects.each do |obj| %>
+								<tr>
+									<td>
+										<%= link_to_file obj %>
+									</td>
+								</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+					<% end -%>
+
 				</div>
 
 				<br />
