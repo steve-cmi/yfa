@@ -165,7 +165,7 @@ class FilmsController < ApplicationController
 	      format.json { render :json => {:success => true} }
 	      format.js { render :nothing => true }
 	    else
-	      format.html { render :action => "edit" }
+	      format.html { render params[:render] || 'edit' }
 	      format.json { render :json => {:error => true} }
 	      format.js { render :nothing => true }
 	    end

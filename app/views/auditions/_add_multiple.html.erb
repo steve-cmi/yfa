@@ -3,7 +3,8 @@
 <div id="add-auditions" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <%= form_tag({:controller => 'auditions', :action => 'create', :multiple => true}, :class => "form form-horizontal") do |f| %>
+      <%= form_for([@film, Audition.new], :html => {:class => "form form-horizontal"}) do |f| %>
+      <input type="hidden" name="multiple" value="true" />
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">Add a Block of Auditions</h4>

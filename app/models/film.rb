@@ -81,6 +81,18 @@ class Film < ActiveRecord::Base
 		end
 	end
 
+	validate :director_must_exist
+	def director_must_exist
+		unless director_exists?
+			errors.add(:director, "must be selected")
+		end
+	end
+
+	def director_exists?
+		return true if @director
+		return true if film_positions.find {|fp| fp.position_id == Position.director_id}
+	end
+
 	## Date functions
 
 	def started?

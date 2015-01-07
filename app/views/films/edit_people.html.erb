@@ -14,12 +14,13 @@
 
 <div class="row">
 	<%= form_for @film, :validate => true do |f| %>
+	<input type="hidden" name="render" value="<%= params[:render] || action_name %>" />
 
 	  <div class="col-md-6">
 	  	<h4>Production Staff</h4>
 	  	<table class="table">
 	  		<tbody class="sortable">
-					<%= f.fields_for :film_positions, @film.crew do |builder| %>
+					<%= f.fields_for :film_positions, @film.film_positions.select(&:crew?) do |builder| %>
 						<%= render 'film_position_fields', :f => builder %>
 					<% end %>
 				</tbody>
@@ -33,7 +34,7 @@
 	  	<h4>Cast</h4>
 	  	<table class="table">
 	  		<tbody class="sortable">
-					<%= f.fields_for :film_positions, @film.cast do |builder| %>
+					<%= f.fields_for :film_positions, @film.film_positions.select(&:cast?) do |builder| %>
 						<%= render 'film_position_fields', :f => builder %>
 					<% end %>
 				</tbody>

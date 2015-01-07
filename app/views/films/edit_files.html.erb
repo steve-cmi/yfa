@@ -25,6 +25,7 @@
 		<% if @film.s3_objects? -%>
 			<h4>Uploaded Files:</h4>
 			<%= form_tag(:method => :post) do %>
+				<input type="hidden" name="render" value="<%= action_name %>" />
 				<table class="table table-striped">
 					<tbody>
 						<% @film.s3_objects.each do |obj| %>
@@ -53,6 +54,7 @@
 	<div class="col-md-6">
 		<h4>Upload a New File:</h4>
 		<%= form_for @film, :remote => true, :class => "form-horizontal" do |f| %>
+			<input type="hidden" name="render" value="<%= action_name %>" />
 			<div class="form-group">
 				<%= f.file_field :file, :class => "form-control" %>
 			</div>
