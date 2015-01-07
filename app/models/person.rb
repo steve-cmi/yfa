@@ -83,17 +83,13 @@ class Person < ActiveRecord::Base
   
   # Accessors 
   def name
-    self.fname.capitalize + " " + self.lname.capitalize
+    [fname, lname].reject(&:blank?).join(' ')
   end
   
 	def display_name
     name
 	end
 	  
-  def needs_registration?
-  	self.fname.blank?
-  end
-
   #populate contact fields from LDAP
   def populateLDAP
     return unless Rails.env.production?
@@ -115,7 +111,7 @@ class Person < ActiveRecord::Base
       p = ldap.search(:base => b, :filter => f, :return_result => true).first
     
     rescue Exception => e
-          guessFromEmail
+      guessFromEmail
     end
 
     return unless p
@@ -128,7 +124,7 @@ class Person < ActiveRecord::Base
     self.year = ( p['class'] ? p['class'][0].to_i : 0 )
     self.college = ( p['college'] ? p['college'][0] : '' )
     
-    # Don't save the model, because they are going to be filmn a form to edit info
+    # Don't save the model, because they are going to be shown a form to edit info
     # self.save!
   end
 
