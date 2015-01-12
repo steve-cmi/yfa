@@ -146,7 +146,20 @@ class AuditionsController < ApplicationController
 
 			redirect_to film_auditions_path(@film), :notice => 'Audition successfully updated.'
 
-		elsif params[:id] and not params[:destroy_ids]
+		elsif params[:destroy_ids] || params[:auditions]
+
+			raise unless @aud_admin
+			destroy_ids = params[:destroy_ids] || params[:auditions].collect {|id, values| id if values[:_destroy] == "1"}.compact
+			@film.auditions.destroy(*destroy_ids) unless destroy_ids.empty?
+
+			respond_to do |format|
+				format.js
+				format.html {
+					redirect_to film_auditions_path(@film), :notice => 'Audition successfully updated.'
+				}
+			end
+
+		elsif params[:id]
 
 			raise unless @aud_admin
 			# single update as from best in place, just assign location?
@@ -160,22 +173,6 @@ class AuditionsController < ApplicationController
 		      format.json { render :json => {:error => true} }
 		    end
 		  end
-		  return
-
-		else
-
-			raise unless @aud_admin
-			destroy_ids = params[:destroy_ids] || params[:auditions].collect {|id, values| id if values[:_destroy] == "1"}.compact
-			@film.auditions.destroy(*destroy_ids) unless destroy_ids.empty?
-
-			if params[:destroy_ids]
-				respond_to do |format|
-					format.js
-					format.html {
-						redirect_to film_auditions_path(@film), :notice => 'Audition successfully updated.'
-					}
-				end
-			end
 
 		end
 	end
