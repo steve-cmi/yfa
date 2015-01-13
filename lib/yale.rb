@@ -25,9 +25,10 @@ class Yale
   def self.s3_bucket
     @@s3_bucket ||=
       begin
-        bucket = ENV['AWS_BUCKET'] || YAML::load(File.new(Paperclip::Attachment.default_options[:s3_credentials]))[Rails.env]["bucket"]
+        bucket = ENV['AWS_BUCKET']
+        bucket ||= YAML::load(File.new(Paperclip::Attachment.default_options[:s3_credentials]))[Rails.env]["bucket"] rescue nil
         s3 = AWS::S3.new
-        s3.buckets[bucket]
+        s3.buckets[bucket] if s3 and bucket
       end
   end
 

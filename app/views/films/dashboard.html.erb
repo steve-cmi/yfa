@@ -75,7 +75,7 @@
     <h4>Files &nbsp; <small><%= link_to "Manage", film_edit_files_path(@film) %></small></h4>
     <div class="row">
       <div class="col-md-12">
-        <% if @film.s3_objects.any? -%>
+        <% if @film.s3_objects? -%>
           <table class="table table-striped">
             <tbody>
               <% @film.s3_objects.each do |obj| %>

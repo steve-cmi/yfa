@@ -205,11 +205,11 @@ class Film < ActiveRecord::Base
 	### S3 Attachments
 
 	def s3_objects?
-		s3_objects.any?
+		s3_objects.any? if s3_objects
 	end
 
 	def s3_objects
-		@s3_objects ||= Yale::s3_bucket.objects.with_prefix("films/#{id}/misc/")
+		@s3_objects ||= Yale::s3_bucket.objects.with_prefix("films/#{id}/misc/") rescue nil
 	end
 
 	def s3_destroy(files)
