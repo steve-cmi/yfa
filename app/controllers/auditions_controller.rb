@@ -22,7 +22,7 @@ class AuditionsController < ApplicationController
 		@active_subnav = :auditions
 		@scopes = [:crew, :cast]
 		@scope = :crew
-		@film_positions = FilmPosition.current.crew.vacant.includes(:film, :position)
+		@film_positions = FilmPosition.unscoped.current.crew.vacant.includes(:film, :position).by_name
 		@film_positions = @film_positions.filtered_by(params[:positions]) if params[:positions]
 		@positions = Position.crew.all
 	end

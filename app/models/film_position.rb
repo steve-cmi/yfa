@@ -21,6 +21,8 @@ class FilmPosition < ActiveRecord::Base
 	scope :without_character, where("`character` IS NULL OR `character` = ''")
 	scope :current, includes(:film).where('films.end_date >= CURRENT_TIMESTAMP')
 
+	scope :by_name, includes(:position).order('`positions`.`position`')
+
 	default_scope :order => "listing_order ASC, position_id ASC"
 	
 	validates :character, :presence => true, :if => :cast?
