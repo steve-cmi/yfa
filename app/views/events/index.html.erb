@@ -2,7 +2,8 @@
 
 <div class="row controls">
   <form class="form-inline" role="form">
-    <div class="col-md-3">
+    <input type="hidden" name="date" value="<%= @date %>" />
+    <div class="col-md-4">
       <% @scopes.each do |scope| -%>
         <button type="submit" name="scope" value="<%= scope %>"
             class="btn btn-<%= @scope == scope ? :primary : :link %>">
@@ -11,9 +12,18 @@
       <% end -%>
     </div>
 
-    <div class="col=md-9">
-      <%= select_tag "filter", options_from_collection_for_select(@filters, "slug", "name", params[:filter]), prompt: 'Event type', class: 'form-control' %>
+    <div class="col-md-6">
+      <%= select_tag "filter", options_for_select(@filters, params[:filter]), prompt: 'Event type', class: 'form-control' %>
       <button type="submit" class="btn btn-default" name="scope" value="<%= @scope %>">Filter</button>
+    </div>
+
+    <div class="col-md-2">
+      <div class="btn-toolbar">
+        <div class="btn-group">
+          <%= link_to "&laquo; Back".html_safe, {:scope => @scope, :filter => params[:filter], :date => @prev_date}, :class => "btn btn-default" %>
+          <%= link_to "Next &raquo;".html_safe, {:scope => @scope, :filter => params[:filter], :date => @next_date}, :class => "btn btn-default" %>
+        </div>
+      </div>
     </div>
   </form>
 </div>
@@ -22,8 +32,8 @@
 <div class="row">
   <h4>
     There are no
-    <%= @filter ? @filter.name : 'events of any type' %> listed
-    <%= @scope == :day ? 'for today' : "this #{@scope}" %>
+    <%= @filter.blank? ? 'events of any type' : @filters.rassoc(@filter).first %> listed
+    for this time period
   </h4>
 </div>
 
@@ -36,12 +46,18 @@
         <div class="row">
 
           <div class="col-md-5 image text-center">
-            <%= image_tag date.event.image.url(:grid) -%>
+            <%= image_tag date.event_image.url(:grid) -%>
           </div>
 
           <div class="col-md-7 info">
             <p>
-              <%= render "dialog", date: date %><br />
+              <% if date.respond_to?(:film) -%>
+              <%= link_to date.film.title, date.film %>
+              <% else -%>
+              <%= render "dialog", date: date %>
+              <% end -%>
+              <br />
+
               <%= time date.starts_at %> -
               <%= time date.ends_at %>
             </p>
@@ -50,8 +66,12 @@
               <%= link_to_building date.event_building %>
             </p>
             <p>
-              <% date.event.filters.each do |filter| -%>
-              <span class="label label-default"><%= filter.name %></span>
+              <% if date.respond_to?(:film) -%>
+                <span class="label label-default">Screening</span>
+              <% else -%>
+                <% date.event.filters.each do |filter| -%>
+                <span class="label label-default"><%= filter.name %></span>
+                <% end -%>
               <% end -%>
             </p>
           </div>

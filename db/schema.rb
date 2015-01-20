@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141224170349) do
+ActiveRecord::Schema.define(:version => 20150120213941) do
 
   create_table "activities", :force => true do |t|
     t.string   "name"
@@ -280,6 +280,7 @@ ActiveRecord::Schema.define(:version => 20141224170349) do
     t.datetime "starts_at"
     t.string   "location"
     t.integer  "building_id"
+    t.integer  "minutes"
   end
 
   add_index "screenings", ["film_id"], :name => "show_index"

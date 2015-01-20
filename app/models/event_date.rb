@@ -27,8 +27,12 @@ class EventDate < ActiveRecord::Base
     building || event.building
   end
 
+  def event_image
+    event.image
+  end
+
   def self.by_date
-    order('`event_dates`.`starts_at` ASC')
+    order(:starts_at)
   end
 
   def self.current
@@ -51,21 +55,21 @@ class EventDate < ActiveRecord::Base
     uniq.joins(:event => :event_filters).where(event_filters: {filter_id: filter.id})
   end
 
-  def self.this_week
-    start_time = Date.today.beginning_of_week
+  def self.week_of(date)
+    start_time = date.beginning_of_week
     end_time = start_time.next_week
     where(:starts_at => start_time..end_time)
   end
 
-  def self.this_month
-    start_time = Date.today.beginning_of_month
+  def self.month_of(date)
+    start_time = date.beginning_of_month
     end_time = start_time.next_month
     where(:starts_at => start_time..end_time)
   end
 
-  def self.this_day
-    start_time = Date.today
-    end_time = Date.tomorrow
+  def self.day_of(date)
+    start_time = date
+    end_time = date + 1
     where(:starts_at => start_time..end_time)
   end
 
