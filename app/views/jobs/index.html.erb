@@ -3,11 +3,8 @@
 <form class="form-inline" role="form">
   <div class="row controls">
 
-    <div class="col-md-1 form-group">
-      <strong class="form-control-static">Sort by:</strong>
-    </div>
-
-    <div class="col-md-4">
+    <div class="col-lg-4 col-md-12">
+      <strong class="form-control-static">Sort by:</strong> &nbsp;&nbsp;&nbsp;
       <% @scopes.each do |scope| -%>
         <button type="submit" name="scope" value="<%= scope %>"
             class="btn btn-<%= @scope == scope ? :primary : :link %>">
@@ -16,13 +13,15 @@
       <% end -%>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-12 hidden-lg">
+      <br />
+    </div>
+
+    <div class="col-lg-8 col-md-12">
       <%= select_tag :state, grouped_options_for_select(@state_options, params[:state]), :prompt => 'Any Country and State', :class => 'form-control' %>
       <%= select_tag :paid, options_for_select([['Paid', true], ['Unpaid', false]], params[:paid]), :prompt => 'Any Compensation', :class => 'form-control' %>
       <%= select_tag :alum, options_for_select([['Yes', true], ['No', false]], params[:alum]), :prompt => 'Any Alumni affiliation', :class => 'form-control' %>
-    </div>
-
-    <div class="col-md-1">
+      <span class="hidden-xs">&nbsp;&nbsp;&nbsp;</span>
       <button type="submit" name="scope" value="<%= @scope %>" class="btn btn-default">Filter</button>
     </div>
 
