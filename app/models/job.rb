@@ -2,8 +2,12 @@ class Job < ActiveRecord::Base
 
   validates :start_date, :end_date, :position, :title, :company, :description, :presence => true
 
-  def self.by_date
+  def self.by_start_date
     order(:start_date, :end_date)
+  end
+
+  def self.by_post_date
+    order(:created_at).reverse_order
   end
 
   def self.by_position
@@ -49,5 +53,22 @@ class Job < ActiveRecord::Base
   def city_state_zip
     [city, state, zip].reject(&:blank?)
   end
+
+  def united_states?
+    country == 'US' or country.blank?
+  end
+
+  def us_state
+    state if united_states?
+  end
+
+  def province
+    state unless united_states?
+  end
+
+  def us_state=(state)
+    self.state = state
+  end
+  alias_method :province=, :us_state=
 
 end

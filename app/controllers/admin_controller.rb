@@ -50,9 +50,9 @@ class AdminController < ApplicationController
 		@active_nav = :user
 		@active_subnav = :jobs
 		@jobs = Job
-    @scopes = [:start_date, :end_date, :company, :position, :title]
+    @scopes = [:post_date, :start_date, :end_date, :company, :position, :title]
     @scope = (params[:scope] || @scopes.first).to_sym
-    @jobs = @jobs.order(@scope)
+    @jobs = @jobs.order(@scope == :post_date ? :created_at : @scope)
     @jobs = @jobs.reverse_order if params[:desc] == '1'
 	end
 

@@ -30,8 +30,8 @@ class JobsController < ApplicationController
       @jobs = @jobs.in_country(country).in_state(state)
     end
 
-    @scopes = [:date, :position, :location]
-    @scope = (params[:scope] || :date).to_sym
+    @scopes = [:start_date, :post_date, :position, :location]
+    @scope = (params[:scope] || :start_date).to_sym
     @jobs = @jobs.send("by_#{@scope}")
   end
 

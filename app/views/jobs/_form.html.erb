@@ -85,34 +85,54 @@
     <div class="col-md-4">
       <%= f.text_field :city, :class => "form-control" %>
     </div>
-    <label for="job_state" class="col-sm-1 control-label">State</label>
-    <div class="col-md-1">
-      <%= f.text_field :state, :class => "form-control" %>
+    <label for="job_country" class="col-sm-1 control-label">Country</label>
+    <div class="col-md-4">
+      <%= f.country_select :country, {:priority_countries => ['US']}, :class => "form-control", :id => "country_field" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="job_state" class="col-sm-2 control-label" id="state_label">State</label>
+    <div class="col-md-4">
+      <%= f.select :us_state, us_states, {:prompt => "Select..."}, :class => "form-control", :id => "state_field" %>
+      <%= f.text_field :province, :class => "form-control", :id => "province_field" %>
     </div>
     <label for="job_zip" class="col-sm-1 control-label">Zip</label>
-    <div class="col-md-2">
+    <div class="col-md-4">
       <%= f.text_field :zip, :class => "form-control" %>
     </div>
   </div>
 
+  <script>
+  $(document).ready(function() {
+    $('#country_field').change(function () {
+      if ($(this).val() == 'US') {
+        $('#state_label').text('State');
+        $('#state_field').removeAttr('disabled').show();
+        $('#province_field').attr('disabled', 'disabled').hide();
+      } else {
+        $('#state_label').text('Province');
+        $('#state_field').attr('disabled', 'disabled').hide();
+        $('#province_field').removeAttr('disabled').show();
+      }
+    }).change();
+  });
+  </script>
+
   <div class="form-group">
-    <label for="job_country" class="col-sm-2 control-label">Country</label>
-    <div class="col-md-4">
-      <%= f.text_field :country, :class => "form-control" %>
-    </div>
-    <label for="job_email" class="col-sm-1 control-label">Email</label>
+    <label for="job_email" class="col-sm-2 control-label">Email</label>
     <div class="col-md-4">
       <%= f.text_field :email, :class => "form-control" %>
+    </div>
+    <label for="job_phone" class="col-sm-1 control-label">Phone</label>
+    <div class="col-md-4">
+      <%= f.text_field :phone, :class => "form-control" %>
     </div>
   </div>
 
   <div class="form-group">
-    <label for="job_phone" class="col-sm-2 control-label">Phone</label>
-    <div class="col-md-4">
-      <%= f.text_field :phone, :class => "form-control" %>
-    </div>
-    <label for="job_website" class="col-sm-1 control-label">Website</label>
-    <div class="col-md-4">
+    <label for="job_website" class="col-sm-2 control-label">Website</label>
+    <div class="col-md-9">
       <%= f.text_field :website, :class => "form-control" %>
     </div>
   </div>

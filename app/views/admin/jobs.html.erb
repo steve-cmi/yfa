@@ -19,6 +19,7 @@
       <thead>
         <tr>
           <th></th>
+          <th>Posted</th>
           <th>From</th>
           <th>To</th>
           <th>Company</th>
@@ -31,6 +32,9 @@
           <tr>
             <td>
               <%= link_to "&times;".html_safe, job_path(job), :method => :delete, :class => "btn btn-md btn-danger", :confirm => "This will permanently delete this job. There is no undo. Are you sure?" %>
+            </td>
+            <td>
+              <%= short_date job.created_at %>
             </td>
             <td>
               <%= short_date job.start_date %>

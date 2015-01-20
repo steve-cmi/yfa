@@ -3,11 +3,11 @@
 <form class="form-inline" role="form">
   <div class="row controls">
 
-    <div class="col-lg-4 col-md-12">
+    <div class="col-lg-5 col-md-12">
       <strong class="form-control-static">Sort by:</strong> &nbsp;&nbsp;&nbsp;
       <% @scopes.each do |scope| -%>
         <button type="submit" name="scope" value="<%= scope %>"
-            class="btn btn-<%= @scope == scope ? :primary : :link %>">
+            class="btn btn-sm btn-<%= @scope == scope ? :primary : :link %>">
           <%= scope.to_s.titlecase %>
         </button>
       <% end -%>
@@ -17,10 +17,10 @@
       <br />
     </div>
 
-    <div class="col-lg-8 col-md-12">
+    <div class="col-lg-7 col-md-12">
       <%= select_tag :state, grouped_options_for_select(@state_options, params[:state]), :prompt => 'Any Country and State', :class => 'form-control' %>
       <%= select_tag :paid, options_for_select([['Paid', true], ['Unpaid', false]], params[:paid]), :prompt => 'Any Compensation', :class => 'form-control' %>
-      <%= select_tag :alum, options_for_select([['Yes', true], ['No', false]], params[:alum]), :prompt => 'Any Alumni affiliation', :class => 'form-control' %>
+      <%= select_tag :alum, options_for_select([['Affiliated', true], ['Unaffiliated', false]], params[:alum]), :prompt => 'Any Alumni affiliation', :class => 'form-control' %>
       <span class="hidden-xs">&nbsp;&nbsp;&nbsp;</span>
       <button type="submit" name="scope" value="<%= @scope %>" class="btn btn-default">Filter</button>
     </div>
@@ -54,6 +54,10 @@
 
           <strong>Compensation:</strong>
           <%= job.compensation || 'Unpaid' %>
+          <br />
+
+          <strong>Posted:</strong>
+          <%= short_date job.created_at %>
           <br />
 
           <address>
