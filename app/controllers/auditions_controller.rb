@@ -10,7 +10,7 @@ class AuditionsController < ApplicationController
 		@page_name = "Student Productions - Cast"
 		@active_nav = :opportunities
 		@active_subnav = :auditions
-		@scopes = [:cast, :crew]
+		@scopes = [:crew, :cast]
 		@scope = :cast
 		@films = Film.current.has_auditions.includes(:auditions, :director)
 	end
@@ -20,7 +20,7 @@ class AuditionsController < ApplicationController
 		@page_name = "Student Productions - Crew"
 		@active_nav = :opportunities
 		@active_subnav = :auditions
-		@scopes = [:cast, :crew]
+		@scopes = [:crew, :cast]
 		@scope = :crew
 		@film_positions = FilmPosition.current.crew.vacant.includes(:film, :position)
 		@film_positions = @film_positions.filtered_by(params[:positions]) if params[:positions]
