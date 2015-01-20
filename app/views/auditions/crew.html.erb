@@ -28,14 +28,13 @@
 </div>
 
 <% if @film_positions.any? -%>
-  <div class="grid row">
-    <% @film_positions.group_by(&:position).each do |position, film_positions| %>
-      <div class="col-md-4">
+  <div class="row">
+    <% @film_positions.group_by(&:position).to_a.in_groups(3, false).each do |group| -%>
+    <div class="col-md-4">
+      <% group.each do |position, film_positions| %>
         <h4><%= position.position %></h4>
 
-        <% film_positions.each do |film_position| -%>
-          <% film = film_position.film -%>
-
+        <% film_positions[0,5].collect(&:film).each do |film| -%>
           <%= link_to film.title, film %>
           <br />
 
@@ -50,7 +49,8 @@
           <br />
         <% end -%>
 
-      </div>
+      <% end -%>
+    </div>
     <% end -%>
   </div>
 
