@@ -13,8 +13,8 @@ class FilmsController < ApplicationController
 		@last_semesters = Film.last_semesters.archived.by_date.reverse_order
 
 		@groups = []
-		@groups << [Yale::this_semester_label, @this_semester] if @this_semester.any?
-		@groups << [Yale::next_semester_label, @next_semester] if @next_semester.any?
+		@groups << ['This Semester', @this_semester] if @this_semester.any?
+		@groups << ['Next Semester', @next_semester] if @next_semester.any?
 		@groups += @last_semesters.group_by(&:year).to_a
 
 	end
