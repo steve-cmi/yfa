@@ -112,6 +112,7 @@
 			<div class="col-sm-offset-2 col-sm-10">
 				<%= f.submit @event.id ? "Update" : "Create", :class => "btn btn-primary" %>
 				<%= link_to "Cancel", dashboard_path, :class => "btn btn-default" unless @event.new_record? %>
+		  	<%= mail_to YFA_EMAIL, "Request a Filter", :subject => "Request a New Event Filter tag", :class => "btn btn-default" %>
 			</div>
 		</div>
 	</div>

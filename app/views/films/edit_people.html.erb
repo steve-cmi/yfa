@@ -17,7 +17,7 @@
 	<input type="hidden" name="render" value="<%= params[:render] || action_name %>" />
 
 	  <div class="col-md-6">
-	  	<h4>Production Staff</h4>
+	  	<h4>Crew</h4>
 	  	<table class="table">
 	  		<tbody class="sortable">
 					<%= f.fields_for :film_positions, @film.film_positions.select(&:crew?) do |builder| %>
@@ -47,7 +47,7 @@
 	  <div class="col-md-12">
 			<button type="submit" class="btn btn-primary">Save Changes</button>
 			<a class="btn btn-default" href="<%= film_dashboard_path(@film) %>">Cancel</a>
-	  	<%= mail_to YFA_EMAIL, "Request New Position", :subject => "Request a New Film Position", :class => "btn btn-default" %>
+	  	<%= mail_to YFA_EMAIL, "Request a Crew Position", :subject => "Request a New Crew Position tag", :class => "btn btn-default" %>
 		</div>
 
   <% end %>

@@ -137,6 +137,7 @@
 			<div class="col-sm-offset-2 col-sm-10">
 				<%= f.submit @film.id ? "Submit" : "Next Step", :class => "btn btn-primary" %>
 				<%= link_to "Cancel", film_dashboard_path(@film), :class => "btn btn-default" unless @film.new_record? %>
+		  	<%= mail_to YFA_EMAIL, "Request a Genre", :subject => "Request a New Genre tag", :class => "btn btn-default" %>
 			</div>
 		</div>
 	</div>
