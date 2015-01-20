@@ -24,13 +24,11 @@
 
   <div id="yale-banner" class="container">
     <div class="row">
-      <div class="col-md-6">
-        <h2>
-          <a href="/">
-            <%= image_tag 'logo.png' %> &nbsp;&nbsp;
-            Yale Film Alliance
-          </a>
-        </h2>
+      <div class="col-md-6 title">
+        <a href="/">
+          <%= image_tag 'logo.jpg', :height => 50 %> &nbsp;&nbsp;
+          Yale Film Alliance
+        </a>
       </div>
       <div class="col-md-6 search-form">
         <form class="form-inline" method="GET" action="<%= search_path %>">
