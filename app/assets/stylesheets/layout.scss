@@ -1,3 +1,25 @@
+a:hover {
+  text-decoration: none;
+  color: #436F5F;
+}
+
+div#yale-banner {
+  padding-left: 40px;
+  padding-right: 30px;
+
+  div.search-form {
+    padding: 10px;
+    padding-top: 20px;
+    text-align: right;
+    form {
+      width: 100%;
+      input.search-control {
+        width: 75%;
+      }
+    }
+  }
+}
+
 div.layout.navbar {
   border-radius: 0px;
 }
