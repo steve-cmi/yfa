@@ -10,7 +10,7 @@
 
 Site.find_or_create_by_id(1,
   carousel_interval: 5000,
-  carousel_order: 'date'
+  carousel_order: 'position'
 )
 
 # ------- ANNOUNCEMENT --------
@@ -20,6 +20,7 @@ Announcement.find_or_create_by_id(1,
   body: "We've launched a brand new site! Check out all the new features. You can browse for films and filmmakers, look for opporunitues in film, check out our calendar of film events, and even donate to support film at Yale!",
   link_text: 'Our films page is particularly cool!',
   link_url: '/films'
+  active: true
 )
 
 # ------- CAROUSELS --------
@@ -200,7 +201,6 @@ end_date = Yale::year_end - 1
 
 if Film.count == 0
   Film.populate(400) do |f|
-    f.category = 'film'
     f.title = Faker::Lorem.sentence(5)
     f.slug = Faker::Internet.slug
     f.tagline = Faker::Lorem.sentence(8)
@@ -208,7 +208,6 @@ if Film.count == 0
     f.description = Faker::Lorem.paragraphs(3).collect {|x| "<p>#{x}</p>"}.join
     f.aud_info = Faker::Lorem.paragraph
     f.approved = true
-    f.archived = [true, false]
     f.start_date = Faker::Date.between(start_date, end_date)
     f.end_date = Faker::Date.between(f.start_date, end_date)
     f.auditions_enabled = true
