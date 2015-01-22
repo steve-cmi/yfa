@@ -71,10 +71,12 @@
 
 	<div class="col-md-4">
 
+		<% if @announcement -%>
 		<h3>Announcements</h3>
 		<p><strong><%= @announcement.title %></strong></p>
 		<p><%= @announcement.body %></p>
 		<p><%= link_to @announcement.link_text, @announcement.link_url %></p>
+		<% end -%>
 
 	</div>
 
