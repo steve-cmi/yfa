@@ -1,0 +1,27 @@
+@font-face {
+  font-family: YaleNewRoman;
+  src: url(/fonts/yale-new-roman.otf);
+}
+
+@font-face {
+  font-family: YaleNewRoman;
+  font-weight: bold;
+  src: url(/fonts/yale-new-roman-bold.otf);
+}
+
+@font-face {
+  font-family: YaleNewRoman;
+  font-style: italic;
+  src: url(/fonts/yale-new-roman-italic.otf);
+}
+
+@font-face {
+  font-family: YaleNewRoman;
+  font-weight: bold;
+  font-style: italic;
+  src: url(/fonts/yale-new-roman-bold-italic.otf);
+}
+
+.yale-font {
+  font-family: YaleNewRoman;
+}

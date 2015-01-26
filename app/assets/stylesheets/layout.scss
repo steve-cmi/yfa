@@ -1,15 +1,12 @@
-a:hover {
-  text-decoration: none;
-  color: #436F5F;
-}
-
 div#yale-banner {
   padding-left: 40px;
   padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 
   div.title {
     padding-top: 10px;
-    font-size: 20pt;
+    font-size: 28pt;
   }
 
   div.search-form {
@@ -30,11 +27,17 @@ div.layout.navbar {
 }
 
 div.layout.footer {
-  background-color: #aaa;
-  color: #fff;
+  border-top: 1px solid #2E3F4F;
+  background-color: #fff;
+  color: #aaa;
   margin-top: 20px;
-  padding-top: 50px;
-  padding-bottom: 20px;
+  padding: 18px 0px;
+
+  div.yale-font {
+    font-size: 24pt;
+    color: #2E3F4F;
+  }
+
 }
 
 div.container {

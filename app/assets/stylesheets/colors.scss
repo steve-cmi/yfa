@@ -1,0 +1,16 @@
+$link-color: #628A7C;
+$hover-color: #436F5F;
+
+a, .btn-link {
+  color: $link-color;
+
+  &:hover {
+    text-decoration: none;
+    color: $hover-color;
+  }
+
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  color: $hover-color;
+}

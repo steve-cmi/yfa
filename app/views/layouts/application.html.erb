@@ -24,11 +24,11 @@
 
   <div id="yale-banner" class="container">
     <div class="row">
-      <div class="col-md-6 title">
-        <a href="/">
-          <%= image_tag 'logo.jpg', :height => 50 %> &nbsp;&nbsp;
-          Yale Film Alliance
-        </a>
+      <div class="col-md-1 col-xs-3">
+        <a href="/"><%= image_tag 'logo.jpg', :height => 70 %></a>
+      </div>
+      <div class="col-md-5 col-xs-9 title yale-font">
+        <a href="/">Yale Film Alliance</a>
       </div>
       <div class="col-md-6 search-form">
         <form class="form-inline" method="GET" action="<%= search_path %>">
@@ -156,28 +156,28 @@
 		<%= yield %>
 	</div>
 
-  <%= yield :dialogs %>
-
-	<div class="container-fluid layout footer">
+  <div class="container layout footer">
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
-          &copy; <%= Date.today.year %>
-          <%= mail_to YFA_EMAIL, "Yale Film Alliance" %>
+        <div class="col-md-2 yale-font">
+          Yale
         </div>
-        <div class="col-md-4">
-          TW | FB
+        <div class="col-md-8">
+          <small>
+            Copyright &copy; <%= Date.today.year %> Yale University &middot; All rights Reserved
+            &middot; <a href="http://www.yale.edu/privacy.html" target="_blank">Privacy Policy</a><br />
+            Yale Film Alliance, ...
+            <%= mail_to YFA_EMAIL, "Contact" %> the YFA.
+          </small>
         </div>
-        <div class="col-md-4">
-          <div class="text-uppercase">
-            <strong>Sign up for our email newsletter</strong>
-          </div>
-          <%= render "shared/mailchimp" %>
+        <div class="col-md-2">
+          TW | FB | <%= render "shared/newsletter_dialog" %>
         </div>
       </div>
     </div>
-	</div>
+  </div>
 
+  <%= yield :dialogs %>
   <%= render "shared/google_analytics" if defined?(GA_ACCOUNT) %>
 </body>
 </html>
