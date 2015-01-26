@@ -66,6 +66,39 @@ div.container {
 
 }
 
+.carousel-control {
+
+  .glyphicon-chevron-right,
+  .glyphicon-chevron-left {
+    margin-top: 105px;
+  }
+  
+}
+
+div.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  left: 0;
+  right: 0;
+  padding-top: 0px;
+
+  div.carousel-title, div.carousel-body {
+    margin: 0px;
+  }
+
+  div.carousel-title {
+    font-size: 14pt;
+    font-weight: bold;
+    padding-top: 5px;
+  }
+
+  div.carousel-body {
+    padding-bottom: 5px;
+  }
+
+}
+
+
 .best-in-place-control {
   display: inline;
 }

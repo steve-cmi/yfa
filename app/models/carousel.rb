@@ -13,6 +13,10 @@ class Carousel < ActiveRecord::Base
 
   validates :title, :image, :presence => true
 
+  validates :body, :length => {:maximum => 50}
+  
+  validates :body, :length => {:maximum => 90}
+
   def self.active
     where(active: true)
   end

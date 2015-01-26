@@ -20,8 +20,12 @@
 			    <div class="item <%= :active if index == 0 %>">
 						<%= image_tag carousel.image.url(:homepage) %>
 			      <div class="carousel-caption">
-			        <h3><%= link_to_if carousel.link?, carousel.title, carousel.link %></h3>
-			        <p><%= carousel.body %></p>
+			        <div class="carousel-title">
+			        	<%= link_to_if carousel.link?, carousel.title, carousel.link %>
+			        </div>
+			        <div class="carousel-body">
+			        	<%= carousel.body %>
+			        </div>
 			      </div>
 			    </div>
 		    <% end -%>
