@@ -6,28 +6,28 @@
 
   	<h4>Film Details &nbsp; <small><%= link_to "Edit", edit_film_path(@film) %></small></h4>
   	<div class="row">
-  		<div class="col-md-2">
+  		<div class="col-md-3">
   			<label>Title</label>
   		</div>
-  		<div class="col-md-10">
+  		<div class="col-md-9">
   			<%= link_to @film.title, @film %>
   		</div>
   	</div>
   	<div class="row">
-  		<div class="col-md-2">
+  		<div class="col-md-3">
   			<label>Timeline</label>
   		</div>
-  		<div class="col-md-10">
-        <%= long_date @film.start_date %> -
+  		<div class="col-md-9">
+        <%= long_date @film.start_date %> -<br />
         <%= long_date @film.end_date %>
   		</div>
   	</div>
 
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <label>Genres</label>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-9">
         <% if @film.genres.none? -%>
         No genres have been selected.
         <% else -%>
