@@ -70,11 +70,8 @@ Yfa::Application.configure do
   require 'aws'
   AWS.config(:logger => Rails.logger)
   AWS.config(s3_credentials)
-
-  config.paperclip_defaults = {
-    storage: :s3,
-    s3_credentials: s3_credentials
-  }
+  config.paperclip_defaults[:storage] = :s3
+  config.paperclip_defaults[:s3_credentials] = aws_filename
 
   # Root url used for action mailer links
   config.action_mailer.default_url_options = { :host => "yfa-staging.herokuapp.com" }
