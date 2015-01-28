@@ -1,5 +1,38 @@
 div.container.pages.index {
 
+  .carousel-control {
+
+    .glyphicon-chevron-right,
+    .glyphicon-chevron-left {
+      margin-top: 105px;
+    }
+    
+  }
+
+  div.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    left: 0;
+    right: 0;
+    padding-top: 0px;
+
+    div.carousel-title, div.carousel-body {
+      margin: 0px;
+    }
+
+    div.carousel-title {
+      font-size: 12pt;
+      font-weight: bold;
+      padding-top: 5px;
+    }
+
+    div.carousel-body {
+      font-size: 10pt;
+      padding-bottom: 5px;
+    }
+
+  }
+
   div#upcoming-productions {
     border: 1px solid #aaa;
     padding: 0px;
