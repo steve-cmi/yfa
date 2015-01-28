@@ -10,14 +10,15 @@
  *
  *= require bootstrap
  *= require bootstrap-flatly
- *= require fonts
- *= require colors
  *= require jquery-ui/autocomplete
  *= require jquery-ui/datepicker
- *= require layout
- *= require homepage
- *= require films
- *= require auditions
- *= require search
- *= require donate
 */
+
+@import "fonts";
+@import "colors";
+@import "layout";
+@import "homepage";
+@import "films";
+@import "auditions";
+@import "search";
+@import "donate";

@@ -24,6 +24,12 @@ div.container.pages.index {
       font-size: 12pt;
       font-weight: bold;
       padding-top: 5px;
+      a {
+        color: white;
+        &:hover {
+          color: $hover-color;
+        }
+      }
     }
 
     div.carousel-body {
