@@ -5,16 +5,14 @@ class Carousel < ActiveRecord::Base
   acts_as_list
 
   has_attached_file :image,
-    :styles => { :admin => "75x>", :homepage => "750x>" }
+    :styles => { :admin => "75x37#", :homepage => "750x375#" }
 
   validates_attachment_content_type :image,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
     message: 'file type is not allowed (only jpeg/png/gif images)'
 
   validates :title, :image, :presence => true
-
-  validates :body, :length => {:maximum => 50}
-  
+  validates :title, :length => {:maximum => 50}
   validates :body, :length => {:maximum => 90}
 
   def self.active
