@@ -52,12 +52,13 @@ module Yfa
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
     # config.active_record.whitelist_attributes = true
+    config.paperclip_defaults = {
+        default_url: "/images/missing/:class-:attachment-:style.jpeg"
+    }
     aws_filename = Rails.root.join('config/aws.yml')
     if File.exists?(aws_filename)
-        config.paperclip_defaults = {
-            storage: :s3,
-            s3_credentials: aws_filename
-        }
+        config.paperclip_defaults[:storage] = :s3
+        config.paperclip_defaults[:s3_credentials] = aws_filename
     end
 
     # Enable the asset pipeline

@@ -103,8 +103,6 @@ end
 
 # -------- PEOPLE --------
 
-placeholder = File.new('db/seed-images/placeholder-large.png')
-
 # Admin
 Person.find_or_create_by_email('steve.friedman@commonmediainc.com',
   fname: 'Steve',
@@ -128,10 +126,6 @@ if Person.count == 1
     p.bio = Faker::Lorem.paragraphs(3).join("\n\n")
     p.active = true
     p.email_allow = true
-  end
-  Person.all.each do |p|
-    p.picture = placeholder
-    p.save
   end
 end
 
@@ -171,10 +165,6 @@ if Event.count == 0
     e.sponsor_link = Faker::Internet.url
     e.featured = [true, false]
   end
-  Event.all.each do |e|
-    e.image = placeholder
-    e.save
-  end
 end
 
 if EventDate.count == 0
@@ -212,10 +202,6 @@ if Film.count == 0
     f.end_date = Faker::Date.between(f.start_date, end_date)
     f.auditions_enabled = true
     f.archive = f.archive_reminder_sent = false
-  end
-  Film.all.each do |f|
-    f.poster = placeholder
-    f.save
   end
 end
 
