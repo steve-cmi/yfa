@@ -12,7 +12,7 @@ class Film < ActiveRecord::Base
   has_many :links, :as => :item, :dependent => :delete_all, :order => :position
 
 	has_attached_file :poster,
-		:styles => { :homepage => "90x90>", :grid => "125x125>", :show => "360x>" }
+		:styles => { :homepage => "90x90#", :grid => "125x125#", :show => "360x>" }
 	
   validates_attachment_content_type :poster,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,

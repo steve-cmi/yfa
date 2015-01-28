@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   belongs_to :building
 
   has_attached_file :image,
-    :styles => { :homepage => "125x125>", :grid => "125x125>", :popup => "220x220>", :show => "360x>" }
+    :styles => { :homepage => "125x125#", :grid => "125x125#", :popup => "220x220#", :show => "360x>" }
   
   validates_attachment_content_type :image,
     content_type: /\Aimage\/(jpeg|gif|png)\Z/,
