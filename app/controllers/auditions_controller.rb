@@ -24,7 +24,7 @@ class AuditionsController < ApplicationController
 		@scope = :crew
 		@film_positions = FilmPosition.unscoped.current.crew.vacant.includes(:film, :position).by_name
 		@film_positions = @film_positions.filtered_by(params[:positions]) if params[:positions]
-		@positions = Position.crew.all
+		@positions = Position.crew.by_name.all
 	end
 
 	def index

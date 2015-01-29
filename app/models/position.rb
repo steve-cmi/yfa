@@ -43,4 +43,8 @@ class Position < ActiveRecord::Base
     where('id != ?', actor_id)
   end
 
+  def self.by_name
+    order(:position)
+  end
+
 end
