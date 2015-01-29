@@ -166,13 +166,12 @@
           <small>
             Copyright &copy; <%= Date.today.year %> Yale University &middot; All rights Reserved
             &middot; <a href="http://www.yale.edu/privacy.html" target="_blank">Privacy Policy</a><br />
-            Yale Film Alliance, ...
-            <%= mail_to YFA_EMAIL, "Contact" %> the YFA.
+            <%= mail_to YFA_EMAIL, "Contact" %> the Yale Film Alliance.
           </small>
         </div>
         <div class="col-md-2">
-          <%= image_tag "twitter.png" %> &nbsp;&nbsp;&nbsp;
-          <%= image_tag "facebook.png" %> &nbsp;&nbsp;&nbsp;
+          <a href="https://twitter.com/yalefilm" target="_blank"><%= image_tag "twitter.png" %></a> &nbsp;&nbsp;&nbsp;
+          <a href="https://www.facebook.com/yalefilmalliance" target="_blank"><%= image_tag "facebook.png" %></a> &nbsp;&nbsp;&nbsp;
           <%= render "shared/newsletter_dialog" %>
         </div>
       </div>
