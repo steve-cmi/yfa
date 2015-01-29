@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
 
   skip_before_filter :force_auth, :only => :index
+  skip_before_filter :force_user, :only => :index
   before_filter :fetch_event, :except => [:index, :new, :create]
 
   def index

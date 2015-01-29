@@ -1,6 +1,7 @@
 class SearchController < ApplicationController  
 
 	skip_before_filter :force_auth
+	skip_before_filter :force_user
 
 	def index
 

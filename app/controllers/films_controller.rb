@@ -1,6 +1,7 @@
 class FilmsController < ApplicationController  
 	
 	skip_before_filter :force_auth, :only => [:index, :show]
+	skip_before_filter :force_user, :only => [:index, :show]
 	before_filter :fetch_film, :except => [:index, :new, :create]
 	before_filter :auth, :except => [:index, :show, :new, :create]
 	

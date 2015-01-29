@@ -2,7 +2,6 @@
 
 class AuditionsController < ApplicationController
 
-	skip_before_filter :force_auth, :only => [:cast, :crew]
 	before_filter :fetch_film, :except => [:cast, :crew]
 
 	# Cast Opportunities

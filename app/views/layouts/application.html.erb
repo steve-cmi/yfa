@@ -130,9 +130,17 @@
               </ul>
             </li>
 
+          <% elsif @current_user -%>
+            <li class="<%= :active if @active_nav == :user %>">
+              <%= link_to "Dashboard", dashboard_path %>
+            </li>
+          <% elsif session[:cas_user] -%>
+            <li class="<%= :active if @active_nav == :user %>">
+              <%= link_to "Register", new_person_path %>
+            </li>
           <% else -%>
             <li class="<%= :active if @active_nav == :user %>">
-              <%= link_to (@current_user ? "Dashboard" : "Sign In"), dashboard_path %>
+              <%= link_to "Sign In", login_path %>
             </li>
           <% end -%>
         </ul>

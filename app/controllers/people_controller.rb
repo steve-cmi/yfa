@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController  
 
 	skip_before_filter :force_auth, :only => [:show, :logout]
+	skip_before_filter :force_user, :only => [:new, :create, :logout]
 	before_filter :verify_user, :except => [:index, :show, :dashboard, :logout, :new, :create]
 	before_filter :verify_admin, :only => [:index, :add_admin, :update_admin, :remove_admin]
 	before_filter :fetch_user, :except => [:index, :dashboard, :logout, :new, :create]
@@ -35,7 +36,6 @@ class PeopleController < ApplicationController
 		@person = Person.new(:year => Date.today.year + 4)
 		@person.netid = session[:cas_user]
 		@person.populateLDAP
-		@current_user = @person
 	end
 	
 	# Designed to be indemnipotent in case they refresh the page and re-submit
