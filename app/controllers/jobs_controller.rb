@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
 
-  before_filter :verify_user, :except => :index
+  before_filter :force_admin, :except => :index
 
   def index
     @page_name = "Jobs & Internships"
@@ -85,7 +85,7 @@ class JobsController < ApplicationController
   
   private
   
-  def verify_user
+  def force_admin
     redirect_to root_path unless @current_user and @current_user.site_admin?
   end
 

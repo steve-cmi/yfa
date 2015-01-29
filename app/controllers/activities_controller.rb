@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
 
-  before_filter :verify_user
+  before_filter :force_admin
 
   def index
   end
@@ -45,7 +45,7 @@ class ActivitiesController < ApplicationController
   
   private
   
-  def verify_user
+  def force_admin
     redirect_to root_path unless @current_user and @current_user.site_admin?
   end
 
