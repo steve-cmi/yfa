@@ -8,9 +8,21 @@ class Filter < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: :slugged
+  def should_generate_new_friendly_id?
+    false
+  end
 
   def self.by_position
     order(:position)
+  end
+
+  def undeletable?
+    slug == 'screenings'
+  end
+
+  before_destroy :confirm_deletable
+  def confirm_deletable
+    return false if undeletable?
   end
 
 end

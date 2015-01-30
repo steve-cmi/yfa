@@ -41,7 +41,7 @@
 <div class="row">
   <h4>
     There are no
-    <%= @filter.blank? ? 'events of any type' : @filters.rassoc(@filter).first %> listed
+    <%= @filter ? @filter.name : 'events of any type' %> listed
     for this time period
   </h4>
 </div>
@@ -76,7 +76,7 @@
             </p>
             <p>
               <% if date.respond_to?(:film) -%>
-                <span class="label label-default">Screening</span>
+                <span class="label label-default"><%= @screenings.name %></span>
               <% else -%>
                 <% date.event.filters.each do |filter| -%>
                 <span class="label label-default"><%= filter.name %></span>

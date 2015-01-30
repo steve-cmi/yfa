@@ -85,8 +85,7 @@ Genre.find_or_create_by_name('Music Video')
 
 # -------- FILTERS --------
 
-Filter.find_or_create_by_name('Film Screenings')
-Filter.find_or_create_by_name('Student Film Screenings')
+Filter.find_or_create_by_name('Screenings')
 Filter.find_or_create_by_name('Master\'s Teas')
 Filter.find_or_create_by_name('Workshops and Master\'s Classes')
 Filter.find_or_create_by_name('DCMA Workshops')

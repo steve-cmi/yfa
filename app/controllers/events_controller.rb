@@ -10,8 +10,9 @@ class EventsController < ApplicationController
     @scopes = [:day, :week, :month]
     @scope = (params[:scope] || :week).to_sym
 
-    @filters = Filter.by_position.collect {|f| [f.name, f.slug]} + [['Screenings', 'screenings']]
-    @filter = params[:filter]
+    @filters = Filter.by_position.collect {|f| [f.name, f.slug]}
+    @filter = Filter.find_by_slug(params[:filter])
+    @screenings = Filter.find_by_slug('screenings')
 
     @date = Date.parse(params[:date]) rescue nil
     @date ||= Date.today
@@ -19,14 +20,10 @@ class EventsController < ApplicationController
     @next_date = @date.send("next_#{@scope}")
     @prev_date = @date.send("prev_#{@scope}")
 
-    if @filter != 'screenings'
-      @dates = EventDate.approved.by_date.includes(:event => [:building, :filters]).send("#{@scope}_of", @date)
-      @dates = @dates.filtered_by(Filter.find_by_slug(@filter)) unless @filter.blank?
-    else
-      @dates = []
-    end
+    @dates = EventDate.approved.by_date.includes(:event => [:building, :filters]).send("#{@scope}_of", @date)
+    @dates = @dates.filtered_by(@filter) if @filter
 
-    if @filter.blank? or @filter == 'screenings'
+    if @filter.nil? or @filter == @screenings
       @dates += Screening.approved.by_date.includes(:film, :building).send("#{@scope}_of", @date)
       @dates = @dates.sort_by(&:starts_at) if @filter.blank?
     end

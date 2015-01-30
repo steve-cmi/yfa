@@ -56,7 +56,9 @@
       <%= form_for filter, :remote => true, :html => {:class => "alert-on-error"} do |f| -%>
         <div class="row">
           <div class="col-md-2">
+            <% unless f.object.undeletable? -%>
             <%= link_to "&times;".html_safe, filter_path(filter), :method => :delete, :class => "btn btn-danger", :confirm => "This will permanently delete this filter. There is no undo. Are you sure?" %>
+            <% end -%>
           </div>
           <div class="col-md-10">
             <%= f.text_field :name, :class => "form-control" %>
@@ -84,7 +86,6 @@
   <div class="col-md-12">
     <%= form_tag({:controller => "buildings", :action => "update_all"}, :remote => true, :class => "form-horizontal") do -%>
     
-      <button type="submit" class="btn btn-sm btn-primary pull-right">Save Changes</button>
       <h3>Buildings</h3>
 
       <table class="table table-striped">
@@ -123,8 +124,6 @@
           <% end -%>
         </tbody>
       </table>
-
-      <button type="submit" class="btn btn-sm btn-primary pull-right">Save Changes</button>
     <% end -%>
   </div>
   
