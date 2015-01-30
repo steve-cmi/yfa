@@ -19,7 +19,7 @@ Announcement.find_or_create_by_id(1,
   title: 'Brand new site launched!',
   body: "We've launched a brand new site! Check out all the new features. You can browse for films and filmmakers, look for opporunitues in film, check out our calendar of film events, and even donate to support film at Yale!",
   link_text: 'Our films page is particularly cool!',
-  link_url: '/films'
+  link_url: '/films',
   active: true
 )
 
