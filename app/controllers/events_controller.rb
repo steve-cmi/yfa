@@ -20,14 +20,14 @@ class EventsController < ApplicationController
     @prev_date = @date.send("prev_#{@scope}")
 
     if @filter != 'screenings'
-      @dates = EventDate.approved.current.by_date.includes(:event => [:building, :filters]).send("#{@scope}_of", @date)
+      @dates = EventDate.approved.by_date.includes(:event => [:building, :filters]).send("#{@scope}_of", @date)
       @dates = @dates.filtered_by(Filter.find_by_slug(@filter)) unless @filter.blank?
     else
       @dates = []
     end
 
     if @filter.blank? or @filter == 'screenings'
-      @dates += Screening.approved.current.by_date.includes(:film, :building).send("#{@scope}_of", @date)
+      @dates += Screening.approved.by_date.includes(:film, :building).send("#{@scope}_of", @date)
       @dates = @dates.sort_by(&:starts_at) if @filter.blank?
     end
     
