@@ -8,10 +8,14 @@
       <% end -%>
     </div>
 
+    <div class="col-md-12 hidden-lg">
+      <br />
+    </div>
+
     <div class="col-md-9">
       <div class="row">
         <% @positions.each do |position| -%>
-          <div class="col-md-3">
+          <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
             <label for="position_<%= position.id %>" class="checkbox-inline">
               <%= check_box_tag "positions[]", position.id, params[:positions].to_a.include?(position.id.to_s), id: "position_#{position.id}" %>
               <%= position.position %>

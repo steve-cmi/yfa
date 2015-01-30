@@ -11,7 +11,7 @@
 <% if @films.any? -%>
   <div class="grid row">
     <% @films.each do |film| %>
-    	<div class="col-md-4">
+    	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
         <h4><%= link_to film.title, film %></h4>
 
         <% if film.director -%>

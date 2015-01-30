@@ -53,14 +53,11 @@ div.container {
     margin-bottom: 0px;
   }
 
-  div.grid.row {
+  div.row.grid {
     padding: 20px;
     padding-bottom: 40px;
-    div.col-md-4 {
+    & > div {
       padding-bottom: 20px;
-      &:nth-of-type(3n+1) {
-        clear: both;
-      }
     }
   }
 
@@ -72,4 +69,8 @@ div.container {
 
 input.form-control {
   height: auto;
+}
+
+.btn-xs {
+  margin-bottom: 5px;
 }

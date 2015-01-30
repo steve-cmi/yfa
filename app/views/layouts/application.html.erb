@@ -178,9 +178,11 @@
           </small>
         </div>
         <div class="col-md-2">
-          <a href="https://twitter.com/yalefilm" target="_blank"><%= image_tag "twitter.png" %></a> &nbsp;&nbsp;&nbsp;
-          <a href="https://www.facebook.com/yalefilmalliance" target="_blank"><%= image_tag "facebook.png" %></a> &nbsp;&nbsp;&nbsp;
-          <%= render "shared/newsletter_dialog" %>
+          <div class="row">
+            <div class="col-xs-4 text-center"><a href="https://twitter.com/yalefilm" target="_blank"><%= image_tag "twitter.png" %></a></div>
+            <div class="col-xs-4 text-center"><a href="https://www.facebook.com/yalefilmalliance" target="_blank"><%= image_tag "facebook.png" %></a></div>
+            <div class="col-xs-4 text-center"><%= render "shared/newsletter_dialog" %></div>
+          </div>
         </div>
       </div>
     </div>

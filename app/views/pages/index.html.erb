@@ -48,7 +48,7 @@
 		<div class="productions">
 			<% @upcoming_films.each do |film| -%>
 				<div class="production clearfix row">
-					<div class="col-md-4 image text-center">
+					<div class="col-md-4 image">
 						<%= image_tag film.poster.url(:homepage) %>
 					</div>
 					<div class="col-md-8 info">
@@ -90,7 +90,7 @@
 
 		<div class="row">
 			<% if @featured_event -%>
-				<div class="col-md-5 image text-center">
+				<div class="col-md-5 image">
 					<%= image_tag @featured_event.image.url(:homepage) -%>
 				</div>
 				<div class="col-md-7 info">

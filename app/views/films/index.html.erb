@@ -5,7 +5,7 @@
 <div id="scrollspy">
 
   <div id="film-controls" class="row controls affix-top" data-spy="affix" data-offset-top="155">
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills col-xs-4 col-sm-12">
       <% @groups.collect(&:first).each_with_index do |group, index| -%>
         <li role="presentation" class="<%= :active if index == 0 %>">
           <a href="#<%= group.to_s.parameterize %>"><%= group %></a>
@@ -23,12 +23,12 @@
     <% @groups.each do |group, films| -%>
     <div id="<%= group.to_s.parameterize %>" class="controls-spacer"></div>
     <h3><%= group %></h3>
-    <div class="grid row">
+    <div class="row grid">
       <% films.each do |film| -%>
-        <div class="col-md-4">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
           <div class="row">
 
-            <div class="col-md-5 image text-center">
+            <div class="col-md-5 image">
               <%= lazy_image_tag film.poster.url(:grid), width: 125, height: 125 -%>
             </div>
 
