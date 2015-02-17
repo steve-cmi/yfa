@@ -24,6 +24,13 @@ div#yale-banner {
 
 div.layout.navbar {
   border-radius: 0px;
+  min-height: initial;
+
+  .navbar-nav > li > a {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
 }
 
 div.layout.footer {
