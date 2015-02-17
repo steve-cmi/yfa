@@ -37,7 +37,6 @@ div#scrollspy {
   position: relative;
 
   div.controls {
-    width: 1170px;
     background-color: #fff;
 
     &.affix-top {
@@ -55,8 +54,27 @@ div#scrollspy {
 
   }
 
-  div.controls-spacer {
+  div.films-spacer,
+  div.events-spacer {
     height: 85px;
+  }
+
+  @media (max-width: 992px) {
+    div.events-spacer {
+      height: 200px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    div.events-spacer {
+      height: 255px;
+    }
+  }
+
+  @media (max-width: 670px) {
+    div.films-spacer {
+      height: 120px;
+    }
   }
 
 }

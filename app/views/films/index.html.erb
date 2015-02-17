@@ -4,8 +4,8 @@
 
 <div id="scrollspy">
 
-  <div id="film-controls" class="row controls affix-top" data-spy="affix" data-offset-top="238">
-    <ul class="nav nav-pills col-xs-4 col-sm-12">
+  <div id="film-controls" class="row controls container affix-top" data-spy="affix" data-offset-top="238">
+    <ul class="nav nav-pills">
       <% @groups.collect(&:first).each_with_index do |group, index| -%>
         <li role="presentation" class="<%= :active if index == 0 %>">
           <a href="#<%= group.to_s.parameterize %>"><%= group %></a>
@@ -21,7 +21,7 @@
 
   <% else -%>
     <% @groups.each do |group, films| -%>
-    <div id="<%= group.to_s.parameterize %>" class="controls-spacer"></div>
+    <div id="<%= group.to_s.parameterize %>" class="films-spacer"></div>
     <h3><%= group %></h3>
     <div class="row grid">
       <% films.each do |film| -%>

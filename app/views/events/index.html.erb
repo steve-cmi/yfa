@@ -4,7 +4,7 @@
 
 <div id="scrollspy">
 
-  <div id="calendar-controls" class="row controls affix-top" data-spy="affix" data-offset-top="238">
+  <div id="calendar-controls" class="row controls container affix-top" data-spy="affix" data-offset-top="238">
     <form class="form-inline" role="form">
       <input type="hidden" name="date" value="<%= @date %>" />
       <div class="col-lg-3 col-md-4 col-sm-8 col-xs-12">
@@ -41,7 +41,7 @@
     </form>
   </div>
 
-  <div class="controls-spacer"></div>
+  <div class="events-spacer"></div>
 
   <% if @dates.empty? -%>
   <div class="row">
