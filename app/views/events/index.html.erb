@@ -1,94 +1,102 @@
 <h1>Calendar</h1>
 
-<div class="row controls">
-  <form class="form-inline" role="form">
-    <input type="hidden" name="date" value="<%= @date %>" />
-    <div class="col-lg-3 col-md-4 col-sm-8 col-xs-12">
-      <% @scopes.each do |scope| -%>
-        <button type="submit" name="scope" value="<%= scope %>"
-            class="btn btn-<%= @scope == scope ? :primary : :link %>">
-          <%= scope.to_s.titlecase %>
-        </button>
+<% content_for :body_attrs, %(data-spy="scroll" data-target="#calendar-controls").html_safe %>
+
+<div id="scrollspy">
+
+  <div id="calendar-controls" class="row controls affix-top" data-spy="affix" data-offset-top="238">
+    <form class="form-inline" role="form">
+      <input type="hidden" name="date" value="<%= @date %>" />
+      <div class="col-lg-3 col-md-4 col-sm-8 col-xs-12">
+        <% @scopes.each do |scope| -%>
+          <button type="submit" name="scope" value="<%= scope %>"
+              class="btn btn-<%= @scope == scope ? :primary : :link %>">
+            <%= scope.to_s.titlecase %>
+          </button>
+        <% end -%>
+      </div>
+
+      <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+        <br />
+      </div>
+
+      <div class="col-lg-5 col-md-3 col-sm-4 col-xs-12">
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <%= link_to "&laquo; Back".html_safe, {:scope => @scope, :filter => params[:filter], :date => @prev_date}, :class => "btn btn-default" %>
+            <%= link_to "Next &raquo;".html_safe, {:scope => @scope, :filter => params[:filter], :date => @next_date}, :class => "btn btn-default" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+        <br />
+      </div>
+
+      <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+        <%= select_tag "filter", options_for_select(@filters, params[:filter]), prompt: 'Event type', class: 'btn-xs form-control' %>
+        <button type="submit" class="btn btn-default" name="scope" value="<%= @scope %>">Filter</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="controls-spacer"></div>
+
+  <% if @dates.empty? -%>
+  <div class="row">
+    <h4>
+      There are no
+      <%= @filter ? @filter.name : 'events of any type' %> listed
+      for this time period
+    </h4>
+  </div>
+
+  <% else -%>
+    <% @dates.group_by(&:date).each do |date, dates| -%>
+    <h3><%= long_date date %></h3>
+    <div class="grid row">
+      <% dates.each do |date| -%>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <div class="row">
+
+            <div class="col-md-5 image">
+              <%= image_tag date.event_image.url(:grid) -%>
+            </div>
+
+            <div class="col-md-7 info">
+              <p>
+                <% if date.respond_to?(:film) -%>
+                <%= link_to date.film.title, date.film %>
+                <% else -%>
+                <%= render "dialog", date: date %>
+                <% end -%>
+                <br />
+
+                <%= time date.starts_at %> -
+                <%= time date.ends_at %>
+              </p>
+              <p>
+                <%= date.event_location %><br />
+                <%= link_to_building date.event_building %>
+              </p>
+              <p>
+                <% if date.respond_to?(:film) -%>
+                  <span class="label label-default"><%= @screenings.name %></span>
+                <% else -%>
+                  <% date.event.filters.each do |filter| -%>
+                  <span class="label label-default"><%= filter.name %></span>
+                  <% end -%>
+                <% end -%>
+              </p>
+            </div>
+          </div>
+        </div>
       <% end -%>
     </div>
-
-    <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-      <br />
-    </div>
-
-    <div class="col-lg-5 col-md-3 col-sm-4 col-xs-12">
-      <div class="btn-toolbar">
-        <div class="btn-group">
-          <%= link_to "&laquo; Back".html_safe, {:scope => @scope, :filter => params[:filter], :date => @prev_date}, :class => "btn btn-default" %>
-          <%= link_to "Next &raquo;".html_safe, {:scope => @scope, :filter => params[:filter], :date => @next_date}, :class => "btn btn-default" %>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
-      <br />
-    </div>
-
-    <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
-      <%= select_tag "filter", options_for_select(@filters, params[:filter]), prompt: 'Event type', class: 'btn-xs form-control' %>
-      <button type="submit" class="btn btn-default" name="scope" value="<%= @scope %>">Filter</button>
-    </div>
-
-  </form>
-</div>
-
-<% if @dates.empty? -%>
-<div class="row">
-  <h4>
-    There are no
-    <%= @filter ? @filter.name : 'events of any type' %> listed
-    for this time period
-  </h4>
-</div>
-
-<% else -%>
-  <% @dates.group_by(&:date).each do |date, dates| -%>
-  <h3><%= long_date date %></h3>
-  <div class="grid row">
-    <% dates.each do |date| -%>
-      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-        <div class="row">
-
-          <div class="col-md-5 image">
-            <%= image_tag date.event_image.url(:grid) -%>
-          </div>
-
-          <div class="col-md-7 info">
-            <p>
-              <% if date.respond_to?(:film) -%>
-              <%= link_to date.film.title, date.film %>
-              <% else -%>
-              <%= render "dialog", date: date %>
-              <% end -%>
-              <br />
-
-              <%= time date.starts_at %> -
-              <%= time date.ends_at %>
-            </p>
-            <p>
-              <%= date.event_location %><br />
-              <%= link_to_building date.event_building %>
-            </p>
-            <p>
-              <% if date.respond_to?(:film) -%>
-                <span class="label label-default"><%= @screenings.name %></span>
-              <% else -%>
-                <% date.event.filters.each do |filter| -%>
-                <span class="label label-default"><%= filter.name %></span>
-                <% end -%>
-              <% end -%>
-            </p>
-          </div>
-        </div>
-      </div>
+    <hr />
     <% end -%>
-  </div>
-  <hr />
+
   <% end -%>
 
-<% end -%>
+</div>

@@ -33,6 +33,34 @@ div.layout.navbar {
 
 }
 
+div#scrollspy {
+  position: relative;
+
+  div.controls {
+    width: 1170px;
+    background-color: #fff;
+
+    &.affix-top {
+      position: absolute;
+      top: 0px;
+    }
+
+    &.affix {
+      position: fixed;
+      top: 0px;
+      opacity: 0.85;
+      border-top: 0px;
+      z-index: 1000;
+    }
+
+  }
+
+  div.controls-spacer {
+    height: 85px;
+  }
+
+}
+
 div.layout.footer {
   border-top: 1px solid #2E3F4F;
   background-color: #fff;
