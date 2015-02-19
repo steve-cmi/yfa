@@ -56,10 +56,10 @@ module Yfa
         default_url: "/images/missing/:class-:attachment-:style.jpeg"
     }
     aws_filename = Rails.root.join('config/aws.yml')
-    if File.exists?(aws_filename)
-        config.paperclip_defaults[:storage] = :s3
-        config.paperclip_defaults[:s3_credentials] = aws_filename
-    end
+    #if File.exists?(aws_filename)
+    #    config.paperclip_defaults[:storage] = :s3
+    #    config.paperclip_defaults[:s3_credentials] = aws_filename
+    #end
 
     # Enable the asset pipeline
     config.assets.enabled = true
