@@ -1,8 +1,8 @@
 class AboutController < ApplicationController
   layout nil
 
-  skip_before_filter :force_auth  #, :only => [:summary, :detail, :status,  :up?]
-  skip_before_filter :force_user  #, :only => [:summary, :detail, :status,  :up?]
+  #skip_before_filter :force_auth  #, :only => [:summary, :detail, :status,  :up?]
+  #skip_before_filter :force_user  #, :only => [:summary, :detail, :status,  :up?]
 
   def summary
     @status = status
