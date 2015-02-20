@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 	# Add this before filter to force CAS Authentication on all controllers + actions
 	before_filter :dummy_user #if Rails.env.development?
 
-	#before_filter :force_auth
+	before_filter :force_auth
 	before_filter :find_user
 	before_filter :force_user
 	
@@ -25,15 +25,15 @@ class ApplicationController < ActionController::Base
 	def force_auth
 		logger.debug "  Callback: force_auth"
 		session[:last_ts] = nil
-		CASClient::Frameworks::Rails::Filter.filter self unless @current_user
+		#CASClient::Frameworks::Rails::Filter.filter self unless @current_user
 	end
 	
 	def find_user
 		logger.debug "  Callback: find_user"
 		# first visit, or stale visit, try to gateway auth
-		if !session[:last_ts] && !@current_user
-				CASClient::Frameworks::Rails::GatewayFilter.filter self
-		end
+		#if !session[:last_ts] && !@current_user
+		#		CASClient::Frameworks::Rails::GatewayFilter.filter self
+		#end
 		
 		session[:last_ts] = Time.now
 		
