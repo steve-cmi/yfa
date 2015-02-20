@@ -1,6 +1,13 @@
 Yfa::Application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
 
+
+  match "about/summary", :controller =>"about", :action=>"summary"
+  match "about/detail", :controller =>"about", :action=>"detail"
+
+  match "about/Summary", :controller =>"about", :action=>"summary"
+  match "about/Detail", :controller =>"about", :action=>"detail"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
