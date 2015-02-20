@@ -1,4 +1,4 @@
-class AboutController < ApplicationController
+class AboutController #< ApplicationController
   layout nil
 
   skip_before_filter :force_auth
