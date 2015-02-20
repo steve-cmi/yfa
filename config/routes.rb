@@ -8,6 +8,9 @@ Yfa::Application.routes.draw do
   match "about/Summary", :controller =>"about", :action=>"summary"
   match "about/Detail", :controller =>"about", :action=>"detail"
 
+
+  match "yso/status", :controller =>"about", :action=>"detail"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
