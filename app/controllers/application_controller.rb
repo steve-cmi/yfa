@@ -1,9 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  
-	# Add this before filter to force CAS Authentication on all controllers + actions
-	#before_filter :dummy_user #if Rails.env.development?
 
+	# Add this before filter to force CAS Authentication on all controllers + actions
+	# before_filter :dummy_user #if Rails.env.development?
 	before_filter :force_auth
 	before_filter :find_user
 	before_filter :force_user
@@ -30,7 +29,7 @@ class ApplicationController < ActionController::Base
 	
 	def find_user
 		logger.debug "  Callback: find_user"
-		first visit, or stale visit, try to gateway auth
+		# first visit, or stale visit, try to gateway auth
 		if !session[:last_ts] && !@current_user
 				CASClient::Frameworks::Rails::GatewayFilter.filter self
 		end
