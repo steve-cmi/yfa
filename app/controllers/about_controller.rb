@@ -2,6 +2,7 @@ class AboutController < ApplicationController
   layout nil
 
   skip_before_filter :force_auth
+  skip_before_filter :find_user
   skip_before_filter :force_user
 
   def summary
