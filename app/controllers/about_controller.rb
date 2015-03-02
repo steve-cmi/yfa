@@ -1,5 +1,5 @@
 class AboutController < ApplicationController
-  layout nil
+  layout false
 
   skip_before_filter :force_auth
   skip_before_filter :find_user
