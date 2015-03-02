@@ -21,7 +21,7 @@ class Person < ActiveRecord::Base
     message: 'file type is not allowed (only jpeg/png/gif images)'
 
   attr_accessible :fname, :lname, :email, :year, :college, :bio, :email_allow, :picture
-  attr_accessible :active, :site_admin, :netid if Rails.env.development?
+  attr_accessible :active, :site_admin, :admin_admin, :netid
 
   attr_accessible :experiences_attributes, :interests_attributes, :links_attributes
   accepts_nested_attributes_for :experiences, :allow_destroy => true
