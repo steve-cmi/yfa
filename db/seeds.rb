@@ -73,53 +73,61 @@ end
 # -------- PEOPLE --------
 
 # Admins
-Person.find_or_create_by_email('steve.friedman@commonmediainc.com',
-  fname: 'Steve',
-  lname: 'Friedman',
-  year: 2015,
-  college: 'CC',
-  active: true,
-  email_allow: true,
-  site_admin: true,
-  admin_admin: true,
-  netid: 'sf583'
-)
+Person.
+  find_or_create_by_email('steve.friedman@commonmediainc.com').
+  update_attributes(
+    fname: 'Steve',
+    lname: 'Friedman',
+    year: 2015,
+    college: 'CC',
+    active: true,
+    email_allow: true,
+    site_admin: true,
+    admin_admin: true,
+    netid: 'sf583'
+  )
 
-Person.find_or_create_by_email('derek.webster@yale.edu',
-  fname: 'Derek',
-  lname: 'Webster',
-  year: 1999,
-  college: 'PC',
-  active: true,
-  email_allow: true,
-  site_admin: true,
-  admin_admin: true,
-  netid: 'dereks'
-)
+Person.
+  find_or_create_by_email('derek.webster@yale.edu').
+  update_attributes(
+    fname: 'Derek',
+    lname: 'Webster',
+    year: 1999,
+    college: 'PC',
+    active: true,
+    email_allow: true,
+    site_admin: true,
+    admin_admin: true,
+    netid: 'dereks'
+  )
 
-Person.find_or_create_by_email('dara.eliacin@yale.edu',
-  fname: 'Dara',
-  lname: 'Eliacin',
-  year: 2015,
-  college: 'BR',
-  active: true,
-  email_allow: true,
-  site_admin: true,
-  admin_admin: true,
-  netid: 'dye2'
-)
+Person.
+  find_or_create_by_email('dara.eliacin@yale.edu').
+  update_attributes(
+    fname: 'Dara',
+    lname: 'Eliacin',
+    year: 2015,
+    college: 'BR',
+    active: true,
+    email_allow: true,
+    site_admin: true,
+    admin_admin: true,
+    netid: 'dye2'
+  )
 
-Person.find_or_create_by_email('darice.corey@yale.edu',
-  fname: 'Darice',
-  lname: 'Corey-Gilbert',
-  year: 2019,
-  college: 'BK',
-  active: true,
-  email_allow: true,
-  site_admin: true,
-  admin_admin: true,
-  netid: 'dic59'
-)
+Person.
+  find_or_create_by_email('darice.corey@yale.edu').
+  update_attributes(
+    fname: 'Darice',
+    lname: 'Corey-Gilbert',
+    year: 2019,
+    college: 'BK',
+    active: true,
+    email_allow: true,
+    site_admin: true,
+    admin_admin: true,
+    netid: 'dic59'
+  )
 
 # -------- PAGES --------
 
