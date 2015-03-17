@@ -7,8 +7,6 @@ module ApplicationHelper
       'Today'
     elsif date == today - 1
       'Yesterday'
-    elsif date.year == today.year
-      date.strftime('%a %b %-d')
     else
       date.strftime('%b %-d %Y')
     end
@@ -18,11 +16,9 @@ module ApplicationHelper
     return nil unless date
     today = Date.today
     if date == today
-      date.strftime('Today, %B %-d')
+      date.strftime('Today, %B %-d, %Y')
     elsif date == today - 1
-      date.strftime('Yesterday, %B %-d')
-    elsif date.year == today.year
-      date.strftime('%A, %B %-d')
+      date.strftime('Yesterday, %B %-d, %Y')
     else
       date.strftime('%B %-d, %Y')
     end
