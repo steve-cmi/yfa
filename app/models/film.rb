@@ -39,6 +39,10 @@ class Film < ActiveRecord::Base
 	delegate :directors, :actors, :writers, :cast, :crew, :to => :film_positions
 	default_scope where(:approved => true)
 
+	def self.future
+		where('`films`.`end_date` >= ?', Date.today)
+	end
+
 	def self.archived
 		where(:archive => true)
 	end

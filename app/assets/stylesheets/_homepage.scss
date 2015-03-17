@@ -1,6 +1,7 @@
 div.container.pages.index {
 
   .carousel-control {
+    z-index: 10;
 
     .glyphicon-chevron-right,
     .glyphicon-chevron-left {

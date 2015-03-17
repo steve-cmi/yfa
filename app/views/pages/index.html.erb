@@ -53,7 +53,9 @@
 					</div>
 					<div class="col-md-8 info">
 						<%= link_to film.title, film %><br />
+						<% if film.director -%>
 						Directed By: <%= link_to film.director.name, film.director %><br />
+						<% end -%>
 						<%= short_date film.start_date %> through
 						<%= short_date film.end_date %><br />
 						<%= link_to "Auditions", film_auditions_path(film) if film.auditions.imminent.any? %>

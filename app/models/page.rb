@@ -9,7 +9,7 @@ class Page < ActiveRecord::Base
 
   # The page author should set the slug.
   def should_generate_new_friendly_id?
-    false
+    new_record?
   end
 
   has_attached_file :image,

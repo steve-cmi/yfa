@@ -11,7 +11,7 @@ class EventsController < ApplicationController
     @scope = (params[:scope] || :week).to_sym
 
     @filters = Filter.by_position.collect {|f| [f.name, f.slug]}
-    @filter = Filter.find_by_slug(params[:filter])
+    @filter = Filter.find_by_slug(params[:filter]) if params[:filter]
     @screenings = Filter.find_by_slug('screenings')
 
     @date = Date.parse(params[:date]) rescue nil

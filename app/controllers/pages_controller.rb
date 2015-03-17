@@ -8,7 +8,7 @@ class PagesController < ApplicationController
 		@active_nav = :home
 		@site = Site.last
 		@carousels = Carousel.active.order_by(@site)
-		@upcoming_films = Film.by_date.includes(:director).limit(5)
+		@upcoming_films = Film.future.by_date.includes(:director).limit(5)
 		@announcement = Announcement.active.last
 		@featured_event = Event.featured.last
     @featured_event_date = @featured_event.featured_date if @featured_event
