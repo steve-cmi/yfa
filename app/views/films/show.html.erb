@@ -25,12 +25,12 @@
 	<div class="col-md-4">
 		<p>
 			<strong>Genres</strong><br />
-			<% if @film.genres.none? -%>
-			No genres have been selected.
-			<% else -%>
+			<% if @film.genres.any? -%>
 	      <% @film.genres.each do |genre| -%>
 		      <span class="label label-default"><%= genre.name %></span>
 	      <% end -%>
+			<% else -%>
+				<span class="label label-default">None</span>
 	    <% end -%>
 		</p>
 
@@ -44,19 +44,23 @@
 			<strong>Screening information</strong><br />
 			<table class="table table-striped">
 				<tbody>
-					<% @film.screenings.by_date.each do |screening| -%>
-					<tr>
-						<td>
-							<%= long_date screening.starts_at %>,
-							<%= time screening.starts_at %><br />
+					<% if @film.screenings.any? -%>
+						<% @film.screenings.by_date.each do |screening| -%>
+						<tr>
+							<td>
+								<%= long_date screening.starts_at %>,
+								<%= time screening.starts_at %><br />
 
-		          <% if screening.location? -%>
-		          <%= screening.location %><%= ',' if screening.building %>
-		          <% end -%>
+			          <% if screening.location? -%>
+			          <%= screening.location %><%= ',' if screening.building %>
+			          <% end -%>
 
-		          <%= link_to_building screening.building %>
-						</td>
-					</tr>
+			          <%= link_to_building screening.building %>
+							</td>
+						</tr>
+						<% end -%>
+					<% else -%>
+						<tr><td>None</td></tr>
 					<% end -%>
 				</tbody>
 			</table>
@@ -81,11 +85,15 @@
 			<strong>Cast</strong><br />
 			<table class="table table-striped">
 				<tbody>
-					<% @film.cast.filled.each do |cast| -%>
-					<tr>
-						<td><%= cast.character %></td>
-						<td><%= link_to cast.person.name, cast.person %></td>
-					</tr>
+					<% if @film.cast.filled.any? -%>
+						<% @film.cast.filled.each do |cast| -%>
+						<tr>
+							<td><%= cast.character %></td>
+							<td><%= link_to cast.person.name, cast.person %></td>
+						</tr>
+						<% end -%>
+					<% else -%>
+						<tr><td>None</td></tr>
 					<% end -%>
 				</tbody>
 			</table>
@@ -95,11 +103,15 @@
 			<strong>Crew</strong><br />
 			<table class="table table-striped">
 				<tbody>
-					<% @film.crew.filled.each do |crew| -%>
-					<tr>
-						<td><%= crew.position.position %></td>
-						<td><%= link_to crew.person.name, crew.person %></td>
-					</tr>
+					<% if @film.crew.filled.any? -%>
+						<% @film.crew.filled.each do |crew| -%>
+						<tr>
+							<td><%= crew.position.position %></td>
+							<td><%= link_to crew.person.name, crew.person %></td>
+						</tr>
+						<% end -%>
+					<% else -%>
+						<tr><td>None</td></tr>
 					<% end -%>
 				</tbody>
 			</table>
@@ -112,10 +124,14 @@
 			<strong>Cast positions needed</strong><br />
 			<table class="table table-striped">
 				<tbody>
-					<% @film.cast.vacant.each do |cast| -%>
-					<tr>
-						<td><%= cast.character %></td>
-					</tr>
+					<% if @film.cast.vacant.any? -%>
+						<% @film.cast.vacant.each do |cast| -%>
+						<tr>
+							<td><%= cast.character %></td>
+						</tr>
+						<% end -%>
+					<% else -%>
+						<tr><td>None</td></tr>
 					<% end -%>
 				</tbody>
 			</table>
@@ -125,10 +141,14 @@
 			<strong>Crew positions needed</strong><br />
 			<table class="table table-striped">
 				<tbody>
-					<% @film.crew.vacant.each do |crew| -%>
-					<tr>
-						<td><%= crew.position.position %></td>
-					</tr>
+					<% if @film.crew.vacant.any? -%>
+						<% @film.crew.vacant.each do |crew| -%>
+						<tr>
+							<td><%= crew.position.position %></td>
+						</tr>
+						<% end -%>
+					<% else -%>
+						<tr><td>None</td></tr>
 					<% end -%>
 				</tbody>
 			</table>
@@ -138,31 +158,37 @@
 			<strong>Video links</strong><br />
 			<table class="table table-striped">
 				<tbody>
-					<% @film.links.by_position.each do |link| -%>
-					<tr>
-						<td><%= link_to link.name, link.url, target: '_blank' %></td>
-					</tr>
+					<% if @film.links.any? -%>
+						<% @film.links.by_position.each do |link| -%>
+						<tr>
+							<td><%= link_to link.name, link.url, target: '_blank' %></td>
+						</tr>
+						<% end -%>
+					<% else -%>
+						<tr><td>None</td></tr>
 					<% end -%>
 				</tbody>
 			</table>
 		</p>
 
-		<% if @film.s3_objects? -%>
 		<p>
 			<strong>Files</strong>
 			<table class="table table-striped">
 				<tbody>
-					<% @film.s3_objects.each do |obj| %>
-					<tr>
-						<td>
-							<%= link_to_file obj %>
-						</td>
-					</tr>
-					<% end %>
+					<% if @film.s3_objects? -%>
+						<% @film.s3_objects.each do |obj| %>
+						<tr>
+							<td>
+								<%= link_to_file obj %>
+							</td>
+						</tr>
+						<% end %>
+					<% else -%>
+						<tr><td>None</td></tr>
+					<% end -%>
 				</tbody>
 			</table>
 		</p>
-		<% end -%>
 
 	</div>
 
