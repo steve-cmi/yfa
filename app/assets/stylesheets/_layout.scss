@@ -124,8 +124,12 @@ input[type=file].form-control {
   height: auto;
 }
 
-.btn-xs {
-  margin-bottom: 5px;
+@media (max-width: 768px) {
+  div.controls {
+    .btn-xs {
+      margin-bottom: 5px;
+    }
+  }
 }
 
 .label {
