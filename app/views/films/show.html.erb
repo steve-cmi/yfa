@@ -7,6 +7,8 @@
 	<div class="col-md-8">
 		<h1><%= @film.title %></h1>
 
+		<p><small><%= @film.tagline %></small></p>
+
 		<% if @film.director -%>
 		<p>Directed by <%= link_to @film.director.name, @film.director %></p>
 		<% end -%>
