@@ -63,16 +63,20 @@
       <strong>Resume</strong><br />
       <table class="table table-striped">
         <tbody>
-          <% @film_positions.each do |film_position| -%>
-          <tr>
-            <td>
-              <%= film_position.display_name %><br />
-              <small><%= short_date film_position.film.start_date %></small>
-            </td>
-            <td>
-              <%= link_to film_position.film.title, film_position.film %>
-            </td>
-          </tr>
+          <% if @film_positions.any? -%>
+            <% @film_positions.each do |film_position| -%>
+            <tr>
+              <td>
+                <%= film_position.display_name %><br />
+                <small><%= short_date film_position.film.start_date %></small>
+              </td>
+              <td>
+                <%= link_to film_position.film.title, film_position.film %>
+              </td>
+            </tr>
+            <% end -%>
+          <% else -%>
+            <tr><td>None</td></tr>
           <% end -%>
         </tbody>
       </table>
@@ -82,23 +86,23 @@
   <div class="col-md-4">
     <p>
       <strong>Has experience in:</strong><br />
-      <% if @person.experienced_activities.none? -%>
-      No experiences have been selected.
-      <% else -%>
+      <% if @person.experienced_activities.any? -%>
         <% @person.experienced_activities.each do |activity| -%>
           <span class="label label-default"><%= activity.name %></span>
         <% end -%>
+      <% else -%>
+        <span class="label label-default">None</span>
       <% end -%>
     </p>
 
     <p>
       <strong>Is interested in:</strong><br />
-      <% if @person.interested_activities.none? -%>
-      No interests have been selected.
-      <% else -%>
+      <% if @person.interested_activities.any? -%>
         <% @person.interested_activities.each do |activity| -%>
           <span class="label label-default"><%= activity.name %></span>
         <% end -%>
+      <% else -%>
+        <span class="label label-default">None</span>
       <% end -%>
     </p>
   </div>
@@ -108,10 +112,14 @@
       <strong>On the web</strong><br />
       <table class="table table-striped">
         <tbody>
-          <% @person.links.by_position.each do |link| -%>
-          <tr>
-            <td><%= link_to link.name, link.url, target: '_blank' %></td>
-          </tr>
+          <% if @person.links.any? -%>
+            <% @person.links.by_position.each do |link| -%>
+            <tr>
+              <td><%= link_to link.name, link.url, target: '_blank' %></td>
+            </tr>
+            <% end -%>
+          <% else -%>
+            <tr><td>None</td></tr>
           <% end -%>
         </tbody>
       </table>
