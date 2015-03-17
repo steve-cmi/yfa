@@ -52,6 +52,13 @@
 
   <div class="col-md-12">
     <h3>Filters</h3>
+
+    <% if (@screening = Filter.screenings).nil? -%>
+    <div class="alert alert-danger" role="alert">
+      Warning: for screening events to work, one filter must have a URL (right column) set to "screenings".
+    </div>
+    <% end -%>
+
     <% @filters.each do |filter| -%>
       <%= form_for filter, :remote => true, :html => {:class => "alert-on-error"} do |f| -%>
         <div class="row">
@@ -60,9 +67,14 @@
             <%= link_to "&times;".html_safe, filter_path(filter), :method => :delete, :class => "btn btn-danger", :confirm => "This will permanently delete this filter. There is no undo. Are you sure?" %>
             <% end -%>
           </div>
-          <div class="col-md-10">
+
+          <div class="col-md-5">
             <%= f.text_field :name, :class => "form-control" %>
           </div>
+          <div class="col-md-5">
+            <%= f.text_field :slug, :class => "form-control", :disabled => (f.object.slug? and @screening) %>
+          </div>
+
         </div>
         <br />
       <% end -%>
@@ -72,7 +84,7 @@
         <div class="col-md-2">
           <button type="submit" class="btn btn-primary">+</button>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-5">
           <%= f.text_field :name, :class => "form-control", :placeholder => "Filter" %>
         </div>
       </div>

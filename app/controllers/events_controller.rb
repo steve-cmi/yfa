@@ -12,7 +12,7 @@ class EventsController < ApplicationController
 
     @filters = Filter.by_position.collect {|f| [f.name, f.slug]}
     @filter = Filter.find_by_slug(params[:filter]) if params[:filter]
-    @screenings = Filter.find_by_slug('screenings')
+    @screenings = Filter.screenings
 
     @date = Date.parse(params[:date]) rescue nil
     @date ||= Date.today

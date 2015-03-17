@@ -4,12 +4,12 @@ class Filter < ActiveRecord::Base
   has_many :event_filters, dependent: :destroy
   has_many :events, through: :event_filters
 
-  attr_accessible :name
+  attr_accessible :name, :slug
 
   extend FriendlyId
   friendly_id :name, use: :slugged
   def should_generate_new_friendly_id?
-    false
+    !slug?
   end
 
   def self.by_position
@@ -18,6 +18,10 @@ class Filter < ActiveRecord::Base
 
   def undeletable?
     slug == 'screenings'
+  end
+
+  def self.screenings
+    find_by_slug('screenings')
   end
 
   before_destroy :confirm_deletable
