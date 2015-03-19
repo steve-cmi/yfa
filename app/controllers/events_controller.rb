@@ -8,7 +8,7 @@ class EventsController < ApplicationController
     @page_name = "Calendar"
     
     @scopes = [:day, :week, :month]
-    @scope = (params[:scope] || :week).to_sym
+    @scope = (params[:scope] || :month).to_sym
 
     @filters = Filter.by_position.collect {|f| [f.name, f.slug]}
     @filter = Filter.find_by_slug(params[:filter]) if params[:filter]
