@@ -21,7 +21,7 @@
       <%= select_tag :state, grouped_options_for_select(@state_options, params[:state]), :prompt => 'Any Country and State', :class => 'btn-xs form-control' %>
       <%= select_tag :paid, options_for_select([['Paid', true], ['Unpaid', false]], params[:paid]), :prompt => 'Any Compensation', :class => 'btn-xs form-control' %>
       <%= select_tag :alum, options_for_select([['Affiliated', true], ['Unaffiliated', false]], params[:alum]), :prompt => 'Any Alumni affiliation', :class => 'btn-xs form-control' %>
-      <span class="hidden-xs">&nbsp;&nbsp;&nbsp;</span>
+      <span class="hidden-xs">&nbsp;&nbsp;</span>
       <button type="submit" name="scope" value="<%= @scope %>" class="btn btn-default">Filter</button>
     </div>
 
