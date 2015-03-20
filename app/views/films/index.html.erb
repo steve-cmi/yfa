@@ -4,7 +4,7 @@
 
 <div id="scrollspy">
 
-  <div id="film-controls" class="row controls container affix-top" data-spy="affix" data-offset-top="238">
+  <div id="film-controls" class="row controls container affix-top" data-smart-affix="true">
     <ul class="nav nav-pills">
       <% @groups.collect(&:first).each_with_index do |group, index| -%>
         <li role="presentation" class="btn-responsive <%= :active if index == 0 %>">

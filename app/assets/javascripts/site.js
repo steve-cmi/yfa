@@ -31,4 +31,20 @@ $(document).ready(function() {
     $(this).closest('form[data-remote="true"]').submit();
   })
 
+  // Smart Affix
+  // http://codereview.stackexchange.com/questions/84494/smarter-boostrap-affix
+  var $attribute = $('[data-smart-affix]');
+  $attribute.each(function(){
+    $(this).affix({
+      offset: {
+        top: $(this).offset().top,
+      }
+    })
+  })
+  $(window).on("resize", function(){
+    $attribute.each(function(){
+      $(this).data('bs.affix').options.offset = $(this).offset().top
+    })
+  })
+
 });
