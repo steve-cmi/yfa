@@ -62,11 +62,11 @@ module ApplicationHelper
   end
 
   def short_year(year)
-    "'" + year.to_s.last(2)
+    "'" + year.to_s.last(2) if year
   end
 
   def person_listing(person)
-    "#{person.name}, #{person.college} #{short_year person.year}"
+    [person.name, "#{person.college} #{short_year person.year}"].reject(&:blank?).join(', ')
   end
 
   def javascript(*files)
