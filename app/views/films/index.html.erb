@@ -7,7 +7,7 @@
   <div id="film-controls" class="row controls container affix-top" data-spy="affix" data-offset-top="238">
     <ul class="nav nav-pills">
       <% @groups.collect(&:first).each_with_index do |group, index| -%>
-        <li role="presentation" class="<%= :active if index == 0 %>">
+        <li role="presentation" class="btn-responsive <%= :active if index == 0 %>">
           <a href="#<%= group.to_s.parameterize %>"><%= group %></a>
         </li>
       <% end -%>

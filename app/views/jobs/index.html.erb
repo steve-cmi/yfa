@@ -7,7 +7,7 @@
       <strong class="form-control-static">Sort by:</strong> &nbsp;&nbsp;&nbsp;
       <% @scopes.each do |scope| -%>
         <button type="submit" name="scope" value="<%= scope %>"
-            class="btn btn-sm btn-<%= @scope == scope ? :primary : :link %>">
+            class="btn btn-responsive btn-sm btn-<%= @scope == scope ? :primary : :link %>">
           <%= scope.to_s.titlecase %>
         </button>
       <% end -%>
@@ -18,11 +18,11 @@
     </div>
 
     <div class="col-lg-7 col-md-12">
-      <%= select_tag :state, grouped_options_for_select(@state_options, params[:state]), :prompt => 'Any Country and State', :class => 'btn-xs form-control' %>
-      <%= select_tag :paid, options_for_select([['Paid', true], ['Unpaid', false]], params[:paid]), :prompt => 'Any Compensation', :class => 'btn-xs form-control' %>
-      <%= select_tag :alum, options_for_select([['Affiliated', true], ['Unaffiliated', false]], params[:alum]), :prompt => 'Any Alumni affiliation', :class => 'btn-xs form-control' %>
+      <%= select_tag :state, grouped_options_for_select(@state_options, params[:state]), :prompt => 'Any Country and State', :class => 'btn-responsive btn-xs form-control' %>
+      <%= select_tag :paid, options_for_select([['Paid', true], ['Unpaid', false]], params[:paid]), :prompt => 'Any Compensation', :class => 'btn-responsive btn-xs form-control' %>
+      <%= select_tag :alum, options_for_select([['Affiliated', true], ['Unaffiliated', false]], params[:alum]), :prompt => 'Any Alumni affiliation', :class => 'btn-responsive btn-xs form-control' %>
       <span class="hidden-xs">&nbsp;&nbsp;</span>
-      <button type="submit" name="scope" value="<%= @scope %>" class="btn btn-default">Filter</button>
+      <button type="submit" name="scope" value="<%= @scope %>" class="btn btn-responsive btn-default">Filter</button>
     </div>
 
   </div>

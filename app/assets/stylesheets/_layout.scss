@@ -100,6 +100,13 @@ div.container {
     border-top: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
     margin-bottom: 40px;
+
+    @media (max-width: 768px) {
+      .btn, select {
+        margin-top: 2px;
+      }
+    }
+
   }
 
   div.controls.unpadded {
@@ -129,6 +136,23 @@ input[type=file].form-control {
     .btn-xs {
       margin-bottom: 5px;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-responsive {
+    padding:2px 4px;
+    font-size:80%;
+    line-height: 1;
+    border-radius:3px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .btn-responsive {
+    padding:4px 9px;
+    font-size:90%;
+    line-height: 1.2;
   }
 }
 

@@ -3,7 +3,7 @@
 <div class="row controls">
   <div class="col-md-3">
     <% @scopes.each do |scope| -%>
-      <%= link_to scope.to_s.titlecase, {:action => scope}, :class => "btn btn-#{@scope == scope ? :primary : :link}" %>
+      <%= link_to scope.to_s.titlecase, {:action => scope}, :class => "btn btn-responsive btn-#{@scope == scope ? :primary : :link}" %>
     <% end -%>
   </div>
 </div>
