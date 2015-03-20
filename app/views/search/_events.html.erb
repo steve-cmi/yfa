@@ -3,19 +3,10 @@
   <form method="GET" action="<%= search_path %>">
     <%= hidden_field_tag :t, params[:t] %>
     <%= hidden_field_tag :q, params[:q] %>
-    <table>
-      <tr>
-        <td>
-          <label class="form-control-static" for="future">
-            <%= check_box_tag :future, '1', params[:future] %> &nbsp;
-            Only show future events
-          </label>
-        </td>
-        <td>
-          <button type="submit" class="btn btn-default">Filter</button>
-        </td>
-      </tr>
-    </table>
+    <label class="form-control-static" for="future">
+      <%= check_box_tag :future, '1', params[:future], :onChange => "this.form.submit()" %> &nbsp;
+      Only show future events
+    </label>
   </form>
 </div>
 

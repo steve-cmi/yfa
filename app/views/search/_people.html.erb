@@ -3,29 +3,42 @@
   <form class="form-inline" role="form" method="GET" action="<%= search_path %>">
     <%= hidden_field_tag :t, params[:t] %>
     <%= hidden_field_tag :q, params[:q] %>
-    <table>
-      <tr>
-        <td>
-          <label class="form-control-static" for="name">Name</label> &nbsp;
-          <%= text_field_tag :name, params[:name], :class => "form-control" %>
-        </td>
-        <td>
-          <%= select_tag :year, options_for_select(@years, params[:year]), :prompt => "Class Year", :class => "form-control" %>
-        </td>
-        <td>
-          <%= select_tag :position, options_for_select(@positions, params[:position]), :prompt => "Production Position", :class => "form-control" %>
-        </td>
-        <td>
-          <label class="form-control-static" for="current">
-            <%= check_box_tag :current, '1', params[:current] %> &nbsp;
-            Only show current students
-          </label>
-        </td>
-        <td>
-          <button type="submit" class="btn btn-default">Filter</button>
-        </td>
-      </tr>
-    </table>
+    <div class="form-group">
+        <table>
+          <tr>
+            <td>
+              <%= text_field_tag :name, params[:name], :class => "form-control", :placeholder => "Name" %>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="form-group">
+        <table>
+          <tr>
+            <td>
+              <%= select_tag :year, options_for_select(@years, params[:year]), :prompt => "Class Year", :class => "form-control" %>
+            </td>
+            <td>
+              <%= select_tag :position, options_for_select(@positions, params[:position]), :prompt => "Production Position", :class => "form-control" %>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="form-group">
+        <table>
+          <tr>
+            <td colspan="2">
+              <label class="form-control-static" for="current">
+                <%= check_box_tag :current, '1', params[:current] %> &nbsp;
+                Only show current students
+              </label>
+            </td>
+            <td>
+              <button type="submit" class="btn btn-responsive btn-default">Filter</button>
+            </td>
+          </tr>
+        </table>
+      </div>
   </form>
 </div>
 
