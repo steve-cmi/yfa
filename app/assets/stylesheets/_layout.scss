@@ -61,19 +61,19 @@ div#scrollspy {
 
   @media (max-width: 992px) {
     div.events-spacer {
-      height: 200px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    div.events-spacer {
-      height: 255px;
+      height: 120px;
     }
   }
 
   @media (max-width: 670px) {
     div.films-spacer {
       height: 120px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    div.films-spacer {
+      height: 160px;
     }
   }
 
