@@ -24,13 +24,16 @@
 
   <div id="yale-banner" class="container">
     <div class="row">
-      <div class="col-md-1 col-xs-3">
+      <div class="col-md-1 col-sm-2 col-xs-2">
         <a href="/"><%= image_tag 'logo.jpg', :height => 70 %></a>
       </div>
-      <div class="col-md-5 col-xs-9 title yale-font">
+      <div class="col-md-5 col-sm-10 col-xs-10 title yale-font">
         <a href="/">Yale Film Alliance</a>
       </div>
-      <div class="col-md-6 search-form">
+
+      <div class="clearfix visible-sm-block visible-xs-block"></div>
+
+      <div class="col-md-6 col-sm-12 search-form">
         <form class="form-inline" method="GET" action="<%= search_path %>">
           <input type="hidden" name="t" value="<%= @tab || :people %>" />
           <input type="text" class="form-control search-control" placeholder="search for projects, people, and events" name="q" value="<%= params[:q] %>" />

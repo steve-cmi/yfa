@@ -9,17 +9,31 @@ div#yale-banner {
     font-size: 28pt;
   }
 
-  div.search-form {
-    padding: 10px;
-    padding-top: 10px;
-    text-align: right;
-    form {
-      width: 100%;
+  @media (min-width: 992px) {
+    div.search-form {
+      padding: 10px;
+      padding-top: 10px;
+      text-align: right;
       input.search-control {
         width: 75%;
       }
     }
   }
+
+  @media (max-width: 991px) {
+    div.search-form {
+      input.search-control {
+        width: 100%;
+      }
+    }
+  }
+
+  div.search-form {
+    form {
+      width: 100%;
+    }
+  }
+
 }
 
 div.layout.navbar {
