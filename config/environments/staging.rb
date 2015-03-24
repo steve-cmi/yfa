@@ -66,34 +66,18 @@ Yfa::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  s3_credentials = {access_key_id: ENV['AWS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'], bucket: ENV['AWS_BUCKET']}
-
-  require 'aws'
-  AWS.config(:logger => Rails.logger)
-  AWS.config(s3_credentials)
-  config.paperclip_defaults[:storage] = :s3
-  config.paperclip_defaults[:s3_credentials] = s3_credentials
-
   # Root url used for action mailer links
-  config.action_mailer.default_url_options = { :host => "yfa-staging.herokuapp.com" }
+  config.action_mailer.default_url_options = { :host => "development.filmalliance.yale.edu" }
 
-  # Sendgrid
+  # Email
   config.action_mailer.delivery_method       = :smtp
-  config.action_mailer.smtp_settings = {
-    :address        => 'smtp.sendgrid.net',
-    :port           => '587',
-    :authentication => :plain,
-    :user_name      => ENV['SENDGRID_USERNAME'],
-    :password       => ENV['SENDGRID_PASSWORD'],
-    :domain         => 'heroku.com',
-    :enable_starttls_auto => true
-  }
+  config.action_mailer.default_url_options = { :host => "localhost", :port => 3000 }
 
   # Use notifier plugin gem
-  # config.middleware.use ExceptionNotification::Rack,
-  # 	:email => { 
-  #     :email_prefix => "[YFA Site] ",
-  # 	  :sender_address => %{"YFA Bug Notifier" <rails@commonmediainc.com>},
-  # 	  :exception_recipients => %w{steve.friedman@commonmediainc.com}
-  #   }
+  config.middleware.use ExceptionNotification::Rack,
+  	:email => { 
+      :email_prefix => "[YFA Site] ",
+  	  :sender_address => %{"YFA Bug Notifier" <#{YFA_EMAIL}>},
+  	  :exception_recipients => YFA_EMAIL
+    }
 end
