@@ -67,7 +67,7 @@ Yfa::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Root url used for action mailer links
-  config.action_mailer.default_url_options = { :host => "yfa-staging.herokuapp.com" }
+  config.action_mailer.default_url_options = { :host => "development.filmalliance.yale.edu" }
 
   # Sendgrid
   config.action_mailer.delivery_method       = :smtp

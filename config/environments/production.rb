@@ -68,7 +68,7 @@ Yfa::Application.configure do
 
 
   # Root url used for action mailer links
-  config.action_mailer.default_url_options = { :host => "yaledramacoalition.org" }
+  config.action_mailer.default_url_options = { :host => "filmalliance.yale.edu" }
   
   #Use notifier plugin gem
   config.middleware.use ExceptionNotification::Rack,
