@@ -47,10 +47,13 @@ Yfa::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  # config.assets.precompile += %w( admin.js auditions.js search.js films.js flickrshow-7.2.js html5shiv-p.js )
+  # config.assets.precompile += %w()
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
+
+  # Root url used for action mailer links
+  config.action_mailer.default_url_options = { :host => "staging.filmalliance.yale.edu" }
 
   # Enable threaded mode
   # config.threadsafe!
@@ -66,18 +69,4 @@ Yfa::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  # Root url used for action mailer links
-  config.action_mailer.default_url_options = { :host => "development.filmalliance.yale.edu" }
-
-  # Email
-  config.action_mailer.delivery_method       = :smtp
-  config.action_mailer.default_url_options = { :host => "localhost", :port => 3000 }
-
-  # Use notifier plugin gem
-  config.middleware.use ExceptionNotification::Rack,
-  	:email => { 
-      :email_prefix => "[YFA Site] ",
-  	  :sender_address => %{"YFA Bug Notifier" <#{YFA_EMAIL}>},
-  	  :exception_recipients => YFA_EMAIL
-    }
 end

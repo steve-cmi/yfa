@@ -21,3 +21,4 @@ end
 
 YFA_EMAIL = 'yalefilmalliance@gmail.com'
 YCA_EMAIL = 'ycarts@yale.edu'
+DEV_EMAIL = ['david.preschel@yale.edu', 'steve.friedman@commonmediainc.com']
