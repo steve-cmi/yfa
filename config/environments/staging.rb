@@ -82,10 +82,10 @@ Yfa::Application.configure do
   }
 
   # Use notifier plugin gem
-  # config.middleware.use ExceptionNotification::Rack,
-  # 	:email => { 
-  #     :email_prefix => "[YFA Site] ",
-  # 	  :sender_address => %{"YFA Bug Notifier" <rails@commonmediainc.com>},
-  # 	  :exception_recipients => %w{steve.friedman@commonmediainc.com}
-  #   }
+  config.middleware.use ExceptionNotification::Rack,
+  	:email => { 
+      :email_prefix => "[YFA Site] ",
+  	  :sender_address => %{"YFA Bug Notifier" <#{YFA_EMAIL}>},
+  	  :exception_recipients => YFA_EMAIL
+    }
 end
