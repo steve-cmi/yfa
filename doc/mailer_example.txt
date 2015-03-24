@@ -1,0 +1,16 @@
+in application.rb
+
+config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+        address: 'mail.yale.edu',
+        port:25,
+        domain:'yale.edu',
+        authentication: nil,
+        user_name: nil,
+        password: nil,
+        authentication: 'plain',
+        enable_starttls_auto: true
+		}
+		
+		
+		
