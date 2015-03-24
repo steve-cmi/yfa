@@ -44,10 +44,6 @@ group :production do
   gem 'exception_notification'
 end
 
-group :staging do
-  gem 'exception_notification'
-end
-
 group :heroku do
   gem 'activerecord-mysql-adapter'
   gem 'rollbar', '~> 1.2.11'
