@@ -2,7 +2,18 @@
 
 <h1>Edit My Account</h1>
 
-<%= form_for @user, :validate => true do |f| %>
+<% if @person.errors.any? %>
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>There were errors saving this person:</strong>
+      <% @person.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for @person, :validate => true do |f| %>
   <div class="row">
 
     <div class="col-md-4">

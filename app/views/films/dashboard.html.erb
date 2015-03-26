@@ -71,7 +71,7 @@
         <% @film.links.each do |link| -%>
         <tr>
           <td>
-            <%= link_to link.name, link.url, target: '_blank' %>
+            <%= user_link_to link.name, link.url %>
           </td>
         </tr>
         <% end -%>

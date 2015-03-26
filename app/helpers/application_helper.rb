@@ -112,6 +112,18 @@ module ApplicationHelper
     link_to object.key.split("/")[-1], "#{object.url_for(:read)}", target: '_blank'
   end
 
+  def user_link_to(label, link, options = {})
+    if link.blank?
+      label
+    else
+      if link !~ /^(\/|https?:\/\/)/ and link =~ /^(\w+\.)+\w{2,3}(\/|$)/
+        link = "http://#{link}"
+      end
+      options[:target] ||= '_blank' if link =~ /^https?:\/\//
+      link_to label, link, options
+    end
+  end
+
   def image_field(builder, column, size = :show)
     if builder.object.send("#{column}?")
       image_tag(builder.object.send(column).url(size),

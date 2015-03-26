@@ -115,7 +115,7 @@
           <% if @person.links.any? -%>
             <% @person.links.by_position.each do |link| -%>
             <tr>
-              <td><%= link_to link.name, link.url, target: '_blank' %></td>
+              <td><%= user_link_to link.name, link.url %></td>
             </tr>
             <% end -%>
           <% else -%>

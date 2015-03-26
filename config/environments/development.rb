@@ -41,10 +41,10 @@ Yfa::Application.configure do
   config.assets.debug = true
 
   # Root url used for action mailer links
-  config.action_mailer.default_url_options = { :host => "localhost", :port => 3000 }
+  config.action_mailer.default_url_options = { :host => "development.filmalliance.yale.edu" }
+
+  # In development, don't really send emails...just put them in a file
+  config.action_mailer.delivery_method = :file
+  config.action_mailer.file_settings = { :location => Rails.root.join('tmp/mail') }
 
 end
-
-# Also in development, don't really send emails...just put them in a file
-ActionMailer::Base.delivery_method = :file
-ActionMailer::Base.file_settings = { :location => Rails.root.join('tmp/mail') }
