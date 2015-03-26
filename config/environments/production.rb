@@ -47,13 +47,10 @@ Yfa::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  # config.assets.precompile += %w()
+  # config.assets.precompile += %w( admin.js auditions.js search.js films.js flickrshow-7.2.js html5shiv-p.js )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-
-  # Root url used for action mailer links
-  config.action_mailer.default_url_options = { :host => "filmalliance.yale.edu" }
 
   # Enable threaded mode
   # config.threadsafe!
@@ -68,13 +65,21 @@ Yfa::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
-  
-  # Use exeception notifier gem
+
+
+  # Root url used for action mailer links
+  config.action_mailer.default_url_options = { :host => "filmalliance.yale.edu" }
+
+  #Use notifier plugin gem
   config.middleware.use ExceptionNotification::Rack,
-  	:email => { 
+  	:email => {
       :email_prefix => "[YFA Site] ",
       :sender_address => %{"YFA Bug Notifier" <#{YFA_EMAIL}>},
-      :exception_recipients => DEV_EMAIL
+      :exception_recipients => YFA_EMAIL
     }
-
 end
+
+ActionMailer::Base.delivery_method = :smtp
+# For temporary review, don't really send emails...just put them in a file
+# ActionMailer::Base.delivery_method = :file
+# ActionMailer::Base.file_settings = { :location => Rails.root.join('tmp/mail') }
