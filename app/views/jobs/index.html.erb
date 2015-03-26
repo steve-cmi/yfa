@@ -61,7 +61,8 @@
           <br />
 
           <address>
-            <%= job.full_address.join('<br />').html_safe %>
+            <%= job.full_address.join('<br />').html_safe %><br />
+            <%= user_link_to job.website, job.website if job.website? %>
           </address>
 
           <%= render "dialog", job: job %><br />
