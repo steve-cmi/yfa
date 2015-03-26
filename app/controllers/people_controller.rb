@@ -27,7 +27,7 @@ class PeopleController < ApplicationController
 		@active_nav = :user
 		@active_subnav = :dashboard
 		@page_name = "Edit My Account"
-		@user = @current_user
+		@person = @current_user
 	end
 	
 	# New User step 1
