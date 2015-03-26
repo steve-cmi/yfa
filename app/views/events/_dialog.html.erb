@@ -30,7 +30,7 @@
             <% if event.sponsor_name? -%>
             <p>
               Sponsored by
-              <%= link_to_if event.sponsor_link?, event.sponsor_name, event.sponsor_link, target: '_blank' %>
+              <%= user_link_to event.sponsor_name, event.sponsor_link %>
             </p>
             <p>
               <% event.filters.each do |filter| -%>

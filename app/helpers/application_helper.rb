@@ -112,27 +112,15 @@ module ApplicationHelper
     link_to object.key.split("/")[-1], "#{object.url_for(:read)}", target: '_blank'
   end
 
-  def link_to_announcement(announcement)
-    absolute_link = absolute_link_for announcement.link_url
-    target = absolute_link =~ /^https?:/ ? '_blank' : ''
-    link_to announcement.link_text, absolute_link, target: target
-  end
-
-  def link_to_link(link)
-    logger.debug "Raw link = #{link.url.inspect}"
-    absolute_link = absolute_link_for link.url
-    logger.debug "Fixed link = #{absolute_link.inspect}"
-    target = absolute_link =~ /^https?:/ ? '_blank' : ''
-    link_to link.name, absolute_link, target: target
-  end
-
-  def absolute_link_for(link)
-    if link =~ /^(\/|https?:)/
-      link
-    elsif link =~ /^(\w+\.)+\w{2,3}(\/|$)/
-      "http://#{link}"
+  def user_link_to(label, link, options = {})
+    if link.blank?
+      label
     else
-      link
+      if link !~ /^(\/|https?:\/\/)/ and link =~ /^(\w+\.)+\w{2,3}(\/|$)/
+        link = "http://#{link}"
+      end
+      options[:target] ||= '_blank' if link =~ /^https?:\/\//
+      link_to label, link, options
     end
   end
 

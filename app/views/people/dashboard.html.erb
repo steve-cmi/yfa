@@ -97,7 +97,7 @@
         <tbody>
           <% @user.links.by_position.each do |link| -%>
           <tr>
-            <td><%= link_to_link link %></td>
+            <td><%= user_link_to link.name, link.url %></td>
           </tr>
           <% end -%>
         </tbody>
