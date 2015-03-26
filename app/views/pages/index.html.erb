@@ -81,7 +81,7 @@
 		<h3>Announcements</h3>
 		<p><strong><%= @announcement.title %></strong></p>
 		<p><%= @announcement.body %></p>
-		<p><%= link_to @announcement.link_text, @announcement.link_url %></p>
+		<p><%= link_to_announcement @announcement %></p>
 		<% end -%>
 
 	</div>
