@@ -71,12 +71,13 @@ Yfa::Application.configure do
   config.action_mailer.default_url_options = { :host => "filmalliance.yale.edu" }
 
   #Use notifier plugin gem
-  config.middleware.use ExceptionNotification::Rack,
-  	:email => {
-      :email_prefix => "[YFA Site] ",
-      :sender_address => %{"YFA Bug Notifier" <#{YFA_EMAIL}>},
-      :exception_recipients => YFA_EMAIL
-    }
+  #config.middleware.use ExceptionNotification::Rack,
+  #	:email => {
+  #    :email_prefix => "[YFA Site] ",
+  #    :sender_address => %{"YFA Bug Notifier" <#{YFA_EMAIL}>},
+  #    :exception_recipients => YFA_EMAIL
+  #  }
+
 end
 
 ActionMailer::Base.delivery_method = :smtp
