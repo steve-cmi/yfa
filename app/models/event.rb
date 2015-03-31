@@ -7,6 +7,8 @@ class Event < ActiveRecord::Base
   belongs_to :person
   belongs_to :building
 
+  validates :name, :minutes, :presence => true
+
   has_attached_file :image,
     :styles => { :homepage => "125x125#", :grid => "125x125#", :popup => "220x220#", :show => "360x>" }
   

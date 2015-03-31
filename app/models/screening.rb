@@ -2,12 +2,14 @@ class Screening < ActiveRecord::Base
 	belongs_to :film
   belongs_to :building
 
+  validates :starts_at, :minutes, :presence => true
+
   def date
     starts_at.to_date
   end
 
   def ends_at
-    starts_at + seconds
+    starts_at + seconds.to_i
   end
 
   def seconds
