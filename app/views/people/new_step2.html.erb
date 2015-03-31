@@ -7,7 +7,7 @@
 		<%= form_tag takeover_request_path(@person) do %>
 			<p>
 				<h4>Similar Names:</h4>
-				<% @matches.each do |p| %>
+				<% @person.similar_users.each do |p| %>
 					<label for="person_<%= p.id %>">
 						<%= check_box_tag 'person_ids[]', p.id, nil, :id => "person_#{p.id}" %> &nbsp;
 						<%= p.display_name %><%= " (#{p.college} #{short_year p.year})" if p.college || p.year %>
