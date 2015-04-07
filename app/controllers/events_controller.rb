@@ -62,6 +62,9 @@ class EventsController < ApplicationController
   end
 
   def update
+    @page_name = "Edit Event - #{@event.name}"
+    @buildings = Building.all
+
     # Process event_dates
     if params[:event][:event_dates_attributes]
       params[:event][:event_dates_attributes].each do |key, obj| 
