@@ -75,7 +75,7 @@ Yfa::Application.configure do
   	:email => {
       :email_prefix => "[YFA Site] ",
       :sender_address => %{"YFA Bug Notifier" <#{YFA_EMAIL}>},
-      :exception_recipients => YFA_EMAIL
+      :exception_recipients => DEV_EMAIL
     }
 
 end
