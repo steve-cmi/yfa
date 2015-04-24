@@ -14,7 +14,10 @@
 					</label>
 				<% end %>
 			</p>
-			<p><%= submit_tag "Request Names", :class => "btn" %></p>
+			<p>
+				<%= submit_tag "Request Names", :class => "btn btn-primary" %>
+				<%= link_to "Continue", @person, :class => "btn btn-default" %>
+			</p>
 		<% end %>
 	</div>
 </div>

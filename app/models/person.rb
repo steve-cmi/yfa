@@ -29,8 +29,8 @@ class Person < ActiveRecord::Base
   accepts_nested_attributes_for :links, :allow_destroy => true
   
   validates :fname, :lname, :presence => true
-  validates :year, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1970, :less_than_or_equal_to => Time.now.year + 8 }, :allow_nil => true
-  validates :college, :inclusion => { :in => Yale::colleges.flatten }, :allow_nil => true
+  validates :year, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1970, :less_than_or_equal_to => Time.now.year + 8 }, :allow_blank => true
+  validates :college, :inclusion => { :in => Yale::colleges.flatten }, :allow_blank => true
   validates_format_of :email, :with => /^$|\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i,
                               :message => 'must be a valid email address'
 

@@ -11,12 +11,24 @@
 		<p>
 			Your NetID: <b><%= session[:cas_user] %></b> &nbsp; &nbsp; &nbsp; Not you? <%= link_to "Logout", logout_path %>
 		</p>
+
+		<% if @person.errors.any? %>
+		  <div class="alert alert-dismissable alert-danger">
+		    <button type="button" class="close" data-dismiss="alert">×</button>
+		    <strong>There were errors creating your account:</strong>
+		      <% @person.errors.full_messages.each do |error| %>
+		        <li><%= error %></li>
+		      <% end %>
+		    </ul>
+		  </div>
+		<% end %>
+
 		<%= form_for @person, :html => { :multipart => true } do |f| %>
 			<div class="row">
 				<div class="col-md-6">
 					<%= f.label :fname, "First Name" %> <%= f.text_field :fname, :class => "form-control" %><br />
 					<%= f.label :lname, "Last Name" %><%= f.text_field :lname, :class => "form-control" %><br />
-					<%= f.label :college, "Residential College" %><%= f.select :college, Yale::colleges.to_a.map(&:reverse), {:prompt => "Please select..."}, :class => "form-control" %><br />
+					<%= f.label :college, "Residential College" %><%= f.select :college, Yale::colleges.to_a.map(&:reverse), {:include_blank => "None"}, :class => "form-control" %><br />
 					<%= f.label :year, "Class Year" %><%= f.number_field :year, :class => "form-control" %><br />
 					<%= f.label :picture, "Profile Picture" %><%= f.file_field :picture, :class => "form-control" %><br />
 				</div>

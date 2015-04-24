@@ -33,7 +33,7 @@ class PeopleController < ApplicationController
 	# New User step 1
 	def new
 		redirect_to @current_user if @current_user # They must be CAS authed no we're OK
-		@person = Person.new(:year => Date.today.year + 4)
+		@person = Person.new
 		@person.netid = session[:cas_user]
 		@person.populateLDAP
 	end
@@ -54,7 +54,6 @@ class PeopleController < ApplicationController
 				redirect_to url, :notice => "Profile created successfully. Enjoy the new site!"
 			end			
 		else
-			flash.now[:alert] = "There was an error with the data you entered, please try again!"
 			render :new
 		end
 	end
